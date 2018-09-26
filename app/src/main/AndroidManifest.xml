@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="clh.inspecciones.com.inspecciones_v2">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".Clases.InicializacionRealm"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activities.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.MenuActivity" />
+        <activity android:name=".Activities.AltaNuevaActivity" />
+        <activity android:name=".Activities.IdentificacionVehiculoActivity" />
+        <activity android:name=".Activities.ControlAccesoCheckingActivity" />
+        <activity android:name=".Activities.ControlAccesoResultadoTractoraActivity" />
+        <activity android:name=".Activities.ControlAccesoResultadoCisternaActivity" />
+        <activity android:name=".Activities.ControlAccesoResultadoConductorActivity" />
+        <activity android:name=".Activities.ControlAccesoResultadoRigidoActivity"></activity>
+    </application>
+
+</manifest>

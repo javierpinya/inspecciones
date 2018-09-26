@@ -1,0 +1,235 @@
+<resources>
+    <string name="app_name">Inspecciones</string>
+    <string name="usuario">Usuario: </string>
+    <string name="password">Contraseña: </string>
+    <string name="login">Login</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- elección tipo tipo de registro -->
+    <string name="tvTipoVehiculo">TIPO VEHICULO</string>
+    <string name="tvTipoInspeccion">TIPO INSPECCION</string>
+    <string name="cbRigido">Rígido</string>
+    <string name="cbSLO">Conjunto Tráiler</string>
+    <string name="cbTractora">Tractora</string>
+    <string name="cbCisterna">Cisterna</string>
+    <string name="cbAltaNueva">Alta Nueva</string>
+    <string name="cbBasica">Periódica Básica</string>
+    <string name="cbCompleta">Periodica Completa</string>
+    <string name="title_activity_registro">Registro</string>
+    <string name="siguiente">siguiente</string>
+    <string name="cbligeros">Ligeros</string>
+    <string name="cbpesados">Pesados</string>
+    <string name="cbjeta">Jet-A1</string>
+    <string name="siguiente1">Siguiente</string>
+
+    <!-- BUSCAR VEHÍCULO -->
+    <string name="buscar">BUSCAR</string>
+
+    <!-- Cabecera alta nueva -->
+    <string name="tv_fecha">FECHA</string>
+    <string name="et_fecha">01/01/2018</string>
+    <string name="tv_ia">INSTALACION</string>
+    <string name="et_codia">I430</string>
+    <string name="et_desia">TARRAGONA</string>
+    <string name="tv_insp">INSPECTOR</string>
+    <string name="et_insp">INSPECTOR</string>
+    <string name="tv_horainicio">HORA INICIO</string>
+    <string name="et_horainicio">14:00</string>
+    <string name="tv_horafin">HORA FIN</string>
+    <string name="et_horafin">15:00</string>
+    <string name="tv_numinsp">NUM INSPECCIÓN</string>
+    <string name="et_numinsp">AD127</string>
+    <string name="tv_transp">TRANSPORTISTA</string>
+    <string name="et_codtransp">1309</string>
+    <string name="et_destransp">JILOSA</string>
+    <string name="tv_slo">SLO</string>
+    <string name="et_slo">302</string>
+    <string name="tv_codvehiculo">VEHICULO</string>
+    <string name="et_codvehiculo">854785</string>
+    <string name="tv_tractora">TRACTORA</string>
+    <string name="et_tractora">E2485JNZ</string>
+    <string name="tv_cisterna">CISTERNA</string>
+    <string name="et_cisterna">R0254JNZ</string>
+    <string name="tv_rigido">RIGIDO</string>
+    <string name="et_rigido">E2485JNZ</string>
+    <string name="tv_fechatablacal">FECHA TABLA CAL</string>
+    <string name="et_fechatablacal">28/08/2018</string>
+    <string name="tv_tarjeta">TARJETA</string>
+    <string name="et_tarjeta">1021212</string>
+    <string name="tv_nombrecond">NOMBRE COND</string>
+    <string name="et_nombrecond">HOMER SIMPSON</string>
+    <string name="tv_suministrador">SUMINISTRADOR</string>
+    <string name="et_suministrador">REPSOL</string>
+    <string name="tv_albaran">ALBARÁN</string>
+    <string name="et_albaran">5854545</string>
+
+
+    <!--strings check list documentacion conductor y camion-->
+    <string name="titulo_docyprocesodecarga">CHECKLIST CARGADERO</string>
+    <string name="docyprocesodecarga">DOCUMENTACIÓN Y PROCESO DE CARGA</string>
+    <string name="editar_anomalias">Editar Anomalías</string>
+    <string name="permiso_conducir">PERMISO CIRCULACIÓN</string>
+    <string name="adrcond">ADR CONDUCTOR</string>
+    <string name="tc2c">TC2</string>
+    <string name="itvt">ITV TRACTORA</string>
+    <string name="itvc">ITV CISTERNA</string>
+    <string name="adrt">ADR TRACTORA</string>
+    <string name="adrc">ADR CISTERNA</string>
+    <string name="ficha_seguridad">FICHA SEGURIDAD</string>
+    <string name="tv_tablacal">TABLA CALIBRACIÓN:</string>
+    <string name="et_tablacal">01/01/2018</string>
+    <string name="transpondert">TRANSPONDER TRAC</string>
+    <string name="transponderc">TRANSPONDER CIST</string>
+    <string name="superficiesuperior">SUPERFICIE SUP. ANTIDESLIZANTE Y UNIFORME</string>
+    <string name="posicionvehiculo">POSICIÓN VEHÍCULO ADECUADA</string>
+    <string name="frenoestacionamiento">FRENO ESTACIONAMIENTO</string>
+    <string name="desconectadobaterias">BATERÍA DESCONECTADA</string>
+    <string name="apagallamas">APAGALLAMAS COLOCADO</string>
+    <string name="movil">MÓVIL DESCONECTADO</string>
+    <string name="interruptoresemergencia">SITUACIÓN INTERRUP EMERG Y FUEGO</string>
+    <string name="scully">TOMA TIERRA CONECTADA</string>
+    <string name="recvap">MANGUERA GASES CONECTADA</string>
+    <string name="purga">PURGA COMPARTIMENTOS</string>
+    <string name="tagsok">TAGS CORRECTOS</string>
+    <string name="ropa">ROPA CUMPLE NORMATIVA</string>
+    <string name="nueva_inspeccion">Nueva Inspección</string>
+    <string name="tv_litroscargados">Litros cargados</string>
+    <string name="tv_volumen_placa">Volumen placa</string>
+    <string name="tv_volumen96">Volumen 96%</string>
+    <string name="tv_diferencia">Diferencia</string>
+    <string name="tv_cumple">Cumple</string>
+    <string name="comentariosfinales">Comentarios</string>
+    <string name="simac">SIMAC</string>
+    <string name="instalacionsimacok">Instalación SIMAC ok</string>
+    <string name="lecturatagsisleta">Lectura TAGs isleta</string>
+
+
+    <!-- check list control de acceso -->
+    <string name="modcontrolacceso">MODIFICAR DATOS CONTROL ACCESO</string>
+
+    <!--check list proceso de carga-->
+    <string name="pc1">pc1</string>
+    <string name="pc2">pc2</string>
+    <string name="pc3">pc3</string>
+    <string name="pc4">pc4</string>
+    <string name="pc5">pc5</string>
+    <string name="pc6">pc6</string>
+    <string name="pc7">pc7</string>
+    <string name="pc8">pc8</string>
+    <string name="pc9">pc9</string>
+    <string name="pc10">pc10</string>
+    <string name="pc11">pc11</string>
+
+    <!-- verificacion sonda y albaran-->
+    <string name="alturarealsonda">alturarealsonda</string>
+    <string name="altura96">altura96</string>
+    <string name="cant_cargada">cant_cargada</string>
+    <string name="cant96st">cant96st</string>
+    <string name="cant_diferencia">cant_diferencia</string>
+    <string name="cumplesonda">cumplesonda</string>
+    <string name="voltotalplaca">voltotalplaca</string>
+    <string name="tvdep1">COMPARTIMENTO 1</string>
+    <string name="tvdep2">COMPARTIMENTO 2</string>
+    <string name="tvdep3">COMPARTIMENTO 3</string>
+    <string name="tvdep4">COMPARTIMENTO 4</string>
+    <string name="tvdep5">COMPARTIMENTO 5</string>
+    <string name="tvdep6">COMPARTIMENTO 6</string>
+    <string name="tvdep7">COMPARTIMENTO 7</string>
+    <string name="tvdep8">COMPARTIMENTO 8</string>
+    <string name="et1dep1">et1dep1</string>
+    <string name="et2dep1">et2dep1</string>
+    <string name="et3dep1">et3dep1</string>
+    <string name="et4dep1">et4dep1</string>
+    <string name="et5dep1">et5dep1</string>
+    <string name="et6dep1">et6dep1</string>
+    <string name="et1dep2">et1dep2</string>
+    <string name="et2dep2">et2dep2</string>
+    <string name="et3dep2">et3dep2</string>
+    <string name="et4dep2">et4dep2</string>
+    <string name="et5dep2">et5dep2</string>
+    <string name="et6dep2">et6dep2</string>
+    <string name="et1dep3">et1dep3</string>
+    <string name="et2dep3">et2dep3</string>
+    <string name="et3dep3">et3dep3</string>
+    <string name="et4dep3">et4dep3</string>
+    <string name="et5dep3">et5dep3</string>
+    <string name="et6dep3">et6dep3</string>
+    <string name="et1dep4">et1dep4</string>
+    <string name="et2dep4">et2dep4</string>
+    <string name="et3dep4">et3dep4</string>
+    <string name="et4dep4">et4dep4</string>
+    <string name="et5dep4">et5dep4</string>
+    <string name="et6dep4">et6dep4</string>
+    <string name="et1dep5">et1dep5</string>
+    <string name="et2dep5">et2dep5</string>
+    <string name="et3dep5">et3dep5</string>
+    <string name="et4dep5">et4dep5</string>
+    <string name="et5dep5">et5dep5</string>
+    <string name="et6dep5">et6dep5</string>
+    <string name="et1dep6">et1dep6</string>
+    <string name="et2dep6">et2dep6</string>
+    <string name="et3dep6">et3dep6</string>
+    <string name="et4dep6">et4dep6</string>
+    <string name="et5dep6">et5dep6</string>
+    <string name="et6dep6">et6dep6</string>
+    <string name="et1dep7">et1dep7</string>
+    <string name="et2dep7">et2dep7</string>
+    <string name="et3dep7">et3dep7</string>
+    <string name="et4dep7">et4dep7</string>
+    <string name="et5dep7">et5dep7</string>
+    <string name="et6dep7">et6dep7</string>
+    <string name="et1dep8">et1dep8</string>
+    <string name="et2dep8">et2dep8</string>
+    <string name="et3dep8">et3dep8</string>
+    <string name="et4dep8">et4dep8</string>
+    <string name="et5dep8">et5dep8</string>
+    <string name="et6dep8">et6dep8</string>
+
+
+    <!-- Control de carga-->
+    <string name="estancisterna">estancisterna</string>
+    <string name="estanvalvulasapi">estanvalvulasapi</string>
+    <string name="estancajonvalvulas">estancajonvalvulas</string>
+    <string name="estanvalvulasfondo">estanvalvulasfondo</string>
+    <string name="estanequipotrasiego">estanequipotrasiego</string>
+    <string name="recogeralbaran">recogeralbaran</string>
+    <string name="controlcargaobservaciones">controlcargaobservaciones</string>
+
+    <!-- Carga de Fuel-->
+    <string name="tv_pesoentrada">tv_pesoentrada</string>
+    <string name="et_pesoentrada">et_pesoentrada</string>
+    <string name="tv_pesosalida">tv_pesosalida</string>
+    <string name="tv_producto">tv_producto</string>
+    <string name="et_producto">et_producto</string>
+    <string name="tv_fechaarnes">tv_fechaarnes</string>
+    <string name="et_fechaarnes">et_fechaarnes</string>
+
+    <!-- Termistores y TAGS-->
+    <string name="inspeccionada">inspeccionada</string>
+    <string name="favorable">favorable</string>
+    <string name="desfavorable">desfavorable</string>
+    <string name="bloqueo">bloqueo</string>
+    <string name="revisado">revisado</string>
+    <string name="tv_fechabloqueo">tv_fechabloqueo</string>
+    <string name="et_fechabloqueo">et_fechabloqueo</string>
+    <string name="tv_fecharevisado">tv_fecharevisado</string>
+    <string name="et_fecharevisado">et_fecharevisado</string>
+    <string name="montajetagsok">montajetagsok</string>
+    <string name="bajadatagsplanta">bajadatagsplanta</string>
+    <string name="lecturatagsok">lecturatagsok</string>
+    <string name="observacionestags">observacionestags</string>
+    <string name="tv_numerotag">tv_numerotag</string>
+    <string name="ettagdep1">ettagdep1</string>
+    <string name="ettagdep2">ettagdep2</string>
+    <string name="ettagdep3">ettagdep3</string>
+    <string name="ettagdep4">ettagdep4</string>
+    <string name="ettagdep5">ettagdep5</string>
+    <string name="ettagdep6">ettagdep6</string>
+    <string name="ettagdep7">ettagdep7</string>
+    <string name="ettagdep8">ettagdep8</string>
+    <string name="title_activity_revision_inspecciones">revision_inspecciones</string>
+
+
+</resources>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="clh.inspecciones.com.inspecciones_v2.Activities.IdentificacionVehiculoActivity">
+
+<fragment
+    android:id="@+id/IdentificacionVehiculoBusquedaFragment"
+    android:name="clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoBusquedaFragment"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="40"
+    tools:layout="@layout/fragment_identificacion_vehiculo_busqueda"/>
+
+<fragment
+    android:id="@+id/IdentificacionVehiculoResultadoFragment"
+    android:name="clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoResultadoFragment"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="60"
+    tools:layout="@layout/fragment_identificacion_vehiculo_resultado"/>
+
+</LinearLayout>
+

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_rigido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="@color/colorAccent"
+        android:textColor="#FFF"
+        android:text="DATOS DEL RÍGIDO" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_tractoramatricula"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:text="E0000AAA" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_tipotractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="TIPO COMPONENTE" />
+
+                    <TextView
+                        android:id="@+id/tv_tipotractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_chiptractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="CHIP" />
+
+                    <TextView
+                        android:id="@+id/tv_chiptractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_adrtractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="ADR" />
+
+                    <TextView
+                        android:id="@+id/tv_adrtractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_itvtractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="ITV" />
+
+                    <TextView
+                        android:id="@+id/tv_itvtractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_ejestractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Ejes" />
+
+                    <TextView
+                        android:id="@+id/tv_ejestractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_taratractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Tara" />
+
+                    <TextView
+                        android:id="@+id/tv_taratractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0 Kgs" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_mmatractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="MMA" />
+
+                    <TextView
+                        android:id="@+id/tv_mmatractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0 Kgs" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_contadortractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Contador" />
+
+                    <TextView
+                        android:id="@+id/tv_contadortractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_tablacaltractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Tabla Calibración" />
+
+                    <TextView
+                        android:id="@+id/tv_tablacaltractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_sologasoleostractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Sólo Gasóleos" />
+
+                    <TextView
+                        android:id="@+id/tv_sologasoleostractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_cargapesados"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Carga Pesados" />
+
+                    <TextView
+                        android:id="@+id/tv_cargapesados"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/tv_transportistaresp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Codigo Trpt Resp" />
+
+                    <TextView
+                        android:id="@+id/tv_transportistaresp1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="0000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cb_Bloqueadotractora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Bloqueado" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lv_compartimentos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </ListView>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

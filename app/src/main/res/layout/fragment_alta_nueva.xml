@@ -1,0 +1,99 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvtipovehiculo"
+            android:paddingTop="10dp"
+            android:paddingBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/tvTipoVehiculo" />
+
+        <CheckBox
+            android:id="@+id/cbrigido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbRigido" />
+
+        <CheckBox
+            android:id="@+id/cbconjunto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbSLO" />
+
+        <CheckBox
+            android:id="@+id/cbtractora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbTractora" />
+
+        <CheckBox
+            android:id="@+id/cbcisterna"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbCisterna" />
+
+        <TextView
+            android:id="@+id/tvtipoinspeccion"
+            android:paddingTop="10dp"
+            android:paddingBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/tvTipoInspeccion" />
+
+        <CheckBox
+            android:id="@+id/cbligeros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbligeros" />
+
+        <CheckBox
+            android:id="@+id/cbpesados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbpesados" />
+
+        <CheckBox
+            android:id="@+id/cbjeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/cbjeta" />
+
+        <Button
+            android:id="@+id/btn_siguiente1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/siguiente1"/>
+
+    </LinearLayout>
+
+</FrameLayout>
