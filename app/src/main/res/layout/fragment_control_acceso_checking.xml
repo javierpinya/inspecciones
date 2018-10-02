@@ -4,12 +4,15 @@
     android:layout_height="match_parent"
     tools:context="clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment">
 
+
 <ListView
     android:id="@+id/lv_controlaccesochecking"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
 </ListView>
+
+
 
 
 </FrameLayout>

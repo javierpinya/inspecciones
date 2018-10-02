@@ -53,14 +53,24 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
 
     //Variables donde recibir los datos de internet y pasarlos después a la BBDD
     private String cisterna;
+    private String tipo_componente;
     private int chip;
     private String adr;
     private String itv;
+    private int ejes;
     private int tara;
     private int mma;
+    private String fec_calibracion;
+    private String ind_carga_pesados;
     private String fec_baja;
+    private String cod_nacion;
     private String solo_gasoleo;
+    //private boolean contador;
     private boolean bloqueado;
+    private String fecha_bloqueo;
+    private String motivo_bloqueo;
+    // private List<CACompartimentosBD> compartimentos;
+
 
     private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -109,18 +119,25 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
                     for (int i=0; i<json.length(); i++){
 
                         cisterna=(json.optJSONObject(i).optString("cod_matricula_real"));
+                        tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
+                        ejes = (json.optJSONObject(i).optInt("ejes"));
                         itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                         adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
+                        fec_calibracion = (json.optJSONObject(i).optString("fec_cadu_calibracion"));
+                        ind_carga_pesados = (json.optJSONObject(i).optString("ind_carga_pesados"));
+                        cod_nacion = (json.optJSONObject(i).optString("cod_nacion"));
                         tara=(json.optJSONObject(i).optInt("can_tara"));
                         mma=(json.optJSONObject(i).optInt("can_peso_maximo"));
                         chip=(json.optJSONObject(i).optInt("num_chip"));
                         fec_baja=(json.optJSONObject(i).optString("fec_baja"));
+                        //contador=(json.optJSONObject(i).opt)
                         solo_gasoleo=(json.optJSONObject(i).optString("ind_solo_gasoleo"));
                         bloqueado=(json.optJSONObject(i).optBoolean("ind_bloqueo"));
                     }
 
                     Date adr_p = parseador.parse(adr);
                     Date itv_p = parseador.parse(itv);
+                    Date fec_calibracion_p = parseador.parse(fec_calibracion);
                     Date fec_baja_p;
                     if (fec_baja!=null){
                         fec_baja_p = parseador.parse(fec_baja);
@@ -129,7 +146,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
                     }
 
 
-                    createNewMatricula(cisterna,itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                    createNewMatricula(cisterna,tipo_componente, ejes, itv_p,adr_p,fec_calibracion_p,ind_carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,15 +167,10 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
                 params.put("username", usuario);
                 params.put("password", pass);
                 params.put("tipo_consulta", "2");
-                // params.put("tipo_inspeccion", tipo_inspeccion);
-                params.put("conductor", "1020000");
-                params.put("tractora", matriculaIntent);
-                params.put("cisterna", "01242U");
-
+                params.put("cisterna", matriculaIntent);
                 return params;
             }
         };
@@ -168,18 +180,23 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
 
 
     //** CRUD Actions **/
-    private void createNewMatricula(String matricula, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
+    private void createNewMatricula(String matricula, String tipo_componente, int ejes, Date itv, Date adr, Date fec_cadu_calibracion,String ind_carga_pesados,String cod_nacion, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
         realm.beginTransaction();
-        CACisternaBD rigido = new CACisternaBD(matricula);
-        rigido.setItv(itv);
-        rigido.setAdr(adr);
-        rigido.setTara(tara);
-        rigido.setMma(peso_maximo);
-        rigido.setChip(chip);
-        rigido.setFec_baja(fec_baja);
-        rigido.setSoloGasoelos(solo_gasoleos);
-        rigido.setBloqueado(bloqueado);
-        realm.copyToRealmOrUpdate(rigido);
+        CACisternaBD cisterna = new CACisternaBD(matricula);
+        cisterna.setTipo_componente(tipo_componente);
+        cisterna.setEjes(ejes);
+        cisterna.setItv(itv);
+        cisterna.setAdr(adr);
+        cisterna.setFec_calibracion(fec_cadu_calibracion);
+        cisterna.setInd_carga_pesados(ind_carga_pesados);
+        cisterna.setCod_nacion(cod_nacion);
+        cisterna.setTara(tara);
+        cisterna.setMma(peso_maximo);
+        cisterna.setChip(chip);
+        cisterna.setFec_baja(fec_baja);
+        cisterna.setSoloGasoelos(solo_gasoleos);
+        cisterna.setBloqueado(bloqueado);
+        realm.copyToRealmOrUpdate(cisterna);
         realm.commitTransaction();
 
     }

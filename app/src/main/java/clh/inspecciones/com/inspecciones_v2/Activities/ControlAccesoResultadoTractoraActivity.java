@@ -14,15 +14,19 @@ import io.realm.RealmResults;
 public class ControlAccesoResultadoTractoraActivity extends AppCompatActivity implements ControlAccesoResultadoTractoraFragment.dataListener {
 
     private String tractora;
-    private int tipo;
+    private String tipo_inspeccion;
+    private String t_rigido;
     public List<CATractoraBD> tractoraList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_acceso_resultado_tractora);
         if(getIntent().getExtras()!= null){
-            tractora = getIntent().getStringExtra("vehiculo");
+            tractora = getIntent().getStringExtra("vehiculo").trim();
+            tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
+            t_rigido = getIntent().getStringExtra("t_rigido").trim();
             getTractoraIntent(tractora);
 
         }

@@ -1,8 +1,10 @@
 package clh.inspecciones.com.inspecciones_v2.Clases;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -33,6 +35,7 @@ public class CACisternaBD extends RealmObject {
     private boolean bloqueado;
     private Date fecha_bloqueo;
     private String motivo_bloqueo;
+    private RealmList<CACompartimentosBD> compartimentos;
    // private List<CACompartimentosBD> compartimentos;
 
     public String getInd_carga_pesados() {
@@ -56,6 +59,7 @@ public class CACisternaBD extends RealmObject {
     public CACisternaBD(String matricula){
         this.id=InicializacionRealm.CACisternaBDId.incrementAndGet();
         this.matricula=matricula;
+        this.compartimentos = new RealmList<CACompartimentosBD>();
     }
 
     public int getId() {
@@ -177,12 +181,8 @@ public class CACisternaBD extends RealmObject {
     public void setMotivo_bloqueo(String motivo_bloqueo) {
         this.motivo_bloqueo = motivo_bloqueo;
     }
-/*
-    public List<CACompartimentosBD> getCompartimentos() {
+
+    public RealmList<CACompartimentosBD> getCompartimentos() {
         return compartimentos;
     }
-
-    public void setCompartimentos(List<CACompartimentosBD> compartimentos) {
-        this.compartimentos = compartimentos;
-    }*/
 }

@@ -59,7 +59,7 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
     private String solo_gasoleo;
     private boolean bloqueado;
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
 
     public ControlAccesoResultadoTractoraFragment() {
@@ -149,15 +149,10 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
                 params.put("username", "admin");
                 params.put("password", "admin");
-                params.put("tipo_consulta", "2");
-                // params.put("tipo_inspeccion", tipo_inspeccion);
-                params.put("conductor", "1020000");
+                params.put("tipo_consulta", "1");
                 params.put("tractora", matriculaIntent);
-                params.put("cisterna", "01242U");
-
                 return params;
             }
         };
@@ -169,16 +164,16 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
     //** CRUD Actions **/
     private void createNewMatricula(String matricula, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
         realm.beginTransaction();
-        CATractoraBD rigido = new CATractoraBD(matricula);
-        rigido.setItv(itv);
-        rigido.setAdr(adr);
-        rigido.setTara(tara);
-        rigido.setMma(peso_maximo);
-        rigido.setChip(chip);
-        rigido.setFec_baja(fec_baja);
-        rigido.setSoloGasoelos(solo_gasoleos);
-        rigido.setBloqueado(bloqueado);
-        realm.copyToRealmOrUpdate(rigido);
+        CATractoraBD tractora = new CATractoraBD(matricula);
+        tractora.setItv(itv);
+        tractora.setAdr(adr);
+        tractora.setTara(tara);
+        tractora.setMma(peso_maximo);
+        tractora.setChip(chip);
+        tractora.setFec_baja(fec_baja);
+        tractora.setSoloGasoelos(solo_gasoleos);
+        tractora.setBloqueado(bloqueado);
+        realm.copyToRealmOrUpdate(tractora);
         realm.commitTransaction();
 
     }

@@ -11,15 +11,18 @@ import java.util.List;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
+
 public class ControlAccesoCheckingActivity extends AppCompatActivity implements ControlAccesoCheckingFragment.dataListener {
 
     /*
     Lanzada desde identificaciónVehiculoActivity
     Fragments: ControlAccesoCheckingFragment
-    Layouts: activity_control_acceso_checking y fragment_control_acceso_checking.xml
+    Layouts: activity_control_acceso_checking y fragment_control_acceso_checking_listView_listView.xml
      */
 
     private List<String> vehiculos;
+    private String t_rigido;
+    private String tipo_inspeccion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +31,10 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         vehiculos = new ArrayList<String>();
         if(getIntent().getExtras()!= null){
             vehiculos.add(getIntent().getStringExtra("tractora").trim().toString());
-            vehiculos.add("AA0001A");   //(getIntent().getStringExtra("cisterna"));
-            vehiculos.add("1010000"); //getIntent().getStringExtra("conductor"));
-          //  recibirDatos(vehiculos);
+            vehiculos.add(getIntent().getStringExtra("cisterna").trim().toString());   //(getIntent().getStringExtra("cisterna"));
+            vehiculos.add(getIntent().getStringExtra("conductor").trim().toString()); //getIntent().getStringExtra("conductor"));
+            t_rigido = getIntent().getStringExtra("t_rigido").trim();
+            tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
             datos_intent(vehiculos);
         }
 
@@ -46,8 +50,15 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     public void itemPulsado(String vehiculo, int position) {
         Intent intent = new Intent();
         intent.putExtra("vehiculo", vehiculo);
+        intent.putExtra("t_rigido", t_rigido);
+        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
         if(position == 0){
-            intent.setClass(this,ControlAccesoResultadoTractoraActivity.class);
+            if (t_rigido == "T"){
+                intent.setClass(this,ControlAccesoResultadoTractoraActivity.class);
+            }else{
+                intent.setClass(this,ControlAccesoResultadoCisternaActivity.class);
+            }
+
         }else if (position == 1){
             intent.setClass(this,ControlAccesoResultadoCisternaActivity.class);
         }else{
@@ -61,6 +72,17 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     public void datos_intent(List<String> datos) {
         ControlAccesoCheckingFragment controlAccesoCheckingFragment = (ControlAccesoCheckingFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoCheckingFragment);
         controlAccesoCheckingFragment.renderText(datos);
+    }
+
+    @Override
+    public void inspecciones() {
+        Intent intent = new Intent();
+        intent.putExtra("tractora", vehiculos.get(0));
+        intent.putExtra("cisterna", vehiculos.get(1));
+        intent.putExtra("conductor", vehiculos.get(2));
+        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
+        intent.putExtra("t_rigido", t_rigido);
+        startActivity(intent);
     }
 
 

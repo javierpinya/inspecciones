@@ -1,8 +1,8 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -23,10 +23,12 @@ public class AltaNuevaActivity extends AppCompatActivity implements AltaNuevaFra
     }
 
     @Override
-    public void altaNueva(String t_vehiculo, String t_inspeccion) {
+    public void altaNueva(String t_vehiculo, String t_inspeccion, String t_rigido) {
         Intent intent = new Intent(this, IdentificacionVehiculoActivity.class);
         intent.putExtra("tipo_vehiculo", t_vehiculo);
         intent.putExtra("tipo_inspeccion", t_inspeccion);
+        intent.putExtra("t_rigido", t_rigido);
         startActivity(intent);
     }
+
 }

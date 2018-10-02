@@ -91,6 +91,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        Toast.makeText(getActivity(),"pass: " +Pass, Toast.LENGTH_SHORT).show();
         if(login(Pass)){
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
         }else{

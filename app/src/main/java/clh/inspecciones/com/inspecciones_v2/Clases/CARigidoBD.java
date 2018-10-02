@@ -3,6 +3,7 @@ package clh.inspecciones.com.inspecciones_v2.Clases;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -32,7 +33,9 @@ public class CARigidoBD extends RealmObject {
     private String ind_carga_pesados;
     private String cod_transportista_resp;
 
-  //  private List<CACompartimentosBD> compartimentos;
+
+
+    private RealmList<CACompartimentosBD> compartimentos;
 
 
 
@@ -166,12 +169,8 @@ public class CARigidoBD extends RealmObject {
     public void setCod_transportista_resp(String cod_transportista_resp) {
         this.cod_transportista_resp = cod_transportista_resp;
     }
-/*
-    public List<CACompartimentosBD> getCompartimentos() {
+
+    public RealmList<CACompartimentosBD> getCompartimentos() {
         return compartimentos;
     }
-
-    public void setCompartimentos(List<CACompartimentosBD> compartimentos) {
-        this.compartimentos = compartimentos;
-    }*/
 }

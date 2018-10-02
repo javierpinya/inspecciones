@@ -30,6 +30,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     Button btn_siguiente1;
     String t_vehiculo;
     String t_inspeccion;
+    String t_rigido;
 
 
     public AltaNuevaFragment() {
@@ -77,7 +78,8 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.cbrigido:
-                t_vehiculo="R";
+                t_vehiculo="0";
+                t_rigido="R";
                 cbtractora.setChecked(false);
                 cbconjunto.setChecked(false);
                 cbcisterna.setChecked(false);
@@ -86,19 +88,21 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
                 cbconjunto.setChecked(false);
                 cbcisterna.setChecked(false);
                 cbrigido.setChecked(false);
-                t_vehiculo="T";
+                t_rigido="T";
+                t_vehiculo="0";
                 break;
             case R.id.cbcisterna:
                 cbrigido.setChecked(false);
                 cbconjunto.setChecked(false);
                 cbtractora.setChecked(false);
-                t_vehiculo="C";
+                t_vehiculo="2";
                 break;
             case R.id.cbconjunto:
                 cbtractora.setChecked(false);
                 cbcisterna.setChecked(false);
                 cbrigido.setChecked(false);
-                t_vehiculo="SLO";
+                t_rigido="T"; //ojo, porque en este caso no se podría hacer una inspección de un tren de carretera
+                t_vehiculo="1";
                 break;
             case R.id.cbligeros:
                 t_inspeccion = "L";
@@ -116,7 +120,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
                 cbpesados.setChecked(false);
                 break;
             case R.id.btn_siguiente1:
-                callback.altaNueva(t_vehiculo, t_inspeccion);
+                callback.altaNueva(t_vehiculo, t_inspeccion, t_rigido);
                 break;
             default:
                 break;
@@ -124,7 +128,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     }
 
     public interface AltaNuevaListener{
-        void altaNueva(String t_vehiculo, String t_inspeccion);
+        void altaNueva(String t_vehiculo, String t_inspeccion, String t_rigido);
     }
 
 }
