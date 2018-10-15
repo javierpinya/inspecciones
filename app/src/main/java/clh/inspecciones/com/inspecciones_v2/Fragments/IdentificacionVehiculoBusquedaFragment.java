@@ -79,6 +79,22 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         cisterna = (EditText)view.findViewById(R.id.et_cisterna);
         conductor = (EditText)view.findViewById(R.id.et_codcond);
         buscar = (Button)view.findViewById(R.id.Buscar);
+/*
+        switch (tipo_vehiculo){
+            case "0": //tractora/rigido
+                cisterna.setEnabled(false);
+                break;
+            case "1":   //conjunto
+                break;
+            case "2":   //cisterna
+                tractora.setEnabled(false);
+                break;
+
+                default:
+                    break;
+
+        }
+*/
         tractora.setText("023");
 
         buscar.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +111,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     public void buscar(final String rigido, final String cisterna, final String conductor){
 
         RequestQueue requestQueue;
+        Toast.makeText(getActivity(), "tipo_vehiculo: " + tipo_vehiculo, Toast.LENGTH_SHORT).show();
 
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -105,18 +122,57 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
 
                     //Cramos un JSONArray del objeto JSON "vehiculo"
-                    JSONArray json = jsonObject.optJSONArray("vehiculo");
+                    JSONArray jsonVehiculo = jsonObject.optJSONArray("vehiculo");
+                    JSONArray jsonCisterna = jsonObject.optJSONArray("cisterna");
                     //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
-                    for (int i=0;i<json.length();i++)
-                    {
-                        identificacionVehiculoClass = new IdentificacionVehiculoClass();
-                        JSONObject jsonObject1 = null;
-                        jsonObject1=json.getJSONObject(i);
-                        identificacionVehiculoClass.setConductor("1010101"); //jsonObject1.optString("conductor"));
-                        identificacionVehiculoClass.setTractora(jsonObject1.optString("cod_matricula1"));
-                        identificacionVehiculoClass.setCisterna("0");//jsonObject1.optString("cisterna"));
-                        listaVehiculos.add(identificacionVehiculoClass);
+
+
+                    switch (tipo_vehiculo){
+                        case "0": //tractora/rigido
+                            for (int i=0;i<jsonVehiculo.length();i++)
+                            {
+                                identificacionVehiculoClass = new IdentificacionVehiculoClass();
+                                JSONObject jsonObject1 = null;
+                                jsonObject1=jsonVehiculo.getJSONObject(i);
+                                identificacionVehiculoClass.setConductor(response); //jsonObject1.optString("conductor"));
+                                identificacionVehiculoClass.setTractora(jsonObject1.optString("cod_matricula1"));
+                                identificacionVehiculoClass.setCisterna("-");//jsonObject1.optString("cisterna"));
+                                listaVehiculos.add(identificacionVehiculoClass);
+                            }
+                            break;
+                        case "1":   //conjunto
+                            for (int i=0;i<jsonVehiculo.length();i++)
+                            {
+                                identificacionVehiculoClass = new IdentificacionVehiculoClass();
+                                JSONObject jsonObject1 = null;
+                                JSONObject jsonObject2 = null;
+                                jsonObject1=jsonVehiculo.getJSONObject(i);
+      //                          jsonObject2=jsonCisterna.getJSONObject(i);
+                                identificacionVehiculoClass.setConductor(response);
+                                identificacionVehiculoClass.setTractora(jsonObject1.optString("cod_matricula1"));
+                                identificacionVehiculoClass.setCisterna(jsonObject1.optString("cod_matricula2"));
+                                listaVehiculos.add(identificacionVehiculoClass);
+                            }
+                            break;
+                        case "2":   //cisterna
+                            for (int i=0;i<jsonCisterna.length();i++)
+                            {
+                                identificacionVehiculoClass = new IdentificacionVehiculoClass();
+                                JSONObject jsonObject2 = null;
+                                jsonObject2=jsonVehiculo.getJSONObject(i);
+                                identificacionVehiculoClass.setConductor(conductor); //jsonObject1.optString("conductor"));
+                                identificacionVehiculoClass.setTractora("-");
+                                identificacionVehiculoClass.setCisterna(jsonObject2.optString("cod_matricula2"));//jsonObject1.optString("cisterna"));
+                                listaVehiculos.add(identificacionVehiculoClass);
+                            }
+
+                            break;
+
+                        default:
+                            break;
+
                     }
+
 
                     callback.buscarVehiculos(listaVehiculos);
 

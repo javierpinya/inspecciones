@@ -51,6 +51,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
 
     //Variables donde recibir los datos de internet y pasarlos después a la BBDD
     private String tractora;
+    private String tipo_componente;
     private int chip;
     private String adr;
     private String itv;
@@ -60,7 +61,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
     private String solo_gasoleo;
     private boolean bloqueado;
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd");
 
     public ControlAccesoResultadoRigidoFragment() {
         // Required empty public constructor
@@ -108,6 +109,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                     for (int i=0; i<json.length(); i++){
 
                         tractora=(json.optJSONObject(i).optString("cod_matricula_real"));
+                        tipo_componente=(json.optJSONObject(i).optString("id_tipo_componente"));
                         itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                         adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
                         tara=(json.optJSONObject(i).optInt("can_tara"));
@@ -128,7 +130,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                     }
 
 
-                    createNewMatricula(tractora,itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                    createNewMatricula(tractora,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -162,9 +164,10 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
 
 
     //** CRUD Actions **/
-    private void createNewMatricula(String matricula, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
+    private void createNewMatricula(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
         realm.beginTransaction();
-        CATractoraBD rigido = new CATractoraBD(matricula);
+        CARigidoBD rigido = new CARigidoBD(matricula);
+        rigido.setTipo_componente(tipo_componente);
         rigido.setItv(itv);
         rigido.setAdr(adr);
         rigido.setTara(tara);

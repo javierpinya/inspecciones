@@ -26,8 +26,10 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<CARigidoBD> rigido;
-    private DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     private String adr;
+    private String fec_cadu_calibracion;
+    private String transp_resp;
 
     public ControlAccesoResultadoRigidoAdapter(Context context, List<CARigidoBD> rigido, int layout ){
         this.context=context;
@@ -83,20 +85,32 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
             Toast.makeText(context,"adr: " + adr, Toast.LENGTH_LONG).show();
         }
 
+        if(caRigidoBD.getFec_cadu_calibracion() == null){
+            fec_cadu_calibracion = "null";
+        }else{
+            fec_cadu_calibracion = df.format(caRigidoBD.getFec_cadu_calibracion());
+        }
+        if(caRigidoBD.getCod_transportista_resp() == null){
+            transp_resp = "null";
+        }else{
+            transp_resp = caRigidoBD.getCod_transportista_resp();
+        }
+
+
 
 
         vh.matricula.setText(caRigidoBD.getMatricula().toString());
         vh.tipo_componente.setText(caRigidoBD.getTipo_componente());
         vh.adr.setText(adr);
         vh.itv.setText(df.format(caRigidoBD.getItv()));
-        vh.ejes.setText(caRigidoBD.getEjes());
+        vh.ejes.setText(String.valueOf(caRigidoBD.getEjes()));
         vh.ind_bloqueo.setChecked(caRigidoBD.isBloqueado());
         vh.mma.setText(String.valueOf(caRigidoBD.getMma()));
         vh.tara.setText(String.valueOf(caRigidoBD.getTara()));
         vh.chip.setText(String.valueOf(caRigidoBD.getChip()));
         vh.ind_solo_gasoleos.setText(caRigidoBD.getSoloGasoelos());
-        vh.fec_cadu_calibracion.setText(df.format(caRigidoBD.getFec_cadu_calibracion()));
-        vh.cod_transportista_responsable.setText(caRigidoBD.getCod_transportista_resp());
+        vh.fec_cadu_calibracion.setText(fec_cadu_calibracion);
+        vh.cod_transportista_responsable.setText(transp_resp);
 
 
 

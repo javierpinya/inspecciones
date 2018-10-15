@@ -51,6 +51,7 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
         intent.putExtra("conductor", conductor);
         intent.putExtra("tipo_vehiculo", tipo_vehiculo);
         intent.putExtra("tipo_inspeccion", tipo_inspeccion);
+        intent.putExtra("t_rigido", t_rigido);
         startActivity(intent);
 
     }

@@ -81,8 +81,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         Usuario.setText("");
         Password.setText("");
 
-        User = Usuario.getText().toString();
-        Pass = Password.getText().toString();
+
 
         ButtonLogin.setOnClickListener(this);
 
@@ -91,12 +90,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getActivity(),"pass: " +Pass, Toast.LENGTH_SHORT).show();
-        if(login(Pass)){
-            VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
-        }else{
-            Toast.makeText(getActivity(), "Password no válido", Toast.LENGTH_LONG).show();
+        switch (v.getId()){
+            case R.id.btn_login:
+                User = Usuario.getText().toString();
+                Pass = Password.getText().toString();
+                Toast.makeText(getActivity(),"pass: " +Pass, Toast.LENGTH_SHORT).show();
+                if(login(Pass)){
+                    VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+                }else{
+                    Toast.makeText(getActivity(), "Password no válido", Toast.LENGTH_LONG).show();
+                }
+
         }
+
 
     }
 

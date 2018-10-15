@@ -62,7 +62,6 @@ public class IdentificacionVehiculoResultadoFragment extends Fragment {
                 String tractora;
                 String cisterna;
                 String conductor;
-                //identificacionVehiculoClass.
                 tractora = identificacionVehiculoClass.getTractora().toString();
                 cisterna = identificacionVehiculoClass.getCisterna().toString();
                 conductor = identificacionVehiculoClass.getConductor().toString();
