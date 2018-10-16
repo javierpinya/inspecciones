@@ -74,6 +74,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_identificacion_vehiculo_busqueda, container, false);
 
+
         listaVehiculos = new ArrayList<>();
         tractora = (EditText)view.findViewById(R.id.et_tractora);
         cisterna = (EditText)view.findViewById(R.id.et_cisterna);
@@ -82,21 +83,33 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
 /*
         switch (tipo_vehiculo){
             case "0": //tractora/rigido
+                tractora.setEnabled(true);
                 cisterna.setEnabled(false);
+                conductor.setEnabled(false);
                 break;
             case "1":   //conjunto
+                tractora.setEnabled(true);
+                cisterna.setEnabled(true);
+                conductor.setEnabled(false);
                 break;
             case "2":   //cisterna
                 tractora.setEnabled(false);
+                cisterna.setEnabled(true);
+                conductor.setEnabled(false);
                 break;
 
                 default:
+                    tractora.setEnabled(true);
+                    cisterna.setEnabled(true);
+                    conductor.setEnabled(false);
                     break;
 
         }
 */
-        tractora.setText("023");
-
+/*
+        tractora.setText("023J");
+        cisterna.setText("601B");
+*/
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,11 +124,11 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     public void buscar(final String rigido, final String cisterna, final String conductor){
 
         RequestQueue requestQueue;
-        Toast.makeText(getActivity(), "tipo_vehiculo: " + tipo_vehiculo, Toast.LENGTH_SHORT).show();
 
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Toast.makeText(getActivity(),"response" + response, Toast.LENGTH_SHORT).show();
                 try {
                     //listaVehiculos.clear();
                     //Convierto la respuesta, de tipo String, a un JSONObject.
@@ -134,8 +147,8 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                                 identificacionVehiculoClass = new IdentificacionVehiculoClass();
                                 JSONObject jsonObject1 = null;
                                 jsonObject1=jsonVehiculo.getJSONObject(i);
-                                identificacionVehiculoClass.setConductor(response); //jsonObject1.optString("conductor"));
-                                identificacionVehiculoClass.setTractora(jsonObject1.optString("cod_matricula1"));
+                                identificacionVehiculoClass.setConductor("-"); //jsonObject1.optString("conductor"));
+                                identificacionVehiculoClass.setTractora(jsonObject1.optString("COD_MATRICULA1"));
                                 identificacionVehiculoClass.setCisterna("-");//jsonObject1.optString("cisterna"));
                                 listaVehiculos.add(identificacionVehiculoClass);
                             }
@@ -144,13 +157,11 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                             for (int i=0;i<jsonVehiculo.length();i++)
                             {
                                 identificacionVehiculoClass = new IdentificacionVehiculoClass();
-                                JSONObject jsonObject1 = null;
-                                JSONObject jsonObject2 = null;
+                                JSONObject jsonObject1;
                                 jsonObject1=jsonVehiculo.getJSONObject(i);
-      //                          jsonObject2=jsonCisterna.getJSONObject(i);
-                                identificacionVehiculoClass.setConductor(response);
-                                identificacionVehiculoClass.setTractora(jsonObject1.optString("cod_matricula1"));
-                                identificacionVehiculoClass.setCisterna(jsonObject1.optString("cod_matricula2"));
+                                identificacionVehiculoClass.setConductor("-");
+                                identificacionVehiculoClass.setTractora(jsonObject1.optString("COD_MATRICULA1"));
+                                identificacionVehiculoClass.setCisterna(jsonObject1.optString("COD_MATRICULA2"));
                                 listaVehiculos.add(identificacionVehiculoClass);
                             }
                             break;
@@ -159,10 +170,10 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                             {
                                 identificacionVehiculoClass = new IdentificacionVehiculoClass();
                                 JSONObject jsonObject2 = null;
-                                jsonObject2=jsonVehiculo.getJSONObject(i);
-                                identificacionVehiculoClass.setConductor(conductor); //jsonObject1.optString("conductor"));
+                                jsonObject2=jsonCisterna.getJSONObject(i);
+                                identificacionVehiculoClass.setConductor("-"); //jsonObject1.optString("conductor"));
                                 identificacionVehiculoClass.setTractora("-");
-                                identificacionVehiculoClass.setCisterna(jsonObject2.optString("cod_matricula2"));//jsonObject1.optString("cisterna"));
+                                identificacionVehiculoClass.setCisterna(jsonObject2.optString("COD_MATRICULA2"));//jsonObject1.optString("cisterna"));
                                 listaVehiculos.add(identificacionVehiculoClass);
                             }
 

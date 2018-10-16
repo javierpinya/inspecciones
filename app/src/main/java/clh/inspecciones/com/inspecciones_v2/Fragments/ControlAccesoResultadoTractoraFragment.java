@@ -50,6 +50,7 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
 
     //Variables donde recibir los datos de internet y pasarlos después a la BBDD
     private String tractora;
+    private String tipo_componente;
     private int chip;
     private String adr;
     private String itv;
@@ -107,6 +108,7 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
 
                     for (int i=0; i<json.length(); i++){
 
+                        tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
                         tractora=(json.optJSONObject(i).optString("cod_matricula_real"));
                         itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                         adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
@@ -128,7 +130,7 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
                     }
 
 
-                   createNewMatricula(tractora,itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                   createNewMatricula(tractora,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -162,9 +164,10 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
 
 
     //** CRUD Actions **/
-    private void createNewMatricula(String matricula, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
+    private void createNewMatricula(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
         realm.beginTransaction();
         CATractoraBD tractora = new CATractoraBD(matricula);
+        tractora.setTipo_componente(tipo_componente);
         tractora.setItv(itv);
         tractora.setAdr(adr);
         tractora.setTara(tara);

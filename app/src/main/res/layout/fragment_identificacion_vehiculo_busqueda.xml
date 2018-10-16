@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPostalAddress"
-                android:hint="%2354JNZ%" />
+                android:hint="2354" />
         </LinearLayout>
 
         <LinearLayout

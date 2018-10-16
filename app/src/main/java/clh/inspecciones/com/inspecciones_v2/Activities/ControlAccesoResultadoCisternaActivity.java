@@ -13,7 +13,8 @@ import clh.inspecciones.com.inspecciones_v2.R;
 public class ControlAccesoResultadoCisternaActivity extends AppCompatActivity implements ControlAccesoResultadoCisternaFragment.dataListener {
 
     private String cisterna;
-    private int tipo;
+    private int tipo_inspeccion;
+    private String t_rigido;
     public List<CACisternaBD> cisternaList;
 
     @Override
@@ -21,7 +22,7 @@ public class ControlAccesoResultadoCisternaActivity extends AppCompatActivity im
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_acceso_resultado_cisterna);
         if(getIntent().getExtras()!= null){
-            cisterna = getIntent().getStringExtra("vehiculo");
+            cisterna = getIntent().getStringExtra("cisterna").trim();
             getCisternaIntent(cisterna);
 
         }

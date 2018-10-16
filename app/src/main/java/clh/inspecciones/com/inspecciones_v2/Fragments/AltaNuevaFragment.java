@@ -96,6 +96,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
                 cbconjunto.setChecked(false);
                 cbtractora.setChecked(false);
                 t_vehiculo="2";
+                t_rigido="0";
                 break;
             case R.id.cbconjunto:
                 cbtractora.setChecked(false);
