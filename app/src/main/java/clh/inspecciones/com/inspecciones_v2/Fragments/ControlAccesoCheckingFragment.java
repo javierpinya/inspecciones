@@ -23,7 +23,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 public class ControlAccesoCheckingFragment extends Fragment{
 
     private ListView mListView;
-   // private Button btn;
+    //private Button btn;
     private dataListener callback;
     private TextView tv;
 
@@ -49,7 +49,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control_acceso_checking, container, false);
 
-     //   btn = (Button)view.findViewById(R.id.btnAInspecciones);
+        //btn = (Button)view.findViewById(R.id.btn_siguiente2);
 
         mListView = (ListView)view.findViewById(R.id.lv_controlaccesochecking);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,7 +61,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
             }
         });
 
-     //   btn.setOnClickListener(this);
+        //btn.setOnClickListener(this);
 
         return  view;
     }

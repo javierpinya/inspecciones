@@ -3,9 +3,11 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.DetalleInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class DetalleInspeccionActivity extends AppCompatActivity {
+public class DetalleInspeccionActivity extends AppCompatActivity implements CabeceraInspeccionFragment.dataListener, DetalleInspeccionFragment.dataListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

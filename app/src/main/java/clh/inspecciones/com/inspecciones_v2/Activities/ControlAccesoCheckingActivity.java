@@ -88,7 +88,8 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.putExtra("conductor", conductor);
         intent.putExtra("t_rigido", t_rigido);
         intent.putExtra("tipo_inspeccion", tipo_inspeccion);
-        //intent.setClass(this,)
+        intent.setClass(this,DetalleInspeccionActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -131,6 +132,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.putExtra("conductor", vehiculos.get(2));
         intent.putExtra("tipo_inspeccion", tipo_inspeccion);
         intent.putExtra("t_rigido", t_rigido);
+        intent.setClass(this,DetalleInspeccionActivity.class);
         startActivity(intent);
     }
 

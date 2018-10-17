@@ -15,20 +15,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-
             <ListView
                 android:id="@+id/lv_detalleinspecciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </ListView>
-
-            <Button
-                android:id="@+id/btn_de_detalle_inspeccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/siguiente" />
 
         </LinearLayout>
 
