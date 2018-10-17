@@ -44,6 +44,9 @@ public class CARigidoBD extends RealmObject {
     public CARigidoBD(String matricula){
         this.id= InicializacionRealm.CATractoraBDId.incrementAndGet();
         this.matricula = matricula;
+        this.adr = new Date();
+        this.itv = new Date();
+        this.fec_baja = new Date();
     }
 
     public int getId() {

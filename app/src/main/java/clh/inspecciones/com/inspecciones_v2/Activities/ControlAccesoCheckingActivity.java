@@ -3,6 +3,8 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     private List<String> vehiculos;
     private String t_rigido;
     private String tipo_inspeccion;
+    private String tractora;
+    private String cisterna;
+    private String conductor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +35,12 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_control_acceso_checking);
         vehiculos = new ArrayList<String>();
         if(getIntent().getExtras()!= null){
-            vehiculos.add(getIntent().getStringExtra("tractora").trim().toString());
-            vehiculos.add(getIntent().getStringExtra("cisterna").trim().toString());   //(getIntent().getStringExtra("cisterna"));
-            vehiculos.add(getIntent().getStringExtra("conductor").trim().toString()); //getIntent().getStringExtra("conductor"));
+            tractora=getIntent().getStringExtra("tractora").trim();
+            cisterna=getIntent().getStringExtra("cisterna").trim();
+            conductor=getIntent().getStringExtra("conductor").trim();
+            vehiculos.add(tractora);
+            vehiculos.add(cisterna);
+            vehiculos.add(conductor);
             t_rigido = getIntent().getStringExtra("t_rigido").trim();
             tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
             datos_intent(vehiculos);
@@ -45,6 +53,43 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
          */
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menu_siguiente:
+                siguiente();
+                return true;
+                /*
+            case R.id.menu_logout:
+                logOut();
+                return true;
+            case R.id.menu_forget_logout:
+                removeSharedPreferences();
+                logOut();
+                return true;
+                */
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void siguiente() {
+        Intent intent = new Intent();
+        intent.putExtra("tractora", tractora);
+        intent.putExtra("cisterna", cisterna);
+        intent.putExtra("conductor", conductor);
+        intent.putExtra("t_rigido", t_rigido);
+        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
+        //intent.setClass(this,)
+    }
 
     @Override
     public void itemPulsado(String vehiculo, int position) {
@@ -69,6 +114,8 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
 
         startActivity(intent);
     }
+
+
 
     @Override
     public void datos_intent(List<String> datos) {

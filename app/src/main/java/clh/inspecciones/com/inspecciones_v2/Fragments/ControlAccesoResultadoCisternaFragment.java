@@ -72,7 +72,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
     // private List<CACompartimentosBD> compartimentos;
 
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
 
     public ControlAccesoResultadoCisternaFragment() {
@@ -95,16 +95,21 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        llamadavolley();
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_control_acceso_resultado_cisterna, container, false);
+        View view = inflater.inflate(R.layout.fragment_control_acceso_resultado_cisterna, container, false);
+        mListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadocisterna);
+        realm = Realm.getDefaultInstance();
+        if (realm.isEmpty()==false){
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.commitTransaction();
+        }
+        return view;
     }
 
     private void llamadavolley() {
 
-        final String usuario="";
-        final String pass="";
+        final String usuario="admin";
+        final String pass="admin";
 
         StringRequest sr = new StringRequest(Request.Method.POST, json_url2, new Response.Listener<String>() {
             @Override
@@ -114,13 +119,14 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
                     //Convierto la respuesta, de tipo String, a un JSONObject.
                     JSONObject jsonObject = new JSONObject(response);
                     //Cramos un JSONArray del objeto JSON "vehiculo"
-                    JSONArray json = jsonObject.optJSONArray("vehiculo");
+                    JSONArray json = jsonObject.optJSONArray("cisterna");
+                    Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
                     for (int i=0; i<json.length(); i++){
 
                         cisterna=(json.optJSONObject(i).optString("cod_matricula_real"));
                         tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
-                        ejes = (json.optJSONObject(i).optInt("ejes"));
+                        ejes = (json.optJSONObject(i).optInt("num_ejes"));
                         itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                         adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
                         fec_calibracion = (json.optJSONObject(i).optString("fec_cadu_calibracion"));
@@ -167,8 +173,8 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", usuario);
-                params.put("password", pass);
+                params.put("username", "admin");
+                params.put("password", "admin");
                 params.put("tipo_consulta", "2");
                 params.put("cisterna", matriculaIntent);
                 return params;

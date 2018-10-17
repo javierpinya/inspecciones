@@ -10,4 +10,9 @@
         android:title="Forget and Log out"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/menu_siguiente"
+        android:title="Siguiente"
+        android:icon="@drawable/ic_launcher_foreground"
+        app:showAsAction="always"/>
+
 </menu>

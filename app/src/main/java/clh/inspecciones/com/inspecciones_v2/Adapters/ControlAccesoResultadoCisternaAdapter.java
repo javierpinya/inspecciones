@@ -82,7 +82,7 @@ public class ControlAccesoResultadoCisternaAdapter extends BaseAdapter {
         vh.tipo_componente.setText(caCisternaBD.getTipo_componente());
         vh.adr.setText(df.format(caCisternaBD.getAdr()));
         vh.itv.setText(df.format(caCisternaBD.getItv()));
-        vh.ejes.setText(caCisternaBD.getEjes());
+        vh.ejes.setText(String.valueOf(caCisternaBD.getEjes()));
         vh.ind_bloqueo.setChecked(caCisternaBD.isBloqueado());
         vh.mma.setText(String.valueOf(caCisternaBD.getMma()));
         vh.tara.setText(String.valueOf(caCisternaBD.getTara()));

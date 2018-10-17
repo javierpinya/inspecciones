@@ -59,7 +59,10 @@ public class CACisternaBD extends RealmObject {
     public CACisternaBD(String matricula){
         this.id=InicializacionRealm.CACisternaBDId.incrementAndGet();
         this.matricula=matricula;
-        this.compartimentos = new RealmList<CACompartimentosBD>();
+        this.adr = new Date();
+        this.itv = new Date();
+        this.fec_baja = new Date();
+        //this.compartimentos = new RealmList<CACompartimentosBD>();
     }
 
     public int getId() {

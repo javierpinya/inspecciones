@@ -180,18 +180,7 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
         realm.commitTransaction();
 
     }
-/*
-    private Date stringToDate(String cadena) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd'T'"); //HH:mm:ss'Z'");
-        Date date = null;
-        try {
-            date = format.parse(cadena);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-*/
+
 
     public void renderTractora(String tractora){
         matriculaIntent = tractora.trim();

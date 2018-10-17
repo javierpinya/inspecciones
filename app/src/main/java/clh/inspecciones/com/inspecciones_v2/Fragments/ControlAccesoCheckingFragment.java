@@ -71,16 +71,6 @@ public class ControlAccesoCheckingFragment extends Fragment{
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, datos);
         mListView.setAdapter(adapter);
     }
-/*
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_siguiente1:
-                callback.inspecciones();
-        }
-    }
-    */
-
 
     public interface dataListener{
         void itemPulsado(String vehiculo, int position);

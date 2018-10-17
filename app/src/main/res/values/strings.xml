@@ -66,6 +66,9 @@
 
 
     <!--strings check list documentacion conductor y camion-->
+    <string name="incidenciasInspeccion">INCIDENCIAS?</string>
+    <string name="siguiente2">CONTINUAR</string>
+    <string name="albaran">ALBARÁN</string>
     <string name="titulo_docyprocesodecarga">CHECKLIST CARGADERO</string>
     <string name="docyprocesodecarga">DOCUMENTACIÓN Y PROCESO DE CARGA</string>
     <string name="editar_anomalias">Editar Anomalías</string>
