@@ -128,7 +128,6 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getActivity(),"response" + response, Toast.LENGTH_SHORT).show();
                 try {
                     //listaVehiculos.clear();
                     //Convierto la respuesta, de tipo String, a un JSONObject.

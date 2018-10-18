@@ -27,7 +27,7 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
     private Context context;
     private List<CATractoraBD> caTractora;
     private int layout;
-    private DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     private String adr;
 
 
@@ -79,7 +79,6 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
             adr="null";
         }else{
             adr = df.format(caTractoraBD.getAdr());
-            Toast.makeText(context,"adr: " + adr, Toast.LENGTH_LONG).show();
         }
 
 

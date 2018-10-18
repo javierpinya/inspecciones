@@ -94,7 +94,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             case R.id.btn_login:
                 User = Usuario.getText().toString();
                 Pass = Password.getText().toString();
-                Toast.makeText(getActivity(),"pass: " +Pass, Toast.LENGTH_SHORT).show();
                 if(login(Pass)){
                     VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
                 }else{

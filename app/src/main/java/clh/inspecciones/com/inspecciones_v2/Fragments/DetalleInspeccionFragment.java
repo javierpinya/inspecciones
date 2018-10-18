@@ -8,14 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+
+import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DetalleInspeccionFragment extends Fragment {
 
-    private dataListener callback;
+    public dataListener callback;
+
+    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
+
+
 
 
     public DetalleInspeccionFragment() {
@@ -41,8 +51,8 @@ public class DetalleInspeccionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_detalle_inspeccion, container, false);
     }
 
-    public interface dataListener{
 
+    public interface dataListener{
     }
 
 }
