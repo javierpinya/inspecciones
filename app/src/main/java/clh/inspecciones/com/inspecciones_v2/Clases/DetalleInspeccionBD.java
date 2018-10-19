@@ -149,6 +149,44 @@ public class DetalleInspeccionBD extends RealmObject {
         this.fechaRevisado = new Date();
         this.fechaTablaCalCisterna = new Date();
         this.fechaTablaCalRigido = new Date();
+        setAccDesconectadorBaterias(true);
+        setFichaSeguridad(true);
+        setTransponderTractora(true);
+        setTransponderCisterna(true);
+        setAccFrenoEstacionamientoMarchaCorta(true);
+        setApagallamas(true);
+        setBajadaTagPlanta(true);
+        setAdrCisterna(true);
+        setAdrConductor(true);
+        setAdrTractoraRigido(true);
+        setAdrTractoraRigido(true);
+        setBloqueo(false);
+        setConexionMangueraGases(true);
+        setConexionTomaTierra(true);
+        setDescTfnoMovil(true);
+        setDesfavorable(false);
+        setEstanqueidadCajon(true);
+        setEstanqueidadCisterna(true);
+        setEstanqueidadEquiposTrasiego(true);
+        setEstanqueidadValvulasAPI(true);
+        setEstanqueidadValvulasFondo(true);
+        setFavorable(true);
+        setInspeccionada(true);
+        setInterrupEmergenciaYFuego(true);
+        setItvCisterna(true);
+        setItvTractoraRigido(true);
+        setLecturaTagIsleta(true);
+        setMontajeCorrectoTags(true);
+        setPermisoConducir(true);
+        setPosicionamientoAdecuadoEnIsleta(true);
+        setPurgaCompartimentos(true);
+        setRecogerAlbaran(true);
+        setRevisado(false);
+        setRopaSeguridad(true);
+        setSuperficieSupAntideslizante(true);
+        setTc2(true);
+
+
     }
 
     public int getId() {
