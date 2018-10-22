@@ -61,6 +61,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cabecera_inspeccion, container, false);
 
+        mListView = (ListView)view.findViewById(R.id.lv_detalleinspecciones);
+
         btn_siguiente = (Button)view.findViewById(R.id.btn_siguiente2);
         btn_incidencias= (Button)view.findViewById(R.id.btn_incidenciasInspeccion);
         etIa = (EditText)view.findViewById(R.id.et_instalacion);
@@ -80,26 +82,27 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         return view;
     }
 
-    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String t_vehiculo, String tipo_inspeccion){
+    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion){
+        //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
-        if (t_vehiculo.equals("T")){
+        if (t_rigido.equals("T")){
             inspeccionBD.setTractora(tractora);
         }else{
             inspeccionBD.setRigido(tractora);
         }
-        inspeccionBD.setInstalacion(etIa.getText().toString());
-        inspeccionBD.setTransportista(etTrans.getText().toString());
-        inspeccionBD.setAlbaran(etAlbaran.getText().toString());
+        //inspeccionBD.setInstalacion(etIa.getText().toString());
+        //inspeccionBD.setTransportista(etTrans.getText().toString());
+        //inspeccionBD.setAlbaran(etAlbaran.getText().toString());
         inspeccionBD.setCisterna(cisterna);
-        inspeccionBD.setConductor(conductor);
+        //inspeccionBD.setConductor(conductor);
         realm.copyToRealmOrUpdate(inspeccionBD);
         realm.commitTransaction();
     }
 
     public void imprimirDatos(){
         inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
-        Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getInstalacion(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getTractora(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -145,7 +148,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public interface dataListener{
-        void datosIntent(String tractora, String cisterna, String conductor, String t_vehiculo, String tipo_inspeccion);
+        void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
 
     }
 
