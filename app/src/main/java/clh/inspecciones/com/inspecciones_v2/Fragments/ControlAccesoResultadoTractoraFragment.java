@@ -196,7 +196,6 @@ public class ControlAccesoResultadoTractoraFragment extends Fragment implements 
     @Override
     public void onChange(RealmResults<CATractoraBD> caTractoraBDS) {
         adapter.notifyDataSetChanged();
-
     }
 
     public interface dataListener {

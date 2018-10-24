@@ -65,12 +65,14 @@ public class DetalleInspeccionAdapter extends BaseAdapter {
             vh.purgaCompartimentos = (CheckBox) convertView.findViewById(R.id.cb_purga);
             vh.ropa = (CheckBox) convertView.findViewById(R.id.cb_ropa);
             vh.superficieSupAntiDes = (CheckBox) convertView.findViewById(R.id.cb_superficiesuperior);
+            /*
             vh.tablaCalibracion = (CheckBox) convertView.findViewById(R.id.cb_tablacaltractora);
             vh.tagsCorrectos = (CheckBox) convertView.findViewById(R.id.cb_tags);
             vh.tc2 = (CheckBox) convertView.findViewById(R.id.cb_tc2);
             vh.tomaTierra = (CheckBox) convertView.findViewById(R.id.cb_scully);
             vh.transponderCisterna = (CheckBox) convertView.findViewById(R.id.cb_transponderc);
             vh.transponderTractora = (CheckBox) convertView.findViewById(R.id.cb_transpondert);
+            */
             convertView.setTag(vh);
         }else {
             vh = (ViewHolder) convertView.getTag();
@@ -95,6 +97,7 @@ public class DetalleInspeccionAdapter extends BaseAdapter {
         vh.purgaCompartimentos.isChecked();
         vh.ropa.isChecked();
         vh.superficieSupAntiDes.isChecked();
+        /*
         vh.tablaCalibracion.isChecked();
         vh.tagsCorrectos.isChecked();
         vh.tc2.isChecked();
@@ -102,6 +105,7 @@ public class DetalleInspeccionAdapter extends BaseAdapter {
         vh.superficieSupAntiDes.isChecked();
         vh.transponderCisterna.isChecked();
         vh.transponderTractora.isChecked();
+        */
 
         return convertView;
 

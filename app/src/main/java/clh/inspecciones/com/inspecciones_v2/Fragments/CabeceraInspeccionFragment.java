@@ -100,9 +100,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         realm.commitTransaction();
     }
 
-    public void imprimirDatos(){
+    public String obtenerInspeccion(){
         inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
         Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getTractora(), Toast.LENGTH_SHORT).show();
+        return inspeccionBD.get(0).getInspeccion();
     }
 
     @Override
@@ -115,11 +116,15 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         switch (v.getId()){
             case R.id.btn_incidenciasInspeccion:
 
+                callback.obtenerInspeccion(inspeccion);
+                /*
                 inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
                 inspeccionBD.addChangeListener(this);
 
+
                 adapter = new DetalleInspeccionAdapter(getActivity(), inspeccionBD, R.layout.detalle_inspecciones_adapter);
                 mListView.setAdapter(adapter);
+                */
 
                 break;
             case R.id.btn_siguiente2:
@@ -149,6 +154,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public interface dataListener{
         void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
+        void obtenerInspeccion(String inspeccion);
 
     }
 

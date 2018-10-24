@@ -16,6 +16,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     private String t_rigido;
     private String tipo_inspeccion;
     private DetalleInspeccionBD detalleInspeccionBD;
+    private String inspeccion;
 
 
     @Override
@@ -30,6 +31,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
             tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
             datosIntent(tractora,cisterna,conductor,t_rigido,tipo_inspeccion);
 
+
         }
     }
 
@@ -37,7 +39,12 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     public void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion) {
         CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
         cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion);
-        cabeceraInspeccionFragment.imprimirDatos();
+    }
+
+    @Override
+    public void obtenerInspeccion(String inspeccion) {
+        DetalleInspeccionFragment detalleInspeccionFragment = (DetalleInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.DetalleInspeccionFragment);
+        detalleInspeccionFragment.renderText(inspeccion);
     }
 
 }
