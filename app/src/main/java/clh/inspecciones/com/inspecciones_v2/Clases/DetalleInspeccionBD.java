@@ -159,19 +159,18 @@ public class DetalleInspeccionBD extends RealmObject {
         setAdrCisterna(true);
         setAdrConductor(true);
         setAdrTractoraRigido(true);
-        setAdrTractoraRigido(true);
         setBloqueo(false);
         setConexionMangueraGases(true);
         setConexionTomaTierra(true);
         setDescTfnoMovil(true);
-        setDesfavorable(false);
+        setDesfavorable(false); //
         setEstanqueidadCajon(true);
         setEstanqueidadCisterna(true);
         setEstanqueidadEquiposTrasiego(true);
         setEstanqueidadValvulasAPI(true);
         setEstanqueidadValvulasFondo(true);
-        setFavorable(true);
-        setInspeccionada(true);
+        setFavorable(true); //
+        setInspeccionada(true); //
         setInterrupEmergenciaYFuego(true);
         setItvCisterna(true);
         setItvTractoraRigido(true);
@@ -181,11 +180,10 @@ public class DetalleInspeccionBD extends RealmObject {
         setPosicionamientoAdecuadoEnIsleta(true);
         setPurgaCompartimentos(true);
         setRecogerAlbaran(true);
-        setRevisado(false);
+        setRevisado(false); //
         setRopaSeguridad(true);
         setSuperficieSupAntideslizante(true);
         setTc2(true);
-
 
     }
 

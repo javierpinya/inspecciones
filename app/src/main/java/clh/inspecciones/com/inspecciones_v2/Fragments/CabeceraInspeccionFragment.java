@@ -34,6 +34,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private EditText etIa;
     private EditText etAlbaran;
     private EditText etTrans;
+    private EditText etTablaCal;
     private DetalleInspeccionAdapter adapter;
     private ListView mListView;
 
@@ -68,6 +69,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         etIa = (EditText)view.findViewById(R.id.et_instalacion);
         etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
+        etTablaCal = (EditText)view.findViewById(R.id.et_tablacalibracion);
 
         btn_siguiente.setOnClickListener(this);
         btn_incidencias.setOnClickListener(this);
@@ -94,8 +96,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         //inspeccionBD.setInstalacion(etIa.getText().toString());
         //inspeccionBD.setTransportista(etTrans.getText().toString());
         //inspeccionBD.setAlbaran(etAlbaran.getText().toString());
-        inspeccionBD.setCisterna(cisterna);
+        //inspeccionBD.setCisterna(cisterna);
         //inspeccionBD.setConductor(conductor);
+        inspeccionBD.setAccDesconectadorBaterias(true);
+
         realm.copyToRealmOrUpdate(inspeccionBD);
         realm.commitTransaction();
     }
@@ -128,6 +132,9 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
                 break;
             case R.id.btn_siguiente2:
+
+                inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
+
                 /*
                 realm.beginTransaction();
                 DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD();

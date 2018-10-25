@@ -106,6 +106,7 @@
     <string name="simac">SIMAC</string>
     <string name="instalacionsimacok">Instalación SIMAC ok</string>
     <string name="lecturatagsisleta">Lectura TAGs isleta</string>
+    <string name="bajadatags">Bajada Tags Planta</string>
 
 
     <!-- check list control de acceso -->
