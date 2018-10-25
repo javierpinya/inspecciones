@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class DetalleInspeccionAdapter extends BaseAdapter {
+public class DetalleInspeccionAdapter extends BaseAdapter implements View.OnClickListener{
 
     private Context context;
     private List<DetalleInspeccionBD> inspeccionBDS;
@@ -80,6 +81,7 @@ public class DetalleInspeccionAdapter extends BaseAdapter {
             vh.ropa = (CheckBox) convertView.findViewById(R.id.cb_ropa);
             vh.superficieSupAntiDes = (CheckBox) convertView.findViewById(R.id.cb_superficiesuperior);
             vh.tc2 = (CheckBox) convertView.findViewById(R.id.cb_tc2);
+            vh.guardar = (Button) convertView.findViewById(R.id.guardar_cambios);
             convertView.setTag(vh);
         }else {
             vh = (ViewHolder) convertView.getTag();
@@ -118,9 +120,15 @@ public class DetalleInspeccionAdapter extends BaseAdapter {
         vh.superficieSupAntiDes.setChecked(detalleInspeccionBD.getSuperficieSupAntideslizante());
         vh.tc2.setChecked(detalleInspeccionBD.getTc2());
 
+        vh.guardar.setOnClickListener(this);
         return convertView;
 
         }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     public class ViewHolder{
 
@@ -155,6 +163,7 @@ public class DetalleInspeccionAdapter extends BaseAdapter {
         CheckBox ropa;
         CheckBox superficieSupAntiDes;
         CheckBox tc2;
+        Button guardar;
 
 
     }

@@ -588,6 +588,13 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/guardar_cambios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/guardarcambios"
+            android:textSize="20dp"/>
+
 
     </LinearLayout>
 

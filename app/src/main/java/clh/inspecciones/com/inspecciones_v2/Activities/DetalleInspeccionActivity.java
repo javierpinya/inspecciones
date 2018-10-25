@@ -30,8 +30,6 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
             t_rigido = getIntent().getStringExtra("t_rigido").trim();
             tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
             datosIntent(tractora,cisterna,conductor,t_rigido,tipo_inspeccion);
-
-
         }
     }
 

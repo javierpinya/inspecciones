@@ -234,6 +234,7 @@
     <string name="ettagdep8">ettagdep8</string>
     <string name="title_activity_revision_inspecciones">revision_inspecciones</string>
 
+    <string name="guardarcambios">Aplicar cambios</string>
 
 </resources>
 
