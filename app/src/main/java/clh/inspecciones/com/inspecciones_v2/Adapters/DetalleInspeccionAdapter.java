@@ -81,13 +81,15 @@ public class DetalleInspeccionAdapter extends BaseAdapter implements View.OnClic
             vh.ropa = (CheckBox) convertView.findViewById(R.id.cb_ropa);
             vh.superficieSupAntiDes = (CheckBox) convertView.findViewById(R.id.cb_superficiesuperior);
             vh.tc2 = (CheckBox) convertView.findViewById(R.id.cb_tc2);
-            vh.guardar = (Button) convertView.findViewById(R.id.guardar_cambios);
+          //  vh.guardar = (Button) convertView.findViewById(R.id.guardar_cambios);
             convertView.setTag(vh);
         }else {
             vh = (ViewHolder) convertView.getTag();
         }
 
         DetalleInspeccionBD detalleInspeccionBD = inspeccionBDS.get(position);
+
+       // vh.guardar.setOnClickListener(this);
 
         vh.bateriaDesconectada.setChecked(detalleInspeccionBD.getAccDesconectadorBaterias());
         vh.fichaSeguridad.setChecked(detalleInspeccionBD.getFichaSeguridad());
@@ -120,7 +122,6 @@ public class DetalleInspeccionAdapter extends BaseAdapter implements View.OnClic
         vh.superficieSupAntiDes.setChecked(detalleInspeccionBD.getSuperficieSupAntideslizante());
         vh.tc2.setChecked(detalleInspeccionBD.getTc2());
 
-        vh.guardar.setOnClickListener(this);
         return convertView;
 
         }
@@ -163,8 +164,7 @@ public class DetalleInspeccionAdapter extends BaseAdapter implements View.OnClic
         CheckBox ropa;
         CheckBox superficieSupAntiDes;
         CheckBox tc2;
-        Button guardar;
-
+       // Button guardar;
 
     }
 }

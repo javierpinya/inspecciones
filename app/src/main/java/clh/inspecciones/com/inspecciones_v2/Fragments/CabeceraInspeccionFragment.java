@@ -104,9 +104,9 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         realm.commitTransaction();
     }
 
-    public String obtenerInspeccion(){
+    public String obtenerCambios(){
         inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
-        Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getTractora(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getSuperficieSupAntideslizante(), Toast.LENGTH_SHORT).show();
         return inspeccionBD.get(0).getInspeccion();
     }
 
@@ -121,6 +121,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             case R.id.btn_incidenciasInspeccion:
 
                 callback.obtenerInspeccion(inspeccion);
+
                 /*
                 inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
                 inspeccionBD.addChangeListener(this);
@@ -133,7 +134,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 break;
             case R.id.btn_siguiente2:
 
-                inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
+                //inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
+                obtenerCambios();
 
                 /*
                 realm.beginTransaction();

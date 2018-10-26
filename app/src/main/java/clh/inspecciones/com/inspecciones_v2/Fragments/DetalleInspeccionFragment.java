@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
@@ -21,14 +23,17 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetalleInspeccionFragment extends Fragment implements RealmChangeListener<RealmResults<DetalleInspeccionBD>>{
+public class DetalleInspeccionFragment extends Fragment implements RealmChangeListener<RealmResults<DetalleInspeccionBD>>, View.OnClickListener{
 
     public dataListener callback;
     private ListView mListView;
     private Realm realm;
     private RealmResults<DetalleInspeccionBD> detalleInspeccionBDS;
+    private RealmResults<DetalleInspeccionBD> detalleInspeccionToast;
     private String inspeccionIntent;
     private DetalleInspeccionAdapter adapter;
+    private Button guardar;
+    private Boolean purgas;
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -57,6 +62,11 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detalle_inspeccion, container, false);
         mListView = view.findViewById(R.id.lv_detalleinspecciones);
+        guardar = (Button)view.findViewById(R.id.guardar_cambios);
+        guardar.setVisibility(View.VISIBLE);
+
+
+        guardar.setOnClickListener(this);
 
         realm = Realm.getDefaultInstance();
         if (realm.isEmpty()==false){
@@ -65,21 +75,40 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
             realm.commitTransaction();
         }
 
+
         return view;
     }
 
     public void renderText(String inspeccion){
+       // guardar.setVisibility(View.VISIBLE);
         inspeccionIntent = inspeccion.trim();
         detalleInspeccionBDS = realm.where(DetalleInspeccionBD.class).findAll();
         detalleInspeccionBDS.addChangeListener(this);
         adapter = new DetalleInspeccionAdapter(getActivity(), detalleInspeccionBDS,R.layout.detalle_inspecciones_adapter);
         mListView.setAdapter(adapter);
 
+
     }
 
     @Override
     public void onChange(RealmResults<DetalleInspeccionBD> detalleInspeccionBDS) {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        DetalleInspeccionBD inspeccion;
+        realm.beginTransaction();
+        inspeccion = detalleInspeccionBDS.get(0);
+        inspeccion.setPurgaCompartimentos(inspeccion.getPurgaCompartimentos());
+        realm.copyToRealmOrUpdate(inspeccion);
+        realm.commitTransaction();
+
+        detalleInspeccionToast = realm.where(DetalleInspeccionBD.class).findAll();
+        detalleInspeccionToast.addChangeListener(this);
+        purgas = detalleInspeccionToast.get(0).getPurgaCompartimentos();
+        Toast.makeText(getActivity(), "purgas: " + purgas.toString(), Toast.LENGTH_SHORT).show();
+
     }
 
 
