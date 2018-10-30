@@ -62,7 +62,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cabecera_inspeccion, container, false);
 
-        mListView = (ListView)view.findViewById(R.id.lv_detalleinspecciones);
+       // mListView = (ListView)view.findViewById(R.id.lv_detalleinspecciones);
 
         btn_siguiente = (Button)view.findViewById(R.id.btn_siguiente2);
         btn_incidencias= (Button)view.findViewById(R.id.btn_incidenciasInspeccion);
