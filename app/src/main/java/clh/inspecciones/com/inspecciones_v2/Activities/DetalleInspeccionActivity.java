@@ -1,5 +1,6 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -40,9 +41,17 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     }
 
     @Override
-    public void obtenerInspeccion(String inspeccion) {
+    public void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion) {
         DetalleInspeccionFragment detalleInspeccionFragment = (DetalleInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.DetalleInspeccionFragment);
-        detalleInspeccionFragment.renderText(inspeccion);
+        detalleInspeccionFragment.renderText(inspeccion, Instalacion, albaran, transportista, tabla_calibracion);
+    }
+
+    @Override
+    public void continuar(String inspeccion) {
+        Intent intent = new Intent();
+        intent.setClass(DetalleInspeccionActivity.this, CompartimentosActivity.class);
+        intent.putExtra("inspeccion", inspeccion);
+        startActivity(intent);
     }
 
 }

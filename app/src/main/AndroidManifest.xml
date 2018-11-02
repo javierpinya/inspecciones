@@ -27,7 +27,8 @@
         <activity android:name=".Activities.ControlAccesoResultadoCisternaActivity" />
         <activity android:name=".Activities.ControlAccesoResultadoConductorActivity" />
         <activity android:name=".Activities.ControlAccesoResultadoRigidoActivity" />
-        <activity android:name=".Activities.DetalleInspeccionActivity"></activity>
+        <activity android:name=".Activities.DetalleInspeccionActivity" />
+        <activity android:name=".Activities.CompartimentosActivity"></activity>
     </application>
 
 </manifest>

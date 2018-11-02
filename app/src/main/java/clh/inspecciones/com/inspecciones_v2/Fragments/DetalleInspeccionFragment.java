@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.DetalleInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
@@ -37,7 +40,15 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
     private String inspeccionIntent;
     private DetalleInspeccionAdapter adapter;
     private Button guardar;
+    private Button continuar;
     private Boolean purgas;
+    private DetalleInspeccionBD inspecciones;
+    private String instalacion;
+    private String albaran;
+    private String transportista;
+    private String tabla_calibracion;
+
+    private List<Boolean> checklist;
 
     private TextView tractora;
     private TextView cisterna;
@@ -74,6 +85,8 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
     private CheckBox superficieSupAntiDes;
     private CheckBox tc2;
 
+    private Boolean chequeo;
+
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
 
@@ -101,6 +114,8 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detalle_inspeccion, container, false);
         //View view = inflater.inflate(R.layout.detalle_inspecciones_adapter, container, false);
+
+        checklist = new ArrayList<>();
 
         tractora = (TextView)view.findViewById(R.id.tv_tractoramatricula);
         cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
@@ -153,10 +168,16 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         return view;
     }
 
-    public void renderText(String inspeccion){
-       // guardar.setVisibility(View.VISIBLE);
+    public void renderText(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion){
         inspeccionIntent = inspeccion.trim();
-        detalleInspeccionBDS = realm.where(DetalleInspeccionBD.class).findAll();
+        detalleInspeccionBDS=realm.where(DetalleInspeccionBD.class).findAll();
+        inspecciones = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccionIntent).findFirst();
+
+        this.instalacion = Instalacion;
+        this.albaran = albaran;
+        this.transportista = transportista;
+        this.tabla_calibracion = tabla_calibracion;
+
         detalleInspeccionBDS.addChangeListener(this);
 
         bateriaDesconectada.setChecked(detalleInspeccionBDS.get(0).getAccDesconectadorBaterias());
@@ -184,36 +205,104 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         tagsCorrectos.setChecked(detalleInspeccionBDS.get(0).getMontajeCorrectoTags());
         permisoCirculacion.setChecked(detalleInspeccionBDS.get(0).getPermisoConducir());
         posicionVehiculo.setChecked(detalleInspeccionBDS.get(0).getPosicionamientoAdecuadoEnIsleta());
-        purgaCompartimentos.setChecked(detalleInspeccionBDS.get(0).getPurgaCompartimentos());
+        purgaCompartimentos.setChecked(inspecciones.getPurgaCompartimentos());
         recogerAlbaran.setChecked(detalleInspeccionBDS.get(0).getRecogerAlbaran());
         ropa.setChecked(detalleInspeccionBDS.get(0).getRopaSeguridad());
         superficieSupAntiDes.setChecked(detalleInspeccionBDS.get(0).getSuperficieSupAntideslizante());
         tc2.setChecked(detalleInspeccionBDS.get(0).getTc2());
 
-        //adapter = new ListView(getActivity(), ,R.layout.detalle_inspecciones_adapter);
-        //mListView.setAdapter(adapter);
 
 
     }
 
     @Override
     public void onChange(RealmResults<DetalleInspeccionBD> detalleInspeccionBDS) {
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View v) {
-        DetalleInspeccionBD inspeccion; // = new DetalleInspeccionBD();
+        switch (v.getId()){
+            case R.id.guardar_cambios:
+                checklist.add(bateriaDesconectada.isChecked());
+                checklist.add(fichaSeguridad.isChecked());
+                checklist.add(transponderTractora.isChecked());
+                checklist.add(transponderCisterna.isChecked());
+                checklist.add(frenoEstacionamiento.isChecked());
+                checklist.add(apagallamas.isChecked());
+                checklist.add(bajadaTagsPlanta.isChecked());
+                checklist.add(adrCisterna.isChecked());
+                checklist.add(adrConductor.isChecked());
+                checklist.add(adrTractora.isChecked());
+                checklist.add(mangueraGases.isChecked());
+                checklist.add(tomaTierra.isChecked());
+                checklist.add(movilDesconectado.isChecked());
+                checklist.add(estanqueidadCajon.isChecked());
+                checklist.add(estanqueidadCisterna.isChecked());
+                checklist.add(estanqueidadEquiposTrasiego.isChecked());
+                checklist.add(estanqueidadValvulasAPI.isChecked());
+                checklist.add(estanqueidadValvulasFondo.isChecked());
+                checklist.add(interruptorEmergencia.isChecked());
+                checklist.add(itvCisterna.isChecked());
+                checklist.add(itvTractora.isChecked());
+                checklist.add(lecturaTagsIsleta.isChecked());
+                checklist.add(permisoCirculacion.isChecked());
+                checklist.add(posicionVehiculo.isChecked());
+                checklist.add(purgaCompartimentos.isChecked());
+                checklist.add(recogerAlbaran.isChecked());
+                checklist.add(ropa.isChecked());
+                checklist.add(superficieSupAntiDes.isChecked());
+                checklist.add(tc2.isChecked());
+                guardar(inspecciones, checklist);
+                break;
+                default:
+                    break;
+        }
+
+
+
+    }
+
+    public void guardar(DetalleInspeccionBD detalleInspeccionBD, List<Boolean> checklist){
         realm.beginTransaction();
-        inspeccion = detalleInspeccionBDS.get(0);
-        inspeccion.setPurgaCompartimentos(purgaCompartimentos.isChecked());
-        realm.copyToRealmOrUpdate(inspeccion);
+        detalleInspeccionBD.setInstalacion(instalacion);
+        detalleInspeccionBD.setAlbaran(albaran);
+        detalleInspeccionBD.setTransportista(transportista);
+        detalleInspeccionBD.setTablaCalibracion(tabla_calibracion);
+        detalleInspeccionBD.setAccDesconectadorBaterias(checklist.get(0));
+        detalleInspeccionBD.setFichaSeguridad(checklist.get(1));
+        detalleInspeccionBD.setTransponderTractora(checklist.get(2));
+        detalleInspeccionBD.setTransponderCisterna(checklist.get(3));
+        detalleInspeccionBD.setAccFrenoEstacionamientoMarchaCorta(checklist.get(4));
+        detalleInspeccionBD.setApagallamas(checklist.get(5));
+        detalleInspeccionBD.setBajadaTagPlanta(checklist.get(6));
+        detalleInspeccionBD.setAdrCisterna(checklist.get(7));
+        detalleInspeccionBD.setAdrConductor(checklist.get(8));
+        detalleInspeccionBD.setAdrTractoraRigido(checklist.get(9));
+        detalleInspeccionBD.setConexionMangueraGases(checklist.get(10));
+        detalleInspeccionBD.setConexionTomaTierra(checklist.get(11));
+        detalleInspeccionBD.setDescTfnoMovil(checklist.get(12));
+        detalleInspeccionBD.setEstanqueidadCajon(checklist.get(13));
+        detalleInspeccionBD.setEstanqueidadCisterna(checklist.get(14));
+        detalleInspeccionBD.setEstanqueidadEquiposTrasiego(checklist.get(15));
+        detalleInspeccionBD.setEstanqueidadValvulasAPI(checklist.get(16));
+        detalleInspeccionBD.setEstanqueidadValvulasFondo(checklist.get(17));
+        detalleInspeccionBD.setInterrupEmergenciaYFuego(checklist.get(18));
+        detalleInspeccionBD.setItvCisterna(checklist.get(19));
+        detalleInspeccionBD.setItvTractoraRigido(checklist.get(20));
+        detalleInspeccionBD.setLecturaTagIsleta(checklist.get(21));
+        detalleInspeccionBD.setMontajeCorrectoTags(checklist.get(22));
+        detalleInspeccionBD.setPermisoConducir(checklist.get(23));
+        detalleInspeccionBD.setPosicionamientoAdecuadoEnIsleta(checklist.get(24));
+        detalleInspeccionBD.setRecogerAlbaran(checklist.get(25));
+        detalleInspeccionBD.setRopaSeguridad(checklist.get(26));
+        detalleInspeccionBD.setSuperficieSupAntideslizante(checklist.get(27));
+        detalleInspeccionBD.setTc2(checklist.get(28));
+        realm.copyToRealmOrUpdate(detalleInspeccionBD);
         realm.commitTransaction();
 
-        detalleInspeccionToast = realm.where(DetalleInspeccionBD.class).findAll();
-        detalleInspeccionToast.addChangeListener(this);
-        purgas = detalleInspeccionToast.get(0).getPurgaCompartimentos();
-        Toast.makeText(getActivity(), "purgas: " + purgas.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Cambios Guardados", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "size: " + detalleInspeccionBDS.size(), Toast.LENGTH_SHORT).show();
 
     }
 

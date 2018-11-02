@@ -27,8 +27,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public dataListener callback;
     private Realm realm;
-    private RealmResults<DetalleInspeccionBD> inspeccionBD;
+    private RealmResults<DetalleInspeccionBD> inspeccionBDs;
+    private DetalleInspeccionBD inspeccionBD;
     private String inspeccion;
+    private String returnInspeccion;
     private Button btn_siguiente;
     private Button btn_incidencias;
     private EditText etIa;
@@ -37,6 +39,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private EditText etTablaCal;
     private DetalleInspeccionAdapter adapter;
     private ListView mListView;
+    private String ia;
+    private String albaran;
+    private String transportista;
+    private String tabla_calibracion;
 
     @Override
     public void onAttach(Context context) {
@@ -86,28 +92,29 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public void crearInspeccionBD(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion){
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();
+
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
         if (t_rigido.equals("T")){
             inspeccionBD.setTractora(tractora);
+            inspeccionBD.setCisterna(cisterna);
         }else{
             inspeccionBD.setRigido(tractora);
         }
-        //inspeccionBD.setInstalacion(etIa.getText().toString());
-        //inspeccionBD.setTransportista(etTrans.getText().toString());
-        //inspeccionBD.setAlbaran(etAlbaran.getText().toString());
-        //inspeccionBD.setCisterna(cisterna);
-        //inspeccionBD.setConductor(conductor);
-        inspeccionBD.setAccDesconectadorBaterias(true);
-
+        inspeccionBD.setConductor(conductor);
         realm.copyToRealmOrUpdate(inspeccionBD);
         realm.commitTransaction();
     }
 
     public String obtenerCambios(){
-        inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
-        Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getSuperficieSupAntideslizante(), Toast.LENGTH_SHORT).show();
-        return inspeccionBD.get(0).getInspeccion();
+        inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
+        //Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getSuperficieSupAntideslizante(), Toast.LENGTH_SHORT).show();
+        if (inspeccionBD.getInspeccion() != null) {
+            returnInspeccion = inspeccionBD.getInspeccion();
+        } else{
+            returnInspeccion = "no encontrada";
+        }
+        return returnInspeccion;
     }
 
     @Override
@@ -120,37 +127,25 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         switch (v.getId()){
             case R.id.btn_incidenciasInspeccion:
 
-                callback.obtenerInspeccion(inspeccion);
+                ia = etIa.getText().toString();
+                albaran = etAlbaran.getText().toString();
+                transportista = etTrans.getText().toString();
+                tabla_calibracion = etTablaCal.getText().toString();
 
-                /*
-                inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
-                inspeccionBD.addChangeListener(this);
+                if (ia == null || albaran == null || transportista == null  || tabla_calibracion == null){
+                    Toast.makeText(getActivity(), "Debe rellenar todos los datos antes de introducir las incidencias", Toast.LENGTH_SHORT).show();
+                    break;
+                } else{
+                    callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
+                }
 
 
-                adapter = new DetalleInspeccionAdapter(getActivity(), inspeccionBD, R.layout.detalle_inspecciones_adapter);
-                mListView.setAdapter(adapter);
-                */
 
                 break;
             case R.id.btn_siguiente2:
 
-                //inspeccionBD = realm.where(DetalleInspeccionBD.class).findAll();
-                obtenerCambios();
+                callback.continuar(obtenerCambios());
 
-                /*
-                realm.beginTransaction();
-                DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD();
-                inspeccionBD.setInspeccion(inspeccion);
-                if (t_vehiculo.equals("T")){
-                    inspeccionBD.setTractora(tractora);
-                }else{
-                    inspeccionBD.setRigido(tractora);
-                }
-                inspeccionBD.setCisterna(cisterna);
-                inspeccionBD.setConductor(conductor);
-                realm.copyToRealmOrUpdate(inspeccionBD);
-                realm.commitTransaction();
-*/
                 break;
 
                 default:
@@ -163,7 +158,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public interface dataListener{
         void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
-        void obtenerInspeccion(String inspeccion);
+        void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
+        void continuar(String inspeccion);
 
     }
 
