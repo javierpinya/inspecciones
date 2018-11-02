@@ -18,6 +18,8 @@ public class InicializacionRealm extends Application {
     public static AtomicInteger CATractoraBDId = new AtomicInteger();
     public static AtomicInteger CACisternaBDId = new AtomicInteger();
     public static AtomicInteger DetalleInspeccionBDId = new AtomicInteger();
+    public static AtomicInteger CARigidoBDId = new AtomicInteger();
+    public static AtomicInteger CACompartimentosBDId = new AtomicInteger();
 
     //Esta clase sirve para temas de configuración.
     //Se lanza antes que la activity principal.
@@ -30,6 +32,10 @@ public class InicializacionRealm extends Application {
         CATractoraBDId = getIdByTable(realm, CATractoraBD.class);
         CACisternaBDId = getIdByTable(realm, CACisternaBD.class);
         DetalleInspeccionBDId = getIdByTable(realm, DetalleInspeccionBD.class);
+        CARigidoBDId = getIdByTable(realm, CARigidoBD.class);
+        CACompartimentosBDId = getIdByTable(realm, CACompartimentosBD.class);
+
+
         realm.close();
 
     }

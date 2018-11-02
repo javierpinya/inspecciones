@@ -36,7 +36,6 @@ public class CACisternaBD extends RealmObject {
     private Date fecha_bloqueo;
     private String motivo_bloqueo;
     private RealmList<CACompartimentosBD> compartimentos;
-   // private List<CACompartimentosBD> compartimentos;
 
     public String getInd_carga_pesados() {
         return ind_carga_pesados;
@@ -62,7 +61,6 @@ public class CACisternaBD extends RealmObject {
         this.adr = new Date();
         this.itv = new Date();
         this.fec_baja = new Date();
-        //this.compartimentos = new RealmList<CACompartimentosBD>();
     }
 
     public int getId() {

@@ -22,7 +22,7 @@ public class CACompartimentosBD extends RealmObject {
     public CACompartimentosBD(){}
 
     public CACompartimentosBD(String matricula){
-        this.id= InicializacionRealm.CATractoraBDId.incrementAndGet();
+        this.id= InicializacionRealm.CACompartimentosBDId.incrementAndGet();
         this.matricula = matricula;
     }
 
