@@ -14,7 +14,7 @@ public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity impl
     private String rigido;
     private String tipo_inspeccion;
     private String t_rigido;
-   // public List<CARigidoBD> rigido;
+    public List<CARigidoBD> rigidoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

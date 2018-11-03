@@ -57,11 +57,15 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
     private String itv;
     private int tara;
     private int mma;
+    private int num_ejes;
     private String fec_baja;
     private String solo_gasoleo;
+    private String carga_pesados;
     private boolean bloqueado;
+    private String fec_cadu_calibracion;
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd");
+
+    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
     public ControlAccesoResultadoRigidoFragment() {
         // Required empty public constructor
@@ -106,6 +110,8 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                     //Cramos un JSONArray del objeto JSON "vehiculo"
                     JSONArray json = jsonObject.optJSONArray("vehiculo");
 
+                    Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+
                     for (int i=0; i<json.length(); i++){
 
                         tractora=(json.optJSONObject(i).optString("cod_matricula_real"));
@@ -115,13 +121,17 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                         tara=(json.optJSONObject(i).optInt("can_tara"));
                         mma=(json.optJSONObject(i).optInt("can_peso_maximo"));
                         chip=(json.optJSONObject(i).optInt("num_chip"));
+                        num_ejes=(json.optJSONObject(i).optInt("num_ejes"));
                         fec_baja=(json.optJSONObject(i).optString("fec_baja"));
+                        fec_cadu_calibracion = (json.optJSONObject(i).optString("fec_cadu_calibracion"));
+                        carga_pesados = (json.optJSONObject(i).optString("ind_carga_pesados"));
                         solo_gasoleo=(json.optJSONObject(i).optString("ind_solo_gasoleo"));
                         bloqueado=(json.optJSONObject(i).optBoolean("ind_bloqueo"));
                     }
 
                     Date adr_p = parseador.parse(adr);
                     Date itv_p = parseador.parse(itv);
+                    Date fec_cadu_calibracion_p = parseador.parse(fec_cadu_calibracion);
                     Date fec_baja_p;
                     if (fec_baja!=null){
                         fec_baja_p = parseador.parse(fec_baja);
@@ -130,7 +140,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                     }
 
 
-                    createNewMatricula(tractora,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                    createNewMatricula(tractora,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -153,8 +163,8 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                 Map<String, String> params = new HashMap<>();
                 params.put("username", "admin");
                 params.put("password", "admin");
-                params.put("tipo_consulta", "1");
-                params.put("tractora", matriculaIntent);
+                params.put("tipo_consulta", "0");
+                params.put("rigido", matriculaIntent);
                 return params;
             }
         };
@@ -164,7 +174,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
 
 
     //** CRUD Actions **/
-    private void createNewMatricula(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
+    private void createNewMatricula(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado, String carga_pesados, Date fec_cadu_calibracion, int num_ejes){
         realm.beginTransaction();
         CARigidoBD rigido = new CARigidoBD(matricula);
         rigido.setTipo_componente(tipo_componente);
@@ -175,6 +185,9 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
         rigido.setChip(chip);
         rigido.setFec_baja(fec_baja);
         rigido.setSoloGasoelos(solo_gasoleos);
+        rigido.setInd_carga_pesados(carga_pesados);
+        rigido.setFec_cadu_calibracion(fec_cadu_calibracion);
+        rigido.setEjes(num_ejes);
         rigido.setBloqueado(bloqueado);
         realm.copyToRealmOrUpdate(rigido);
         realm.commitTransaction();

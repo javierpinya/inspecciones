@@ -47,10 +47,11 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     }
 
     @Override
-    public void continuar(String inspeccion) {
+    public void continuar(String inspeccion, String matricula) {
         Intent intent = new Intent();
         intent.setClass(DetalleInspeccionActivity.this, CompartimentosActivity.class);
         intent.putExtra("inspeccion", inspeccion);
+        intent.putExtra("matricula", matricula);
         startActivity(intent);
     }
 

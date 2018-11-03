@@ -14,6 +14,11 @@ import clh.inspecciones.com.inspecciones_v2.R;
  */
 public class CompartimentosFragment extends Fragment {
 
+    /*
+    El siguiente paso es cargar los compartimentos y transportista responsable en la consulta del camión. Así
+    no repetimos otra búsqueda más. Así que habría que modificar el archivo de hostinger para incluir tplcprt y tpltrpt
+     */
+
 
     public CompartimentosFragment() {
         // Required empty public constructor
@@ -25,6 +30,14 @@ public class CompartimentosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_compartimentos, container, false);
+    }
+
+    public void renderCompartimentos(String matricula){
+
+    }
+
+    public interface dataListener{
+        void enviarMatricula(String matricula);
     }
 
 }

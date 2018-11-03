@@ -26,7 +26,7 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<CARigidoBD> rigido;
-    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     private String adr;
     private String fec_cadu_calibracion;
     private String transp_resp;

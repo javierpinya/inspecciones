@@ -32,9 +32,6 @@ public class CARigidoBD extends RealmObject {
     private int ejes;
     private String ind_carga_pesados;
     private String cod_transportista_resp;
-
-
-
     private RealmList<CACompartimentosBD> compartimentos;
 
 

@@ -80,36 +80,9 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         cisterna = (EditText)view.findViewById(R.id.et_cisterna);
         conductor = (EditText)view.findViewById(R.id.et_codcond);
         buscar = (Button)view.findViewById(R.id.Buscar);
-/*
-        switch (tipo_vehiculo){
-            case "0": //tractora/rigido
-                tractora.setEnabled(true);
-                cisterna.setEnabled(false);
-                conductor.setEnabled(false);
-                break;
-            case "1":   //conjunto
-                tractora.setEnabled(true);
-                cisterna.setEnabled(true);
-                conductor.setEnabled(false);
-                break;
-            case "2":   //cisterna
-                tractora.setEnabled(false);
-                cisterna.setEnabled(true);
-                conductor.setEnabled(false);
-                break;
 
-                default:
-                    tractora.setEnabled(true);
-                    cisterna.setEnabled(true);
-                    conductor.setEnabled(false);
-                    break;
+        tractora.setHint("E3654FKD");
 
-        }
-*/
-/*
-        tractora.setText("023J");
-        cisterna.setText("601B");
-*/
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

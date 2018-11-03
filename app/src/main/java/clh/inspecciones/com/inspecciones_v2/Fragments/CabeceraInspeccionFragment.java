@@ -43,6 +43,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private String albaran;
     private String transportista;
     private String tabla_calibracion;
+    private String matricula;
 
     @Override
     public void onAttach(Context context) {
@@ -91,15 +92,17 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public void crearInspeccionBD(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion){
-        //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
 
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
         if (t_rigido.equals("T")){
             inspeccionBD.setTractora(tractora);
             inspeccionBD.setCisterna(cisterna);
+            this.matricula = cisterna;
         }else{
             inspeccionBD.setRigido(tractora);
+            this.matricula = tractora;
         }
         inspeccionBD.setConductor(conductor);
         realm.copyToRealmOrUpdate(inspeccionBD);
@@ -144,7 +147,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 break;
             case R.id.btn_siguiente2:
 
-                callback.continuar(obtenerCambios());
+                callback.continuar(obtenerCambios(), matricula);
 
                 break;
 
@@ -159,7 +162,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     public interface dataListener{
         void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
         void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
-        void continuar(String inspeccion);
+        void continuar(String inspeccion, String matricula);
 
     }
 
