@@ -24,18 +24,22 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoRigidoAdapter;
 import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoTractoraAdapter;
+import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class ControlAccesoResultadoRigidoFragment extends Fragment implements RealmChangeListener<RealmResults<CARigidoBD>>{
@@ -44,9 +48,12 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
     private String json_url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/consultas_inspecciones_app.php";
     private Realm realm;
     private RealmResults<CARigidoBD> rigidoBD;
+    private RealmList<CACompartimentosBD> compartimentosBD;
     private ListView mListView;
     private ControlAccesoResultadoRigidoAdapter adapter;
     private String matriculaIntent;
+    private CARigidoBD caRigidoBD;
+    private RealmResults<CACompartimentosBD> caCompartimentosBD;
 
 
     //Variables donde recibir los datos de internet y pasarlos después a la BBDD
@@ -63,6 +70,12 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
     private String carga_pesados;
     private boolean bloqueado;
     private String fec_cadu_calibracion;
+    private String tResp;
+
+    //compartimentos
+    private List<Integer> compartimentos;
+    private List<Integer> capacidad;
+    private List<String> tags;
 
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
@@ -88,6 +101,11 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
         View view = view = inflater.inflate(R.layout.fragment_control_acceso_resultado_rigido, container, false);
 
         mListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadorigido);
+
+        compartimentos = new ArrayList<>();
+        capacidad = new ArrayList<>();
+        tags = new ArrayList<>();
+
         realm = Realm.getDefaultInstance();
         if (realm.isEmpty()==false){
             realm.beginTransaction();
@@ -109,8 +127,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                     JSONObject jsonObject = new JSONObject(response);
                     //Cramos un JSONArray del objeto JSON "vehiculo"
                     JSONArray json = jsonObject.optJSONArray("vehiculo");
-
-                    Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+                    JSONArray json1  = jsonObject.optJSONArray("compartimentos");
 
                     for (int i=0; i<json.length(); i++){
 
@@ -127,6 +144,13 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                         carga_pesados = (json.optJSONObject(i).optString("ind_carga_pesados"));
                         solo_gasoleo=(json.optJSONObject(i).optString("ind_solo_gasoleo"));
                         bloqueado=(json.optJSONObject(i).optBoolean("ind_bloqueo"));
+                        tResp = (json.optJSONObject(i).optString("COD_TRANSPORTISTA_RESP"));
+                    }
+
+                    for(int i=0; i<json1.length(); i++){
+                        compartimentos.add(json1.optJSONObject(i).optInt("cod_compartimento"));
+                        tags.add(json1.optJSONObject(i).optString("cod_tag_cprt"));
+                        capacidad.add(json1.optJSONObject(i).optInt("can_capacidad"));
                     }
 
                     Date adr_p = parseador.parse(adr);
@@ -140,7 +164,8 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
                     }
 
 
-                    createNewMatricula(tractora,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes);
+                    createNewMatricula(tractora,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes, tResp);
+                    anadirCompartimentos(tractora, compartimentos, capacidad, tags);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -174,7 +199,7 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
 
 
     //** CRUD Actions **/
-    private void createNewMatricula(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado, String carga_pesados, Date fec_cadu_calibracion, int num_ejes){
+    private void createNewMatricula(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado, String carga_pesados, Date fec_cadu_calibracion, int num_ejes, String cod_transportista_resp){
         realm.beginTransaction();
         CARigidoBD rigido = new CARigidoBD(matricula);
         rigido.setTipo_componente(tipo_componente);
@@ -189,8 +214,29 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
         rigido.setFec_cadu_calibracion(fec_cadu_calibracion);
         rigido.setEjes(num_ejes);
         rigido.setBloqueado(bloqueado);
+        rigido.setCod_transportista_resp(cod_transportista_resp);
         realm.copyToRealmOrUpdate(rigido);
         realm.commitTransaction();
+
+    }
+
+    private void anadirCompartimentos(String matricula, List<Integer> compartimentos, List<Integer> capacidad, List<String> tags){
+        caRigidoBD = realm.where(CARigidoBD.class).equalTo("matricula", matricula).findFirst();
+        compartimentosBD = caRigidoBD.getCompartimentos();
+        for (int i=0; i<compartimentos.size(); i++){
+            realm.beginTransaction();
+            CACompartimentosBD _compartimentosBD = new CACompartimentosBD(matricula);
+            _compartimentosBD.setCod_compartimento(compartimentos.get(i));
+            _compartimentosBD.setCan_capacidad(capacidad.get(i));
+            _compartimentosBD.setCod_tag_cprt(tags.get(i));
+            realm.copyToRealmOrUpdate(_compartimentosBD);
+            realm.commitTransaction();
+        }
+
+        caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
+        Toast.makeText(getActivity(), "capacidad: " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
+
+
 
     }
 

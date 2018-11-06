@@ -82,7 +82,7 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
             adr="null";
         }else{
             adr = df.format(caRigidoBD.getAdr());
-            Toast.makeText(context,"adr: " + adr, Toast.LENGTH_LONG).show();
+
         }
 
         if(caRigidoBD.getFec_cadu_calibracion() == null){

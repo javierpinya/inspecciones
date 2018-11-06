@@ -100,10 +100,8 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.putExtra("tipo_inspeccion", tipo_inspeccion);
         if(position == 0){
             if (t_rigido.equals("T")){
-                Toast.makeText(this,"TRACTORA: " + t_rigido, Toast.LENGTH_SHORT).show();
                 intent.setClass(this,ControlAccesoResultadoTractoraActivity.class);
             }else{
-                Toast.makeText(this,"RIGIDO: " + t_rigido, Toast.LENGTH_SHORT).show();
                 intent.setClass(this,ControlAccesoResultadoRigidoActivity.class);
             }
 
