@@ -18,6 +18,15 @@ public class CACompartimentosBD extends RealmObject {
     private String tipo_componente;
     private int can_capacidad;
     private String cod_tag_cprt;
+    private int can_cargada;
+
+    public int getCan_cargada() {
+        return can_cargada;
+    }
+
+    public void setCan_cargada(int can_cargada) {
+        this.can_cargada = can_cargada;
+    }
 
     public CACompartimentosBD(){}
 
