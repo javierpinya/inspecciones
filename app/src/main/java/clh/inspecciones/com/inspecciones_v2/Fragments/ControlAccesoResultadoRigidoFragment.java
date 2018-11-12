@@ -107,11 +107,12 @@ public class ControlAccesoResultadoRigidoFragment extends Fragment implements Re
         tags = new ArrayList<>();
 
         realm = Realm.getDefaultInstance();
+        /*
         if (realm.isEmpty()==false){
             realm.beginTransaction();
             realm.deleteAll();
             realm.commitTransaction();
-        }
+        }*/
 
         return view;
     }

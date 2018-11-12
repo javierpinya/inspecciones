@@ -18,12 +18,18 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
         if(getIntent().getExtras()!= null) {
             matricula = getIntent().getStringExtra("matricula").trim();
         }
+        enviarMatricula(matricula);
     }
 
 
     @Override
     public void enviarMatricula(String matricula) {
         CompartimentosFragment compartimentosFragment = (CompartimentosFragment)getSupportFragmentManager().findFragmentById(R.id.CompartimentosFragment);
-        compartimentosFragment.renderCompartimentos(matricula);
+        compartimentosFragment.enviarMatricula(matricula);
+    }
+
+    @Override
+    public void elegirCompartimento(int compartimento) {
+
     }
 }

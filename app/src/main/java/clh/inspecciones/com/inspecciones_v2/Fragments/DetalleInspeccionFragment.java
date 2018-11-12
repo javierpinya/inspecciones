@@ -158,11 +158,12 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         guardar.setOnClickListener(this);
 
         realm = Realm.getDefaultInstance();
+        /*
         if (realm.isEmpty()==false){
             realm.beginTransaction();
             realm.deleteAll();
             realm.commitTransaction();
-        }
+        }*/
 
 
         return view;
