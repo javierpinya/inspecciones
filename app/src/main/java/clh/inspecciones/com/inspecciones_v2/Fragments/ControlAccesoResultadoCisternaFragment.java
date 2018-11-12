@@ -27,9 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoCisternaAdapter;
-import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoTractoraAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
@@ -48,6 +46,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
     private ListView mListView;
     private ControlAccesoResultadoCisternaAdapter adapter;
     private String matriculaIntent;
+    private String tipoVehiculo;
 
 
 
@@ -95,7 +94,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_control_acceso_resultado_cisterna, container, false);
+        View view = inflater.inflate(R.layout.fragment_control_acceso_resultado_vehiculo, container, false);
         mListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadocisterna);
         realm = Realm.getDefaultInstance();
         if (realm.isEmpty()==false){
@@ -119,7 +118,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
                     //Convierto la respuesta, de tipo String, a un JSONObject.
                     JSONObject jsonObject = new JSONObject(response);
                     //Cramos un JSONArray del objeto JSON "vehiculo"
-                    JSONArray json = jsonObject.optJSONArray("cisterna");
+                    JSONArray json = jsonObject.optJSONArray("vehiculo");
                     Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
                     for (int i=0; i<json.length(); i++){
@@ -175,8 +174,8 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
                 Map<String, String> params = new HashMap<>();
                 params.put("username", "admin");
                 params.put("password", "admin");
-                params.put("tipo_consulta", "2");
-                params.put("cisterna", matriculaIntent);
+                params.put("tipo_consulta", tipoVehiculo);  //0=rigido, 1=tractora, 2, cisterna
+                params.put("matVehiculo", matriculaIntent);
                 return params;
             }
         };
@@ -219,6 +218,12 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
     }
 */
 
+    public void renderVehiculo(String matVehiculo, String tipoVehiculo){
+        matriculaIntent = matVehiculo.trim();
+        tipoVehiculo = tipoVehiculo.trim();
+        llamadavolley();
+    }
+
     public void renderCisterna(String cisterna){
         matriculaIntent = cisterna.trim();
         llamadavolley();
@@ -238,6 +243,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
 
     public interface dataListener {
         void getCisternaIntent(String cisterna);
+
     }
 
 }

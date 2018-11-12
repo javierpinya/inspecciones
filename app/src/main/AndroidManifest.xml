@@ -24,7 +24,7 @@
         <activity android:name=".Activities.IdentificacionVehiculoActivity" />
         <activity android:name=".Activities.ControlAccesoCheckingActivity" />
         <activity android:name=".Activities.ControlAccesoResultadoTractoraActivity" />
-        <activity android:name=".Activities.ControlAccesoResultadoCisternaActivity" />
+        <activity android:name=".Activities.ControlAccesoResultadoVehiculoActivity" />
         <activity android:name=".Activities.ControlAccesoResultadoConductorActivity" />
         <activity android:name=".Activities.ControlAccesoResultadoRigidoActivity" />
         <activity android:name=".Activities.DetalleInspeccionActivity" />

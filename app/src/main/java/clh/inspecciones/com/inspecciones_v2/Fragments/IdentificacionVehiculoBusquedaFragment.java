@@ -5,7 +5,6 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +41,9 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     private EditText conductor;
     private Button buscar;
     private DataListener callback;
-    private String tipo_vehiculo;
-    private String tipo_inspeccion;
-    private String t_rigido;
+    private String tipoVehiculo;
+    private String tipoInspeccion;
+    private String tipoTractora;
     String url = "http://pruebaalumnosandroid.esy.es/inspecciones/elegir_vehiculo.php";
     String username = "admin"; //cambiar en un futuro, que provenga del login
     String pass = "admin";
@@ -112,7 +111,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                     //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
 
 
-                    switch (tipo_vehiculo){
+                    switch (tipoVehiculo){
                         case "0": //tractora/rigido
                             for (int i=0;i<jsonVehiculo.length();i++)
                             {
@@ -179,8 +178,8 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                 Map<String,String> params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", pass);
-                params.put("tipo_consulta", tipo_vehiculo);
-                params.put("t_rigido", t_rigido);
+                params.put("tipo_consulta", tipoVehiculo);
+                params.put("tipoTractora", tipoTractora);
                 params.put("conductor", conductor);
                 params.put("rigido", rigido);
                 params.put("cisterna", cisterna);
@@ -193,13 +192,13 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
 
     public interface DataListener{
         void buscarVehiculos(ArrayList<IdentificacionVehiculoClass> listaVehiculos);
-        void enviarDatos(String tipo_vehiculo,String tipo_inspeccion, String t_rigido);
+        void enviarDatos(String tipoVehiculo,String tipoInspeccion, String tipoTractora);
     }
 
-    public void recibir_intent(String tipo_vehiculo, String tipo_inspeccion, String t_rigido){
-        this.tipo_inspeccion = tipo_inspeccion;
-        this.tipo_vehiculo = tipo_vehiculo;
-        this.t_rigido = t_rigido;
+    public void recibir_intent(String tipoVehiculo, String tipoInspeccion, String tipoTractora){
+        this.tipoInspeccion = tipoInspeccion;
+        this.tipoVehiculo = tipoVehiculo;
+        this.tipoTractora = tipoTractora;
     }
 
 }

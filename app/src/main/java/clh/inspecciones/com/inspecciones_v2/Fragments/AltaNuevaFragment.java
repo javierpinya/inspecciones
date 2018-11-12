@@ -2,7 +2,6 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,9 +27,9 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     CheckBox cbpesados;
     CheckBox cbjeta;
     Button btn_siguiente1;
-    String t_vehiculo;
-    String t_inspeccion;
-    String t_rigido;
+    String tipoVehiculo;
+    String tipoInspeccion;
+    String tipoTractora;
 
 
     public AltaNuevaFragment() {
@@ -78,8 +77,8 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.cbrigido:
-                t_vehiculo="0";
-                t_rigido="R";
+                tipoVehiculo ="0";
+                tipoTractora ="R";
                 cbtractora.setChecked(false);
                 cbconjunto.setChecked(false);
                 cbcisterna.setChecked(false);
@@ -88,40 +87,40 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
                 cbconjunto.setChecked(false);
                 cbcisterna.setChecked(false);
                 cbrigido.setChecked(false);
-                t_rigido="T";
-                t_vehiculo="0";
+                tipoTractora ="T";
+                tipoVehiculo ="0";
                 break;
             case R.id.cbcisterna:
                 cbrigido.setChecked(false);
                 cbconjunto.setChecked(false);
                 cbtractora.setChecked(false);
-                t_vehiculo="2";
-                t_rigido="0";
+                tipoVehiculo ="2";
+                tipoTractora ="0";
                 break;
             case R.id.cbconjunto:
                 cbtractora.setChecked(false);
                 cbcisterna.setChecked(false);
                 cbrigido.setChecked(false);
-                t_rigido="T"; //ojo, porque en este caso no se podría hacer una inspección de un tren de carretera
-                t_vehiculo="1";
+                tipoTractora ="T"; //ojo, porque en este caso no se podría hacer una inspección de un tren de carretera
+                tipoVehiculo ="1";
                 break;
             case R.id.cbligeros:
-                t_inspeccion = "L";
+                tipoInspeccion = "L";
                 cbpesados.setChecked(false);
                 cbjeta.setChecked(false);
                 break;
             case R.id.cbpesados:
-                t_inspeccion="P";
+                tipoInspeccion ="P";
                 cbligeros.setChecked(false);
                 cbjeta.setChecked(false);
                 break;
             case R.id.cbjeta:
-                t_inspeccion="J";
+                tipoInspeccion ="J";
                 cbligeros.setChecked(false);
                 cbpesados.setChecked(false);
                 break;
             case R.id.btn_siguiente1:
-                callback.altaNueva(t_vehiculo, t_inspeccion, t_rigido);
+                callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoTractora);
                 break;
             default:
                 break;
@@ -129,7 +128,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     }
 
     public interface AltaNuevaListener{
-        void altaNueva(String t_vehiculo, String t_inspeccion, String t_rigido);
+        void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoTractora);
     }
 
 }

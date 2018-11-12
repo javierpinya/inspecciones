@@ -3,7 +3,6 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,20 +13,20 @@ import clh.inspecciones.com.inspecciones_v2.R;
 
 public class IdentificacionVehiculoActivity extends AppCompatActivity implements IdentificacionVehiculoBusquedaFragment.DataListener, IdentificacionVehiculoResultadoFragment.EnviarData {
 
-    private String tipo_vehiculo;
-    private String tipo_inspeccion;
-    private String t_rigido;
+    private String tipoVehiculo;
+    private String tipoInspeccion;
+    private String tipoTractora;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identificacion_vehiculo);
         if(getIntent().getExtras()!= null){
-            tipo_vehiculo = getIntent().getStringExtra("tipo_vehiculo").trim().toString();
-            tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim().toString();
-            t_rigido = getIntent().getStringExtra("t_rigido").trim();
+            tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim().toString();
+            tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim().toString();
+            tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
 
-            enviarDatos(tipo_vehiculo,tipo_inspeccion,t_rigido);
+            enviarDatos(tipoVehiculo, tipoInspeccion, tipoTractora);
         }
     }
 
@@ -38,9 +37,9 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void enviarDatos(String tipo_vehiculo, String tipo_inspeccion, String t_rigido) {
+    public void enviarDatos(String tipoVehiculo, String tipoInspeccion, String tipoTractora) {
         IdentificacionVehiculoBusquedaFragment identificacionVehiculoBusquedaFragment = (IdentificacionVehiculoBusquedaFragment) getSupportFragmentManager().findFragmentById(R.id.IdentificacionVehiculoBusquedaFragment);
-        identificacionVehiculoBusquedaFragment.recibir_intent(tipo_vehiculo,tipo_inspeccion,t_rigido);
+        identificacionVehiculoBusquedaFragment.recibir_intent(tipoVehiculo,tipoInspeccion,tipoTractora);
     }
 
     @Override
@@ -49,11 +48,10 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
         intent.putExtra("cisterna", cisterna);
         intent.putExtra("tractora", tractora);
         intent.putExtra("conductor", conductor);
-        intent.putExtra("tipo_vehiculo", tipo_vehiculo);
-        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
-        intent.putExtra("t_rigido", t_rigido);
+        intent.putExtra("tipoVehiculo", tipoVehiculo);
+        intent.putExtra("tipoInspeccion", tipoInspeccion);
+        intent.putExtra("tipoTractora", tipoTractora);
         startActivity(intent);
-
     }
 
 

@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
      */
 
     private List<String> vehiculos;
-    private String t_rigido;
-    private String tipo_inspeccion;
+    private String tipoTractora;
+    private String tipoInspeccion;
+    private String tipoVehiculo;
     private String tractora;
     private String cisterna;
     private String conductor;
@@ -41,8 +41,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
             vehiculos.add(tractora);
             vehiculos.add(cisterna);
             vehiculos.add(conductor);
-            t_rigido = getIntent().getStringExtra("t_rigido").trim();
-            tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
+            tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
+            tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
+            tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
             datos_intent(vehiculos);
         }
 
@@ -86,27 +87,27 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.putExtra("tractora", tractora);
         intent.putExtra("cisterna", cisterna);
         intent.putExtra("conductor", conductor);
-        intent.putExtra("t_rigido", t_rigido);
-        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
+        intent.putExtra("tipoTractora", tipoTractora);
+        intent.putExtra("tipoInspeccion", tipoInspeccion);
         intent.setClass(this,DetalleInspeccionActivity.class);
         startActivity(intent);
     }
 
     @Override
-    public void itemPulsado(String vehiculo, int position) {
+    public void itemPulsado(String matVehiculo, int position) {
         Intent intent = new Intent();
-        intent.putExtra("vehiculo", vehiculo);
-        intent.putExtra("t_rigido", t_rigido);
-        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
+        intent.putExtra("matVehiculo", matVehiculo);
+        intent.putExtra("tipoTractora", tipoTractora);
+        intent.putExtra("tipoInspeccion", tipoInspeccion);
         if(position == 0){
-            if (t_rigido.equals("T")){
+            if (tipoTractora.equals("T")){
                 intent.setClass(this,ControlAccesoResultadoTractoraActivity.class);
             }else{
                 intent.setClass(this,ControlAccesoResultadoRigidoActivity.class);
             }
 
         }else if (position == 1){
-            intent.setClass(this,ControlAccesoResultadoCisternaActivity.class);
+            intent.setClass(this,ControlAccesoResultadoVehiculoActivity.class);
         }else{
             intent.setClass(this,ControlAccesoResultadoConductorActivity.class);
         }
@@ -128,8 +129,8 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.putExtra("tractora", vehiculos.get(0));
         intent.putExtra("cisterna", vehiculos.get(1));
         intent.putExtra("conductor", vehiculos.get(2));
-        intent.putExtra("tipo_inspeccion", tipo_inspeccion);
-        intent.putExtra("t_rigido", t_rigido);
+        intent.putExtra("tipoInspeccion", tipoInspeccion);
+        intent.putExtra("tipoTractora", tipoTractora);
         intent.setClass(this,DetalleInspeccionActivity.class);
         startActivity(intent);
     }

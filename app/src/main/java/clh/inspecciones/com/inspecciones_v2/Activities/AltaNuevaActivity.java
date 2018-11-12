@@ -23,11 +23,11 @@ public class AltaNuevaActivity extends AppCompatActivity implements AltaNuevaFra
     }
 
     @Override
-    public void altaNueva(String t_vehiculo, String t_inspeccion, String t_rigido) {
+    public void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoTractora) {
         Intent intent = new Intent(this, IdentificacionVehiculoActivity.class);
-        intent.putExtra("tipo_vehiculo", t_vehiculo);
-        intent.putExtra("tipo_inspeccion", t_inspeccion);
-        intent.putExtra("t_rigido", t_rigido);
+        intent.putExtra("tipoVehiculo", tipoVehiculo);
+        intent.putExtra("tipoInspeccion", tipoInspeccion);
+        intent.putExtra("tipoTractora", tipoTractora);
         startActivity(intent);
     }
 

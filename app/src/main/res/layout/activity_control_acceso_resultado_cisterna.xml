@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="clh.inspecciones.com.inspecciones_v2.Activities.ControlAccesoResultadoCisternaActivity">
+    tools:context="clh.inspecciones.com.inspecciones_v2.Activities.ControlAccesoResultadoVehiculoActivity">
 
     <fragment
         android:id="@+id/ControlAccesoResultadoCisternaFragment"
@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        tools:layout="@layout/fragment_control_acceso_resultado_cisterna"/>
+        tools:layout="@layout/fragment_control_acceso_resultado_vehiculo"/>
 
 </LinearLayout>

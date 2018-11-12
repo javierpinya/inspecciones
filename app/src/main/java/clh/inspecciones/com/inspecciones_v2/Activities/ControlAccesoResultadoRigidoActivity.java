@@ -6,10 +6,10 @@ import android.os.Bundle;
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
-import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoRigidoFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity implements ControlAccesoResultadoRigidoFragment.dataListener{
+public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity implements ControlAccesoResultadoVehiculoFragment.dataListener{
 
     private String rigido;
     private String tipo_inspeccion;
@@ -31,7 +31,7 @@ public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity impl
 
     @Override
     public void getRigidoIntent(String rigido) {
-        ControlAccesoResultadoRigidoFragment controlAccesoResultadoRigidoFragment = (ControlAccesoResultadoRigidoFragment) getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoRigidoFragment);
-        controlAccesoResultadoRigidoFragment.renderRigido(rigido);
+        ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment) getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoRigidoFragment);
+        controlAccesoResultadoVehiculoFragment.renderRigido(rigido);
     }
 }

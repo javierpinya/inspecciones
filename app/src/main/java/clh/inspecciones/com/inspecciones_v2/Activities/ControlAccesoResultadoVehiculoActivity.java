@@ -6,13 +6,12 @@ import android.os.Bundle;
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoCisternaFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class ControlAccesoResultadoCisternaActivity extends AppCompatActivity implements ControlAccesoResultadoCisternaFragment.dataListener {
+public class ControlAccesoResultadoVehiculoActivity extends AppCompatActivity implements ControlAccesoResultadoCisternaFragment.dataListener {
 
-    private String cisterna;
+    private String matVehiculo;
     private String tipo_inspeccion;
     private String t_rigido;
     public List<CACisternaBD> cisternaList;
@@ -22,18 +21,18 @@ public class ControlAccesoResultadoCisternaActivity extends AppCompatActivity im
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_acceso_resultado_cisterna);
         if(getIntent().getExtras()!= null){
-            cisterna = getIntent().getStringExtra("vehiculo").trim();
+            matVehiculo = getIntent().getStringExtra("vehiculo").trim();
             tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
             t_rigido = getIntent().getStringExtra("t_rigido").trim();
-            getCisternaIntent(cisterna);
+            getCisternaIntent(matVehiculo);
 
         }
     }
 
     @Override
-    public void getCisternaIntent(String cisterna) {
-        ControlAccesoResultadoCisternaFragment controlAccesoResultadoCisternaFragment = (ControlAccesoResultadoCisternaFragment) getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoCisternaFragment);
-        controlAccesoResultadoCisternaFragment.renderCisterna(cisterna);
+    public void getCisternaIntent(String matVehiculo) {
+        ControlAccesoResultadoCisternaFragment controlAccesoResultadoCisternaFragment = (ControlAccesoResultadoCisternaFragment) getSupportFragmentManager().findFragmentById(R.id.lv_controlaccesoresultadovehiculo);
+        controlAccesoResultadoCisternaFragment.renderCisterna(matVehiculo);
 
     }
 }

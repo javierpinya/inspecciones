@@ -67,6 +67,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
     }
 
 
+
+
     public void renderText(List<String> datos) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, datos);
         mListView.setAdapter(adapter);

@@ -5,7 +5,7 @@
     tools:context=".Fragments.ControlAccesoResultadoCisternaFragment">
 
     <ListView
-        android:id="@+id/lv_controlaccesoresultadocisterna"
+        android:id="@+id/lv_controlaccesoresultadovehiculo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
