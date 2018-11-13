@@ -9,7 +9,7 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity implements ControlAccesoResultadoVehiculoFragment.dataListener{
+public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity{
 
     private String rigido;
     private String tipo_inspeccion;
@@ -24,14 +24,15 @@ public class ControlAccesoResultadoRigidoActivity extends AppCompatActivity impl
             rigido = getIntent().getStringExtra("vehiculo").trim();
             tipo_inspeccion = getIntent().getStringExtra("tipo_inspeccion").trim();
             t_rigido = getIntent().getStringExtra("t_rigido").trim();
-            getRigidoIntent(rigido);
+            //getRigidoIntent(rigido);
 
         }
     }
-
+/*
     @Override
     public void getRigidoIntent(String rigido) {
         ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment) getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoRigidoFragment);
         controlAccesoResultadoVehiculoFragment.renderRigido(rigido);
     }
+    */
 }

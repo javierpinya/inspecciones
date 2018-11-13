@@ -45,7 +45,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class ControlAccesoResultadoVehiculoFragment extends Fragment implements RealmChangeListener<RealmResults<CARigidoBD>>{
+public class ControlAccesoResultadoVehiculoFragment extends Fragment{
 
     public dataListener callback;
     private String json_url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/consultas_inspecciones_app.php";
@@ -399,19 +399,16 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment implements 
         switch (tipoVehiculo){
             case "0":
                 rigidoBD = realm.where(CARigidoBD.class).findAll();
-                rigidoBD.addChangeListener(this);
                 adapterRigido = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
                 mListView.setAdapter(adapterRigido);
                 break;
             case "1":
                 tractoraBD = realm.where(CATractoraBD.class).findAll();
-                tractoraBD.addChangeListener((OrderedRealmCollectionChangeListener<RealmResults<CATractoraBD>>) this);
                 adapterTractora = new ControlAccesoResultadoTractoraAdapter(getActivity(), tractoraBD, R.layout.ca_tractora_checking_listview_item);
                 mListView.setAdapter(adapterTractora);
                 break;
             case "2":
                 cisternaBD = realm.where(CACisternaBD.class).findAll();
-                cisternaBD.addChangeListener((OrderedRealmCollectionChangeListener<RealmResults<CACisternaBD>>) this);
                 adapterCisterna = new ControlAccesoResultadoCisternaAdapter(getActivity(), cisternaBD, R.layout.ca_cisterna_checking_listview_item);
                 mListView.setAdapter(adapterCisterna);
                 break;
@@ -421,29 +418,22 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment implements 
         }
 
     }
-
+/*
     public void renderRigido(String rigido){
         matriculaIntent = rigido.trim();
         llamadavolley();
         rigidoBD = realm.where(CARigidoBD.class).findAll();
         rigidoBD.addChangeListener(this);
 
-        /*
         adapter = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
         mListView.setAdapter(adapter);
-*/
-    }
 
-    @Override
-    public void onChange(RealmResults<CARigidoBD> caRigidoBDS) {
-        /*
-        adapter.notifyDataSetChanged();
-        */
     }
+*/
 
 
 
     public interface dataListener{
-        void getRigidoIntent(String rigido);
+        void getVehiculoIntent(String rigido);
     }
 }

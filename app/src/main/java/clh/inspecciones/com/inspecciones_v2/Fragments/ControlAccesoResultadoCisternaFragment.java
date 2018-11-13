@@ -95,7 +95,7 @@ public class ControlAccesoResultadoCisternaFragment extends Fragment implements 
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_control_acceso_resultado_vehiculo, container, false);
-        mListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadocisterna);
+        mListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadovehiculo);
         realm = Realm.getDefaultInstance();
         if (realm.isEmpty()==false){
             realm.beginTransaction();

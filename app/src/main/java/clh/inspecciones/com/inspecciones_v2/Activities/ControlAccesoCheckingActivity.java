@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
 
-public class ControlAccesoCheckingActivity extends AppCompatActivity implements ControlAccesoCheckingFragment.dataListener {
+public class ControlAccesoCheckingActivity extends AppCompatActivity implements ControlAccesoCheckingFragment.dataListener, ControlAccesoResultadoVehiculoFragment.dataListener {
 
     /*
     Lanzada desde identificaciónVehiculoActivity
@@ -95,6 +96,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
 
     @Override
     public void itemPulsado(String matVehiculo, int position) {
+
+
+        /*
         Intent intent = new Intent();
         intent.putExtra("matVehiculo", matVehiculo);
         intent.putExtra("tipoTractora", tipoTractora);
@@ -113,6 +117,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         }
 
         startActivity(intent);
+        */
     }
 
 
@@ -135,5 +140,13 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         startActivity(intent);
     }
 
+    public void renderizar(String matricula, String tipoVehiculo){
+       // ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment)getSupportFragmentManager().findFragmentById(R.id.Con)
+    }
 
+
+    @Override
+    public void getVehiculoIntent(String rigido) {
+
+    }
 }

@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/ControlAccesoResultadoVehiculoFragment"
-        android:name="clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoCisternaFragment"
+        android:name="clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoVehiculoFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
