@@ -158,13 +158,6 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         guardar.setOnClickListener(this);
 
         realm = Realm.getDefaultInstance();
-        /*
-        if (realm.isEmpty()==false){
-            realm.beginTransaction();
-            realm.deleteAll();
-            realm.commitTransaction();
-        }*/
-
 
         return view;
     }
@@ -206,7 +199,7 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         tagsCorrectos.setChecked(detalleInspeccionBDS.get(0).getMontajeCorrectoTags());
         permisoCirculacion.setChecked(detalleInspeccionBDS.get(0).getPermisoConducir());
         posicionVehiculo.setChecked(detalleInspeccionBDS.get(0).getPosicionamientoAdecuadoEnIsleta());
-        purgaCompartimentos.setChecked(inspecciones.getPurgaCompartimentos());
+        purgaCompartimentos.setChecked(detalleInspeccionBDS.get(0).getPurgaCompartimentos());
         recogerAlbaran.setChecked(detalleInspeccionBDS.get(0).getRecogerAlbaran());
         ropa.setChecked(detalleInspeccionBDS.get(0).getRopaSeguridad());
         superficieSupAntiDes.setChecked(detalleInspeccionBDS.get(0).getSuperficieSupAntideslizante());
@@ -247,6 +240,7 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
                 checklist.add(itvCisterna.isChecked());
                 checklist.add(itvTractora.isChecked());
                 checklist.add(lecturaTagsIsleta.isChecked());
+                checklist.add(tagsCorrectos.isChecked());
                 checklist.add(permisoCirculacion.isChecked());
                 checklist.add(posicionVehiculo.isChecked());
                 checklist.add(purgaCompartimentos.isChecked());
@@ -295,10 +289,11 @@ public class DetalleInspeccionFragment extends Fragment implements RealmChangeLi
         detalleInspeccionBD.setMontajeCorrectoTags(checklist.get(22));
         detalleInspeccionBD.setPermisoConducir(checklist.get(23));
         detalleInspeccionBD.setPosicionamientoAdecuadoEnIsleta(checklist.get(24));
-        detalleInspeccionBD.setRecogerAlbaran(checklist.get(25));
-        detalleInspeccionBD.setRopaSeguridad(checklist.get(26));
-        detalleInspeccionBD.setSuperficieSupAntideslizante(checklist.get(27));
-        detalleInspeccionBD.setTc2(checklist.get(28));
+        detalleInspeccionBD.setPurgaCompartimentos(checklist.get(25));
+        detalleInspeccionBD.setRecogerAlbaran(checklist.get(26));
+        detalleInspeccionBD.setRopaSeguridad(checklist.get(27));
+        detalleInspeccionBD.setSuperficieSupAntideslizante(checklist.get(28));
+        detalleInspeccionBD.setTc2(checklist.get(29));
         realm.copyToRealmOrUpdate(detalleInspeccionBD);
         realm.commitTransaction();
 

@@ -179,6 +179,7 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment{
 
                             createNewRigido(matVehiculo,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes, tResp);
                             anadirCompartimentos(matVehiculo, compartimentos, capacidad, tags);
+                            callback.getVehiculoIntent(compartimentos,tags,capacidad);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -273,6 +274,8 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment{
 
 
                             createNewCisterna(matVehiculo,tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                            anadirCompartimentos(matVehiculo,compartimentos,capacidad,tags);
+                            callback.getVehiculoIntent(compartimentos,tags,capacidad);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -392,48 +395,35 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment{
 
     }
 
-    public void renderVehiculo(String matVehiculo, String tipoVehiculo){
+    public void renderVehiculo(String matVehiculo, String tipoTractora, int position){
         matriculaIntent = matVehiculo.trim();
-        tipoVehiculo = tipoVehiculo.trim();
-        llamadavolley();
-        switch (tipoVehiculo){
-            case "0":
-                rigidoBD = realm.where(CARigidoBD.class).findAll();
-                adapterRigido = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
-                mListView.setAdapter(adapterRigido);
-                break;
-            case "1":
-                tractoraBD = realm.where(CATractoraBD.class).findAll();
-                adapterTractora = new ControlAccesoResultadoTractoraAdapter(getActivity(), tractoraBD, R.layout.ca_tractora_checking_listview_item);
-                mListView.setAdapter(adapterTractora);
-                break;
-            case "2":
-                cisternaBD = realm.where(CACisternaBD.class).findAll();
-                adapterCisterna = new ControlAccesoResultadoCisternaAdapter(getActivity(), cisternaBD, R.layout.ca_cisterna_checking_listview_item);
-                mListView.setAdapter(adapterCisterna);
-                break;
-
-            default:
+        if (position == 0){
+            switch (tipoTractora.trim()){
+                case "R":
+                    this.tipoVehiculo="0";
+                    rigidoBD = realm.where(CARigidoBD.class).findAll();
+                    adapterRigido = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
+                    mListView.setAdapter(adapterRigido);
                     break;
+                case "T":
+                    this.tipoVehiculo="1";
+                    tractoraBD = realm.where(CATractoraBD.class).findAll();
+                    adapterTractora = new ControlAccesoResultadoTractoraAdapter(getActivity(), tractoraBD, R.layout.ca_tractora_checking_listview_item);
+                    mListView.setAdapter(adapterTractora);
+                    break;
+            }
         }
-
-    }
-/*
-    public void renderRigido(String rigido){
-        matriculaIntent = rigido.trim();
+        else{
+            this.tipoVehiculo="2";
+            cisternaBD = realm.where(CACisternaBD.class).findAll();
+            adapterCisterna = new ControlAccesoResultadoCisternaAdapter(getActivity(), cisternaBD, R.layout.ca_cisterna_checking_listview_item);
+            mListView.setAdapter(adapterCisterna);
+        }
         llamadavolley();
-        rigidoBD = realm.where(CARigidoBD.class).findAll();
-        rigidoBD.addChangeListener(this);
-
-        adapter = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
-        mListView.setAdapter(adapter);
-
     }
-*/
-
 
 
     public interface dataListener{
-        void getVehiculoIntent(String rigido);
+        void getVehiculoIntent(List<Integer> compartimentos, List<String> tags, List<Integer> capacidad);
     }
 }

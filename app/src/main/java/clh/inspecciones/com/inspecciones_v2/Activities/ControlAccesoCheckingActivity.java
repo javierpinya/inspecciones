@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +24,31 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
      */
 
     private List<String> vehiculos;
-    private String tipoTractora;
+    private String tipoTractora;    //R - rigido, T-tractora, 0-cisterna
     private String tipoInspeccion;
     private String tipoVehiculo;
     private String tractora;
     private String cisterna;
     private String conductor;
+    private List<Integer> compartimentos;
+    private List<String> tags;
+    private List<Integer> capacidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_acceso_checking);
         vehiculos = new ArrayList<String>();
+        compartimentos = new ArrayList<>();
+        tags = new ArrayList<>();
+        capacidad = new ArrayList<>();
         if(getIntent().getExtras()!= null){
             tractora=getIntent().getStringExtra("tractora").trim();
             cisterna=getIntent().getStringExtra("cisterna").trim();
             conductor=getIntent().getStringExtra("conductor").trim();
             vehiculos.add(tractora);
             vehiculos.add(cisterna);
-            vehiculos.add(conductor);
+            //vehiculos.add(conductor);
             tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
             tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
@@ -57,7 +64,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_siguiente, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -65,8 +72,12 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menu_siguiente:
-                siguiente();
+            case R.id.menu_siguiente1:
+                if (compartimentos.size()<1){
+                    Toast.makeText(this, "Debes visualizar los componentes antes de continuar", Toast.LENGTH_LONG).show();
+                }else {
+                    siguiente();
+                }
                 return true;
                 /*
             case R.id.menu_logout:
@@ -84,40 +95,25 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     }
 
     private void siguiente() {
-        Intent intent = new Intent();
-        intent.putExtra("tractora", tractora);
-        intent.putExtra("cisterna", cisterna);
-        intent.putExtra("conductor", conductor);
-        intent.putExtra("tipoTractora", tipoTractora);
-        intent.putExtra("tipoInspeccion", tipoInspeccion);
-        intent.setClass(this,DetalleInspeccionActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent();
+            intent.putExtra("tractora", tractora);
+            intent.putExtra("cisterna", cisterna);
+            intent.putExtra("conductor", conductor);
+            intent.putExtra("tipoTractora", tipoTractora);
+            intent.putExtra("tipoInspeccion", tipoInspeccion);
+            for(int i=0; i<compartimentos.size();i++){
+                intent.putExtra("compartimento" + i, compartimentos.get(i));
+                intent.putExtra("tag" + i, tags.get(i));
+                intent.putExtra("capacidad" + i, capacidad.get(i));
+            }
+            intent.putExtra("numCompartimentos", compartimentos.size());
+            intent.setClass(this,DetalleInspeccionActivity.class);
+            startActivity(intent);
     }
 
     @Override
     public void itemPulsado(String matVehiculo, int position) {
-
-
-        /*
-        Intent intent = new Intent();
-        intent.putExtra("matVehiculo", matVehiculo);
-        intent.putExtra("tipoTractora", tipoTractora);
-        intent.putExtra("tipoInspeccion", tipoInspeccion);
-        if(position == 0){
-            if (tipoTractora.equals("T")){
-                intent.setClass(this,ControlAccesoResultadoTractoraActivity.class);
-            }else{
-                intent.setClass(this,ControlAccesoResultadoRigidoActivity.class);
-            }
-
-        }else if (position == 1){
-            intent.setClass(this,ControlAccesoResultadoVehiculoActivity.class);
-        }else{
-            intent.setClass(this,ControlAccesoResultadoConductorActivity.class);
-        }
-
-        startActivity(intent);
-        */
+        renderizar(matVehiculo,tipoTractora,position);
     }
 
 
@@ -140,13 +136,19 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         startActivity(intent);
     }
 
-    public void renderizar(String matricula, String tipoVehiculo){
-       // ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment)getSupportFragmentManager().findFragmentById(R.id.Con)
+    public void renderizar(String matricula, String tipoTractora, int position){
+        ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoVehiculoFragment);
+        controlAccesoResultadoVehiculoFragment.renderVehiculo(matricula,tipoTractora, position);
     }
 
 
     @Override
-    public void getVehiculoIntent(String rigido) {
+    public void getVehiculoIntent(List<Integer> compartimentos, List<String> tags, List<Integer> capacidad) {
+        this.compartimentos = compartimentos;
+        this.tags = tags;
+        this.capacidad = capacidad;
 
     }
+
+
 }
