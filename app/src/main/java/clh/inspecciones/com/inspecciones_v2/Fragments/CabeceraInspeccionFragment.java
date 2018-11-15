@@ -281,6 +281,12 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 break;
             case R.id.btn_siguiente2:
 
+
+                break;
+
+                //DETALLE INSPECCION FRAGMENT
+            case R.id.guardar_cambios:
+
                 ia = etIa.getText().toString();
                 albaran = etAlbaran.getText().toString();
                 transportista = etTrans.getText().toString();
@@ -290,14 +296,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                     Toast.makeText(getActivity(), "Debe rellenar todos los datos antes de introducir las incidencias", Toast.LENGTH_SHORT).show();
                     break;
                 } else{
-                    callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
-                    callback.continuar(obtenerCambios(), matricula);
-
-                }
-                break;
-
-                //DETALLE INSPECCION FRAGMENT
-            case R.id.guardar_cambios:
+                    //callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
+                    //callback.continuar(obtenerCambios(), matricula);
                 checklist.add(bateriaDesconectada.isChecked());
                 checklist.add(fichaSeguridad.isChecked());
                 checklist.add(transponderTractora.isChecked());
@@ -329,6 +329,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 checklist.add(superficieSupAntiDes.isChecked());
                 checklist.add(tc2.isChecked());
                 guardar(checklist);
+                }
                 break;
 
                 default:

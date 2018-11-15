@@ -44,6 +44,7 @@ public class CARigidoBD extends RealmObject {
         this.adr = new Date();
         this.itv = new Date();
         this.fec_baja = new Date();
+        this.compartimentos = new RealmList<CACompartimentosBD>();
     }
 
     public int getId() {

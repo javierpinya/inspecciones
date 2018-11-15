@@ -33,6 +33,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     private List<Integer> compartimentos;
     private List<String> tags;
     private List<Integer> capacidad;
+    private String respuesta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
             tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
             tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
-            datos_intent(vehiculos);
+            datos_intent(vehiculos, tipoVehiculo, tipoTractora);
         }
 
         /*
@@ -112,16 +113,15 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void itemPulsado(String matVehiculo, int position) {
-        renderizar(matVehiculo,tipoTractora,position);
+    public void itemPulsado(String matVehiculo, String tipoVehiculo) {
+        renderizar(tipoVehiculo);
     }
 
 
 
-    @Override
-    public void datos_intent(List<String> datos) {
+    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoTractora) {
         ControlAccesoCheckingFragment controlAccesoCheckingFragment = (ControlAccesoCheckingFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoCheckingFragment);
-        controlAccesoCheckingFragment.renderText(datos);
+        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoTractora);
     }
 
     @Override
@@ -136,19 +136,20 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         startActivity(intent);
     }
 
-    public void renderizar(String matricula, String tipoTractora, int position){
+    public void renderizar(String tipoVehiculo){
         ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoVehiculoFragment);
-        controlAccesoResultadoVehiculoFragment.renderVehiculo(matricula,tipoTractora, position);
+        controlAccesoResultadoVehiculoFragment.renderVehiculo(tipoVehiculo);
     }
 
-
+/*
     @Override
-    public void getVehiculoIntent(List<Integer> compartimentos, List<String> tags, List<Integer> capacidad) {
+    public void getVehiculoIntent(String respuesta, List<Integer> compartimentos, List<String> tags, List<Integer> capacidad) {
         this.compartimentos = compartimentos;
         this.tags = tags;
         this.capacidad = capacidad;
-
-    }
+        this.respuesta = respuesta;
+        //renderizar()
+    }*/
 
 
 }

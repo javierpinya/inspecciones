@@ -3,6 +3,7 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,11 +38,13 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
             tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
             numCompartimentos = getIntent().getIntExtra("numCompartimentos", 0);
+            Toast.makeText(this, numCompartimentos.toString(), Toast.LENGTH_SHORT).show();
+            /*
             for (int i=0; i<numCompartimentos; i++){
                 compartimentos.add(getIntent().getIntExtra("compartimento" + i, 0));
                 tags.add(getIntent().getStringExtra("tag" + i));
                 capacidad.add(getIntent().getIntExtra("capacidad" + i, 0));
-            }
+            }*/
             datosIntent(tractora,cisterna,conductor, tipoTractora, tipoInspeccion);
         }
     }
