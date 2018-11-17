@@ -136,7 +136,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
         return  view;
     }
 
-    private void llamadaVolley(){
+    private void llamadaVolley(final String matricula, final String tipoVehiculo){
 
         StringRequest sr = new StringRequest(Request.Method.POST, json_url2, new Response.Listener<String>() {
             @Override
@@ -153,7 +153,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             JSONObject jsonObject = new JSONObject(response);
                             //Cramos un JSONArray del objeto JSON "vehiculo"
                             JSONArray json = jsonObject.optJSONArray("vehiculo");
-                            JSONArray json1  = jsonObject.optJSONArray("compartimento");
+                            JSONArray json1  = jsonObject.optJSONArray("compartimentos");
 
                             for (int i=0; i<json.length(); i++){
 
@@ -190,14 +190,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
                                 fec_baja_p=null;
                             }
 
-
-
-
-
                             createNewRigido(matVehiculo,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes, tResp);
-                            caRigidoBD = realm.where(CARigidoBD.class).equalTo("matricula", matriculaIntent).findFirst();
-                            compartimentosBD = caRigidoBD.getCompartimentos();
-                           // anadirCompartimentos(matVehiculo, compartimentos, capacidad, tags);
+                            anadirCompartimentos(matVehiculo, compartimentos, capacidad, tags);
 
 
                         } catch (JSONException e) {
@@ -206,6 +200,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+
 
                         break;
 
@@ -326,7 +321,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                 params.put("username", "admin");
                 params.put("password", "admin");
                 params.put("tipo_consulta", tipoVehiculo);  //0 - Rigido, 1 - Tractora, 2 - cisterna
-                params.put("matVehiculo", matriculaIntent);
+                params.put("matVehiculo", matricula);
                 return params;
             }
         };
@@ -368,14 +363,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
             _compartimentosBD.setCan_capacidad(capacidad.get(i));
             _compartimentosBD.setCod_tag_cprt(tags.get(i));
             realm.copyToRealmOrUpdate(_compartimentosBD);
-            caRigidoBD.getCompartimentos().add(_compartimentosBD);
             realm.commitTransaction();
-        }
-        compartimentosBD = caRigidoBD.getCompartimentos();
-        if (compartimentosBD.isEmpty()==false){
-            Toast.makeText(getActivity(), compartimentosBD.size(), Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getActivity(), "no se asocia CARigido con CACompartimentos", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -426,12 +414,10 @@ public class ControlAccesoCheckingFragment extends Fragment{
         this.tipoTractora=tipoTractora.trim();
 
         for (int i=0; i<datos.size();i++) {
-            matriculaIntent = datos.get(i).trim();
             switch (i){
                 case 0:
                     if(this.tipoTractora.equals("R")) {
                         this.tipoVehiculo = "0";
-                        llamadaVolley();
                     }else if (this.tipoTractora.equals("T")){
                         this.tipoVehiculo="1";
                     }else{
@@ -439,11 +425,10 @@ public class ControlAccesoCheckingFragment extends Fragment{
                     }
                     break;
                 case 1:
-          //          this.tipoVehiculo="2";
+                    this.tipoVehiculo="2";
                     break;
             }
-           // Toast.makeText(getActivity(), "i: " + i + " matricula: " + matriculaIntent + " - tipoVehiculo: " + this.tipoVehiculo + " - tipoTractora: " + this.tipoTractora, Toast.LENGTH_SHORT).show();
-            //llamadaVolley();
+            llamadaVolley(datos.get(i).trim(), tipoVehiculo.trim());
 
         }
 

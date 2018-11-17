@@ -12,7 +12,7 @@
         android:name="clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.2"
         tools:layout="@layout/fragment_control_acceso_checking"/>
 
     <fragment
@@ -20,7 +20,7 @@
         android:name="clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoVehiculoFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.7"
         tools:layout="@layout/fragment_control_acceso_resultado_vehiculo"/>
 
 </LinearLayout>

@@ -99,6 +99,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         this.matricula = matricula;
     }
 
+    /*
     public void renderCompartimentos(String matricula){
 
         caRigidoBD = realm.where(CARigidoBD.class).equalTo("matricula", matricula).findFirst();
@@ -139,9 +140,10 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             capacidad.add(caCompartimentosBD.get(i).getCan_capacidad());
             tags.add(caCompartimentosBD.get(i).getCod_tag_cprt());
         }
-        */
 
-    }
+
+
+    }*/
 /*
     @Override
     public void onChange(CARigidoBD caRigidoBDS) {

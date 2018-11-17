@@ -141,15 +141,5 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         controlAccesoResultadoVehiculoFragment.renderVehiculo(tipoVehiculo);
     }
 
-/*
-    @Override
-    public void getVehiculoIntent(String respuesta, List<Integer> compartimentos, List<String> tags, List<Integer> capacidad) {
-        this.compartimentos = compartimentos;
-        this.tags = tags;
-        this.capacidad = capacidad;
-        this.respuesta = respuesta;
-        //renderizar()
-    }*/
-
 
 }

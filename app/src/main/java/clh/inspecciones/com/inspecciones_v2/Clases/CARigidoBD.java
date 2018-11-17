@@ -32,7 +32,7 @@ public class CARigidoBD extends RealmObject {
     private int ejes;
     private String ind_carga_pesados;
     private String cod_transportista_resp;
-    private RealmList<CACompartimentosBD> compartimentos;
+    //private RealmList<CACompartimentosBD> compartimentos;
 
 
 
@@ -44,7 +44,7 @@ public class CARigidoBD extends RealmObject {
         this.adr = new Date();
         this.itv = new Date();
         this.fec_baja = new Date();
-        this.compartimentos = new RealmList<CACompartimentosBD>();
+        //this.compartimentos = new RealmList<CACompartimentosBD>();
     }
 
     public int getId() {
@@ -170,8 +170,9 @@ public class CARigidoBD extends RealmObject {
     public void setCod_transportista_resp(String cod_transportista_resp) {
         this.cod_transportista_resp = cod_transportista_resp;
     }
-
+/*
     public RealmList<CACompartimentosBD> getCompartimentos() {
         return compartimentos;
     }
+    */
 }
