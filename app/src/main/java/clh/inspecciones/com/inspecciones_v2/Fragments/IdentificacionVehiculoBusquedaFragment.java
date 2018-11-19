@@ -43,7 +43,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     private DataListener callback;
     private String tipoVehiculo;
     private String tipoInspeccion;
-    private String tipoTractora;
+    private String tipoComponente;
     String url = "http://pruebaalumnosandroid.esy.es/inspecciones/elegir_vehiculo.php";
     String username = "admin"; //cambiar en un futuro, que provenga del login
     String pass = "admin";
@@ -156,7 +156,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                     }
 
 
-                    callback.buscarVehiculos(listaVehiculos);
+                    callback.buscarVehiculos(listaVehiculos, tipoVehiculo);
 
 
 
@@ -179,7 +179,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
                 params.put("username", username);
                 params.put("password", pass);
                 params.put("tipo_consulta", tipoVehiculo);
-                params.put("tipoTractora", tipoTractora);
+                params.put("tipoComponente", tipoComponente);
                 params.put("conductor", conductor);
                 params.put("rigido", rigido);
                 params.put("cisterna", cisterna);
@@ -191,14 +191,14 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     }
 
     public interface DataListener{
-        void buscarVehiculos(ArrayList<IdentificacionVehiculoClass> listaVehiculos);
-        void enviarDatos(String tipoVehiculo,String tipoInspeccion, String tipoTractora);
+        void buscarVehiculos(ArrayList<IdentificacionVehiculoClass> listaVehiculos, String tipoVehiculo);
+        void enviarDatos(String tipoVehiculo,String tipoInspeccion, String tipoComponente);
     }
 
-    public void recibir_intent(String tipoVehiculo, String tipoInspeccion, String tipoTractora){
+    public void recibir_intent(String tipoVehiculo, String tipoInspeccion, String tipoComponente){
         this.tipoInspeccion = tipoInspeccion;
         this.tipoVehiculo = tipoVehiculo;
-        this.tipoTractora = tipoTractora;
+        this.tipoComponente = tipoComponente;
     }
 
 }

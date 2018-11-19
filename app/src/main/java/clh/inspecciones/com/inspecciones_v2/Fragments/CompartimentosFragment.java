@@ -40,6 +40,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private ListView mListView;
     private List<String> names;
     private String matricula;
+    private String inspeccion;
     private TextView cisterna;
     private dataListener callback;
     private ArrayAdapter<String> adapter;
@@ -95,8 +96,9 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         return view;
     }
 
-    public void enviarMatricula(String matricula){
+    public void enviarMatricula(String matricula, String inspeccion){
         this.matricula = matricula;
+        this.inspeccion = inspeccion;
     }
 
     /*
@@ -162,7 +164,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     }
 
     public interface dataListener{
-        void enviarMatricula(String matricula);
+        //void enviarMatricula(String matricula, String inspeccion);
         void elegirCompartimento(int compartimento);
     }
 

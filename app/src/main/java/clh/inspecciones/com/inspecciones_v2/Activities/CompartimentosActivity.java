@@ -9,6 +9,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 public class CompartimentosActivity extends AppCompatActivity implements CompartimentosFragment.dataListener {
 
     private String matricula;
+    private String inspeccion;
 
 
     @Override
@@ -17,15 +18,15 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
         setContentView(R.layout.activity_compartimentos);
         if(getIntent().getExtras()!= null) {
             matricula = getIntent().getStringExtra("matricula").trim();
+            inspeccion = getIntent().getStringExtra("inspeccion").trim();
         }
-        enviarMatricula(matricula);
+        enviarMatricula(matricula, inspeccion);
     }
 
 
-    @Override
-    public void enviarMatricula(String matricula) {
+    public void enviarMatricula(String matricula, String inspeccion) {
         CompartimentosFragment compartimentosFragment = (CompartimentosFragment)getSupportFragmentManager().findFragmentById(R.id.CompartimentosFragment);
-        compartimentosFragment.enviarMatricula(matricula);
+        compartimentosFragment.enviarMatricula(matricula, inspeccion);
     }
 
     @Override

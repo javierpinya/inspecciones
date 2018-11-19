@@ -24,7 +24,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
      */
 
     private List<String> vehiculos;
-    private String tipoTractora;    //R - rigido, T-tractora, 0-cisterna
+    private String tipoComponente;    //R - rigido, T-tractora, C-cisterna
     private String tipoInspeccion;
     private String tipoVehiculo;
     private String tractora;
@@ -44,16 +44,18 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         tags = new ArrayList<>();
         capacidad = new ArrayList<>();
         if(getIntent().getExtras()!= null){
+            tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
+            tipoComponente = getIntent().getStringExtra("tipoComponente").trim();
+            tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
             tractora=getIntent().getStringExtra("tractora").trim();
             cisterna=getIntent().getStringExtra("cisterna").trim();
             conductor=getIntent().getStringExtra("conductor").trim();
             vehiculos.add(tractora);
-            vehiculos.add(cisterna);
+            if (tipoVehiculo.equals("1")) {
+                vehiculos.add(cisterna);
+            }
             //vehiculos.add(conductor);
-            tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
-            tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
-            tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
-            datos_intent(vehiculos, tipoVehiculo, tipoTractora);
+            datos_intent(vehiculos, tipoVehiculo, tipoComponente);
         }
 
         /*
@@ -74,11 +76,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
 
         switch (item.getItemId()){
             case R.id.menu_siguiente1:
-                if (compartimentos.size()<1){
-                    Toast.makeText(this, "Debes visualizar los componentes antes de continuar", Toast.LENGTH_LONG).show();
-                }else {
-                    siguiente();
-                }
+                siguiente();
                 return true;
                 /*
             case R.id.menu_logout:
@@ -100,28 +98,22 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
             intent.putExtra("tractora", tractora);
             intent.putExtra("cisterna", cisterna);
             intent.putExtra("conductor", conductor);
-            intent.putExtra("tipoTractora", tipoTractora);
+            intent.putExtra("tipoComponente", tipoComponente);
             intent.putExtra("tipoInspeccion", tipoInspeccion);
-            for(int i=0; i<compartimentos.size();i++){
-                intent.putExtra("compartimento" + i, compartimentos.get(i));
-                intent.putExtra("tag" + i, tags.get(i));
-                intent.putExtra("capacidad" + i, capacidad.get(i));
-            }
-            intent.putExtra("numCompartimentos", compartimentos.size());
             intent.setClass(this,DetalleInspeccionActivity.class);
             startActivity(intent);
     }
 
     @Override
-    public void itemPulsado(String matVehiculo, String tipoVehiculo) {
-        renderizar(tipoVehiculo);
+    public void itemPulsado(String matVehiculo, String tipoComponente) {
+        renderizar(tipoComponente);
     }
 
 
 
-    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoTractora) {
+    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoComponente) {
         ControlAccesoCheckingFragment controlAccesoCheckingFragment = (ControlAccesoCheckingFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoCheckingFragment);
-        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoTractora);
+        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoComponente);
     }
 
     @Override
@@ -131,14 +123,14 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.putExtra("cisterna", vehiculos.get(1));
         intent.putExtra("conductor", vehiculos.get(2));
         intent.putExtra("tipoInspeccion", tipoInspeccion);
-        intent.putExtra("tipoTractora", tipoTractora);
+        intent.putExtra("tipoComponente", tipoComponente);
         intent.setClass(this,DetalleInspeccionActivity.class);
         startActivity(intent);
     }
 
-    public void renderizar(String tipoVehiculo){
+    public void renderizar(String tipoComponente){
         ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoVehiculoFragment);
-        controlAccesoResultadoVehiculoFragment.renderVehiculo(tipoVehiculo);
+        controlAccesoResultadoVehiculoFragment.renderVehiculo(tipoComponente);
     }
 
 

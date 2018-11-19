@@ -13,6 +13,8 @@ public class CACompartimentosBD extends RealmObject {
     @PrimaryKey
     private int id;
     @Required
+    private String inspeccion;
+
     private String matricula;
     private int cod_compartimento;
     private String tipo_componente;
@@ -77,5 +79,13 @@ public class CACompartimentosBD extends RealmObject {
 
     public void setCod_tag_cprt(String cod_tag_cprt) {
         this.cod_tag_cprt = cod_tag_cprt;
+    }
+
+    public String getInspeccion() {
+        return inspeccion;
+    }
+
+    public void setInspeccion(String inspeccion) {
+        this.inspeccion = inspeccion;
     }
 }

@@ -29,7 +29,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     Button btn_siguiente1;
     String tipoVehiculo;
     String tipoInspeccion;
-    String tipoTractora;
+    String tipoComponente;
 
 
     public AltaNuevaFragment() {
@@ -78,31 +78,31 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()){
             case R.id.cbrigido:
                 tipoVehiculo ="0";
-                tipoTractora ="R";
+                tipoComponente ="R";
                 cbtractora.setChecked(false);
                 cbconjunto.setChecked(false);
                 cbcisterna.setChecked(false);
                 break;
             case R.id.cbtractora:
+                tipoVehiculo ="0";
+                tipoComponente ="T";
                 cbconjunto.setChecked(false);
                 cbcisterna.setChecked(false);
                 cbrigido.setChecked(false);
-                tipoTractora ="T";
-                tipoVehiculo ="0";
                 break;
             case R.id.cbcisterna:
+                tipoVehiculo ="2";
+                tipoComponente ="C";
                 cbrigido.setChecked(false);
                 cbconjunto.setChecked(false);
                 cbtractora.setChecked(false);
-                tipoVehiculo ="2";
-                tipoTractora ="0";
                 break;
             case R.id.cbconjunto:
+                tipoVehiculo ="1";
+                tipoComponente ="S"; //ojo, porque en este caso no se podría hacer una inspección de un tren de carretera
                 cbtractora.setChecked(false);
                 cbcisterna.setChecked(false);
                 cbrigido.setChecked(false);
-                tipoTractora ="T"; //ojo, porque en este caso no se podría hacer una inspección de un tren de carretera
-                tipoVehiculo ="1";
                 break;
             case R.id.cbligeros:
                 tipoInspeccion = "L";
@@ -120,7 +120,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
                 cbpesados.setChecked(false);
                 break;
             case R.id.btn_siguiente1:
-                callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoTractora);
+                callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoComponente);
                 break;
             default:
                 break;
@@ -128,7 +128,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     }
 
     public interface AltaNuevaListener{
-        void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoTractora);
+        void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoComponente);
     }
 
 }

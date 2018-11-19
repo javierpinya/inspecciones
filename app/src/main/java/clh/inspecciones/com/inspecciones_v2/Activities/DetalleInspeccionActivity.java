@@ -3,13 +3,11 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.DetalleInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
 public class DetalleInspeccionActivity extends AppCompatActivity implements CabeceraInspeccionFragment.dataListener {
@@ -17,7 +15,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     private String tractora;
     private String cisterna;
     private String conductor;
-    private String tipoTractora;
+    private String tipoComponente;
     private String tipoInspeccion;
     private DetalleInspeccionBD detalleInspeccionBD;
     private String inspeccion;
@@ -32,20 +30,27 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_inspeccion);
         if(getIntent().getExtras()!= null) {
-            tractora = getIntent().getStringExtra("tractora").trim();
-            cisterna = getIntent().getStringExtra("cisterna").trim();
-            conductor = getIntent().getStringExtra("conductor").trim();
-            tipoTractora = getIntent().getStringExtra("tipoTractora").trim();
+            tipoComponente = getIntent().getStringExtra("tipoComponente").trim();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
-            numCompartimentos = getIntent().getIntExtra("numCompartimentos", 0);
-            Toast.makeText(this, numCompartimentos.toString(), Toast.LENGTH_SHORT).show();
-            /*
-            for (int i=0; i<numCompartimentos; i++){
-                compartimentos.add(getIntent().getIntExtra("compartimento" + i, 0));
-                tags.add(getIntent().getStringExtra("tag" + i));
-                capacidad.add(getIntent().getIntExtra("capacidad" + i, 0));
-            }*/
-            datosIntent(tractora,cisterna,conductor, tipoTractora, tipoInspeccion);
+            conductor = getIntent().getStringExtra("conductor").trim();
+            switch (tipoComponente){
+                case "S":
+                    tractora = getIntent().getStringExtra("tractora").trim();
+                    cisterna = getIntent().getStringExtra("cisterna").trim();
+                    break;
+                case "R":
+                    tractora = getIntent().getStringExtra("tractora").trim();
+                    cisterna="XXXXXX";
+                    break;
+                case "T":
+                    tractora = getIntent().getStringExtra("tractora").trim();
+                    cisterna="XXXXXX";
+                case "C":
+                    tractora = "XXXXXX";
+                    cisterna = getIntent().getStringExtra("cisterna").trim();
+                    break;
+            }
+            datosIntent(tractora,cisterna,conductor, tipoComponente, tipoInspeccion);
         }
     }
 

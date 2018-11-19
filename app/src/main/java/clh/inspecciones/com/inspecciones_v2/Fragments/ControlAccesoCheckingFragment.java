@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +39,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,11 +53,11 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private Realm realm;
     private TextView tv;
     private String tipoVehiculo;
-    private String tipoTractora;
-    private String matriculaIntent;
-    private String respuesta;
-    private CARigidoBD caRigidoBD;
-    private RealmList<CACompartimentosBD> compartimentosBD;
+    private String tipoComponente;
+
+    private RealmResults<CARigidoBD> rigidoBD;
+    private RealmResults<CACisternaBD> cisternaBD;
+    private RealmResults<CATractoraBD> tractoraBD;
 
     //Variables donde recibir los datos de internet y pasarlos después a la BBDD
     private String matVehiculo;
@@ -112,12 +112,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
         tags = new ArrayList<>();
 
         realm = Realm.getDefaultInstance();
-        if(realm.isEmpty() == false){
-            realm.beginTransaction();
-            realm.delete(CARigidoBD.class);
-            realm.delete(CACompartimentosBD.class);
-            realm.commitTransaction();
-        }
+
 
 
 
@@ -127,7 +122,26 @@ public class ControlAccesoCheckingFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String pulsada;
                 pulsada = mListView.getItemAtPosition(position).toString();
-                callback.itemPulsado(pulsada,tipoVehiculo);
+
+                switch (tipoComponente){
+                    case "R":
+                        callback.itemPulsado(pulsada, tipoComponente);
+                        break;
+                    case "T":
+                        callback.itemPulsado(pulsada, tipoComponente);
+                        break;
+                    case "C":
+                        callback.itemPulsado(pulsada, tipoComponente);
+                        break;
+                    case "S":
+                        if (position==0){
+                            //Toast.makeText(getActivity(),pulsada + ", " + tipoComponente + position , Toast.LENGTH_SHORT).show();
+                            callback.itemPulsado(pulsada, "T");
+                        }else if (position==1){
+                            callback.itemPulsado(pulsada, "C");
+                        }
+                        break;
+                }
             }
         });
 
@@ -136,17 +150,16 @@ public class ControlAccesoCheckingFragment extends Fragment{
         return  view;
     }
 
-    private void llamadaVolley(final String matricula, final String tipoVehiculo){
+    private void llamadaVolley(final String primerComponente, final String segundoComponente, final String tipoComponente){
 
         StringRequest sr = new StringRequest(Request.Method.POST, json_url2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                respuesta = response;
-                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
 
 
-                switch (tipoVehiculo){
-                    case "0":   //RIGIDO
+                switch (tipoComponente){
+                    case "R":   //RIGIDO
 
                         try {
                             //Convierto la respuesta, de tipo String, a un JSONObject.
@@ -204,7 +217,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
                         break;
 
-                    case "1":
+                    case "T":
                         try {
                             //Convierto la respuesta, de tipo String, a un JSONObject.
                             JSONObject jsonObject = new JSONObject(response);
@@ -244,7 +257,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             e.printStackTrace();
                         }
                         break;
-                    case "2":
+                    case "C":
                         try {
                             //Convierto la respuesta, de tipo String, a un JSONObject.
                             JSONObject jsonObject = new JSONObject(response);
@@ -298,13 +311,92 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             e.printStackTrace();
                         }
                         break;
+
+                    case "S":
+
+                        try{
+                            //Convierto la respuesta, de tipo String, a un JSONObject.
+                            JSONObject jsonObject = new JSONObject(response);
+                            //Cramos un JSONArray del objeto JSON "vehiculo"
+                            JSONArray json = jsonObject.optJSONArray("tractora");
+                            JSONArray json1  = jsonObject.optJSONArray("cisterna");
+                            JSONArray json2  = jsonObject.optJSONArray("compartimentos");
+
+                            for (int i=0; i<json.length(); i++){
+
+                                //tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
+                                matVehiculo=(json.optJSONObject(i).optString("cod_matricula_real"));
+                                itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
+                                adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
+                                tara=(json.optJSONObject(i).optInt("can_tara"));
+                                mma=(json.optJSONObject(i).optInt("can_peso_maximo"));
+                                chip=(json.optJSONObject(i).optInt("num_chip"));
+                                fec_baja=(json.optJSONObject(i).optString("fec_baja"));
+                                solo_gasoleo=(json.optJSONObject(i).optString("ind_solo_gasoleo"));
+                                bloqueado=(json.optJSONObject(i).optBoolean("ind_bloqueo"));
+                            }
+
+                            Date adr_p = parseador.parse(adr);
+                            Date itv_p = parseador.parse(itv);
+                            Date fec_baja_p;
+                            if (fec_baja!=null){
+                                fec_baja_p = parseador.parse(fec_baja);
+                            } else {
+                                fec_baja_p=null;
+                            }
+
+                            createNewTractora(matVehiculo,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+
+                            for (int i=0; i<json1.length(); i++){
+
+                                matVehiculo=(json1.optJSONObject(i).optString("cod_matricula_real"));
+                                tipo_componente = (json1.optJSONObject(i).optString("id_tipo_componente"));
+                                num_ejes = (json1.optJSONObject(i).optInt("num_ejes"));
+                                itv=(json1.optJSONObject(i).optString("fec_cadu_itv"));
+                                adr=(json1.optJSONObject(i).optString("fec_cadu_adr"));
+                                fec_cadu_calibracion = (json1.optJSONObject(i).optString("fec_cadu_calibracion"));
+                                carga_pesados = (json1.optJSONObject(i).optString("ind_carga_pesados"));
+                                cod_nacion = (json1.optJSONObject(i).optString("cod_nacion"));
+                                tara=(json1.optJSONObject(i).optInt("can_tara"));
+                                mma=(json1.optJSONObject(i).optInt("can_peso_maximo"));
+                                chip=(json1.optJSONObject(i).optInt("num_chip"));
+                                fec_baja=(json1.optJSONObject(i).optString("fec_baja"));
+                                //contador=(json1.optJSONObject(i).opt)
+                                solo_gasoleo=(json1.optJSONObject(i).optString("ind_solo_gasoleo"));
+                                bloqueado=(json1.optJSONObject(i).optBoolean("ind_bloqueo"));
+                            }
+
+                            for(int i=0; i<json2.length(); i++){
+                                compartimentos.add(json2.optJSONObject(i).optInt("cod_compartimento"));
+                                tags.add(json2.optJSONObject(i).optString("cod_tag_cprt"));
+                                capacidad.add(json2.optJSONObject(i).optInt("can_capacidad"));
+                            }
+
+                            Date fec_calibracion_p = parseador.parse(fec_cadu_calibracion);
+                            if (fec_baja!=null){
+                                fec_baja_p = parseador.parse(fec_baja);
+                            } else {
+                                fec_baja_p=null;
+                            }
+
+
+                            createNewCisterna(matVehiculo,tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                            anadirCompartimentos(matVehiculo,compartimentos,capacidad,tags);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(),"e.printStackTrace: " + e.toString(),Toast.LENGTH_LONG).show();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        break;
+
                     default:
                         break;
 
                 }
-
-
-
             }
 
         },
@@ -312,7 +404,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(getActivity(),"MatriculaIntent - " + matriculaIntent + " Error conexion: " + error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity()," Error conexion: " + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override
@@ -320,8 +412,9 @@ public class ControlAccesoCheckingFragment extends Fragment{
                 Map<String, String> params = new HashMap<>();
                 params.put("username", "admin");
                 params.put("password", "admin");
-                params.put("tipo_consulta", tipoVehiculo);  //0 - Rigido, 1 - Tractora, 2 - cisterna
-                params.put("matVehiculo", matricula);
+                params.put("tipo_consulta", tipoComponente);  //R - Rigido, T - Tractora, C - cisterna
+                params.put("primer_componente", primerComponente);
+                params.put("segundo_componente", segundoComponente);
                 return params;
             }
         };
@@ -369,6 +462,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
     //** CRUD Actions **/
     private void createNewTractora(String matricula,String tipo_componente, Date itv, Date adr, int tara, int peso_maximo, int chip, Date fec_baja, String solo_gasoleos, boolean bloqueado){
+
         realm.beginTransaction();
         CATractoraBD tractora = new CATractoraBD(matricula);
         tractora.setTipo_componente(tipo_componente);
@@ -382,6 +476,13 @@ public class ControlAccesoCheckingFragment extends Fragment{
         tractora.setBloqueado(bloqueado);
         realm.copyToRealmOrUpdate(tractora);
         realm.commitTransaction();
+
+        tractoraBD = realm.where(CATractoraBD.class).findAll();
+        if (tractoraBD.isEmpty()==false) {
+            Toast.makeText(getActivity(), tractoraBD.get(0).getMatricula(), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getActivity(), "tractoraBD entra en createNewTractora pero está vaciá", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -411,27 +512,13 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
     public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora) {
         this.tipoVehiculo=tipoVehiculo.trim();
-        this.tipoTractora=tipoTractora.trim();
+        this.tipoComponente =tipoTractora.trim();
 
-        for (int i=0; i<datos.size();i++) {
-            switch (i){
-                case 0:
-                    if(this.tipoTractora.equals("R")) {
-                        this.tipoVehiculo = "0";
-                    }else if (this.tipoTractora.equals("T")){
-                        this.tipoVehiculo="1";
-                    }else{
-                        this.tipoVehiculo="8";  //CUIDADO CON ESTO POR SI LA CONSULTA ES DE SÓLO LA CISTERNA...
-                    }
-                    break;
-                case 1:
-                    this.tipoVehiculo="2";
-                    break;
-            }
-            llamadaVolley(datos.get(i).trim(), tipoVehiculo.trim());
-
+        if (datos.size()>1){
+            llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente);
+        }else{
+            llamadaVolley(datos.get(0).trim(),"XXXXXX",this.tipoComponente);
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, datos);
         mListView.setAdapter(adapter);
     }

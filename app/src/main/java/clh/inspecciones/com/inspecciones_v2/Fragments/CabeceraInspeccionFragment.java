@@ -66,6 +66,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private Boolean purgas;
     private DetalleInspeccionBD inspecciones;
     private String instalacion;
+    private Boolean comprobacion = false;
 
     private List<Boolean> checklist;
 
@@ -244,11 +245,11 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion){
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
-        this.tipoTractora=tipoTractora;
-        this.tipoInspeccion=tipoInspeccion;
-        matTractora= tractora;
-        matCisterna = cisterna;
-        this.codConductor = conductor;
+        this.tipoTractora=tipoTractora.trim();
+        this.tipoInspeccion=tipoInspeccion.trim();
+        matTractora= tractora.trim();
+        matCisterna = cisterna.trim();
+        this.codConductor = conductor.trim();
 
     }
 
@@ -273,7 +274,11 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         switch (v.getId()){
 
             case R.id.btn_compartimentos:
-
+                if (comprobacion == false){
+                    Toast.makeText(getActivity(), "Debe guardar la inspección primero", Toast.LENGTH_LONG).show();
+                }else{
+                    callback.continuar(inspeccion, matCisterna );
+                }
 
 
 
@@ -388,6 +393,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         inspeccionBD.setTc2(checklist.get(29));
         realm.copyToRealmOrUpdate(inspeccionBD);
         realm.commitTransaction();
+        comprobacion=true;
 
         Toast.makeText(getActivity(), "Cambios Guardados", Toast.LENGTH_SHORT).show();
         //Toast.makeText(getActivity(), "size: " + detalleInspeccionBDS.size(), Toast.LENGTH_SHORT).show();

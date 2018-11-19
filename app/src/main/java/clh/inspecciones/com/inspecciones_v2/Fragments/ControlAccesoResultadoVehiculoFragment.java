@@ -45,7 +45,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class ControlAccesoResultadoVehiculoFragment extends Fragment implements RealmChangeListener<RealmResults<CARigidoBD>>{
+public class ControlAccesoResultadoVehiculoFragment extends Fragment implements RealmChangeListener<RealmResults<CATractoraBD>>{
 
     public dataListener callback;
     private Realm realm;
@@ -81,32 +81,40 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment implements 
 
         mListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadovehiculo);
 
+
         realm = Realm.getDefaultInstance();
         return view;
     }
 
-    public void renderVehiculo(String tipoVehiculo){
-        switch (tipoVehiculo){
-            case "0":
+    public void renderVehiculo(String tipoComponente){
+        Toast.makeText(getActivity(), tipoComponente.trim(), Toast.LENGTH_SHORT).show();
+        switch (tipoComponente.trim()){
+            case "R":
                 rigidoBD = realm.where(CARigidoBD.class).findAll();
                 adapterRigido = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
                 mListView.setAdapter(adapterRigido);
                 break;
-            case "1":
+            case "T":
                 tractoraBD = realm.where(CATractoraBD.class).findAll();
                 adapterTractora = new ControlAccesoResultadoTractoraAdapter(getActivity(), tractoraBD, R.layout.ca_tractora_checking_listview_item);
                 mListView.setAdapter(adapterTractora);
                 break;
-            case "2":
+            case "C":
                 cisternaBD = realm.where(CACisternaBD.class).findAll();
                 adapterCisterna = new ControlAccesoResultadoCisternaAdapter(getActivity(), cisternaBD, R.layout.ca_cisterna_checking_listview_item);
                 mListView.setAdapter(adapterCisterna);
+                break;
         }
 
     }
-
+/*
     @Override
     public void onChange(RealmResults<CARigidoBD> caRigidoBDS) {
+
+    }
+*/
+    @Override
+    public void onChange(RealmResults<CATractoraBD> caTractoraBDS) {
 
     }
 
