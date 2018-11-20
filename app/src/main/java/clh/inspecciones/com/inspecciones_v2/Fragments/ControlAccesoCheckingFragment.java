@@ -2,6 +2,7 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private TextView tv;
     private String tipoVehiculo;
     private String tipoComponente;
+    private String inspeccion;
 
     private RealmResults<CARigidoBD> rigidoBD;
     private RealmResults<CACisternaBD> cisternaBD;
@@ -451,7 +453,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
         for (int i=0; i<compartimentos.size(); i++){
             realm.beginTransaction();
-            CACompartimentosBD _compartimentosBD = new CACompartimentosBD(matricula);
+            CACompartimentosBD _compartimentosBD = new CACompartimentosBD(matricula, inspeccion);
             _compartimentosBD.setCod_compartimento(compartimentos.get(i));
             _compartimentosBD.setCan_capacidad(capacidad.get(i));
             _compartimentosBD.setCod_tag_cprt(tags.get(i));

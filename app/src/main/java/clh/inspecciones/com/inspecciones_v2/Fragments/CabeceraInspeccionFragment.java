@@ -49,11 +49,13 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private String transportista;
     private String tabla_calibracion;
     private String matricula;
-    private String tipoTractora;
+    private String tipoComponente;
     private String tipoInspeccion;
     private String matTractora;
     private String matCisterna;
     private String codConductor;
+    private int nuevaInspeccion;
+    private String usuario;
 
 
 
@@ -189,7 +191,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
         guardar.setOnClickListener(this);
 
-        inspeccion = "admin00001";
         realm = Realm.getDefaultInstance();
 
         renderText(inspeccion, instalacion, albaran, transportista, tabla_calibracion);
@@ -243,10 +244,13 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     }
 
-    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion){
+    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion, Integer nuevaInspeccion, String usuario){
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
-        this.tipoTractora=tipoTractora.trim();
+        this.tipoComponente =tipoTractora.trim();
         this.tipoInspeccion=tipoInspeccion.trim();
+        this.nuevaInspeccion = nuevaInspeccion;
+        inspeccion = usuario + nuevaInspeccion;
+        this.usuario = usuario;
         matTractora= tractora.trim();
         matCisterna = cisterna.trim();
         this.codConductor = conductor.trim();
@@ -279,10 +283,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 }else{
                     callback.continuar(inspeccion, matCisterna );
                 }
-
-
-
-
                 break;
             case R.id.btn_siguiente2:
 
@@ -348,13 +348,26 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     public void guardar(List<Boolean> checklist){
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
-        if (tipoTractora.equals("T")){
-            inspeccionBD.setTractora(matTractora);
-            inspeccionBD.setCisterna(matCisterna);
-            this.matricula = matCisterna;
-        }else{
-            inspeccionBD.setRigido(matTractora);
-            this.matricula = matTractora;
+        switch (tipoComponente){
+            case "S":
+                inspeccionBD.setTractora(matTractora);
+                inspeccionBD.setCisterna(matCisterna);
+                this.matricula = matCisterna;
+                break;
+            case "T":
+                inspeccionBD.setTractora(matTractora);
+                inspeccionBD.setCisterna(matCisterna);
+                this.matricula = matCisterna;
+                break;
+            case "R":
+                inspeccionBD.setRigido(matTractora);
+                this.matricula = matTractora;
+                break;
+            case "C":
+                inspeccionBD.setTractora(matTractora);
+                inspeccionBD.setCisterna(matCisterna);
+                this.matricula = matCisterna;
+                break;
         }
         inspeccionBD.setConductor(codConductor);
         inspeccionBD.setInstalacion(instalacion);
@@ -396,7 +409,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         comprobacion=true;
 
         Toast.makeText(getActivity(), "Cambios Guardados", Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getActivity(), "size: " + detalleInspeccionBDS.size(), Toast.LENGTH_SHORT).show();
 
     }
 

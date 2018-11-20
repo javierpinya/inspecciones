@@ -1,6 +1,8 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -23,6 +25,9 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     private List<String> tags;
     private List<Integer> capacidad;
     private Integer numCompartimentos;
+    private SharedPreferences prefs;
+    private int nuevaInspeccion;
+    private String user;
 
 
     @Override
@@ -33,6 +38,9 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
             tipoComponente = getIntent().getStringExtra("tipoComponente").trim();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
             conductor = getIntent().getStringExtra("conductor").trim();
+            prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+            user = prefs.getString("user", "0");
+            nuevaInspeccion = prefs.getInt("nuevaInspeccion", 0);
             switch (tipoComponente){
                 case "S":
                     tractora = getIntent().getStringExtra("tractora").trim();
@@ -57,7 +65,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     @Override
     public void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion) {
         CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
-        cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion);
+        cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion, nuevaInspeccion, user);
     }
 
     @Override

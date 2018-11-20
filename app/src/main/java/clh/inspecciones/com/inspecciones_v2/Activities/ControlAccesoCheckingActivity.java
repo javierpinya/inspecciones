@@ -1,6 +1,8 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,6 +37,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     private List<Integer> capacidad;
     private String respuesta;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         compartimentos = new ArrayList<>();
         tags = new ArrayList<>();
         capacidad = new ArrayList<>();
+
         if(getIntent().getExtras()!= null){
             tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
             tipoComponente = getIntent().getStringExtra("tipoComponente").trim();

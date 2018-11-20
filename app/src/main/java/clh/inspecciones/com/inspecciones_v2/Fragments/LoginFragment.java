@@ -2,8 +2,6 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,9 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.Login;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -42,7 +43,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private String User;
     private String Pass;
     String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/login.php";
+    String json_url1= "http://pruebaalumnosandroid.esy.es/inspecciones/consulta_num_inspeccion.php";
     private loginOk callback;
+    private int nuevaInspeccion=0;
+    private int contadorInspecciones;
 
 
     public LoginFragment() {
@@ -109,7 +113,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         @Override
         public void onResponse(String response) {
 
-            callback.loginOk(User, Pass, swRemember.isChecked());
+            nuevaInspeccion = buscarUltimaInspeccion(User) + 1;
+            //Toast.makeText(getActivity(), String.valueOf(nuevaInspeccion), Toast.LENGTH_SHORT).show();
+
+            callback.loginOk(User, Pass, swRemember.isChecked(), nuevaInspeccion);
         }
     },
             new Response.ErrorListener() {
@@ -135,11 +142,45 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    private int buscarUltimaInspeccion(final String usuario){
+
+        StringRequest sr = new StringRequest(Request.Method.POST, json_url1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+                    JSONArray json = jsonObject.optJSONArray("num_inspecciones");
+                    contadorInspecciones = (json.optJSONObject(0).optInt("CONTADOR"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", usuario);
+                params.put("password", Pass);
+                return params;
+            }
+        };
+
+        return contadorInspecciones;
+    }
+
     private boolean isValidPassword(String password){
         return password.length()>=4;
     }
 
     public interface loginOk{
-        void loginOk(String usuario, String password, boolean sw);
+        void loginOk(String usuario, String password, boolean sw, int nuevaInspeccion);
     }
 }
