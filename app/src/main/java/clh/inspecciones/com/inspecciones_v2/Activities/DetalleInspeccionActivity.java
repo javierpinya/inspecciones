@@ -28,6 +28,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     private SharedPreferences prefs;
     private int nuevaInspeccion;
     private String user;
+    private String pass;
 
 
     @Override
@@ -38,8 +39,12 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
             tipoComponente = getIntent().getStringExtra("tipoComponente").trim();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim();
             conductor = getIntent().getStringExtra("conductor").trim();
-            prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-            user = prefs.getString("user", "0");
+
+            prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+
+            user = prefs.getString("user", "errorUser");
+            pass = prefs.getString("pass", "errorPass");
+
             nuevaInspeccion = prefs.getInt("nuevaInspeccion", 0);
             switch (tipoComponente){
                 case "S":
@@ -58,14 +63,13 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
                     cisterna = getIntent().getStringExtra("cisterna").trim();
                     break;
             }
-            datosIntent(tractora,cisterna,conductor, tipoComponente, tipoInspeccion);
+            datosIntent(tractora,cisterna,conductor, tipoComponente, tipoInspeccion, user, pass);
         }
     }
 
-    @Override
-    public void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion) {
+    public void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion, String user, String pass) {
         CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
-        cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion, nuevaInspeccion, user);
+        cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion, nuevaInspeccion, user, pass);
     }
 
     @Override

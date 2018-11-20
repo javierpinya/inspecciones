@@ -14,9 +14,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.DetalleInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
@@ -55,7 +63,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private String matCisterna;
     private String codConductor;
     private int nuevaInspeccion;
-    private String usuario;
+    private String user;
+    private String pass;
+    private String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/registro_inspecciones.php";
+    private String respuestaNube;
 
 
 
@@ -244,13 +255,14 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     }
 
-    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion, Integer nuevaInspeccion, String usuario){
+    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion, Integer nuevaInspeccion, String user, String pass){
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
         this.tipoComponente =tipoTractora.trim();
         this.tipoInspeccion=tipoInspeccion.trim();
         this.nuevaInspeccion = nuevaInspeccion;
-        inspeccion = usuario + nuevaInspeccion;
-        this.usuario = usuario;
+        inspeccion = user + nuevaInspeccion;
+        this.user = user.trim();
+        this.pass = pass.trim();
         matTractora= tractora.trim();
         matCisterna = cisterna.trim();
         this.codConductor = conductor.trim();
@@ -408,12 +420,45 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         realm.commitTransaction();
         comprobacion=true;
 
-        Toast.makeText(getActivity(), "Cambios Guardados", Toast.LENGTH_SHORT).show();
+        registrarInspeccionNube(user, pass);
+
+        Toast.makeText(getActivity(), respuestaNube, Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void registrarInspeccionNube(final String user, final String pass){
+        DetalleInspeccionBD inspeccionBD;
+        inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
+
+        StringRequest  sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                respuestaNube = response;
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                respuestaNube = error.toString();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", user);
+                params.put("password", pass);
+                params.put("inspeccion", inspeccion);
+                params.put("matTractora", matTractora);
+                return params;
+            }
+        };
+
 
     }
 
     public interface dataListener{
-        void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
+        //void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
         void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
         void continuar(String inspeccion, String matricula);
 

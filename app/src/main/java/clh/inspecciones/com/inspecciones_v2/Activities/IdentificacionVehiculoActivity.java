@@ -1,6 +1,8 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -22,6 +24,10 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
     private String tipoInspeccion;
     private String tipoComponente;
     private Realm realm;
+    private SharedPreferences prefs;
+    private String user;
+    private String pass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +37,10 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
             tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim().toString();
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim().toString();
             tipoComponente = getIntent().getStringExtra("tipoComponente").trim();
-
-
-
-            enviarDatos(tipoVehiculo, tipoInspeccion, tipoComponente);
+            prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+            user = prefs.getString("user", "errorUser");
+            pass = prefs.getString("pass", "errorPass");
+            enviarDatos(tipoVehiculo, tipoInspeccion, tipoComponente, user, pass);
         }
     }
 
@@ -44,10 +50,9 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
         identificacionVehiculoResultadoFragment.renderText(listaVehiculos);
     }
 
-    @Override
-    public void enviarDatos(String tipoVehiculo, String tipoInspeccion, String tipoComponente) {
+    public void enviarDatos(String tipoVehiculo, String tipoInspeccion, String tipoComponente, String user, String pass) {
         IdentificacionVehiculoBusquedaFragment identificacionVehiculoBusquedaFragment = (IdentificacionVehiculoBusquedaFragment) getSupportFragmentManager().findFragmentById(R.id.IdentificacionVehiculoBusquedaFragment);
-        identificacionVehiculoBusquedaFragment.recibir_intent(tipoVehiculo,tipoInspeccion, tipoComponente);
+        identificacionVehiculoBusquedaFragment.recibir_intent(tipoVehiculo,tipoInspeccion, tipoComponente, user, pass);
     }
 
     @Override

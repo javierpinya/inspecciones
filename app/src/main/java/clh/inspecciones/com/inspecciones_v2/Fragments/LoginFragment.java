@@ -167,8 +167,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", usuario);
-                params.put("password", Pass);
+                params.put("user", usuario);
+                params.put("pass", Pass);
                 return params;
             }
         };

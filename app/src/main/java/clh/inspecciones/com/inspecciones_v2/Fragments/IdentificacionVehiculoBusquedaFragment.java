@@ -45,8 +45,9 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     private String tipoInspeccion;
     private String tipoComponente;
     String url = "http://pruebaalumnosandroid.esy.es/inspecciones/elegir_vehiculo.php";
-    String username = "admin"; //cambiar en un futuro, que provenga del login
-    String pass = "admin";
+    private String user;
+    private String pass;
+
 
     public IdentificacionVehiculoClass identificacionVehiculoClass;
 
@@ -86,16 +87,19 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listaVehiculos.clear();
-                buscar(tractora.getText().toString(), cisterna.getText().toString(),conductor.getText().toString());
+                Toast.makeText(getActivity(), "user: " + user + " pass: " + pass, Toast.LENGTH_SHORT).show();
+                buscar(tractora.getText().toString(), cisterna.getText().toString(),conductor.getText().toString(), user, pass);
             }
         });
 
         return view;
     }
 
-    public void buscar(final String rigido, final String cisterna, final String conductor){
+    public void buscar(final String rigido, final String cisterna, final String conductor, final String user, final String pass){
 
         RequestQueue requestQueue;
+
+
 
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -176,8 +180,8 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put("username", username);
-                params.put("password", pass);
+                params.put("user", user);
+                params.put("pass", pass);
                 params.put("tipo_consulta", tipoVehiculo);
                 params.put("tipoComponente", tipoComponente);
                 params.put("conductor", conductor);
@@ -192,13 +196,14 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
 
     public interface DataListener{
         void buscarVehiculos(ArrayList<IdentificacionVehiculoClass> listaVehiculos, String tipoVehiculo);
-        void enviarDatos(String tipoVehiculo,String tipoInspeccion, String tipoComponente);
     }
 
-    public void recibir_intent(String tipoVehiculo, String tipoInspeccion, String tipoComponente){
+    public void recibir_intent(String tipoVehiculo, String tipoInspeccion, String tipoComponente, String user, String pass){
         this.tipoInspeccion = tipoInspeccion;
         this.tipoVehiculo = tipoVehiculo;
         this.tipoComponente = tipoComponente;
+        this.user = user.trim();
+        this.pass = pass.trim();
     }
 
 }

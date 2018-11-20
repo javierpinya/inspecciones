@@ -56,6 +56,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private String tipoVehiculo;
     private String tipoComponente;
     private String inspeccion;
+    private String user;
+    private String pass;
 
     private RealmResults<CARigidoBD> rigidoBD;
     private RealmResults<CACisternaBD> cisternaBD;
@@ -152,7 +154,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
         return  view;
     }
 
-    private void llamadaVolley(final String primerComponente, final String segundoComponente, final String tipoComponente){
+    private void llamadaVolley(final String primerComponente, final String segundoComponente, final String tipoComponente, final String user, final String pass){
 
         StringRequest sr = new StringRequest(Request.Method.POST, json_url2, new Response.Listener<String>() {
             @Override
@@ -412,8 +414,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", "admin");
-                params.put("password", "admin");
+                params.put("username", user);
+                params.put("password", pass);
                 params.put("tipo_consulta", tipoComponente);  //R - Rigido, T - Tractora, C - cisterna
                 params.put("primer_componente", primerComponente);
                 params.put("segundo_componente", segundoComponente);
@@ -512,14 +514,16 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
 
 
-    public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora) {
+    public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora, String user, String pass) {
         this.tipoVehiculo=tipoVehiculo.trim();
         this.tipoComponente =tipoTractora.trim();
+        this.user = user.trim();
+        this.pass = pass.trim();
 
         if (datos.size()>1){
-            llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente);
+            llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente, this.user, this.pass);
         }else{
-            llamadaVolley(datos.get(0).trim(),"XXXXXX",this.tipoComponente);
+            llamadaVolley(datos.get(0).trim(),"XXXXXX",this.tipoComponente, this.user, this.pass);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, datos);
         mListView.setAdapter(adapter);

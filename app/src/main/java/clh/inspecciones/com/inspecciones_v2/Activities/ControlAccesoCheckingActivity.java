@@ -36,6 +36,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     private List<String> tags;
     private List<Integer> capacidad;
     private String respuesta;
+    private SharedPreferences prefs;
+    private String user;
+    private String pass;
 
 
     @Override
@@ -46,6 +49,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         compartimentos = new ArrayList<>();
         tags = new ArrayList<>();
         capacidad = new ArrayList<>();
+        prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        user = prefs.getString("user", "errorUser");
+        pass = prefs.getString("pass", "errorPass");
 
         if(getIntent().getExtras()!= null){
             tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
@@ -59,7 +65,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
                 vehiculos.add(cisterna);
             }
             //vehiculos.add(conductor);
-            datos_intent(vehiculos, tipoVehiculo, tipoComponente);
+            datos_intent(vehiculos, tipoVehiculo, tipoComponente, user, pass);
         }
 
         /*
@@ -115,9 +121,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
 
 
 
-    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoComponente) {
+    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoComponente, String user, String pass) {
         ControlAccesoCheckingFragment controlAccesoCheckingFragment = (ControlAccesoCheckingFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoCheckingFragment);
-        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoComponente);
+        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoComponente, user, pass);
     }
 
     @Override
