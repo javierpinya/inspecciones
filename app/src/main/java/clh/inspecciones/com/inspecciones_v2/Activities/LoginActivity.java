@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import clh.inspecciones.com.inspecciones_v2.Fragments.LoginFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
             editor.putInt("nuevaInspeccion", nuevaInspeccion);
             editor.commit();
             editor.apply();
+            Toast.makeText(this, user, Toast.LENGTH_SHORT).show();
         }
     }
 }

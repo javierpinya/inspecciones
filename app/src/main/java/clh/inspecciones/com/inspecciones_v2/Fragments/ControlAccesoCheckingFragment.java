@@ -414,8 +414,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", user);
-                params.put("password", pass);
+                params.put("user", user);
+                params.put("pass", pass);
                 params.put("tipo_consulta", tipoComponente);  //R - Rigido, T - Tractora, C - cisterna
                 params.put("primer_componente", primerComponente);
                 params.put("segundo_componente", segundoComponente);
@@ -514,13 +514,15 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
 
 
-    public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora, String user, String pass) {
+    public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora, String user, String pass, int nuevaInspeccion) {
         this.tipoVehiculo=tipoVehiculo.trim();
         this.tipoComponente =tipoTractora.trim();
         this.user = user.trim();
         this.pass = pass.trim();
+        this.inspeccion = this.user + String.valueOf(nuevaInspeccion);
 
         if (datos.size()>1){
+            Toast.makeText(getActivity(), this.user + " - " + this.pass, Toast.LENGTH_SHORT).show();
             llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente, this.user, this.pass);
         }else{
             llamadaVolley(datos.get(0).trim(),"XXXXXX",this.tipoComponente, this.user, this.pass);

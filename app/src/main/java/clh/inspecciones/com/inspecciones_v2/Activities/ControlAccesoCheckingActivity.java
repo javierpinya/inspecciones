@@ -39,6 +39,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     private SharedPreferences prefs;
     private String user;
     private String pass;
+    private int nuevaInspeccion;
 
 
     @Override
@@ -49,9 +50,11 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         compartimentos = new ArrayList<>();
         tags = new ArrayList<>();
         capacidad = new ArrayList<>();
-        prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
+        nuevaInspeccion = prefs.getInt("nuevaInspeccion", 0);
+
 
         if(getIntent().getExtras()!= null){
             tipoVehiculo = getIntent().getStringExtra("tipoVehiculo").trim();
@@ -65,7 +68,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
                 vehiculos.add(cisterna);
             }
             //vehiculos.add(conductor);
-            datos_intent(vehiculos, tipoVehiculo, tipoComponente, user, pass);
+            datos_intent(vehiculos, tipoVehiculo, tipoComponente, user, pass, nuevaInspeccion);
         }
 
         /*
@@ -121,9 +124,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
 
 
 
-    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoComponente, String user, String pass) {
+    public void datos_intent(List<String> datos, String tipoVehiculo, String tipoComponente, String user, String pass, int nuevaInspeccion) {
         ControlAccesoCheckingFragment controlAccesoCheckingFragment = (ControlAccesoCheckingFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoCheckingFragment);
-        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoComponente, user, pass);
+        controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoComponente, user, pass, nuevaInspeccion);
     }
 
     @Override
