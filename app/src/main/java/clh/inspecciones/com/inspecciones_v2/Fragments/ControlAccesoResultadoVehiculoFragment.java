@@ -87,7 +87,6 @@ public class ControlAccesoResultadoVehiculoFragment extends Fragment implements 
     }
 
     public void renderVehiculo(String tipoComponente){
-        Toast.makeText(getActivity(), tipoComponente.trim(), Toast.LENGTH_SHORT).show();
         switch (tipoComponente.trim()){
             case "R":
                 rigidoBD = realm.where(CARigidoBD.class).findAll();

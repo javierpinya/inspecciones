@@ -20,6 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +33,7 @@ import java.util.Map;
 import clh.inspecciones.com.inspecciones_v2.Adapters.DetalleInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
+import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -52,10 +57,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private EditText etTablaCal;
     private DetalleInspeccionAdapter adapter;
     private ListView mListView;
-    private String ia;
-    private String albaran;
-    private String transportista;
-    private String tabla_calibracion;
+    private String ia="";
+    private String albaran="";
+    private String transportista="";
+    private String tabla_calibracion="";
     private String matricula;
     private String tipoComponente;
     private String tipoInspeccion;
@@ -65,8 +70,11 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private int nuevaInspeccion;
     private String user;
     private String pass;
-    private String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/registro_inspecciones.php";
+    private String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
+    private String json_url1= "http://pruebaalumnosandroid.esy.es/inspecciones/consulta_num_inspeccion.php";
     private String respuestaNube;
+    //private String contadorInspecciones;
+    private int contadorInspecciones;
 
 
 
@@ -153,7 +161,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         etIa = (EditText)view.findViewById(R.id.et_instalacion);
         etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
-        etTablaCal = (EditText)view.findViewById(R.id.et_tablacalibracion);
+        etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
 
         btn_siguiente.setOnClickListener(this);
         btn_compartimentos.setOnClickListener(this);
@@ -204,19 +212,12 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
         realm = Realm.getDefaultInstance();
 
-        renderText(inspeccion, instalacion, albaran, transportista, tabla_calibracion);
+
         return view;
     }
 
-    public void renderText(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion){
-        inspeccionIntent = inspeccion.trim();
-        //detalleInspeccionBDS=realm.where(DetalleInspeccionBD.class).findAll();
-        //inspecciones = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccionIntent).findFirst();
+    public void renderText(){
 
-        this.instalacion = Instalacion;
-        this.albaran = albaran;
-        this.transportista = transportista;
-        this.tabla_calibracion = tabla_calibracion;
 
         //detalleInspeccionBDS.addChangeListener(this);
 
@@ -255,17 +256,20 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     }
 
-    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion, Integer nuevaInspeccion, String user, String pass){
+    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion, String user, String pass){
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
         this.tipoComponente =tipoTractora.trim();
         this.tipoInspeccion=tipoInspeccion.trim();
-        this.nuevaInspeccion = nuevaInspeccion;
-        inspeccion = user + nuevaInspeccion;
+        //inspeccion = user + nuevaInspeccion;
         this.user = user.trim();
         this.pass = pass.trim();
         matTractora= tractora.trim();
         matCisterna = cisterna.trim();
         this.codConductor = conductor.trim();
+        nuevaInspeccion = buscarUltimaInspeccion(user.trim(), pass.trim()) + 1;
+        inspeccion = user +  nuevaInspeccion;
+        Toast.makeText(getActivity(), "nuevaInspeccion" + nuevaInspeccion, Toast.LENGTH_SHORT).show();
+        renderText();
 
     }
 
@@ -309,45 +313,48 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 transportista = etTrans.getText().toString();
                 tabla_calibracion = etTablaCal.getText().toString();
 
-                if (ia == null || albaran == null || transportista == null  || tabla_calibracion == null){
-                    Toast.makeText(getActivity(), "Debe rellenar todos los datos antes de introducir las incidencias", Toast.LENGTH_SHORT).show();
+                if (ia.equals("") || albaran.equals("") || transportista.equals("")  || tabla_calibracion.equals("")){
+                    Toast.makeText(getActivity(),  ia +  transportista + albaran + tabla_calibracion, Toast.LENGTH_SHORT).show();
                     break;
                 } else{
                     //callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
                     //callback.continuar(obtenerCambios(), matricula);
-                checklist.add(bateriaDesconectada.isChecked());
-                checklist.add(fichaSeguridad.isChecked());
-                checklist.add(transponderTractora.isChecked());
-                checklist.add(transponderCisterna.isChecked());
-                checklist.add(frenoEstacionamiento.isChecked());
-                checklist.add(apagallamas.isChecked());
-                checklist.add(bajadaTagsPlanta.isChecked());
-                checklist.add(adrCisterna.isChecked());
-                checklist.add(adrConductor.isChecked());
-                checklist.add(adrTractora.isChecked());
-                checklist.add(mangueraGases.isChecked());
-                checklist.add(tomaTierra.isChecked());
-                checklist.add(movilDesconectado.isChecked());
-                checklist.add(estanqueidadCajon.isChecked());
-                checklist.add(estanqueidadCisterna.isChecked());
-                checklist.add(estanqueidadEquiposTrasiego.isChecked());
-                checklist.add(estanqueidadValvulasAPI.isChecked());
-                checklist.add(estanqueidadValvulasFondo.isChecked());
-                checklist.add(interruptorEmergencia.isChecked());
-                checklist.add(itvCisterna.isChecked());
-                checklist.add(itvTractora.isChecked());
-                checklist.add(lecturaTagsIsleta.isChecked());
-                checklist.add(tagsCorrectos.isChecked());
-                checklist.add(permisoCirculacion.isChecked());
-                checklist.add(posicionVehiculo.isChecked());
-                checklist.add(purgaCompartimentos.isChecked());
-                checklist.add(recogerAlbaran.isChecked());
-                checklist.add(ropa.isChecked());
-                checklist.add(superficieSupAntiDes.isChecked());
-                checklist.add(tc2.isChecked());
-                guardar(checklist);
-                }
-                break;
+
+
+
+                    checklist.add(bateriaDesconectada.isChecked());
+                    checklist.add(fichaSeguridad.isChecked());
+                    checklist.add(transponderTractora.isChecked());
+                    checklist.add(transponderCisterna.isChecked());
+                    checklist.add(frenoEstacionamiento.isChecked());
+                    checklist.add(apagallamas.isChecked());
+                    checklist.add(bajadaTagsPlanta.isChecked());
+                    checklist.add(adrCisterna.isChecked());
+                    checklist.add(adrConductor.isChecked());
+                    checklist.add(adrTractora.isChecked());
+                    checklist.add(mangueraGases.isChecked());
+                    checklist.add(tomaTierra.isChecked());
+                    checklist.add(movilDesconectado.isChecked());
+                    checklist.add(estanqueidadCajon.isChecked());
+                    checklist.add(estanqueidadCisterna.isChecked());
+                    checklist.add(estanqueidadEquiposTrasiego.isChecked());
+                    checklist.add(estanqueidadValvulasAPI.isChecked());
+                    checklist.add(estanqueidadValvulasFondo.isChecked());
+                    checklist.add(interruptorEmergencia.isChecked());
+                    checklist.add(itvCisterna.isChecked());
+                    checklist.add(itvTractora.isChecked());
+                    checklist.add(lecturaTagsIsleta.isChecked());
+                    checklist.add(tagsCorrectos.isChecked());
+                    checklist.add(permisoCirculacion.isChecked());
+                    checklist.add(posicionVehiculo.isChecked());
+                    checklist.add(purgaCompartimentos.isChecked());
+                    checklist.add(recogerAlbaran.isChecked());
+                    checklist.add(ropa.isChecked());
+                    checklist.add(superficieSupAntiDes.isChecked());
+                    checklist.add(tc2.isChecked());
+                    guardar(checklist);
+                    }
+                    break;
 
                 default:
                     break;
@@ -419,41 +426,84 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         realm.copyToRealmOrUpdate(inspeccionBD);
         realm.commitTransaction();
         comprobacion=true;
+        registrarInspeccionNube(user, pass, inspeccion, matTractora);
 
-        registrarInspeccionNube(user, pass);
 
-        Toast.makeText(getActivity(), respuestaNube, Toast.LENGTH_SHORT).show();
 
     }
 
-    private void registrarInspeccionNube(final String user, final String pass){
+    private int buscarUltimaInspeccion(final String usuario, final String pass){
+
+        StringRequest sr1 = new StringRequest(Request.Method.POST, json_url1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+                    JSONArray json = jsonObject.optJSONArray("num_inspecciones");
+                    contadorInspecciones = (json.optJSONObject(0).optInt("CONTADOR"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", usuario);
+                params.put("pass", pass);
+                return params;
+            }
+        };
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr1);
+        Toast.makeText(getActivity(), String.valueOf(contadorInspecciones), Toast.LENGTH_SHORT).show();
+
+        return contadorInspecciones;
+    }
+
+    private void registrarInspeccionNube(final String user, final String pass, final String inspeccion, final String matTractora){
+        /*
         DetalleInspeccionBD inspeccionBD;
         inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
 
+*/
+        //Toast.makeText(getActivity(), user + "-" + pass + "-" + inspeccion + "-" + matTractora, Toast.LENGTH_SHORT).show();
         StringRequest  sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 respuestaNube = response;
+                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 respuestaNube = error.toString();
+                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", user);
-                params.put("password", pass);
+                params.put("user", user);
+                params.put("pass", pass);
                 params.put("inspeccion", inspeccion);
                 params.put("matTractora", matTractora);
                 return params;
             }
         };
 
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
 
     }
 

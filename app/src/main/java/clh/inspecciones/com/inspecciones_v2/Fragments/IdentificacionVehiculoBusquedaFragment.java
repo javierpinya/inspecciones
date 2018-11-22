@@ -87,7 +87,6 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listaVehiculos.clear();
-                Toast.makeText(getActivity(), "user: " + user + " pass: " + pass, Toast.LENGTH_SHORT).show();
                 buscar(tractora.getText().toString(), cisterna.getText().toString(),conductor.getText().toString(), user, pass);
             }
         });

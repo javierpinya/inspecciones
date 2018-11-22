@@ -69,7 +69,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
 
     public void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion, String user, String pass) {
         CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
-        cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion, nuevaInspeccion, user, pass);
+        cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion, user, pass);
     }
 
     @Override

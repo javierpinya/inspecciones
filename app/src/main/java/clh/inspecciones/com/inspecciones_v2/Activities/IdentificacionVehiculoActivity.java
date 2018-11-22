@@ -3,6 +3,7 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -38,6 +39,7 @@ public class IdentificacionVehiculoActivity extends AppCompatActivity implements
             tipoInspeccion = getIntent().getStringExtra("tipoInspeccion").trim().toString();
             tipoComponente = getIntent().getStringExtra("tipoComponente").trim();
             prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+            //prefs = PreferenceManager.getDefaultSharedPreferences(this);
             user = prefs.getString("user", "errorUser");
             pass = prefs.getString("pass", "errorPass");
             enviarDatos(tipoVehiculo, tipoInspeccion, tipoComponente, user, pass);

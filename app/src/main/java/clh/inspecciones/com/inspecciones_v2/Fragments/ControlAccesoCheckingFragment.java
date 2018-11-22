@@ -482,12 +482,9 @@ public class ControlAccesoCheckingFragment extends Fragment{
         realm.commitTransaction();
 
         tractoraBD = realm.where(CATractoraBD.class).findAll();
-        if (tractoraBD.isEmpty()==false) {
-            Toast.makeText(getActivity(), tractoraBD.get(0).getMatricula(), Toast.LENGTH_SHORT).show();
-        }else{
+        if (tractoraBD.isEmpty()==true) {
             Toast.makeText(getActivity(), "tractoraBD entra en createNewTractora pero está vaciá", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     //** CRUD Actions **/
@@ -522,7 +519,6 @@ public class ControlAccesoCheckingFragment extends Fragment{
         this.inspeccion = this.user + String.valueOf(nuevaInspeccion);
 
         if (datos.size()>1){
-            Toast.makeText(getActivity(), this.user + " - " + this.pass, Toast.LENGTH_SHORT).show();
             llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente, this.user, this.pass);
         }else{
             llamadaVolley(datos.get(0).trim(),"XXXXXX",this.tipoComponente, this.user, this.pass);
