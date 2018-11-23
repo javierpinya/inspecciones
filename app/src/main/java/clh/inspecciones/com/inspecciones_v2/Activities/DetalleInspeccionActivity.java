@@ -77,13 +77,6 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
 
     }
 
-    /*
-    @Override
-    public void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion) {
-        DetalleInspeccionFragment detalleInspeccionFragment = (DetalleInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.DetalleInspeccionFragment);
-        detalleInspeccionFragment.renderText(inspeccion, Instalacion, albaran, transportista, tabla_calibracion);
-    }*/
-
     @Override
     public void continuar(String inspeccion, String matricula) {
         Intent intent = new Intent();

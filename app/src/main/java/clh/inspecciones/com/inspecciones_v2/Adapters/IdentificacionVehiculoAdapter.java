@@ -46,9 +46,7 @@ public class IdentificacionVehiculoAdapter extends RecyclerView.Adapter<Identifi
 
     @Override
     public void onBindViewHolder(@NonNull IdentificacionVehiculo_Holder holder, int position) {
-        // holder.tvConductor.setText( listaVehiculos.get(position).getConductor().toString());
-        // holder.tvTractora.setText(listaVehiculos.get(position).getTractora().toString());
-        // holder.tvCisterna.setText(listaVehiculos.get(position).getCisterna().toString());
+
         holder.bind(listaVehiculos.get(position),itemClickListener);
     }
 

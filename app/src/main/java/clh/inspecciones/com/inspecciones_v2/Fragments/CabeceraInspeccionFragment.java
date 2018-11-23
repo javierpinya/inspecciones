@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import clh.inspecciones.com.inspecciones_v2.Adapters.DetalleInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
@@ -47,7 +46,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private Realm realm;
     private RealmResults<DetalleInspeccionBD> inspeccionBDs;
     private DetalleInspeccionBD inspeccionBD;
-    private String inspeccion;
+    private String inspeccion=null;
     private String returnInspeccion;
     private Button btn_siguiente;
     private Button btn_compartimentos;
@@ -55,8 +54,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private EditText etAlbaran;
     private EditText etTrans;
     private EditText etTablaCal;
-    private DetalleInspeccionAdapter adapter;
-    private ListView mListView;
     private String ia="";
     private String albaran="";
     private String transportista="";
@@ -216,6 +213,20 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         return view;
     }
 
+    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoComponente, String tipoInspeccion, String user, String pass){
+        //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
+        this.tipoComponente =tipoComponente.trim();
+        this.tipoInspeccion=tipoInspeccion.trim();
+        //inspeccion = user + nuevaInspeccion;
+        this.user = user.trim();
+        this.pass = pass.trim();
+        matTractora= tractora.trim();
+        matCisterna = cisterna.trim();
+        this.codConductor = conductor.trim();
+        buscarUltimaInspeccion(this.user, this.pass);
+        renderText();
+    }
+
     public void renderText(){
 
 
@@ -256,23 +267,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     }
 
-    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoTractora, String tipoInspeccion, String user, String pass){
-        //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
-        this.tipoComponente =tipoTractora.trim();
-        this.tipoInspeccion=tipoInspeccion.trim();
-        //inspeccion = user + nuevaInspeccion;
-        this.user = user.trim();
-        this.pass = pass.trim();
-        matTractora= tractora.trim();
-        matCisterna = cisterna.trim();
-        this.codConductor = conductor.trim();
-        nuevaInspeccion = buscarUltimaInspeccion(user.trim(), pass.trim()) + 1;
-        inspeccion = user +  nuevaInspeccion;
-        Toast.makeText(getActivity(), "nuevaInspeccion" + nuevaInspeccion, Toast.LENGTH_SHORT).show();
-        renderText();
-
-    }
-
     public String obtenerCambios(){
         inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getSuperficieSupAntideslizante(), Toast.LENGTH_SHORT).show();
@@ -297,7 +291,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 if (comprobacion == false){
                     Toast.makeText(getActivity(), "Debe guardar la inspección primero", Toast.LENGTH_LONG).show();
                 }else{
-                    callback.continuar(inspeccion, matCisterna );
+                    callback.continuar(inspeccion, matricula );
                 }
                 break;
             case R.id.btn_siguiente2:
@@ -319,9 +313,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 } else{
                     //callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
                     //callback.continuar(obtenerCambios(), matricula);
-
-
-
                     checklist.add(bateriaDesconectada.isChecked());
                     checklist.add(fichaSeguridad.isChecked());
                     checklist.add(transponderTractora.isChecked());
@@ -365,6 +356,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public void guardar(List<Boolean> checklist){
+        Toast.makeText(getActivity(), inspeccion, Toast.LENGTH_SHORT).show();
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
         switch (tipoComponente){
@@ -443,7 +435,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                     jsonObject = new JSONObject(response);
                     JSONArray json = jsonObject.optJSONArray("num_inspecciones");
                     contadorInspecciones = (json.optJSONObject(0).optInt("CONTADOR"));
-
+                    inspeccion = usuario+String.valueOf(contadorInspecciones);
+                    //Toast.makeText(getActivity(), String.valueOf(contadorInspecciones), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -465,7 +458,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             }
         };
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr1);
-        Toast.makeText(getActivity(), String.valueOf(contadorInspecciones), Toast.LENGTH_SHORT).show();
 
         return contadorInspecciones;
     }
@@ -481,7 +473,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             @Override
             public void onResponse(String response) {
                 respuestaNube = response;
-                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {

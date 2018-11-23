@@ -455,7 +455,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
         for (int i=0; i<compartimentos.size(); i++){
             realm.beginTransaction();
-            CACompartimentosBD _compartimentosBD = new CACompartimentosBD(matricula, inspeccion);
+            CACompartimentosBD _compartimentosBD = new CACompartimentosBD(matricula);
             _compartimentosBD.setCod_compartimento(compartimentos.get(i));
             _compartimentosBD.setCan_capacidad(capacidad.get(i));
             _compartimentosBD.setCod_tag_cprt(tags.get(i));

@@ -32,10 +32,9 @@ public class CACompartimentosBD extends RealmObject {
 
     public CACompartimentosBD(){}
 
-    public CACompartimentosBD(String matricula, String inspeccion){
+    public CACompartimentosBD(String matricula){
         this.id= InicializacionRealm.CACompartimentosBDId.incrementAndGet();
         this.matricula = matricula;
-        this.inspeccion = inspeccion;
     }
 
     public int getId() {

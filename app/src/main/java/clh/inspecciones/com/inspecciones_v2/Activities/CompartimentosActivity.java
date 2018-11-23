@@ -30,6 +30,11 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
     }
 
     @Override
+    public void volver() {
+
+    }
+
+    @Override
     public void elegirCompartimento(int compartimento) {
 
     }

@@ -14,14 +14,4 @@
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_cabecera_inspeccion"/>
 
-    <!--
-    <fragment
-        android:id="@+id/DetalleInspeccionFragment"
-        android:name="clh.inspecciones.com.inspecciones_v2.Fragments.DetalleInspeccionFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="60"
-        tools:layout="@layout/fragment_detalle_inspeccion"/>
-        -->
-
 </LinearLayout>

@@ -2,15 +2,18 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
 import android.content.Context;
-import android.database.DataSetObserver;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import clh.inspecciones.com.inspecciones_v2.Adapters.CompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
@@ -33,23 +37,26 @@ import io.realm.RealmResults;
 public class CompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>>, View.OnClickListener {
 
     private Realm realm;
-    private CARigidoBD caRigidoBD;
-    private RealmResults<CACompartimentosBD> pepe;
-    private RealmList<CACompartimentosBD> compartimentosBD;
-    //private RealmResults<CACompartimentosBD> caCompartimentosBD;
-    private ListView mListView;
-    private List<String> names;
+    private RealmResults<CACompartimentosBD> caCompartimentosBD;
     private String matricula;
     private String inspeccion;
     private TextView cisterna;
     private dataListener callback;
-    private ArrayAdapter<String> adapter;
-    private RealmResults<DetalleInspeccionBD> detalleInspeccionBDS;
+    private CompartimentosAdapter adapter;
+    private CACompartimentosBD compartimentosBD;
+    private RealmList<CACompartimentosBD> compartimentosList;
+    private Button guardar;
 
     //compartimentos
-    private List<Integer> compartimentos;
+    private List<String> compartimentos;
     private List<Integer> capacidad;
     private List<String> tags;
+    private List<Integer> cantidad;
+
+    private RecyclerView mRecyclerView;
+    // Puede ser declarado como 'RecyclerView.Adapter' o como nuetra clase adaptador 'MyAdapter'
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     
@@ -75,23 +82,15 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         View view;
         view = inflater.inflate(R.layout.fragment_compartimentos, container, false);
 
-        mListView = (ListView)view.findViewById(R.id.lv_compartimentos);
 
         realm = Realm.getDefaultInstance();
-        pepe = realm.where(CACompartimentosBD.class).findAll();
-        if(pepe.size()<1){
-            Toast.makeText(getActivity(), "sin datos en CARigido", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(getActivity(), "CARigido tiene datos", Toast.LENGTH_SHORT).show();
-        }
-        if(realm.isEmpty()==true){
-            Toast.makeText(getActivity(), "está vacia", Toast.LENGTH_SHORT).show();
-        }
-        //cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
-        //cisterna.setText(matricula);
-/*
-        renderCompartimentos(matricula);
-*/
+        cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
+        guardar = (Button)view.findViewById(R.id.btn_guardar);
+        cisterna.setText(matricula);
+
+        guardar.setOnClickListener(this);
+
+        renderCompartimentos();
         // Inflate the layout for this fragment
         return view;
     }
@@ -101,39 +100,40 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         this.inspeccion = inspeccion;
     }
 
-    /*
-    public void renderCompartimentos(String matricula){
 
-        caRigidoBD = realm.where(CARigidoBD.class).equalTo("matricula", matricula).findFirst();
-        Toast.makeText(getActivity(), "matricula: " +  matricula, Toast.LENGTH_SHORT).show();
-        //caRigidoBD.addChangeListener(this);
-        compartimentosBD = caRigidoBD.getCompartimentos();
-        //caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
-        names = new ArrayList<>();
-        names.add("hola");
-    //        Toast.makeText(getActivity(), "caRigidoBD size: " +caRigidoBD.getMatricula().trim(), Toast.LENGTH_SHORT).show();
+    public void renderCompartimentos(){
 
 
-        if (compartimentosBD.size() > 0) {
-            Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + compartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
+        caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
+        compartimentos = new ArrayList<>();
+        capacidad = new ArrayList<>();
+        tags = new ArrayList<>();
+        cantidad = new ArrayList<>();
 
-            for (int i = 0; i < compartimentosBD.size(); i++) {
-                names.add("Compartimento " + i + 1);
+        if (caCompartimentosBD.size() > 0) {
+            //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
+
+            for (int i = 0; i < caCompartimentosBD.size(); i++) {
+                compartimentos.add ("Compartimento " + caCompartimentosBD.get(i).getCod_compartimento());
+                capacidad.add(caCompartimentosBD.get(i).getCan_capacidad());
+                tags.add(caCompartimentosBD.get(i).getCod_tag_cprt());
             }
         }else{
             Toast.makeText(getActivity(), "la query no da resultados...", Toast.LENGTH_SHORT).show();
         }
 
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, names);
-        mListView.setAdapter(adapter);
+        adapter = new CompartimentosAdapter(caCompartimentosBD, R.layout.compartimentos_listview_item, new CompartimentosAdapter.OnItemClickListener(){
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Compartimento: " + names.get(position).toString(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(CACompartimentosBD compartimentosList, int position) {
+                dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento());
+
 
             }
         });
+
+
+
 
         /*
         compartimentosBD = caRigidoBD.getCompartimentos();
@@ -144,8 +144,44 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         }
 
 
+*/
+    }
 
-    }*/
+    //** Dialogs **/
+
+    private void dialogoIntroducirCantidad(String title){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        if (title != null) builder.setTitle(title);
+
+        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.dialogo_cantidad_cargada, null);
+        builder.setView(viewInflated);
+
+        final EditText input = (EditText) viewInflated.findViewById(R.id.et_cant_cargada);
+
+
+        builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int cantidad=1000000;
+                cantidad = Integer.valueOf(input.getText().toString().trim());
+                if (cantidad != 1000000)
+                    addCantidad(cantidad);
+                else
+                    Toast.makeText(getActivity(), "Introducir cantidad cargada", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void addCantidad(int cantidad){
+        this.cantidad.add(cantidad);
+    }
+
+
 /*
     @Override
     public void onChange(CARigidoBD caRigidoBDS) {
@@ -154,6 +190,24 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 */
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_guardar:
+                if (compartimentos.size() == cantidad.size()){
+                    for (int i=0;i<compartimentos.size();i++) {
+                        compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i)).findFirst();
+                        realm.beginTransaction();
+                        compartimentosBD.setCan_cargada(cantidad.get(i));
+                        realm.copyToRealmOrUpdate(compartimentosBD);
+                        realm.commitTransaction();
+                    }
+                        //registrar en BD Online
+
+                        callback.volver();  //mejor continuar para incluir observaciones, etc, no volver
+                }else{
+                    Toast.makeText(getActivity(), "Hay que registrar todos los compartimentos, aunque sea con 0", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
 
     }
 
@@ -164,6 +218,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     }
 
     public interface dataListener{
+        void volver();
         //void enviarMatricula(String matricula, String inspeccion);
         void elegirCompartimento(int compartimento);
     }
