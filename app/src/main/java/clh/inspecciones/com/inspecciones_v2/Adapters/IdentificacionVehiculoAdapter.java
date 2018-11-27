@@ -76,7 +76,6 @@ public class IdentificacionVehiculoAdapter extends RecyclerView.Adapter<Identifi
 
             itemView.setOnClickListener(new View.OnClickListener() {
 
-
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(identificacionVehiculoClass,getAdapterPosition());

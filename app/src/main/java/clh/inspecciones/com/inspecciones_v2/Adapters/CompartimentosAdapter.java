@@ -20,7 +20,7 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
     private List<CACompartimentosBD> compartimentosList;
     private int layout;
     private OnItemClickListener itemClickListener;
-    private Context context;
+   // private Context context;
 
 
     public CompartimentosAdapter(List<CACompartimentosBD> compartimentosList, int layout, OnItemClickListener listener){
@@ -35,9 +35,10 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
         // Inflamos el layout y se lo pasamos al constructor del ViewHolder, donde manejaremos
         // toda la lógica como extraer los datos, referencias...
         View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
-        context = parent.getContext();
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        v.setLayoutParams(layoutParams);
+       // context = parent.getContext();
+        return new ViewHolder(v);
     }
 
     @Override
@@ -51,9 +52,9 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_codCompartimento;
-        public TextView tv_codTag;
-        public TextView tv_capacidad;
+        TextView tv_codCompartimento;
+        TextView tv_codTag;
+        TextView tv_capacidad;
 
 
         public ViewHolder(View itemView) {
@@ -63,16 +64,16 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
             tv_capacidad= (TextView)itemView.findViewById(R.id.tv_capacidadtotalcomp);
         }
 
-        public void bind(final CACompartimentosBD compartimentosList, final OnItemClickListener listener){
-            tv_codCompartimento.setText(compartimentosList.getCod_compartimento());
-            tv_codTag.setText(compartimentosList.getCod_tag_cprt());
-            tv_capacidad.setText(compartimentosList.getCan_capacidad());
+        public void bind(final CACompartimentosBD compartimentos, final OnItemClickListener listener){
+            this.tv_codCompartimento.setText(compartimentosList.get(getAdapterPosition()).getCod_compartimento());
+            this.tv_codTag.setText(compartimentosList.get(getAdapterPosition()).getCod_tag_cprt());
+            this.tv_capacidad.setText(compartimentosList.get(getAdapterPosition()).getCan_capacidad());
 
             itemView.setOnClickListener(new View.OnClickListener(){
 
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(compartimentosList, getAdapterPosition());
+                    listener.onItemClick(compartimentos, getAdapterPosition());
                 }
             });
         }

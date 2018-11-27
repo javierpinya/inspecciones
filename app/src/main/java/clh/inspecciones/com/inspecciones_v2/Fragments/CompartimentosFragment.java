@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,14 +82,17 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
         View view;
         view = inflater.inflate(R.layout.fragment_compartimentos, container, false);
-
-
         realm = Realm.getDefaultInstance();
         cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
         guardar = (Button)view.findViewById(R.id.btn_guardar);
         cisterna.setText(matricula);
 
         guardar.setOnClickListener(this);
+        mRecyclerView = view.findViewById(R.id.rv_compartimentos);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        mRecyclerView.setHasFixedSize(true);
+
+
 
         renderCompartimentos();
         // Inflate the layout for this fragment
@@ -127,10 +131,10 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             @Override
             public void onItemClick(CACompartimentosBD compartimentosList, int position) {
                 dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento());
-
-
             }
         });
+
+        mRecyclerView.setAdapter(adapter);
 
 
 

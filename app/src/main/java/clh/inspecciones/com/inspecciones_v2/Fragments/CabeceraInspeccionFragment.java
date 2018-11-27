@@ -356,7 +356,9 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public void guardar(List<Boolean> checklist){
-        Toast.makeText(getActivity(), inspeccion, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), inspeccion, Toast.LENGTH_SHORT).show();
+        List<String> checkListString;
+        checkListString = new ArrayList<>();
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
         switch (tipoComponente){
@@ -418,9 +420,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         realm.copyToRealmOrUpdate(inspeccionBD);
         realm.commitTransaction();
         comprobacion=true;
-        registrarInspeccionNube(user, pass, inspeccion, matTractora);
-
-
+        for (int i=0;i<checklist.size();i++){
+            checkListString.add(checklist.get(i).toString());
+        }
+        registrarInspeccionNube(user, pass, inspeccion, matTractora, matCisterna, codConductor, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
 
     }
 
@@ -462,7 +465,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         return contadorInspecciones;
     }
 
-    private void registrarInspeccionNube(final String user, final String pass, final String inspeccion, final String matTractora){
+    private void registrarInspeccionNube(final String user, final String pass, final String inspeccion, final String matTractora, final String matCisterna,
+                                         final String conductor, final String tipoComponente, final String transportista, final String albaran, final String tabla_calibracion,  final List<String> checklist){
         /*
         DetalleInspeccionBD inspeccionBD;
         inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
@@ -491,6 +495,43 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 params.put("pass", pass);
                 params.put("inspeccion", inspeccion);
                 params.put("matTractora", matTractora);
+                params.put("matCisterna", matCisterna);
+                params.put("conductor", conductor);
+                params.put("tipoComponente", tipoComponente);
+                params.put("fecha", "2018-11-30");
+                params.put("transportista", transportista);
+                params.put("tabla_calibracion", tabla_calibracion);
+                params.put("albaran", albaran);
+                params.put("bateriaDesconectada", checklist.get(0));
+                params.put("fichaSeguridad", checklist.get(1));
+                params.put("transponderTractora", checklist.get(2));
+                params.put("transponderCisterna", checklist.get(3));
+                params.put("frenoEstacionamiento", checklist.get(4));
+                params.put("apagallamas", checklist.get(5));
+                params.put("bajadaTagPlanta", checklist.get(6));
+                params.put("adrCisterna", checklist.get(7));
+                params.put("adrConductor", checklist.get(8));
+                params.put("adrTractora", checklist.get(9));
+                params.put("mangueraGases", checklist.get(10));
+                params.put("tomaTierra", checklist.get(11));
+                params.put("tfnoMovil", checklist.get(12));
+                params.put("estCajon", checklist.get(13));
+                params.put("estCisterna", checklist.get(14));
+                params.put("estEquiposTrasiegos", checklist.get(15));
+                params.put("estValvulasApi", checklist.get(16));
+                params.put("estValvulasFondo", checklist.get(17));
+                params.put("interruptorEmergencia", checklist.get(18));
+                params.put("itvCisterna", checklist.get(19));
+                params.put("itvTractora", checklist.get(20));
+                params.put("lecturaTagsIsleta", checklist.get(21));
+                params.put("montajeTagsCorrecto", checklist.get(22));
+                params.put("permisoConducir", checklist.get(23));
+                params.put("posicionIsleta", checklist.get(24));
+                params.put("purga", checklist.get(25));
+                params.put("recogerAlbaran", checklist.get(26));
+                params.put("ropaSeguridad", checklist.get(27));
+                params.put("superficieAntideslizante", checklist.get(28));
+                params.put("tc2", checklist.get(29));
                 return params;
             }
         };

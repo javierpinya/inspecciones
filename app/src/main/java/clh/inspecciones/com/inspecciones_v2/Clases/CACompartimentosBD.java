@@ -13,9 +13,9 @@ public class CACompartimentosBD extends RealmObject {
     @PrimaryKey
     private int id;
     @Required
-    private String inspeccion;
-
     private String matricula;
+
+    private String inspeccion;
     private int cod_compartimento;
     private String tipo_componente;
     private int can_capacidad;

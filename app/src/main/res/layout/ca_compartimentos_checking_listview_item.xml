@@ -5,6 +5,8 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <!--
+
     <TextView
         android:id="@+id/tv_matriculacomp"
         android:layout_width="match_parent"
@@ -73,7 +75,7 @@
             android:text="10500"/>
 
     </LinearLayout>
-
+-->
 
 
 </LinearLayout>

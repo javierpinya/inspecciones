@@ -73,13 +73,20 @@
 
             </LinearLayout>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_compartimentos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+<!--
         <ListView
             android:id="@+id/lv_compartimentos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </ListView>
-
+-->
                 <Button
                     android:id="@+id/btn_guardar"
                     android:layout_width="match_parent"
