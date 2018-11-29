@@ -267,7 +267,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             JSONObject jsonObject = new JSONObject(response);
                             //Cramos un JSONArray del objeto JSON "vehiculo"
                             JSONArray json = jsonObject.optJSONArray("vehiculo");
-                            JSONArray json1  = jsonObject.optJSONArray("compartimento");
+                            JSONArray json1  = jsonObject.optJSONArray("compartimentos");
 
                             for (int i=0; i<json.length(); i++){
 
@@ -371,9 +371,12 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             }
 
                             for(int i=0; i<json2.length(); i++){
-                                compartimentos.add(json2.optJSONObject(i).optInt("cod_compartimento"));
-                                tags.add(json2.optJSONObject(i).optString("cod_tag_cprt"));
-                                capacidad.add(json2.optJSONObject(i).optInt("can_capacidad"));
+                                JSONObject jsonObject1=null;
+                                jsonObject1 = json2.getJSONObject(i);
+
+                                compartimentos.add(jsonObject1.optInt("COD_COMPARTIMENTO"));
+                                tags.add(jsonObject1.optString("COD_TAG_CPRT"));
+                                capacidad.add(jsonObject1.optInt("CAN_CAPACIDAD"));
                             }
 
                             Date fec_calibracion_p = parseador.parse(fec_cadu_calibracion);
@@ -382,8 +385,6 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             } else {
                                 fec_baja_p=null;
                             }
-
-
                             createNewCisterna(matVehiculo,tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
                             anadirCompartimentos(matVehiculo,compartimentos,capacidad,tags);
 

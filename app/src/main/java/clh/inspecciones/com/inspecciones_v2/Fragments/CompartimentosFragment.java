@@ -19,8 +19,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.CompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
@@ -35,7 +44,7 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>>, View.OnClickListener {
+public class CompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>> {
 
     private Realm realm;
     private RealmResults<CACompartimentosBD> caCompartimentosBD;
@@ -46,19 +55,18 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private CompartimentosAdapter adapter;
     private CACompartimentosBD compartimentosBD;
     private RealmList<CACompartimentosBD> compartimentosList;
-    private Button guardar;
+    private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
+    private String user;
+    private String pass;
 
     //compartimentos
-    private List<String> compartimentos;
+    private List<Integer> compartimentos;
     private List<Integer> capacidad;
     private List<String> tags;
     private List<Integer> cantidad;
 
     private RecyclerView mRecyclerView;
     // Puede ser declarado como 'RecyclerView.Adapter' o como nuetra clase adaptador 'MyAdapter'
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
 
     
 
@@ -84,10 +92,8 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         view = inflater.inflate(R.layout.fragment_compartimentos, container, false);
         realm = Realm.getDefaultInstance();
         cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
-        guardar = (Button)view.findViewById(R.id.btn_guardar);
         cisterna.setText(matricula);
 
-        guardar.setOnClickListener(this);
         mRecyclerView = view.findViewById(R.id.rv_compartimentos);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setHasFixedSize(true);
@@ -118,7 +124,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
 
             for (int i = 0; i < caCompartimentosBD.size(); i++) {
-                compartimentos.add ("Compartimento " + caCompartimentosBD.get(i).getCod_compartimento());
+                compartimentos.add (caCompartimentosBD.get(i).getCod_compartimento());
                 capacidad.add(caCompartimentosBD.get(i).getCan_capacidad());
                 tags.add(caCompartimentosBD.get(i).getCod_tag_cprt());
             }
@@ -135,20 +141,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         });
 
         mRecyclerView.setAdapter(adapter);
-
-
-
-
-        /*
-        compartimentosBD = caRigidoBD.getCompartimentos();
-        for (int i=0; i<caCompartimentosBD.size(); i++){
-            compartimentos.add(caCompartimentosBD.get(i).getCod_compartimento());
-            capacidad.add(caCompartimentosBD.get(i).getCan_capacidad());
-            tags.add(caCompartimentosBD.get(i).getCod_tag_cprt());
-        }
-
-
-*/
     }
 
     //** Dialogs **/
@@ -186,33 +178,50 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     }
 
 
-/*
-    @Override
-    public void onChange(CARigidoBD caRigidoBDS) {
-        adapter.notifyDataSetChanged();
-    }
-*/
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_guardar:
-                if (compartimentos.size() == cantidad.size()){
-                    for (int i=0;i<compartimentos.size();i++) {
-                        compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i)).findFirst();
-                        realm.beginTransaction();
-                        compartimentosBD.setCan_cargada(cantidad.get(i));
-                        realm.copyToRealmOrUpdate(compartimentosBD);
-                        realm.commitTransaction();
-                    }
-                        //registrar en BD Online
+    public void guardar(String user, String pass){
+        this.user = user;
+        this.pass = pass;
+        if (compartimentos.size() == cantidad.size()){
+            for (int i=0;i<compartimentos.size();i++) {
+                compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i).intValue()).findFirst(); //("cod_compartimento", compartimentos.get(i)).findFirst();
+                realm.beginTransaction();
+                compartimentosBD.setCan_cargada(cantidad.get(i));
+                realm.copyToRealmOrUpdate(compartimentosBD);
+                realm.commitTransaction();
+            }
+            //registrar en BD Online
+            guardarOnLine(user, pass);
 
-                        callback.volver();  //mejor continuar para incluir observaciones, etc, no volver
-                }else{
-                    Toast.makeText(getActivity(), "Hay que registrar todos los compartimentos, aunque sea con 0", Toast.LENGTH_LONG).show();
-                }
-                break;
+            callback.volver();  //mejor continuar para incluir observaciones, etc, no volver
+        }else{
+            Toast.makeText(getActivity(), "Hay que registrar todos los compartimentos, aunque sea con 0", Toast.LENGTH_LONG).show();
         }
+    }
 
+    private void guardarOnLine(final String user, final String pass) {
+
+        StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("user", user);
+                params.put("pass", pass);
+
+                return params;
+            }
+        };
     }
 
 

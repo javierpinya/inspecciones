@@ -10,8 +10,8 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:background="@color/colorAccent"
-        android:textColor="#FFF"
-        android:text="Compartimento X"/>
+        android:textColor="#FFF"/>
+    <!--android:text="Compartimento X"-->
 
     <LinearLayout
         android:layout_width="match_parent"

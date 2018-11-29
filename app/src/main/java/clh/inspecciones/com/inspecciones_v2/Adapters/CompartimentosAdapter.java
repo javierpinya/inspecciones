@@ -61,13 +61,14 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
             super(itemView);
             tv_codCompartimento = (TextView)itemView.findViewById(R.id.tv_numcomp);
             tv_codTag = (TextView)itemView.findViewById(R.id.tv_codtag);
-            tv_capacidad= (TextView)itemView.findViewById(R.id.tv_capacidadtotalcomp);
+            tv_capacidad= (TextView)itemView.findViewById(R.id.tv_capacidadtotalcomp1);
         }
 
         public void bind(final CACompartimentosBD compartimentos, final OnItemClickListener listener){
-            this.tv_codCompartimento.setText(compartimentosList.get(getAdapterPosition()).getCod_compartimento());
-            this.tv_codTag.setText(compartimentosList.get(getAdapterPosition()).getCod_tag_cprt());
-            this.tv_capacidad.setText(compartimentosList.get(getAdapterPosition()).getCan_capacidad());
+            this.tv_codCompartimento.setText("num_comps: " + compartimentosList.size());
+            //this.tv_codCompartimento.setText("Compartimento " + compartimentosList.get(getAdapterPosition()).getCod_compartimento());
+            this.tv_codTag.setText(compartimentosList.get(getAdapterPosition()).getCod_tag_cprt()); // (compartimentosList.get(getAdapterPosition()).getCod_tag_cprt());
+            this.tv_capacidad.setText(String.valueOf(compartimentosList.get(getAdapterPosition()).getCan_capacidad()));
 
             itemView.setOnClickListener(new View.OnClickListener(){
 

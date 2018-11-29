@@ -96,10 +96,6 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
 
     public void buscar(final String rigido, final String cisterna, final String conductor, final String user, final String pass){
 
-        RequestQueue requestQueue;
-
-
-
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
