@@ -74,6 +74,11 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
     }
 
     @Override
+    public void continuar() {
+
+    }
+
+    @Override
     public void elegirCompartimento(int compartimento) {
 
     }

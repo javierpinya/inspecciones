@@ -24,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
+import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
@@ -64,6 +66,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private List<Integer> capacidad;
     private List<String> tags;
     private List<Integer> cantidad;
+    private List<Boolean> cumpleCantidad = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     // Puede ser declarado como 'RecyclerView.Adapter' o como nuetra clase adaptador 'MyAdapter'
@@ -136,7 +139,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
             @Override
             public void onItemClick(CACompartimentosBD compartimentosList, int position) {
-                dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento());
+                dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento(), compartimentosList.getCan_capacidad(), position);
             }
         });
 
@@ -145,9 +148,13 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     //** Dialogs **/
 
-    private void dialogoIntroducirCantidad(String title){
+    private void dialogoIntroducirCantidad(String title, final int capacidad, final int position){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+
+
+
 
         if (title != null) builder.setTitle(title);
 
@@ -161,11 +168,42 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int cantidad=1000000;
+                Boolean existe=false;
+                Boolean cumple=false;
+                List<Integer> posiciones = new ArrayList<>();
+
                 cantidad = Integer.valueOf(input.getText().toString().trim());
-                if (cantidad != 1000000)
-                    addCantidad(cantidad);
-                else
+                if (cantidad<capacidad){
+                    cumple=true;
+                    Toast.makeText(getActivity(), "Cumple", Toast.LENGTH_SHORT).show();
+                }else{
+                    cumple=false;
+                    Toast.makeText(getActivity(), "No Cumple. La cantidad cargada supera la capacidad registrada", Toast.LENGTH_LONG).show();
+                }
+
+                if (cantidad != 1000000) {
+                    /*
+                       Este for lo utilizamos para los casos en los que se quiera corregir una cantidad introduce anteriormente en un compartimento.
+                       De esta forma, se borrará la cantidad introducida en la ocasión anterior y se
+                    */
+                    for (int j=0;j<posiciones.size();j++){
+                        if (posiciones.get(j) == position){
+                            existe=true;
+                        }else{
+                            posiciones.add(position);
+                        }
+                    }
+
+                    if(existe){
+                        cambiarCantidad(position,cantidad);
+                        cumpleCantidad.set(position,cumple);
+                    }else{
+                        addCantidad(cantidad);
+                        cumpleCantidad.add(cumple);
+                    }
+                }else {
                     Toast.makeText(getActivity(), "Introducir cantidad cargada", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -175,6 +213,9 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     private void addCantidad(int cantidad){
         this.cantidad.add(cantidad);
+    }
+    private void cambiarCantidad(int position, int cantidad){
+        this.cantidad.set(position, cantidad);
     }
 
 
@@ -188,22 +229,22 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                 compartimentosBD.setCan_cargada(cantidad.get(i));
                 realm.copyToRealmOrUpdate(compartimentosBD);
                 realm.commitTransaction();
-            }
-            //registrar en BD Online
-            guardarOnLine(user, pass);
+                //registrar en BD Online
+                guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)));
 
-            callback.volver();  //mejor continuar para incluir observaciones, etc, no volver
+            }
         }else{
             Toast.makeText(getActivity(), "Hay que registrar todos los compartimentos, aunque sea con 0", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void guardarOnLine(final String user, final String pass) {
+    private void guardarOnLine(final String user, final String pass, final String compartimento, final String tag, final String capacidad, final String cantidad, final String cumple) {
 
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Toast.makeText(getActivity(), "Compartimentos guardados con éxito", Toast.LENGTH_SHORT).show();
+                callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
             }
         }, new Response.ErrorListener() {
             @Override
@@ -218,12 +259,17 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                 Map<String,String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);
-
+                params.put("compartimento", compartimento);
+                params.put("tag", tag);
+                params.put("capacidad", capacidad);
+                params.put("cantidad", cantidad);
+                params.put("cumple", cumple);
                 return params;
             }
         };
-    }
 
+        VolleySingleton.getInstanciaVolley(getActivity()).addToRequestqueue(sr);
+    }
 
     @Override
     public void onChange(RealmResults<CACompartimentosBD> caCompartimentosBDS) {
@@ -232,6 +278,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     public interface dataListener{
         void volver();
+        void continuar();
         //void enviarMatricula(String matricula, String inspeccion);
         void elegirCompartimento(int compartimento);
     }

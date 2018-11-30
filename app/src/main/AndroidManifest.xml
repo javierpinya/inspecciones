@@ -24,7 +24,8 @@
         <activity android:name=".Activities.IdentificacionVehiculoActivity" />
         <activity android:name=".Activities.ControlAccesoCheckingActivity" />
         <activity android:name=".Activities.DetalleInspeccionActivity" />
-        <activity android:name=".Activities.CompartimentosActivity"></activity>
+        <activity android:name=".Activities.CompartimentosActivity" />
+        <activity android:name=".Activities.ResultadoInspeccionActivity"></activity>
     </application>
 
 </manifest>
