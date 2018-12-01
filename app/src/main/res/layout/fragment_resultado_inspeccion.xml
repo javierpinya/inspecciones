@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ResultadoInspeccionFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="4dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_inspeccionada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/inspeccionada"/>
+            <CheckBox
+                android:id="@+id/cb_favorable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/favorable"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/cb_desfavorable"
+                    android:layout_gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/desfavorable"
+                    android:checked="false"
+                    android:layout_weight="0.5"/>
+                <EditText
+                    android:id="@+id/et_fechadesfavorable"
+                    android:layout_gravity="right"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="@string/fechaDesfavorable"
+                    android:enabled="false"
+                    android:inputType="date"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/cb_bloqueo"
+                    android:layout_gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bloqueo"
+                    android:checked="false"
+                    android:layout_weight="0.5"/>
+                <EditText
+                    android:id="@+id/et_fechabloqueo"
+                    android:layout_gravity="right"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="@string/fechaBloqueo"
+                    android:enabled="false"
+                    android:inputType="date"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/cb_revisado"
+                    android:layout_gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/revisado"
+                    android:checked="false"
+                    android:layout_weight="0.5"/>
+                <EditText
+                    android:id="@+id/et_fecha_revisado"
+                    android:layout_gravity="right"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="@string/fechaRevisado"
+                    android:enabled="false"
+                    android:inputType="date"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_comentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/comentariosfinales"/>
+            <EditText
+                android:id="@+id/comentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:hint="introducir comentarios"
+                />
+
+
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</FrameLayout>

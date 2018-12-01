@@ -210,11 +210,7 @@
     <string name="et_fechaarnes">et_fechaarnes</string>
 
     <!-- Termistores y TAGS-->
-    <string name="inspeccionada">inspeccionada</string>
-    <string name="favorable">favorable</string>
-    <string name="desfavorable">desfavorable</string>
-    <string name="bloqueo">bloqueo</string>
-    <string name="revisado">revisado</string>
+
     <string name="tv_fechabloqueo">tv_fechabloqueo</string>
     <string name="et_fechabloqueo">et_fechabloqueo</string>
     <string name="tv_fecharevisado">tv_fecharevisado</string>
@@ -236,6 +232,16 @@
 
     <string name="guardarcambios">Aplicar cambios</string>
     <string name="btncompartimentos">Compartimentos</string>
+
+    <string name="inspeccionada">Inspeccionada</string>
+    <string name="favorable">Favorable</string>
+    <string name="desfavorable">Desfavorable</string>
+    <string name="bloqueo">Bloqueo</string>
+    <string name="revisado">Revisado</string>
+    <string name="fechaDesfavorable">Fecha desfavorable</string>
+    <string name="fechaBloqueo">Fecha bloqueo</string>
+    <string name="fechaRevisado">Fecha revisado</string>
+    <string name="observaciones">Observaciones</string>
 
 </resources>
 

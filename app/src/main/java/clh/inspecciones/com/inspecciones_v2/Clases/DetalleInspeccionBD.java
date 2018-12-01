@@ -137,6 +137,8 @@ public class DetalleInspeccionBD extends RealmObject {
     private int c8Tag;
     private String tagObservaciones;
 
+    //Resultado
+
     public DetalleInspeccionBD(){}
 
     public DetalleInspeccionBD(String inspeccion){
