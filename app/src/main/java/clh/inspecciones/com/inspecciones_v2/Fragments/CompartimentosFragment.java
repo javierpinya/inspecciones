@@ -109,8 +109,8 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     }
 
     public void enviarMatricula(String matricula, String inspeccion){
-        this.matricula = matricula;
-        this.inspeccion = inspeccion;
+        this.matricula = matricula.trim();
+        this.inspeccion = inspeccion.trim();
     }
 
 

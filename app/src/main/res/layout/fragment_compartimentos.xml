@@ -29,9 +29,9 @@
                     android:background="@color/colorAccent"
                     android:textColor="@color/colorPrimary"
                     android:id="@+id/tv_cisterna"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_cisterna"
+                    android:text="@string/tv_codvehiculo"
                     android:gravity="center_horizontal"
                     android:textSize="16dp"
                     android:layout_weight="0.5"/>
@@ -40,7 +40,7 @@
                     android:background="@color/colorAccent"
                     android:textColor="@color/colorPrimary"
                     android:id="@+id/tv_cisternamatricula"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="R5484FSF"
                     android:textSize="16dp"
@@ -79,19 +79,7 @@
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
-<!--
-        <ListView
-            android:id="@+id/lv_compartimentos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        </ListView>
--->
-                <Button
-                    android:id="@+id/btn_guardar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/guardarcambios"/>
 
         </LinearLayout>
 
