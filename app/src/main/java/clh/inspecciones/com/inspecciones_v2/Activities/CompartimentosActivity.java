@@ -1,6 +1,7 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +61,11 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
     }
 
     public void siguiente(){
+        Intent intent = new Intent();
+        intent.setClass(CompartimentosActivity.this, ResultadoInspeccionActivity.class);
+        intent.putExtra("inspeccion", inspeccion);
+        intent.putExtra("matricula", matricula);
+        startActivity(intent);
 
     }
 

@@ -4,7 +4,7 @@
 
     <item android:id="@+id/menu_guardar"
         android:title="Guardar"
-        android:icon="@mipmap/ic_launcher_foreground"
+        android:icon="@drawable/ic_launcher_foreground"
         app:showAsAction="always"
         />
 

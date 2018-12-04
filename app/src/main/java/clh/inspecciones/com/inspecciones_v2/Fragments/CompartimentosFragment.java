@@ -191,6 +191,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                             existe=true;
                         }else{
                             posiciones.add(position);
+                            existe=false;
                         }
                     }
 
@@ -200,6 +201,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                     }else{
                         addCantidad(cantidad);
                         cumpleCantidad.add(cumple);
+                        posiciones.add(position);
                     }
                 }else {
                     Toast.makeText(getActivity(), "Introducir cantidad cargada", Toast.LENGTH_LONG).show();
@@ -222,6 +224,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     public void guardar(String user, String pass){
         this.user = user;
         this.pass = pass;
+        Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
         if (compartimentos.size() == cantidad.size()){
             for (int i=0;i<compartimentos.size();i++) {
                 compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i).intValue()).findFirst(); //("cod_compartimento", compartimentos.get(i)).findFirst();
@@ -230,7 +233,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                 realm.copyToRealmOrUpdate(compartimentosBD);
                 realm.commitTransaction();
                 //registrar en BD Online
-                guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)));
+                guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)), inspeccion);
 
             }
         }else{
@@ -238,13 +241,13 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         }
     }
 
-    private void guardarOnLine(final String user, final String pass, final String compartimento, final String tag, final String capacidad, final String cantidad, final String cumple) {
+    private void guardarOnLine(final String user, final String pass, final String compartimento, final String tag, final String capacidad, final String cantidad, final String cumple, final String inspeccion) {
 
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getActivity(), "Compartimentos guardados con éxito", Toast.LENGTH_SHORT).show();
-                callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
+               // callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
             }
         }, new Response.ErrorListener() {
             @Override
@@ -264,6 +267,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                 params.put("capacidad", capacidad);
                 params.put("cantidad", cantidad);
                 params.put("cumple", cumple);
+                params.put("inspeccion", inspeccion);
                 return params;
             }
         };

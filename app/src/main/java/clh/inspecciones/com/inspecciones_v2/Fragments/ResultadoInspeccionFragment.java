@@ -8,8 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
+import io.realm.Realm;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +24,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 public class ResultadoInspeccionFragment extends Fragment {
 
 
+    private Realm realm;
 
     private CheckBox cbInspeccionada;
     private CheckBox cbFavorable;
@@ -27,6 +35,14 @@ public class ResultadoInspeccionFragment extends Fragment {
     private CheckBox cbRevisda;
     private EditText etFechaRevisada;
     private EditText etComentarios;
+    private String user;
+    private String pass;
+    private String inspeccion;
+    private DetalleInspeccionBD detalleInspeccionBD;
+    private Date fecha_desfavorable;
+    private String comentarios;
+
+    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
 
     public ResultadoInspeccionFragment() {
@@ -53,12 +69,52 @@ public class ResultadoInspeccionFragment extends Fragment {
         etFechaBloqueo.setEnabled(cbBloqueo.isChecked());
         etFechaRevisada.setEnabled(cbRevisda.isChecked());
 
+        //comentarios = etComentarios.getText();
 
+        realm = Realm.getDefaultInstance();
 
 
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    public void renderResultadoInspeccion(String user, String pass, String inspeccion){
+        this.user = user;
+        this.pass = pass;
+        this.inspeccion = inspeccion;
+
+        cbInspeccionada.setChecked(true);
+        cbFavorable.setChecked(true);
+        cbRevisda.setChecked(false);
+        cbBloqueo.setChecked(false);
+
+    }
+
+    public void guardar(String user, String pass, String inspeccion){
+        this.user = user;
+        this.pass = pass;
+        this.inspeccion = inspeccion;
+        //fecha_desfavorable
+        //Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
+                detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
+                //compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i).intValue()).findFirst(); //("cod_compartimento", compartimentos.get(i)).findFirst();
+                realm.beginTransaction();
+                detalleInspeccionBD.setInspeccionada(cbInspeccionada.isChecked());
+                detalleInspeccionBD.setFavorable(cbFavorable.isChecked());
+                detalleInspeccionBD.setDesfavorable(cbDesfavorable.isChecked());
+                //detalleInspeccionBD.setFechaDesfavorable(etFechaDesfavorable.getText());
+                detalleInspeccionBD.setRevisado(cbRevisda.isChecked());
+                //detalleInspeccionBD.setObservaciones(etComentarios.getText());
+                //compartimentosBD.setCan_cargada(cantidad.get(i));
+                realm.copyToRealmOrUpdate(detalleInspeccionBD);
+                realm.commitTransaction();
+                //registrar en BD Online
+                //guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)), inspeccion);
+
+    }
+
+    public interface dataListener{
     }
 
 }
