@@ -4,13 +4,13 @@
 
     <item android:id="@+id/menu_guardar"
         android:title="Guardar"
-        android:icon="@drawable/ic_launcher_foreground"
         app:showAsAction="always"
         />
 
     <item android:id="@+id/menu_siguiente1"
         android:title="Siguiente"
-        android:icon="@drawable/ic_launcher_foreground"
+
         app:showAsAction="always"/>
+<!--android:icon="@drawable/ic_launcher_foreground"-->
 
 </menu>

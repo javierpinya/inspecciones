@@ -12,13 +12,14 @@ import android.widget.Toast;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class ResultadoInspeccionActivity extends AppCompatActivity {
+public class ResultadoInspeccionActivity extends AppCompatActivity implements ResultadoInspeccionFragment.dataListener{
 
     private SharedPreferences prefs;
     private String inspeccion;
     private String user;
     private String pass;
     private String matricula;
+    private Boolean finalizada=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class ResultadoInspeccionActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_siguiente1:
                 Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
-                siguiente();
+                siguiente(finalizada);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -63,14 +64,24 @@ public class ResultadoInspeccionActivity extends AppCompatActivity {
         resultadoInspeccionFragment.guardar(user,pass,inspeccion);
     }
 
-    private void siguiente(){
-        Intent intent = new Intent();
-        intent.setClass(ResultadoInspeccionActivity.this, MenuActivity.class);
-        startActivity(intent);
+    private void siguiente(Boolean finalizada){
+        if(finalizada) {
+            Intent intent = new Intent();
+            intent.setClass(ResultadoInspeccionActivity.this, MenuActivity.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "La inspección aún no se ha guardado", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void resultadoInspeccion(String user, String pass, String inspeccion){
         ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
         resultadoInspeccionFragment.renderResultadoInspeccion(user, pass, inspeccion);
+    }
+
+    @Override
+    public void guardada() {
+        finalizada = true;
+
     }
 }
