@@ -57,7 +57,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private CompartimentosAdapter adapter;
     private CACompartimentosBD compartimentosBD;
     private RealmList<CACompartimentosBD> compartimentosList;
-    private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
+    private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_compartimentos.php";
     private String user;
     private String pass;
 
@@ -153,9 +153,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 
-
-
-
         if (title != null) builder.setTitle(title);
 
         View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.dialogo_cantidad_cargada, null);
@@ -224,7 +221,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     public void guardar(String user, String pass){
         this.user = user;
         this.pass = pass;
-        Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
         if (compartimentos.size() == cantidad.size()){
             for (int i=0;i<compartimentos.size();i++) {
                 compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i).intValue()).findFirst(); //("cod_compartimento", compartimentos.get(i)).findFirst();
@@ -246,13 +243,14 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getActivity(), "Compartimentos guardados con éxito", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), response  + " - " + compartimento + " - " + tag + " - " + capacidad + " - " + cantidad + " - " + cumple +" - " +  inspeccion, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
                // callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
             }
         }){
 
