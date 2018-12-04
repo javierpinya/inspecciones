@@ -1,6 +1,7 @@
 package clh.inspecciones.com.inspecciones_v2.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
 
                 @Override
                 public void onClick(View v) {
+                    itemView.setBackgroundColor(Color.GREEN);
                     listener.onItemClick(compartimentos, getAdapterPosition());
                 }
             });

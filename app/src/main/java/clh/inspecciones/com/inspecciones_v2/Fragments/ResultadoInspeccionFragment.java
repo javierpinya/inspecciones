@@ -10,6 +10,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.StringRequest;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -39,8 +42,13 @@ public class ResultadoInspeccionFragment extends Fragment {
     private String pass;
     private String inspeccion;
     private DetalleInspeccionBD detalleInspeccionBD;
-    private Date fecha_desfavorable;
+    private String fecha_desfavorable;
     private String comentarios;
+    private Date fechaDesfavorableP;
+    private String fecha_revisada;
+    private String fecha_bloqueo;
+    private Date fechaRevisadaP;
+    private Date fechaBloqueoP;
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -95,6 +103,19 @@ public class ResultadoInspeccionFragment extends Fragment {
         this.user = user;
         this.pass = pass;
         this.inspeccion = inspeccion;
+        this.fecha_desfavorable = etFechaDesfavorable.getText().toString();
+        this.fecha_revisada = etFechaRevisada.getText().toString();
+        this.fecha_bloqueo = etFechaBloqueo.getText().toString();
+
+        try {
+            this.fechaDesfavorableP = parseador.parse(this.fecha_desfavorable);
+            this.fechaRevisadaP = parseador.parse(this.fecha_revisada);
+            this.fechaBloqueoP = parseador.parse(this.fecha_bloqueo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         //fecha_desfavorable
         //Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
                 detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
@@ -103,10 +124,12 @@ public class ResultadoInspeccionFragment extends Fragment {
                 detalleInspeccionBD.setInspeccionada(cbInspeccionada.isChecked());
                 detalleInspeccionBD.setFavorable(cbFavorable.isChecked());
                 detalleInspeccionBD.setDesfavorable(cbDesfavorable.isChecked());
-                //detalleInspeccionBD.setFechaDesfavorable(etFechaDesfavorable.getText());
+                detalleInspeccionBD.setFechaDesfavorable(this.fechaDesfavorableP);
                 detalleInspeccionBD.setRevisado(cbRevisda.isChecked());
-                //detalleInspeccionBD.setObservaciones(etComentarios.getText());
-                //compartimentosBD.setCan_cargada(cantidad.get(i));
+                detalleInspeccionBD.setFechaRevisado(this.fechaRevisadaP);
+                detalleInspeccionBD.setBloqueo(cbBloqueo.isChecked());
+                detalleInspeccionBD.setFechaBloqueo(this.fechaBloqueoP);
+                detalleInspeccionBD.setObservaciones(comentarios);
                 realm.copyToRealmOrUpdate(detalleInspeccionBD);
                 realm.commitTransaction();
                 //registrar en BD Online
