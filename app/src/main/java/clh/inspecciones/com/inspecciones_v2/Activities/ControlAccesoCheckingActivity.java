@@ -88,7 +88,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menu_siguiente1:
+            case R.id.menu_siguiente:
                 siguiente();
                 return true;
                 /*

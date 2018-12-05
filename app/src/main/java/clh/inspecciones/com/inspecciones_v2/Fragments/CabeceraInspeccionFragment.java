@@ -24,8 +24,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +83,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private RealmResults<DetalleInspeccionBD> detalleInspeccionBDS;
     private RealmResults<DetalleInspeccionBD> detalleInspeccionToast;
     private String inspeccionIntent;
-    private Button guardar;
     private Button continuar;
     private Boolean purgas;
     private DetalleInspeccionBD inspecciones;
@@ -126,6 +129,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private Boolean chequeo;
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat parseador2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void onAttach(Context context) {
@@ -200,12 +204,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         ropa = (CheckBox) view.findViewById(R.id.cb_ropa);
         superficieSupAntiDes = (CheckBox) view.findViewById(R.id.cb_superficiesuperior);
         tc2 = (CheckBox) view.findViewById(R.id.cb_tc2);
-
-        //mListView = view.findViewById(R.id.lv_detalleinspecciones);
-        guardar = (Button)view.findViewById(R.id.guardar_cambios);
-
-
-        guardar.setOnClickListener(this);
 
         realm = Realm.getDefaultInstance();
 
@@ -298,55 +296,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
 
                 break;
-
-                //DETALLE INSPECCION FRAGMENT
-            case R.id.guardar_cambios:
-
-                ia = etIa.getText().toString();
-                albaran = etAlbaran.getText().toString();
-                transportista = etTrans.getText().toString();
-                tabla_calibracion = etTablaCal.getText().toString();
-
-                if (ia.equals("") || albaran.equals("") || transportista.equals("")  || tabla_calibracion.equals("")){
-                    Toast.makeText(getActivity(),  ia +  transportista + albaran + tabla_calibracion, Toast.LENGTH_SHORT).show();
-                    break;
-                } else{
-                    //callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
-                    //callback.continuar(obtenerCambios(), matricula);
-                    checklist.add(bateriaDesconectada.isChecked());
-                    checklist.add(fichaSeguridad.isChecked());
-                    checklist.add(transponderTractora.isChecked());
-                    checklist.add(transponderCisterna.isChecked());
-                    checklist.add(frenoEstacionamiento.isChecked());
-                    checklist.add(apagallamas.isChecked());
-                    checklist.add(bajadaTagsPlanta.isChecked());
-                    checklist.add(adrCisterna.isChecked());
-                    checklist.add(adrConductor.isChecked());
-                    checklist.add(adrTractora.isChecked());
-                    checklist.add(mangueraGases.isChecked());
-                    checklist.add(tomaTierra.isChecked());
-                    checklist.add(movilDesconectado.isChecked());
-                    checklist.add(estanqueidadCajon.isChecked());
-                    checklist.add(estanqueidadCisterna.isChecked());
-                    checklist.add(estanqueidadEquiposTrasiego.isChecked());
-                    checklist.add(estanqueidadValvulasAPI.isChecked());
-                    checklist.add(estanqueidadValvulasFondo.isChecked());
-                    checklist.add(interruptorEmergencia.isChecked());
-                    checklist.add(itvCisterna.isChecked());
-                    checklist.add(itvTractora.isChecked());
-                    checklist.add(lecturaTagsIsleta.isChecked());
-                    checklist.add(tagsCorrectos.isChecked());
-                    checklist.add(permisoCirculacion.isChecked());
-                    checklist.add(posicionVehiculo.isChecked());
-                    checklist.add(purgaCompartimentos.isChecked());
-                    checklist.add(recogerAlbaran.isChecked());
-                    checklist.add(ropa.isChecked());
-                    checklist.add(superficieSupAntiDes.isChecked());
-                    checklist.add(tc2.isChecked());
-                    guardar(checklist);
-                    }
-                    break;
-
                 default:
                     break;
 
@@ -355,9 +304,57 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     }
 
+    public void prepararGuardado(){
+        ia = etIa.getText().toString();
+        albaran = etAlbaran.getText().toString();
+        transportista = etTrans.getText().toString();
+        tabla_calibracion = etTablaCal.getText().toString();
+
+        if (ia.equals("") || albaran.equals("") || transportista.equals("")  || tabla_calibracion.equals("")){
+            Toast.makeText(getActivity(),  ia +  transportista + albaran + tabla_calibracion, Toast.LENGTH_SHORT).show();
+        } else{
+            //callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
+            //callback.continuar(obtenerCambios(), matricula);
+            checklist.add(bateriaDesconectada.isChecked());
+            checklist.add(fichaSeguridad.isChecked());
+            checklist.add(transponderTractora.isChecked());
+            checklist.add(transponderCisterna.isChecked());
+            checklist.add(frenoEstacionamiento.isChecked());
+            checklist.add(apagallamas.isChecked());
+            checklist.add(bajadaTagsPlanta.isChecked());
+            checklist.add(adrCisterna.isChecked());
+            checklist.add(adrConductor.isChecked());
+            checklist.add(adrTractora.isChecked());
+            checklist.add(mangueraGases.isChecked());
+            checklist.add(tomaTierra.isChecked());
+            checklist.add(movilDesconectado.isChecked());
+            checklist.add(estanqueidadCajon.isChecked());
+            checklist.add(estanqueidadCisterna.isChecked());
+            checklist.add(estanqueidadEquiposTrasiego.isChecked());
+            checklist.add(estanqueidadValvulasAPI.isChecked());
+            checklist.add(estanqueidadValvulasFondo.isChecked());
+            checklist.add(interruptorEmergencia.isChecked());
+            checklist.add(itvCisterna.isChecked());
+            checklist.add(itvTractora.isChecked());
+            checklist.add(lecturaTagsIsleta.isChecked());
+            checklist.add(tagsCorrectos.isChecked());
+            checklist.add(permisoCirculacion.isChecked());
+            checklist.add(posicionVehiculo.isChecked());
+            checklist.add(purgaCompartimentos.isChecked());
+            checklist.add(recogerAlbaran.isChecked());
+            checklist.add(ropa.isChecked());
+            checklist.add(superficieSupAntiDes.isChecked());
+            checklist.add(tc2.isChecked());
+            guardar(checklist);
+        }
+    }
+
     public void guardar(List<Boolean> checklist){
         //Toast.makeText(getActivity(), inspeccion, Toast.LENGTH_SHORT).show();
         List<String> checkListString;
+        Date today = Calendar.getInstance().getTime();
+        String fechaInspeccion;
+        fechaInspeccion = parseador2.format(today);
         checkListString = new ArrayList<>();
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
@@ -423,7 +420,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         for (int i=0;i<checklist.size();i++){
             checkListString.add(checklist.get(i).toString());
         }
-        registrarInspeccionNube(user, pass, inspeccion, matTractora, matCisterna, codConductor, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
+
+        registrarInspeccionNube(user, pass, fechaInspeccion, inspeccion, matTractora, matCisterna, codConductor, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
 
     }
 
@@ -465,19 +463,19 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         return contadorInspecciones;
     }
 
-    private void registrarInspeccionNube(final String user, final String pass, final String inspeccion, final String matTractora, final String matCisterna,
+    private void registrarInspeccionNube(final String user, final String pass, final String fechaInspeccion, final String inspeccion, final String matTractora, final String matCisterna,
                                          final String conductor, final String tipoComponente, final String transportista, final String albaran, final String tabla_calibracion,  final List<String> checklist){
         /*
         DetalleInspeccionBD inspeccionBD;
         inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
-
 */
+        Toast.makeText(getActivity(), fechaInspeccion, Toast.LENGTH_LONG).show();
         //Toast.makeText(getActivity(), user + "-" + pass + "-" + inspeccion + "-" + matTractora, Toast.LENGTH_SHORT).show();
         StringRequest  sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 respuestaNube = response;
-                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
@@ -498,7 +496,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 params.put("matCisterna", matCisterna);
                 params.put("conductor", conductor);
                 params.put("tipoComponente", tipoComponente);
-                params.put("fecha", "2018-11-30");
+                params.put("fecha",fechaInspeccion);
                 params.put("transportista", transportista);
                 params.put("tabla_calibracion", tabla_calibracion);
                 params.put("albaran", albaran);

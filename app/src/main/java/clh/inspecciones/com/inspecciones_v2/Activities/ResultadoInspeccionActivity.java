@@ -50,7 +50,7 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
             case R.id.menu_guardar:
                 guardar(user, pass, inspeccion);
                 return true;
-            case R.id.menu_siguiente1:
+            case R.id.menu_siguiente:
                 Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
                 siguiente(finalizada);
                 return true;

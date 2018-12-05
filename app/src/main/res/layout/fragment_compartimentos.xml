@@ -37,8 +37,8 @@
                     android:layout_weight="0.5"/>
 
                 <TextView
-                    android:background="@color/colorAccent"
-                    android:textColor="@color/colorPrimary"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:id="@+id/tv_cisternamatricula"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -75,6 +75,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_compartimentos"
+                android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

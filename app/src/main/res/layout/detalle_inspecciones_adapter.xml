@@ -111,11 +111,6 @@
                 android:hint="@string/et_tablacal" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_transpondert"
                 android:layout_width="match_parent"
@@ -123,19 +118,7 @@
                 android:layout_weight="1"
                 android:text="@string/transpondert" />
 
-            <Button
-                android:id="@+id/btn_transpondert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_transponderc"
@@ -144,19 +127,6 @@
                 android:layout_weight="1"
                 android:text="@string/transponderc" />
 
-            <Button
-                android:id="@+id/btn_transponderc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_superficiesuperior"
@@ -165,19 +135,6 @@
                 android:layout_weight="1"
                 android:text="@string/superficiesuperior" />
 
-            <Button
-                android:id="@+id/btn_superficiesuperior"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_posicionvehiculo"
@@ -186,42 +143,12 @@
                 android:layout_weight="1"
                 android:text="@string/posicionvehiculo" />
 
-            <Button
-                android:id="@+id/btn_posicionvehiculo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_frenoestacionamiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/frenoestacionamiento" />
-
-            <Button
-                android:id="@+id/btn_frenoestacionamiento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_baterias"
@@ -230,43 +157,12 @@
                 android:layout_weight="1"
                 android:text="@string/desconectadobaterias" />
 
-            <Button
-                android:id="@+id/btn_baterias"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_apagallamas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/apagallamas" />
-
-
-            <Button
-                android:id="@+id/btn_apagallamas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_movil"
@@ -275,21 +171,6 @@
                 android:layout_weight="1"
                 android:text="@string/movil" />
 
-            <Button
-                android:id="@+id/btn_movil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_interruptores"
                 android:layout_width="match_parent"
@@ -297,20 +178,6 @@
                 android:layout_weight="1"
                 android:text="@string/interruptoresemergencia" />
 
-            <Button
-                android:id="@+id/btn_interruptores"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_scully"
@@ -319,21 +186,6 @@
                 android:layout_weight="1"
                 android:text="@string/scully" />
 
-            <Button
-                android:id="@+id/btn_scully"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_manguera_gases"
                 android:layout_width="match_parent"
@@ -341,20 +193,6 @@
                 android:layout_weight="1"
                 android:text="@string/recvap" />
 
-            <Button
-                android:id="@+id/btn_manguera_gases"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_estanqueidadcajon"
@@ -363,42 +201,12 @@
                 android:layout_weight="1"
                 android:text="@string/estancajonvalvulas" />
 
-            <Button
-                android:id="@+id/btn_estanqueidadcajon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_estanqueidadcisterna"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/estancisterna" />
-
-            <Button
-                android:id="@+id/btn_estanqueidadcisterna"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_estanqueidadequipostrasiegos"
@@ -407,42 +215,12 @@
                 android:layout_weight="1"
                 android:text="@string/estanequipotrasiego" />
 
-            <Button
-                android:id="@+id/btn_estanqueidadequipostrasiegos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_estanqueidadvalvulasapi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/estanvalvulasapi" />
-
-            <Button
-                android:id="@+id/btn_estanqueidadvalvulasapi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_estanqueidadvalvulasfondo"
@@ -451,42 +229,12 @@
                 android:layout_weight="1"
                 android:text="@string/estanvalvulasfondo" />
 
-            <Button
-                android:id="@+id/btn_estanqueidadvalvulasfondo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_purga"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/purga" />
-
-            <Button
-                android:id="@+id/btn_purga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_bajadatags"
@@ -495,42 +243,12 @@
                 android:layout_weight="1"
                 android:text="@string/bajadatags" />
 
-            <Button
-                android:id="@+id/btn_bajadatags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/tagsok" />
-
-            <Button
-                android:id="@+id/btn_tags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_lecturatagsisleta"
@@ -539,21 +257,6 @@
                 android:layout_weight="1"
                 android:text="@string/lecturatagsisleta" />
 
-            <Button
-                android:id="@+id/btn_lecturatagsisleta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_recogealbaran"
                 android:layout_width="match_parent"
@@ -561,45 +264,12 @@
                 android:layout_weight="1"
                 android:text="@string/recogeralbaran" />
 
-            <Button
-                android:id="@+id/btn_recogealbaran"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/cb_ropa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ropa" />
-
-            <Button
-                android:id="@+id/btn_ropa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="..." />
-
-
-        </LinearLayout>
-        <Button
-            android:id="@+id/guardar_cambios"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/guardarcambios"
-            android:textSize="20dp" />
-
-
 
     </LinearLayout>
     </ListView>

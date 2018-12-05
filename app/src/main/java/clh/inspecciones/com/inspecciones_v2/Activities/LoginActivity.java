@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
         setContentView(R.layout.activity_login);
 
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
-        //prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
     }
 
@@ -43,14 +42,13 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
     }
 
     private void saveOnPreferences(String user, String password, boolean sw){
-        if (sw){
+       // if (sw){
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("user", user);
             editor.putString("pass", password);
             //editor.putInt("nuevaInspeccion", nuevaInspeccion);
             editor.commit();
             editor.apply();
-            Toast.makeText(this, user, Toast.LENGTH_SHORT).show();
-        }
+        //}
     }
 }

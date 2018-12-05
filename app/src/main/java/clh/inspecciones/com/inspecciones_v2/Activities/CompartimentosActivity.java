@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -32,12 +33,13 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
             matricula = getIntent().getStringExtra("matricula").trim();
             inspeccion = getIntent().getStringExtra("inspeccion").trim();
         }
+        Toast.makeText(this, "mat: " + matricula, Toast.LENGTH_SHORT).show();
         enviarMatricula(matricula, inspeccion);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_siguiente, menu);
+        getMenuInflater().inflate(R.menu.menu_guardar_siguiente, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -47,7 +49,7 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
             case R.id.menu_guardar:
                 guardar(user, pass);
                 return true;
-            case R.id.menu_siguiente1:
+            case R.id.menu_siguiente:
                 siguiente();
                 return true;
             default:

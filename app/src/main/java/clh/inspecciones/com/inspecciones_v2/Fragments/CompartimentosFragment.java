@@ -50,7 +50,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     private Realm realm;
     private RealmResults<CACompartimentosBD> caCompartimentosBD;
-    private String matricula;
+    private static String matricula;
     private String inspeccion;
     private TextView cisterna;
     private dataListener callback;
@@ -95,7 +95,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         view = inflater.inflate(R.layout.fragment_compartimentos, container, false);
         realm = Realm.getDefaultInstance();
         cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
-        cisterna.setText(matricula);
+
 
         mRecyclerView = view.findViewById(R.id.rv_compartimentos);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -104,6 +104,8 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
 
         renderCompartimentos();
+        cisterna.setText(matricula);
+        //Toast.makeText(getActivity(), matricula, Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         return view;
     }
@@ -244,7 +246,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response  + " - " + compartimento + " - " + tag + " - " + capacidad + " - " + cantidad + " - " + cumple +" - " +  inspeccion, Toast.LENGTH_LONG).show();
-                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), tag, Toast.LENGTH_LONG).show();
                // callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
             }
         }, new Response.ErrorListener() {
