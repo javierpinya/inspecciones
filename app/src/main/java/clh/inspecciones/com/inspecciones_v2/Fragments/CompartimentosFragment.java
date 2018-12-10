@@ -101,11 +101,9 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setHasFixedSize(true);
 
-
-
         renderCompartimentos();
-        cisterna.setText(matricula);
-        //Toast.makeText(getActivity(), matricula, Toast.LENGTH_SHORT).show();
+        cisterna.setText(caCompartimentosBD.get(0).getMatricula());
+        caCompartimentosBD.addChangeListener(this);
         // Inflate the layout for this fragment
         return view;
     }
@@ -167,76 +165,57 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int cantidad=1000000;
-                Boolean existe=false;
-                Boolean cumple=false;
-                List<Integer> posiciones = new ArrayList<>();
+                Boolean cumple = false;
 
                 cantidad = Integer.valueOf(input.getText().toString().trim());
                 if (cantidad<capacidad){
-                    cumple=true;
                     Toast.makeText(getActivity(), "Cumple", Toast.LENGTH_SHORT).show();
+                    cumple=true;
                 }else{
-                    cumple=false;
                     Toast.makeText(getActivity(), "No Cumple. La cantidad cargada supera la capacidad registrada", Toast.LENGTH_LONG).show();
+                    cumple=false;
                 }
+                compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", position+1).findFirst();
+                realm.beginTransaction();
+                compartimentosBD.setCan_cargada(cantidad);
+                compartimentosBD.setCumple(cumple);
+                realm.copyToRealmOrUpdate(compartimentosBD);
+                realm.commitTransaction();
 
-                if (cantidad != 1000000) {
-                    /*
-                       Este for lo utilizamos para los casos en los que se quiera corregir una cantidad introduce anteriormente en un compartimento.
-                       De esta forma, se borrará la cantidad introducida en la ocasión anterior y se
-                    */
-                    for (int j=0;j<posiciones.size();j++){
-                        if (posiciones.get(j) == position){
-                            existe=true;
-                        }else{
-                            posiciones.add(position);
-                            existe=false;
-                        }
-                    }
 
-                    if(existe){
-                        cambiarCantidad(position,cantidad);
-                        cumpleCantidad.set(position,cumple);
-                    }else{
-                        addCantidad(cantidad);
-                        cumpleCantidad.add(cumple);
-                        posiciones.add(position);
-                    }
-                }else {
-                    Toast.makeText(getActivity(), "Introducir cantidad cargada", Toast.LENGTH_LONG).show();
-                }
             }
         });
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-    private void addCantidad(int cantidad){
+/*
+    private void addCantidad(int cantidad, int position){
         this.cantidad.add(cantidad);
+        compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", position+1).findFirst();
+        realm.beginTransaction();
+        compartimentosBD.setCan_cargada(cantidad);
+        realm.copyToRealmOrUpdate(compartimentosBD);
+        realm.commitTransaction();
     }
     private void cambiarCantidad(int position, int cantidad){
         this.cantidad.set(position, cantidad);
+        compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", position+1).findFirst();
+        realm.beginTransaction();
+        compartimentosBD.setCan_cargada(cantidad);
+        realm.copyToRealmOrUpdate(compartimentosBD);
+        realm.commitTransaction();
     }
 
-
+*/
     public void guardar(String user, String pass){
         this.user = user;
         this.pass = pass;
-        //Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
-        if (compartimentos.size() == cantidad.size()){
-            for (int i=0;i<compartimentos.size();i++) {
-                compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i).intValue()).findFirst(); //("cod_compartimento", compartimentos.get(i)).findFirst();
-                realm.beginTransaction();
-                compartimentosBD.setCan_cargada(cantidad.get(i));
-                realm.copyToRealmOrUpdate(compartimentosBD);
-                realm.commitTransaction();
-                //registrar en BD Online
-                guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)), inspeccion);
-
-            }
-        }else{
-            Toast.makeText(getActivity(), "Hay que registrar todos los compartimentos, aunque sea con 0", Toast.LENGTH_LONG).show();
+        caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
+        for (int i=0;i<caCompartimentosBD.size();i++) {
+            //registrar en BD Online
+            guardarOnLine(user, pass,String.valueOf(caCompartimentosBD.get(i).getCod_compartimento()), caCompartimentosBD.get(i).getCod_tag_cprt(), String.valueOf(caCompartimentosBD.get(i).getCan_capacidad()), String.valueOf(caCompartimentosBD.get(i).getCan_cargada()), String.valueOf(caCompartimentosBD.get(i).getCumple()), inspeccion);
+            //guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)), inspeccion);
         }
     }
 
@@ -277,7 +256,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     @Override
     public void onChange(RealmResults<CACompartimentosBD> caCompartimentosBDS) {
-
+        adapter.notifyDataSetChanged();
     }
 
     public interface dataListener{

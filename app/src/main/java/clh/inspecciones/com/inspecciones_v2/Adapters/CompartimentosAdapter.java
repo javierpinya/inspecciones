@@ -56,6 +56,7 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
         TextView tv_codCompartimento;
         TextView tv_codTag;
         TextView tv_capacidad;
+        TextView tv_cantidad;
 
 
         public ViewHolder(View itemView) {
@@ -63,6 +64,7 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
             tv_codCompartimento = (TextView)itemView.findViewById(R.id.tv_numcomp);
             tv_codTag = (TextView)itemView.findViewById(R.id.tv_codtag);
             tv_capacidad= (TextView)itemView.findViewById(R.id.tv_capacidadtotalcomp1);
+            tv_cantidad = (TextView)itemView.findViewById(R.id.tv_cant_cargada);
         }
 
         public void bind(final CACompartimentosBD compartimentos, final OnItemClickListener listener){
@@ -70,12 +72,12 @@ public class CompartimentosAdapter extends RecyclerView.Adapter<CompartimentosAd
             //this.tv_codCompartimento.setText("Compartimento " + compartimentosList.get(getAdapterPosition()).getCod_compartimento());
             this.tv_codTag.setText(compartimentosList.get(getAdapterPosition()).getCod_tag_cprt()); // (compartimentosList.get(getAdapterPosition()).getCod_tag_cprt());
             this.tv_capacidad.setText(String.valueOf(compartimentosList.get(getAdapterPosition()).getCan_capacidad()));
+            this.tv_cantidad.setText(String.valueOf(compartimentosList.get(getAdapterPosition()).getCan_cargada()));
 
             itemView.setOnClickListener(new View.OnClickListener(){
 
                 @Override
                 public void onClick(View v) {
-                    itemView.setBackgroundColor(Color.GREEN);
                     listener.onItemClick(compartimentos, getAdapterPosition());
                 }
             });

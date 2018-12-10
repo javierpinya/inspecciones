@@ -3,6 +3,7 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,7 +41,7 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_siguiente, menu);
+        getMenuInflater().inflate(R.menu.menu_guardar_siguiente, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -51,7 +52,6 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
                 guardar(user, pass, inspeccion);
                 return true;
             case R.id.menu_siguiente:
-                Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
                 siguiente(finalizada);
                 return true;
             default:

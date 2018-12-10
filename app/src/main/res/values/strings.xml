@@ -192,12 +192,12 @@
 
 
     <!-- Control de carga-->
-    <string name="estancisterna">estancisterna</string>
-    <string name="estanvalvulasapi">estanvalvulasapi</string>
-    <string name="estancajonvalvulas">estancajonvalvulas</string>
-    <string name="estanvalvulasfondo">estanvalvulasfondo</string>
-    <string name="estanequipotrasiego">estanequipotrasiego</string>
-    <string name="recogeralbaran">recogeralbaran</string>
+    <string name="estancisterna">ESTANQUEIDAD CISTERNA</string>
+    <string name="estanvalvulasapi">ESTANQUEIDAD VÁLVULAS API</string>
+    <string name="estancajonvalvulas">ESTANQUEIDAD CAJÓN VÁLVULAS</string>
+    <string name="estanvalvulasfondo">ESTANQUEIDAD VÁLVULAS DE FONDO</string>
+    <string name="estanequipotrasiego">ESTANQUEIDAD EQUIPO DE TRASIEGO</string>
+    <string name="recogeralbaran">RECOGER ALBARÁN</string>
     <string name="controlcargaobservaciones">controlcargaobservaciones</string>
 
     <!-- Carga de Fuel-->
@@ -215,9 +215,9 @@
     <string name="et_fechabloqueo">et_fechabloqueo</string>
     <string name="tv_fecharevisado">tv_fecharevisado</string>
     <string name="et_fecharevisado">et_fecharevisado</string>
-    <string name="montajetagsok">montajetagsok</string>
-    <string name="bajadatagsplanta">bajadatagsplanta</string>
-    <string name="lecturatagsok">lecturatagsok</string>
+    <string name="montajetagsok">MONTAJE TAGS OK</string>
+    <string name="bajadatagsplanta">BAJADA TAGS PLANTA</string>
+    <string name="lecturatagsok">LECTURA TAGS</string>
     <string name="observacionestags">observacionestags</string>
     <string name="tv_numerotag">tv_numerotag</string>
     <string name="ettagdep1">ettagdep1</string>

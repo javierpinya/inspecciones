@@ -80,8 +80,8 @@ public class ControlAccesoResultadoCisternaAdapter extends BaseAdapter {
 
         vh.matricula.setText(caCisternaBD.getMatricula().toString());
         vh.tipo_componente.setText(caCisternaBD.getTipo_componente());
-        vh.adr.setText(df.format(caCisternaBD.getAdr()));
-        vh.itv.setText(df.format(caCisternaBD.getItv()));
+        vh.adr.setText(caCisternaBD.getAdr().toString());
+        vh.itv.setText(caCisternaBD.getItv().toString());
         vh.ejes.setText(String.valueOf(caCisternaBD.getEjes()));
         vh.ind_bloqueo.setChecked(caCisternaBD.isBloqueado());
         vh.mma.setText(String.valueOf(caCisternaBD.getMma()));
@@ -89,7 +89,7 @@ public class ControlAccesoResultadoCisternaAdapter extends BaseAdapter {
         vh.chip.setText(String.valueOf(caCisternaBD.getChip()));
         vh.ind_solo_gasoleos.setText(caCisternaBD.getSoloGasoelos());
         vh.ind_carga_pesados.setText(caCisternaBD.getInd_carga_pesados());
-        vh.fec_cadu_calibracion.setText(df.format(caCisternaBD.getFec_calibracion()));
+        vh.fec_cadu_calibracion.setText(caCisternaBD.getFec_calibracion().toString());
 
 
         return convertView;

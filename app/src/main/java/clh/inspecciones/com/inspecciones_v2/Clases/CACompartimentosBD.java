@@ -21,6 +21,15 @@ public class CACompartimentosBD extends RealmObject {
     private int can_capacidad;
     private String cod_tag_cprt;
     private int can_cargada;
+    private Boolean cumple;
+
+    public Boolean getCumple() {
+        return cumple;
+    }
+
+    public void setCumple(Boolean cumple) {
+        this.cumple = cumple;
+    }
 
     public int getCan_cargada() {
         return can_cargada;

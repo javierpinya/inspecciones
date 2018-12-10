@@ -31,7 +31,7 @@ import io.realm.Realm;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResultadoInspeccionFragment extends Fragment {
+public class ResultadoInspeccionFragment extends Fragment implements View.OnClickListener{
 
 
     private Realm realm;
@@ -50,13 +50,18 @@ public class ResultadoInspeccionFragment extends Fragment {
     private String pass;
     private String inspeccion;
     private DetalleInspeccionBD detalleInspeccionBD;
-    private String fecha_desfavorable;
-    private String comentarios;
-    private Date fechaDesfavorableP;
-    private String fecha_revisada;
-    private String fecha_bloqueo;
-    private Date fechaRevisadaP;
-    private Date fechaBloqueoP;
+    private String inspeccionada;
+    private String bloqueada;
+    private String favorable;
+    private String desfavorable;
+    private String revisada;
+    private String fecha_desfavorable="0";
+    private String comentarios="0";
+    private Date fechaDesfavorableP=new Date();
+    private String fecha_revisada = "0";
+    private String fecha_bloqueo="0";
+    private Date fechaRevisadaP = new Date();
+    private Date fechaBloqueoP = new Date();
     private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
 
 
@@ -92,9 +97,22 @@ public class ResultadoInspeccionFragment extends Fragment {
         etFechaRevisada = (EditText) view.findViewById(R.id.et_fecha_revisado);
         etComentarios = (EditText)view.findViewById(R.id.comentarios);
 
+        /*
         etFechaDesfavorable.setEnabled(cbDesfavorable.isChecked());
         etFechaBloqueo.setEnabled(cbBloqueo.isChecked());
         etFechaRevisada.setEnabled(cbRevisda.isChecked());
+*/
+        cbInspeccionada.setOnClickListener(this);
+        cbFavorable.setOnClickListener(this);
+        cbDesfavorable.setOnClickListener(this);
+        cbBloqueo.setOnClickListener(this);
+        cbRevisda.setOnClickListener(this);
+
+        inspeccionada = String.valueOf(cbInspeccionada.isChecked());
+        favorable = String.valueOf(cbFavorable.isChecked());
+        desfavorable = String.valueOf(cbDesfavorable.isChecked());
+        bloqueada = String.valueOf(cbBloqueo.isChecked());
+        revisada = String.valueOf(cbRevisda.isChecked());
 
         //comentarios = etComentarios.getText();
 
@@ -153,7 +171,8 @@ public class ResultadoInspeccionFragment extends Fragment {
                 realm.copyToRealmOrUpdate(detalleInspeccionBD);
                 realm.commitTransaction();
                 //registrar en BD Online
-                guardarOnLine(user, pass,String.valueOf(cbInspeccionada.isChecked()), String.valueOf(cbFavorable.isChecked()), String.valueOf(cbDesfavorable.isChecked()), String.valueOf(cbRevisda.isChecked()), String.valueOf(cbBloqueo.isChecked()), inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
+                guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
+                Toast.makeText(getActivity(), desfavorable, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -162,7 +181,7 @@ public class ResultadoInspeccionFragment extends Fragment {
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 callback.guardada();
 
             }
@@ -194,6 +213,30 @@ public class ResultadoInspeccionFragment extends Fragment {
 
 
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.cb_favorable:
+                cbFavorable.setChecked(true);
+                cbDesfavorable.setChecked(false);
+                etFechaDesfavorable.setEnabled(false);
+                break;
+            case R.id.cb_desfavorable:
+                cbDesfavorable.setChecked(true);
+                cbFavorable.setChecked(false);
+                etFechaDesfavorable.setEnabled(true);
+                break;
+            case R.id.cb_bloqueo:
+                etFechaBloqueo.setEnabled(cbBloqueo.isChecked());
+                break;
+            case R.id.cb_revisado:
+                etFechaRevisada.setEnabled(cbRevisda.isChecked());
+                default:
+                    break;
+        }
+
     }
 
 

@@ -99,17 +99,17 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
 
 
 
-        vh.matricula.setText(caRigidoBD.getMatricula().toString());
+        vh.matricula.setText(caRigidoBD.getMatricula());
         vh.tipo_componente.setText(caRigidoBD.getTipo_componente());
-        vh.adr.setText(adr);
-        vh.itv.setText(df.format(caRigidoBD.getItv()));
+        vh.adr.setText(caRigidoBD.getAdr().toString());
+        vh.itv.setText(caRigidoBD.getItv().toString());
         vh.ejes.setText(String.valueOf(caRigidoBD.getEjes()));
         vh.ind_bloqueo.setChecked(caRigidoBD.isBloqueado());
         vh.mma.setText(String.valueOf(caRigidoBD.getMma()));
         vh.tara.setText(String.valueOf(caRigidoBD.getTara()));
         vh.chip.setText(String.valueOf(caRigidoBD.getChip()));
         vh.ind_solo_gasoleos.setText(caRigidoBD.getSoloGasoelos());
-        vh.fec_cadu_calibracion.setText(fec_cadu_calibracion);
+        vh.fec_cadu_calibracion.setText(caRigidoBD.getFec_cadu_calibracion().toString());
         vh.cod_transportista_responsable.setText(transp_resp);
 
 

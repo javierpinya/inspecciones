@@ -12,7 +12,9 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
@@ -27,8 +29,9 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
     private Context context;
     private List<CATractoraBD> caTractora;
     private int layout;
-    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     private String adr;
+    private Date adr_D = new Date();
 
 
     public ControlAccesoResultadoTractoraAdapter(Context context,List<CATractoraBD> caTractora, int layout ){
@@ -78,15 +81,17 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
         if (caTractoraBD.getAdr() == null){
             adr="null";
         }else{
-            adr = df.format(caTractoraBD.getAdr());
+           // adr = df.parse(caTractoraBD.getAdr().toString());
+                adr = df.format(caTractoraBD.getAdr());
+
         }
 
 
 
         vh.matricula.setText(caTractoraBD.getMatricula().toString());
         vh.tipo_componente.setText(caTractoraBD.getTipo_componente());
-        vh.adr.setText(adr);
-        vh.itv.setText(df.format(caTractoraBD.getItv()));
+        vh.adr.setText(adr_D.toString());
+        vh.itv.setText(caTractoraBD.getItv().toString());
         vh.ind_bloqueo.setChecked(caTractoraBD.isBloqueado());
         vh.mma.setText(String.valueOf(caTractoraBD.getMma()));
         vh.tara.setText(String.valueOf(caTractoraBD.getTara()));
