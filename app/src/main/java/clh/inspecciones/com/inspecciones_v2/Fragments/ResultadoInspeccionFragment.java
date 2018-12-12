@@ -1,14 +1,26 @@
 package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -17,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +40,8 @@ import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +78,13 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private Date fechaRevisadaP = new Date();
     private Date fechaBloqueoP = new Date();
     private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
+    private ImageView imagen;
+    private FloatingActionButton fab;
+    final String CARPETA_RAIZ="misImagenesPrueba/";
+    final String RUTA_IMAGEN=CARPETA_RAIZ + "misFotos";
+    private String path;
+    final int COD_SELECCION=10;
+    final int COD_CAMARA=20;
 
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
@@ -96,23 +118,22 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbRevisda = (CheckBox)view.findViewById(R.id.cb_revisado);
         etFechaRevisada = (EditText) view.findViewById(R.id.et_fecha_revisado);
         etComentarios = (EditText)view.findViewById(R.id.comentarios);
+        imagen = (ImageView)view.findViewById(R.id.image1);
 
-        /*
-        etFechaDesfavorable.setEnabled(cbDesfavorable.isChecked());
-        etFechaBloqueo.setEnabled(cbBloqueo.isChecked());
-        etFechaRevisada.setEnabled(cbRevisda.isChecked());
-*/
+        fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarImagen();
+            }
+        });
         cbInspeccionada.setOnClickListener(this);
         cbFavorable.setOnClickListener(this);
         cbDesfavorable.setOnClickListener(this);
         cbBloqueo.setOnClickListener(this);
         cbRevisda.setOnClickListener(this);
 
-        inspeccionada = String.valueOf(cbInspeccionada.isChecked());
-        favorable = String.valueOf(cbFavorable.isChecked());
-        desfavorable = String.valueOf(cbDesfavorable.isChecked());
-        bloqueada = String.valueOf(cbBloqueo.isChecked());
-        revisada = String.valueOf(cbRevisda.isChecked());
+
 
         //comentarios = etComentarios.getText();
 
@@ -122,6 +143,78 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void cargarImagen() {
+        final CharSequence[] opciones={"Camara", "Galeria", "Cancelar"};
+        final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(getActivity());
+        alertOpciones.setTitle("Seleccione una opción");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (opciones[which].toString()){
+                    case "Camara":
+                        tomarFoto();
+                        Toast.makeText(getActivity(), "Tomando Foto", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "Galeria":
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/");
+                        startActivityForResult(intent.createChooser(intent, "Seleccione la aplicacion"), COD_SELECCION);
+                        break;
+                    case "Cancelar":
+                        dialog.dismiss();
+                }
+            }
+        });
+        alertOpciones.show();
+    }
+
+    public void tomarFoto() {
+        File fileImagen = new File(Environment.getExternalStorageDirectory(), RUTA_IMAGEN);
+        boolean isCreada = fileImagen.exists();
+        String nombreImagen="";
+        if(isCreada==false){
+            isCreada=fileImagen.mkdirs();
+        }
+        if(isCreada==true){
+             nombreImagen = (System.currentTimeMillis()/100)+".jpg";
+        }
+        path = Environment.getExternalStorageState() + File.separator+nombreImagen;
+
+        File imagen = new File(path);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
+        startActivityForResult(intent, COD_CAMARA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case COD_SELECCION:
+                    Uri miPath = data.getData();
+                    imagen.setImageURI(miPath);
+                    break;
+                case COD_CAMARA:
+                    MediaScannerConnection.scanFile(getContext(), new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener(){
+
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("Ruta de almacenamiento", "Path: " + path);
+                        }
+                    });
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    imagen.setImageBitmap(bitmap);
+
+                    //MediaScannerConnection.scanFile(getActivity(), new String[](path), null, new MediaScannerConnection.OnScanCompletedListener(){
+
+            }
+        }
     }
 
     public void renderResultadoInspeccion(String user, String pass, String inspeccion){
@@ -144,6 +237,12 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         this.fecha_desfavorable = etFechaDesfavorable.getText().toString();
         this.fecha_revisada = etFechaRevisada.getText().toString();
         this.fecha_bloqueo = etFechaBloqueo.getText().toString();
+
+        inspeccionada = String.valueOf(cbInspeccionada.isChecked());
+        favorable = String.valueOf(cbFavorable.isChecked());
+        desfavorable = String.valueOf(cbDesfavorable.isChecked());
+        bloqueada = String.valueOf(cbBloqueo.isChecked());
+        revisada = String.valueOf(cbRevisda.isChecked());
 
         try {
             this.fechaDesfavorableP = parseador.parse(this.fecha_desfavorable);
@@ -172,7 +271,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                 realm.commitTransaction();
                 //registrar en BD Online
                 guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
-                Toast.makeText(getActivity(), desfavorable, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -181,7 +279,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 callback.guardada();
 
             }
@@ -238,6 +336,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         }
 
     }
+
+
 
 
     public interface dataListener{

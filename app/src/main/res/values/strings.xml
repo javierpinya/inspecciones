@@ -242,6 +242,8 @@
     <string name="fechaBloqueo">Fecha bloqueo</string>
     <string name="fechaRevisado">Fecha revisado</string>
     <string name="observaciones">Observaciones</string>
+    <string name="title_activity_fab">FABActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
 

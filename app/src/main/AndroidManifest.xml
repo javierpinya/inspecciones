@@ -3,9 +3,9 @@
     package="clh.inspecciones.com.inspecciones_v2">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Clases.InicializacionRealm"
@@ -28,7 +28,7 @@
         <activity android:name=".Activities.ControlAccesoCheckingActivity" />
         <activity android:name=".Activities.DetalleInspeccionActivity" />
         <activity android:name=".Activities.CompartimentosActivity" />
-        <activity android:name=".Activities.ResultadoInspeccionActivity"></activity>
+        <activity android:name=".Activities.ResultadoInspeccionActivity" />
     </application>
 
 </manifest>

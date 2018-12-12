@@ -1,8 +1,11 @@
 package clh.inspecciones.com.inspecciones_v2.Clases;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import java.util.Date;
 
-import clh.inspecciones.com.inspecciones_v2.R;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;

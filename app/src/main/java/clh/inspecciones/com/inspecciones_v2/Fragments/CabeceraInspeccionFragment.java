@@ -469,8 +469,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         DetalleInspeccionBD inspeccionBD;
         inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
 */
-        Toast.makeText(getActivity(), fechaInspeccion, Toast.LENGTH_LONG).show();
-        //Toast.makeText(getActivity(), user + "-" + pass + "-" + inspeccion + "-" + matTractora, Toast.LENGTH_SHORT).show();
         StringRequest  sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

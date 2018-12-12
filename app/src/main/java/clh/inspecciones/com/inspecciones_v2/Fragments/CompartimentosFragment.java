@@ -169,7 +169,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
                 cantidad = Integer.valueOf(input.getText().toString().trim());
                 if (cantidad<capacidad){
-                    Toast.makeText(getActivity(), "Cumple", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Cumple", Toast.LENGTH_SHORT).show();
                     cumple=true;
                 }else{
                     Toast.makeText(getActivity(), "No Cumple. La cantidad cargada supera la capacidad registrada", Toast.LENGTH_LONG).show();
@@ -224,8 +224,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(getActivity(), response  + " - " + compartimento + " - " + tag + " - " + capacidad + " - " + cantidad + " - " + cumple +" - " +  inspeccion, Toast.LENGTH_LONG).show();
-                Toast.makeText(getActivity(), tag, Toast.LENGTH_LONG).show();
                // callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
             }
         }, new Response.ErrorListener() {
