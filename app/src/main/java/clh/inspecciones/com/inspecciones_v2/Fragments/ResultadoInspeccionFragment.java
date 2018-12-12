@@ -5,15 +5,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +37,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +49,12 @@ import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static android.os.Environment.getExternalStoragePublicDirectory;
+import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,11 +93,10 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
     private ImageView imagen;
     private FloatingActionButton fab;
-    final String CARPETA_RAIZ="misImagenesPrueba/";
-    final String RUTA_IMAGEN=CARPETA_RAIZ + "misFotos";
+    private String RUTA_IMAGEN="";
     private String path;
     final int COD_SELECCION=10;
-    final int COD_CAMARA=20;
+    static final int COD_CAMARA=20;
 
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
@@ -121,6 +133,13 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         imagen = (ImageView)view.findViewById(R.id.image1);
 
         fab = view.findViewById(R.id.fab);
+
+        if(validaPermisos()){
+            fab.show();
+        }else{
+            fab.hide();
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,13 +152,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbBloqueo.setOnClickListener(this);
         cbRevisda.setOnClickListener(this);
 
-
-
-        //comentarios = etComentarios.getText();
-
         realm = Realm.getDefaultInstance();
-
-
 
         // Inflate the layout for this fragment
         return view;
@@ -154,7 +167,11 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
             public void onClick(DialogInterface dialog, int which) {
                 switch (opciones[which].toString()){
                     case "Camara":
-                        tomarFoto();
+                        try {
+                            tomarFoto();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         Toast.makeText(getActivity(), "Tomando Foto", Toast.LENGTH_SHORT).show();
                         break;
                     case "Galeria":
@@ -170,22 +187,24 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         alertOpciones.show();
     }
 
-    public void tomarFoto() {
-        File fileImagen = new File(Environment.getExternalStorageDirectory(), RUTA_IMAGEN);
-        boolean isCreada = fileImagen.exists();
-        String nombreImagen="";
-        if(isCreada==false){
-            isCreada=fileImagen.mkdirs();
-        }
-        if(isCreada==true){
-             nombreImagen = (System.currentTimeMillis()/100)+".jpg";
-        }
-        path = Environment.getExternalStorageState() + File.separator+nombreImagen;
+    private void tomarFoto() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + imageFileName;
+        File image = new File(storageDir);
 
-        File imagen = new File(path);
+        // Save a file: path for use with ACTION_VIEW intents
+        RUTA_IMAGEN = image.getAbsolutePath();
+
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+            String authorities=getActivity().getApplicationContext().getPackageName()+ ".provider";
+            Uri imageUri = FileProvider.getUriForFile(getActivity(), authorities, image);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        }else{
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+        }
         startActivityForResult(intent, COD_CAMARA);
     }
 
@@ -200,7 +219,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                     imagen.setImageURI(miPath);
                     break;
                 case COD_CAMARA:
-                    MediaScannerConnection.scanFile(getContext(), new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener(){
+                    MediaScannerConnection.scanFile(getContext(), new String[]{RUTA_IMAGEN}, null, new MediaScannerConnection.OnScanCompletedListener(){
 
                         @Override
                         public void onScanCompleted(String path, Uri uri) {
@@ -208,11 +227,9 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                         }
                     });
 
-                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    Bitmap bitmap = BitmapFactory.decodeFile(RUTA_IMAGEN);
                     imagen.setImageBitmap(bitmap);
-
-                    //MediaScannerConnection.scanFile(getActivity(), new String[](path), null, new MediaScannerConnection.OnScanCompletedListener(){
-
+                    break;
             }
         }
     }
@@ -221,7 +238,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         this.user = user;
         this.pass = pass;
         this.inspeccion = inspeccion;
-
         cbInspeccionada.setChecked(true);
         cbFavorable.setChecked(true);
         cbRevisda.setChecked(false);
@@ -251,26 +267,21 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-        //fecha_desfavorable
-        //Toast.makeText(getActivity(), "Can: " + this.cantidad.get(0) + " Can: " + this.cantidad.get(1) + " Can: " + this.cantidad.get(2) + " Can: " + this.cantidad.get(3) + " Can: " + this.cantidad.get(4) + " Can: " + this.cantidad.get(5), Toast.LENGTH_LONG).show();
-                detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
-                //compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", compartimentos.get(i).intValue()).findFirst(); //("cod_compartimento", compartimentos.get(i)).findFirst();
-                realm.beginTransaction();
-                detalleInspeccionBD.setInspeccionada(cbInspeccionada.isChecked());
-                detalleInspeccionBD.setFavorable(cbFavorable.isChecked());
-                detalleInspeccionBD.setDesfavorable(cbDesfavorable.isChecked());
-                detalleInspeccionBD.setFechaDesfavorable(this.fechaDesfavorableP);
-                detalleInspeccionBD.setRevisado(cbRevisda.isChecked());
-                detalleInspeccionBD.setFechaRevisado(this.fechaRevisadaP);
-                detalleInspeccionBD.setBloqueo(cbBloqueo.isChecked());
-                detalleInspeccionBD.setFechaBloqueo(this.fechaBloqueoP);
-                detalleInspeccionBD.setObservaciones(comentarios);
-                realm.copyToRealmOrUpdate(detalleInspeccionBD);
-                realm.commitTransaction();
-                //registrar en BD Online
-                guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
+        detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
+        realm.beginTransaction();
+        detalleInspeccionBD.setInspeccionada(cbInspeccionada.isChecked());
+        detalleInspeccionBD.setFavorable(cbFavorable.isChecked());
+        detalleInspeccionBD.setDesfavorable(cbDesfavorable.isChecked());
+        detalleInspeccionBD.setFechaDesfavorable(this.fechaDesfavorableP);
+        detalleInspeccionBD.setRevisado(cbRevisda.isChecked());
+        detalleInspeccionBD.setFechaRevisado(this.fechaRevisadaP);
+        detalleInspeccionBD.setBloqueo(cbBloqueo.isChecked());
+        detalleInspeccionBD.setFechaBloqueo(this.fechaBloqueoP);
+        detalleInspeccionBD.setObservaciones(comentarios);
+        realm.copyToRealmOrUpdate(detalleInspeccionBD);
+        realm.commitTransaction();
+        //registrar en BD Online
+        guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
 
     }
 
@@ -337,8 +348,66 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     }
 
+    private boolean validaPermisos(){
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            return true;
+        }
+        if((checkSelfPermission(getActivity(),CAMERA) == PackageManager.PERMISSION_GRANTED && (checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED))){
+            return true;
+        }
+        if((shouldShowRequestPermissionRationale(CAMERA)) || (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE))){
+            cargarDialogoRecomendacion();
+        }else{
+            requestPermissions(new String[] {WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+        }
+        return false;
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100){
+            if(grantResults.length==2 && grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED){
+                fab.show();
+            }else{
+                solicitarPermisosManual();
+            }
+        }
+    }
 
+    private void solicitarPermisosManual() {
+        final CharSequence[] opciones={"si", "no"};
+        final AlertDialog.Builder alertOpciones= new AlertDialog.Builder(getActivity());
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(opciones[which].equals("si")){
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package",getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void cargarDialogoRecomendacion() {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(new String[] {WRITE_EXTERNAL_STORAGE, CAMERA}, 100);;
+            }
+        });
+        dialogo.show();
+    }
 
     public interface dataListener{
         void guardada();
