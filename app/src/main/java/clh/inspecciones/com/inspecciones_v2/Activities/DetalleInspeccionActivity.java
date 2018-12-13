@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     private int nuevaInspeccion;
     private String user;
     private String pass;
+    private static Boolean guardadoOK;
+    private static String matricula;
 
 
     @Override
@@ -77,7 +80,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_guardar, menu);
+        getMenuInflater().inflate(R.menu.menu_guardar_siguiente, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -88,6 +91,17 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
                 CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
                 cabeceraInspeccionFragment.prepararGuardado();
                 return true;
+            case R.id.menu_siguiente:
+                if (this.guardadoOK){
+                    Intent intent = new Intent();
+                    intent.setClass(DetalleInspeccionActivity.this, CompartimentosActivity.class);
+                    intent.putExtra("inspeccion", inspeccion);
+                    intent.putExtra("matricula", matricula);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "Debe guardar primero la inspeccion", Toast.LENGTH_LONG).show();
+                }
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -99,6 +113,11 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     }
 
 
+    @Override
+    public void guardado(Boolean guardadoOK, String matricula) {
+        this.guardadoOK = guardadoOK;
+        this.matricula = matricula;
+    }
 
     @Override
     public void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion) {
@@ -107,11 +126,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
 
     @Override
     public void continuar(String inspeccion, String matricula) {
-        Intent intent = new Intent();
-        intent.setClass(DetalleInspeccionActivity.this, CompartimentosActivity.class);
-        intent.putExtra("inspeccion", inspeccion);
-        intent.putExtra("matricula", matricula);
-        startActivity(intent);
+
     }
 
 }

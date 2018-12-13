@@ -3,6 +3,7 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -16,10 +17,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import clh.inspecciones.com.inspecciones_v2.Fragments.FotosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class ResultadoInspeccionActivity extends AppCompatActivity implements ResultadoInspeccionFragment.dataListener{
+public class ResultadoInspeccionActivity extends AppCompatActivity implements ResultadoInspeccionFragment.dataListener, FotosFragment.dataListener {
 
     private SharedPreferences prefs;
     private String inspeccion;
@@ -77,6 +81,7 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
 
     private void siguiente(Boolean finalizada){
         if(finalizada) {
+            Toast.makeText(this, "La inspección ha finalizado. Ya no se puede modificar.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.setClass(ResultadoInspeccionActivity.this, MenuActivity.class);
             startActivity(intent);
@@ -95,4 +100,16 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
         finalizada = true;
 
     }
+
+    @Override
+    public void guardarFotos(Bitmap bitmap) {
+        ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
+        resultadoInspeccionFragment.guardarFoto(bitmap);
+    }
+/*
+    @Override
+    public void renderFotos(ImageView imageViews) {
+        FotosFragment fotosFragment = (FotosFragment)getSupportFragmentManager().findFragmentById(R.id.fotosfragment);
+        fotosFragment.renderFotos(imageViews);
+    }*/
 }

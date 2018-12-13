@@ -33,7 +33,6 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
             matricula = getIntent().getStringExtra("matricula").trim();
             inspeccion = getIntent().getStringExtra("inspeccion").trim();
         }
-        Toast.makeText(this, "mat: " + matricula, Toast.LENGTH_SHORT).show();
         enviarMatricula(matricula, inspeccion);
     }
 

@@ -157,15 +157,15 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
        // mListView = (ListView)view.findViewById(R.id.lv_detalleinspecciones);
 
-        btn_siguiente = (Button)view.findViewById(R.id.btn_siguiente2);
-        btn_compartimentos= (Button)view.findViewById(R.id.btn_compartimentos);
+        //btn_siguiente = (Button)view.findViewById(R.id.btn_siguiente2);
+       // btn_compartimentos= (Button)view.findViewById(R.id.btn_compartimentos);
         etIa = (EditText)view.findViewById(R.id.et_instalacion);
         etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
         etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
 
-        btn_siguiente.setOnClickListener(this);
-        btn_compartimentos.setOnClickListener(this);
+        //btn_siguiente.setOnClickListener(this);
+       // btn_compartimentos.setOnClickListener(this);
 
         /////DETALLE INSPECCION FRAGMENT
 
@@ -283,6 +283,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     @Override
     public void onClick(View v) {
+        /*
         switch (v.getId()){
 
             case R.id.btn_compartimentos:
@@ -301,6 +302,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
 
         }
+        */
 
     }
 
@@ -422,6 +424,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         }
 
         registrarInspeccionNube(user, pass, fechaInspeccion, inspeccion, matTractora, matCisterna, codConductor, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
+        callback.guardado(comprobacion, matricula);
 
     }
 
@@ -537,6 +540,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public interface dataListener{
+        void guardado(Boolean guardadoOK, String matricula);
         //void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
         void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
         void continuar(String inspeccion, String matricula);

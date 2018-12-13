@@ -166,8 +166,17 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             public void onClick(DialogInterface dialogInterface, int i) {
                 int cantidad=1000000;
                 Boolean cumple = false;
+                String entrada=null;
+                entrada = input.getText().toString().trim();
+                if (entrada == null){
+                    cantidad=0;
+                    cumple=false;
+                    //Toast.makeText(getActivity(), "Debe introducir una cantidad", Toast.LENGTH_LONG).show();
+                }else{
+                    cantidad = Integer.valueOf(entrada);
+                }
 
-                cantidad = Integer.valueOf(input.getText().toString().trim());
+
                 if (cantidad<capacidad){
                     //Toast.makeText(getActivity(), "Cumple", Toast.LENGTH_SHORT).show();
                     cumple=true;
@@ -189,25 +198,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-/*
-    private void addCantidad(int cantidad, int position){
-        this.cantidad.add(cantidad);
-        compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", position+1).findFirst();
-        realm.beginTransaction();
-        compartimentosBD.setCan_cargada(cantidad);
-        realm.copyToRealmOrUpdate(compartimentosBD);
-        realm.commitTransaction();
-    }
-    private void cambiarCantidad(int position, int cantidad){
-        this.cantidad.set(position, cantidad);
-        compartimentosBD = realm.where(CACompartimentosBD.class).equalTo("cod_compartimento", position+1).findFirst();
-        realm.beginTransaction();
-        compartimentosBD.setCan_cargada(cantidad);
-        realm.copyToRealmOrUpdate(compartimentosBD);
-        realm.commitTransaction();
-    }
 
-*/
     public void guardar(String user, String pass){
         this.user = user;
         this.pass = pass;
@@ -260,7 +251,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     public interface dataListener{
         void volver();
         void continuar();
-        //void enviarMatricula(String matricula, String inspeccion);
         void elegirCompartimento(int compartimento);
     }
 
