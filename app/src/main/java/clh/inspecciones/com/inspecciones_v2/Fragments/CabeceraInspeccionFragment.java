@@ -424,7 +424,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         }
 
         registrarInspeccionNube(user, pass, fechaInspeccion, inspeccion, matTractora, matCisterna, codConductor, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
-        callback.guardado(comprobacion, matricula);
+        callback.guardado(comprobacion, matricula, inspeccion);
 
     }
 
@@ -540,7 +540,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public interface dataListener{
-        void guardado(Boolean guardadoOK, String matricula);
+        void guardado(Boolean guardadoOK, String matricula, String inspeccion);
         //void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
         void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
         void continuar(String inspeccion, String matricula);

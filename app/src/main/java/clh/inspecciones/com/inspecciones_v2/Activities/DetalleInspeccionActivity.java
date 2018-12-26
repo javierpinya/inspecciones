@@ -114,9 +114,10 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
 
 
     @Override
-    public void guardado(Boolean guardadoOK, String matricula) {
+    public void guardado(Boolean guardadoOK, String matricula, String inspeccion) {
         this.guardadoOK = guardadoOK;
         this.matricula = matricula;
+        this.inspeccion = inspeccion;
     }
 
     @Override

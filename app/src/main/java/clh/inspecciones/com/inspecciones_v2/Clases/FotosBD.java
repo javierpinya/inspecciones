@@ -13,22 +13,22 @@ public class FotosBD extends RealmObject {
     @Required
     private String inspeccion;
     private String nombreFoto;
-    private Bitmap bitmap;
+    private String bitmap;
 
     public FotosBD(){}
 
-    public FotosBD(String inspeccion,String nombreFoto, Bitmap bitmap) {
+    public FotosBD(String inspeccion,String nombreFoto, String bitmap) {
         this.id=InicializacionRealm.FotosBDId.incrementAndGet();
         this.inspeccion = inspeccion;
         this.nombreFoto = nombreFoto;
         this.bitmap = bitmap;
     }
 
-    public Bitmap getBitmap() {
+    public String getBitmap() {
         return bitmap;
     }
 
-    public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(String bitmap) {
         this.bitmap = bitmap;
     }
 

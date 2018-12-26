@@ -170,8 +170,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
         fotosBD = realm.where(FotosBD.class).findAll();
         for (int i=0; i<fotosBD.size(); i++){
-            fotoString =  convertirBitmapString(fotosBD.get(i).getBitmap());
-            guardarFotoOnline(user, pass, fotosBD.get(i).getInspeccion(), fotosBD.get(i).getNombreFoto(), fotoString);
+            //fotoString =  convertirBitmapString(fotosBD.get(i).getBitmap());
+            guardarFotoOnline(user, pass, fotosBD.get(i).getInspeccion(), fotosBD.get(i).getNombreFoto(), fotosBD.get(i).getBitmap());
         }
 
 
@@ -179,7 +179,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     private String convertirBitmapString(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
-        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, array);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, array);
         byte[] imagenByte = array.toByteArray();
         String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
 
@@ -282,10 +282,11 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     public void guardarFoto(Bitmap bitmap) {
         final String inspeccion = this.inspeccion;
+        String fotoString= convertirBitmapString(bitmap);
         int currentTime = (int)System.currentTimeMillis();
         String nombreFoto = inspeccion + "_" + currentTime;
         realm.beginTransaction();
-        FotosBD fotosBD = new FotosBD(inspeccion, nombreFoto, bitmap);
+        FotosBD fotosBD = new FotosBD(inspeccion, nombreFoto, fotoString);
         realm.copyToRealmOrUpdate(fotosBD);
         realm.commitTransaction();
     }

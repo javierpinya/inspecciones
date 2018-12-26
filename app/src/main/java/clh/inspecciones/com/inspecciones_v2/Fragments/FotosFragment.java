@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -199,6 +201,20 @@ public class FotosFragment extends Fragment {
                     });
 
                     bitmap = BitmapFactory.decodeFile(RUTA_IMAGEN);
+                    /*
+                    File file = new File(RUTA_IMAGEN);
+                    try{
+                        FileOutputStream fOut = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fOut);
+                        fOut.flush();
+                        fOut.close();
+
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+*/
                     bitmapConvertida = convertirBitmap(bitmap);
                     bitmapConvertida2 = convertirBitmap2(bitmap);
                     bitmaps.add(bitmapConvertida2);
@@ -215,7 +231,8 @@ public class FotosFragment extends Fragment {
     private Bitmap convertirBitmap2(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
         int size = bitmap.getDensity();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, array);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, array);
+
         if (size == bitmap.getDensity()){
             Toast.makeText(getActivity(), "No se ha comprimido", Toast.LENGTH_SHORT).show();
         }
