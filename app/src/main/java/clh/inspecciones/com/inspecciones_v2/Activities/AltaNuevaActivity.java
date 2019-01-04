@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class AltaNuevaActivity extends AppCompatActivity implements AltaNuevaFragment.AltaNuevaListener{
+public class AltaNuevaActivity extends AppCompatActivity { //implements AltaNuevaFragment.AltaNuevaListener{
 
     /*
     Viene precedida de MenuActivity
@@ -21,7 +21,7 @@ public class AltaNuevaActivity extends AppCompatActivity implements AltaNuevaFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alta_nueva);
     }
-
+/*
     @Override
     public void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoComponente) {
         Intent intent = new Intent(this, IdentificacionVehiculoActivity.class);
@@ -30,5 +30,5 @@ public class AltaNuevaActivity extends AppCompatActivity implements AltaNuevaFra
         intent.putExtra("tipoComponente", tipoComponente);
         startActivity(intent);
     }
-
+*/
 }

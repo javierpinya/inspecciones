@@ -53,7 +53,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private static String matricula;
     private String inspeccion;
     private TextView cisterna;
-    private dataListener callback;
     private CompartimentosAdapter adapter;
     private CACompartimentosBD compartimentosBD;
     private RealmList<CACompartimentosBD> compartimentosList;
@@ -77,15 +76,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         // Required empty public constructor
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try{
-            callback = (dataListener)context;
-        }catch (Exception e){
-            throw new ClassCastException(context.toString() + " should implement dataListener");
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -247,11 +238,11 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     public void onChange(RealmResults<CACompartimentosBD> caCompartimentosBDS) {
         adapter.notifyDataSetChanged();
     }
-
+/*
     public interface dataListener{
         void volver();
         void continuar();
         void elegirCompartimento(int compartimento);
     }
-
+*/
 }

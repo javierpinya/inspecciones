@@ -75,8 +75,12 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
     }
 
     private void guardar(String user, String pass, String inspeccion) {
+
         ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
         resultadoInspeccionFragment.guardar(user,pass,inspeccion);
+
+        FotosFragment fotosFragment = (FotosFragment)getSupportFragmentManager().findFragmentById(R.id.fotosfragment);
+        fotosFragment.guardar(user,pass,inspeccion);
     }
 
     private void siguiente(Boolean finalizada){
@@ -102,10 +106,12 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
     }
 
     @Override
-    public void guardarFotos(Bitmap bitmap) {
+    public void visualizarTexto(String imagen) {
         ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
-        resultadoInspeccionFragment.guardarFoto(bitmap);
+        resultadoInspeccionFragment.renderTextoImagen(imagen);
+
     }
+
 /*
     @Override
     public void renderFotos(ImageView imageViews) {

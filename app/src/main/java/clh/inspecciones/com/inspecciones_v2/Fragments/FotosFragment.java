@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.SweepGradient;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,22 +28,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.CameraAdapter;
 import clh.inspecciones.com.inspecciones_v2.Adapters.FotosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.R;
+import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -71,8 +83,12 @@ public class FotosFragment extends Fragment {
     //private String path;
     final int COD_SELECCION=10;
     static final int COD_CAMARA=20;
-    private String bitmapConvertida;
+    private String imgString;
     private Bitmap bitmapConvertida2;
+    private String urlFoto = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_fotos.php";
+    private List<String> imgStringList;
+    final Bitmap bitmapFinal=null;
+
 
 
     public FotosFragment() {
@@ -98,6 +114,8 @@ public class FotosFragment extends Fragment {
         gridView = (GridView)view.findViewById(R.id.gridView);
         path = new ArrayList<>();
         bitmaps = new ArrayList<>();
+        imgStringList = new ArrayList<>();
+
 
 
         fab = view.findViewById(R.id.fab);
@@ -201,37 +219,47 @@ public class FotosFragment extends Fragment {
                     });
 
                     bitmap = BitmapFactory.decodeFile(RUTA_IMAGEN);
-                    /*
-                    File file = new File(RUTA_IMAGEN);
-                    try{
-                        FileOutputStream fOut = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fOut);
-                        fOut.flush();
-                        fOut.close();
 
-                    }catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-*/
-                    bitmapConvertida = convertirBitmap(bitmap);
+
+
+                    imgString = convertirImgString(bitmap);
+                    imgStringList.add(imgString);
                     bitmapConvertida2 = convertirBitmap2(bitmap);
                     bitmaps.add(bitmapConvertida2);
 
+
                     break;
             }
+
+/*
+            new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... voids) {
+                    ByteArrayOutputStream array = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 25, array);
+                    byte[] imagenByte = array.toByteArray();
+                    String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
+
+                    return imagenString;
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    imgString = s;
+                }
+            }.execute();
+  */
             myCameraAdapter = new CameraAdapter(getActivity(), R.layout.list_fotos, bitmaps);
             gridView.setAdapter(myCameraAdapter);
             myCameraAdapter.notifyDataSetChanged();
-            callback.guardarFotos(bitmap);
+            //Toast.makeText(getActivity(), imgString, Toast.LENGTH_LONG).show();
         }
     }
 
     private Bitmap convertirBitmap2(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
         int size = bitmap.getDensity();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, array);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, array);
 
         if (size == bitmap.getDensity()){
             Toast.makeText(getActivity(), "No se ha comprimido", Toast.LENGTH_SHORT).show();
@@ -239,10 +267,12 @@ public class FotosFragment extends Fragment {
         return bitmap;
     }
 
-    private String convertirBitmap(Bitmap bitmap) {
+    private String convertirImgString(final Bitmap bitmap) {
+        //String imagen;
         ByteArrayOutputStream array = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, array);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, array);
         byte[] imagenByte = array.toByteArray();
+        //String imagenString = Base64.Encoder(imagenByte, Base64.)
         String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
 
         return imagenString;
@@ -309,6 +339,7 @@ public class FotosFragment extends Fragment {
         dialogo.show();
     }
 
+    /*
     public void renderFotos(List<Uri> path){
         //this.mImageViews.add(imageView);
 
@@ -316,10 +347,61 @@ public class FotosFragment extends Fragment {
         myAdapter = new FotosAdapter(getActivity(), R.layout.list_fotos, path);
         gridView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
+    }*/
+
+    public void guardar(String user, String pass, String inspeccion) {
+        int currentTime = (int)System.currentTimeMillis();
+        String nombreFoto;
+        //for (int i=0; i<imgStringList.size(); i++){
+            nombreFoto = inspeccion + "_" + currentTime;
+            guardarFotoOnline(user, pass, inspeccion, nombreFoto, imgString);
+    //}
+
+
     }
 
+    private void guardarFotoOnline(final String user, final String pass, final String inspeccion, final String nombreFoto, final String fotoString) {
+        StringRequest sr = new StringRequest(StringRequest.Method.POST, urlFoto, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getActivity(), response.trim(), Toast.LENGTH_SHORT).show();
+                /*
+                if(response.trim().equalsIgnoreCase("registra")){
+                    Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                    callback.guardada();
+                }else{
+                    Toast.makeText(getActivity(), "no se ha registrado", Toast.LENGTH_SHORT).show();
+                }*/
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("user", user);
+                params.put("pass", pass);
+                params.put("inspeccion", inspeccion);
+                params.put("nombreFoto", nombreFoto);
+                params.put("foto", fotoString);
+                return params;
+            }
+        };
+
+        sr.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+    }
+
+
     public interface dataListener{
-        void guardarFotos(Bitmap bitmap);
+        void guardada();
+        void visualizarTexto(String imagen);
     }
 
 }

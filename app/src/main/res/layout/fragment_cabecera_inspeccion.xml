@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:id="@+id/CabeceraInspeccionFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,116 +12,114 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:padding="4dp">
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal|center_vertical">
-
-            <TextView
-                android:id="@+id/tv_instalacion"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:text="@string/tv_ia"
-                android:gravity="center_horizontal|center"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_instalacion"
-                android:layout_width="0dp"
-                android:layout_weight="60"
+                <TextView
+                    android:id="@+id/tv_instalacion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="40"
+                    android:gravity="center_horizontal|center"
+                    android:text="@string/tv_ia" />
+
+                <EditText
+                    android:id="@+id/et_instalacion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="60" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_transportistaresp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="40"
+                    android:gravity="center_horizontal|center"
+                    android:text="@string/tv_transp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal|center_vertical">
+                <EditText
+                    android:id="@+id/et_transportistaresp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="60" />
 
-            <TextView
-                android:id="@+id/tv_transportistaresp"
-                android:layout_width="0dp"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:text="@string/tv_transp"
-                android:gravity="center_horizontal|center"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_transportistaresp"
-                android:layout_width="0dp"
-                android:layout_weight="60"
+                <TextView
+                    android:id="@+id/tv_albaran"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="40"
+                    android:gravity="center_horizontal|center"
+                    android:text="@string/albaran" />
+
+                <EditText
+                    android:id="@+id/et_albaran"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="60"
+                    android:inputType="numberDecimal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_empresatablacalibracion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="40"
+                    android:gravity="center_horizontal|center"
+                    android:text="@string/tv_tablacal" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal|center_vertical">
+                <EditText
+                    android:id="@+id/et_empresatablacalibracion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="60" />
 
-            <TextView
-                android:id="@+id/tv_albaran"
-                android:layout_width="0dp"
-                android:layout_weight="40"
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/albaran"
-                android:gravity="center_horizontal|center"
-                android:layout_gravity="center_horizontal"/>
-
-            <EditText
-                android:id="@+id/et_albaran"
-                android:layout_width="0dp"
-                android:layout_weight="60"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:inputType="numberDecimal"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal|center_vertical">
-
-            <TextView
-                android:id="@+id/tv_empresatablacalibracion"
-                android:layout_width="0dp"
-                android:layout_weight="40"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_tablacal"
-                android:gravity="center_horizontal|center"
-                android:layout_gravity="center_horizontal"/>
-
-            <EditText
-                android:id="@+id/et_empresatablacalibracion"
-                android:layout_width="0dp"
-                android:layout_weight="60"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_codcond"
@@ -202,184 +200,170 @@
                         android:hint="@string/et_tablacal" />
                 </LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/cb_transpondert"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/transpondert" />
+                <CheckBox
+                    android:id="@+id/cb_transpondert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/transpondert" />
 
-                    <CheckBox
-                        android:id="@+id/cb_transponderc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/transponderc" />
+                <CheckBox
+                    android:id="@+id/cb_transponderc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/transponderc" />
 
-                    <CheckBox
-                        android:id="@+id/cb_superficiesuperior"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/superficiesuperior" />
+                <CheckBox
+                    android:id="@+id/cb_superficiesuperior"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/superficiesuperior" />
 
-                    <CheckBox
-                        android:id="@+id/cb_posicionvehiculo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/posicionvehiculo" />
+                <CheckBox
+                    android:id="@+id/cb_posicionvehiculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/posicionvehiculo" />
 
-                    <CheckBox
-                        android:id="@+id/cb_frenoestacionamiento"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/frenoestacionamiento" />
+                <CheckBox
+                    android:id="@+id/cb_frenoestacionamiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/frenoestacionamiento" />
 
-                    <CheckBox
-                        android:id="@+id/cb_baterias"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/desconectadobaterias" />
+                <CheckBox
+                    android:id="@+id/cb_baterias"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/desconectadobaterias" />
 
-                    <CheckBox
-                        android:id="@+id/cb_apagallamas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/apagallamas" />
+                <CheckBox
+                    android:id="@+id/cb_apagallamas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/apagallamas" />
 
-                    <CheckBox
-                        android:id="@+id/cb_movil"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/movil" />
+                <CheckBox
+                    android:id="@+id/cb_movil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/movil" />
 
-                    <CheckBox
-                        android:id="@+id/cb_interruptores"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/interruptoresemergencia" />
+                <CheckBox
+                    android:id="@+id/cb_interruptores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/interruptoresemergencia" />
 
-                    <CheckBox
-                        android:id="@+id/cb_scully"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/scully" />
+                <CheckBox
+                    android:id="@+id/cb_scully"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/scully" />
 
-                    <CheckBox
-                        android:id="@+id/cb_manguera_gases"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/recvap" />
+                <CheckBox
+                    android:id="@+id/cb_manguera_gases"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/recvap" />
 
-                    <CheckBox
-                        android:id="@+id/cb_estanqueidadcajon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/estancajonvalvulas" />
+                <CheckBox
+                    android:id="@+id/cb_estanqueidadcajon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/estancajonvalvulas" />
 
-                    <CheckBox
-                        android:id="@+id/cb_estanqueidadcisterna"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/estancisterna" />
+                <CheckBox
+                    android:id="@+id/cb_estanqueidadcisterna"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/estancisterna" />
 
-                    <CheckBox
-                        android:id="@+id/cb_estanqueidadequipostrasiegos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/estanequipotrasiego" />
+                <CheckBox
+                    android:id="@+id/cb_estanqueidadequipostrasiegos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/estanequipotrasiego" />
 
-                    <CheckBox
-                        android:id="@+id/cb_estanqueidadvalvulasapi"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/estanvalvulasapi" />
+                <CheckBox
+                    android:id="@+id/cb_estanqueidadvalvulasapi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/estanvalvulasapi" />
 
-                    <CheckBox
-                        android:id="@+id/cb_estanqueidadvalvulasfondo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/estanvalvulasfondo" />
+                <CheckBox
+                    android:id="@+id/cb_estanqueidadvalvulasfondo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/estanvalvulasfondo" />
 
-                    <CheckBox
-                        android:id="@+id/cb_purga"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/purga" />
+                <CheckBox
+                    android:id="@+id/cb_purga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/purga" />
 
-                    <CheckBox
-                        android:id="@+id/cb_bajadatags"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/bajadatags" />
+                <CheckBox
+                    android:id="@+id/cb_bajadatags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/bajadatags" />
 
-                    <CheckBox
-                        android:id="@+id/cb_tags"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/tagsok" />
+                <CheckBox
+                    android:id="@+id/cb_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tagsok" />
 
 
-                    <CheckBox
-                        android:id="@+id/cb_lecturatagsisleta"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/lecturatagsisleta"/>
+                <CheckBox
+                    android:id="@+id/cb_lecturatagsisleta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/lecturatagsisleta" />
 
-                    <CheckBox
-                        android:id="@+id/cb_recogealbaran"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/recogeralbaran" />
+                <CheckBox
+                    android:id="@+id/cb_recogealbaran"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/recogeralbaran" />
 
-                    <CheckBox
-                        android:id="@+id/cb_ropa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/ropa" />
+                <CheckBox
+                    android:id="@+id/cb_ropa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ropa" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            </LinearLayout>
 
             <Button
-                android:id="@+id/btn_compartimentos"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
+                android:id="@+id/btn_guardar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btncompartimentos"/>
-
-            <Button
-                android:id="@+id/btn_siguiente2"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:text="@string/siguiente2"/>
-
-
-        </LinearLayout>
+                android:background="@color/colorAccent"
+                android:text="GUARDAR"
+                android:textColor="#FFF" />
 
         </LinearLayout>
 

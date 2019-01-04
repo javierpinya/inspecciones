@@ -8,7 +8,7 @@
     tools:context=".Activities.DetalleInspeccionActivity">
 
     <fragment
-        android:id="@+id/CabeceraInspeccionFragment"
+        android:id="@+id/fragmentdetalleinspeccion"
         android:name="clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

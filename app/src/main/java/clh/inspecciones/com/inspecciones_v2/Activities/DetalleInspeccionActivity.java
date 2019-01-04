@@ -54,7 +54,7 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
             user = prefs.getString("user", "errorUser");
             pass = prefs.getString("pass", "errorPass");
 
-            nuevaInspeccion = prefs.getInt("nuevaInspeccion", 0);
+            //nuevaInspeccion = prefs.getInt("nuevaInspeccion", 0);
             switch (tipoComponente){
                 case "S":
                     tractora = getIntent().getStringExtra("tractora").trim();
@@ -108,8 +108,10 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
     }
 
     public void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion, String user, String pass) {
+        /*
         CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
         cabeceraInspeccionFragment.crearInspeccionBD(tractora,cisterna,conductor,t_rigido,tipo_inspeccion, user, pass);
+        */
     }
 
 
@@ -118,16 +120,6 @@ public class DetalleInspeccionActivity extends AppCompatActivity implements Cabe
         this.guardadoOK = guardadoOK;
         this.matricula = matricula;
         this.inspeccion = inspeccion;
-    }
-
-    @Override
-    public void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion) {
-
-    }
-
-    @Override
-    public void continuar(String inspeccion, String matricula) {
-
     }
 
 }

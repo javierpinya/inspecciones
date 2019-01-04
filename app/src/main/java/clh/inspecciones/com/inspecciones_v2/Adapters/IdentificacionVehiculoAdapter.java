@@ -23,7 +23,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 
 public class IdentificacionVehiculoAdapter extends RecyclerView.Adapter<IdentificacionVehiculoAdapter.IdentificacionVehiculo_Holder> {
 
-    //public IdentificacionVehiculoResultadoFragment.EnviarData ed;
+    //public IdentificacionVehiculoResultadoFragment.EnviarData callback;
 
     private List<IdentificacionVehiculoClass> listaVehiculos;
     private OnItemClickListener itemClickListener;

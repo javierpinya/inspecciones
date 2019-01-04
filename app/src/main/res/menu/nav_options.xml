@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="Home"/>
+        <item
+            android:id="@+id/menu_altanueva"
+            android:title="Alta Nueva"/>
+
+        <item
+            android:id="@+id/menu_buscar"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Buscar Inspeccion"/>
+        <item
+            android:id="@+id/menu_calibrar"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="Calculadora"/>
+
+    </group>
+    <item
+        android:title="Otras Opciones">
+        <menu>
+            <item
+                android:id="@+id/menu_ajustes"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="Ajustes"/>
+            <item
+                android:id="@+id/menu_logout"
+                android:title="Cerrar Sesión"/>
+        </menu>
+    </item>
+
+
+
+</menu>

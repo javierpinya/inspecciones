@@ -1,10 +1,12 @@
 package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
-
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import clh.inspecciones.com.inspecciones_v2.Adapters.IdentificacionVehiculoAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.IdentificacionVehiculoClass;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
@@ -34,8 +36,10 @@ import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IdentificacionVehiculoBusquedaFragment extends Fragment {
+public class IdentificacionVehiculoFragment extends Fragment {
 
+
+    private SharedPreferences prefs;
     private EditText tractora;
     private EditText cisterna;
     private EditText conductor;
@@ -47,13 +51,13 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
     String url = "http://pruebaalumnosandroid.esy.es/inspecciones/elegir_vehiculo.php";
     private String user;
     private String pass;
-
-
     public IdentificacionVehiculoClass identificacionVehiculoClass;
-
     ArrayList<IdentificacionVehiculoClass> listaVehiculos;
 
-    public IdentificacionVehiculoBusquedaFragment() {
+    RecyclerView recyclerVehiculos;
+    private IdentificacionVehiculoAdapter adapter;
+
+    public IdentificacionVehiculoFragment() {
         // Required empty public constructor
     }
 
@@ -62,29 +66,33 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         super.onAttach(context);
 
         try{
-            callback = (DataListener)context;
+            callback = (IdentificacionVehiculoFragment.DataListener)context;
         }catch(Exception e){
-            throw new ClassCastException(context.toString() + " should implement DataListener");
+            throw new ClassCastException(context.toString() + " should implement EnviarData");
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_identificacion_vehiculo_busqueda, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_identificacion_vehiculo, container, false);
 
         //Bundle args = getArguments();
         tipoVehiculo = getArguments().getString("tipoVehiculo", "sin_datos");
-        //String[] myStrings = args.getStringArray("tipoVehiculo");
-        //tipoVehiculo = myStrings[0];//args.getString("tipoVehiculo");
+        tipoInspeccion = getArguments().getString("tipoInspeccion", "sin_datos_inspeccion");
+        tipoComponente = getArguments().getString("tipoComponente", "sin_datos_componente");
+        user = getArguments().getString("user", "no_user");
+        pass = getArguments().getString("pass", "no_pass");
         listaVehiculos = new ArrayList<>();
         tractora = (EditText)view.findViewById(R.id.et_tractora);
         cisterna = (EditText)view.findViewById(R.id.et_cisterna);
         conductor = (EditText)view.findViewById(R.id.et_codcond);
         buscar = (Button)view.findViewById(R.id.Buscar);
-        Toast.makeText(getActivity(), tipoVehiculo, Toast.LENGTH_SHORT).show();
+        recyclerVehiculos = view.findViewById(R.id.rv_identificacionvehiculo);
+        recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerVehiculos.setHasFixedSize(true);
 
         tractora.setHint("3660");
 
@@ -92,14 +100,16 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listaVehiculos.clear();
-                buscar(tractora.getText().toString(), cisterna.getText().toString(),conductor.getText().toString(), user, pass);
+                buscar(tractora.getText().toString(), cisterna.getText().toString(),conductor.getText().toString(), tipoVehiculo, tipoComponente, user, pass);
             }
         });
+
+
 
         return view;
     }
 
-    public void buscar(final String rigido, final String cisterna, final String conductor, final String user, final String pass){
+    public void buscar(final String rigido, final String cisterna, final String conductor, final String tipoVehiculo, final String tipoComponente, final String user, final String pass){
 
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -159,8 +169,8 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
 
                     }
 
-
-                    callback.buscarVehiculos(listaVehiculos, tipoVehiculo);
+                    renderText(listaVehiculos);
+                    //callback.buscarVehiculos(listaVehiculos, tipoVehiculo);
 
 
 
@@ -194,17 +204,25 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
     }
 
+    public void renderText(ArrayList<IdentificacionVehiculoClass> listaVehiculos){
+
+        adapter = new IdentificacionVehiculoAdapter(listaVehiculos, new IdentificacionVehiculoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(IdentificacionVehiculoClass identificacionVehiculoClass, int position) {
+                String tractora;
+                String cisterna;
+                String conductor;
+                tractora = identificacionVehiculoClass.getTractora().toString();
+                cisterna = identificacionVehiculoClass.getCisterna().toString();
+                conductor = identificacionVehiculoClass.getConductor();
+                callback.enviar(tractora, cisterna, conductor);
+            }
+        });
+        recyclerVehiculos.setAdapter(adapter);
+    }
+
+
     public interface DataListener{
-        void buscarVehiculos(ArrayList<IdentificacionVehiculoClass> listaVehiculos, String tipoVehiculo);
+        void enviar(String tractora, String cisterna, String conductor);
     }
-
-    public void recibir_intent(String tipoVehiculo, String tipoInspeccion, String tipoComponente, String user, String pass){
-        this.tipoInspeccion = tipoInspeccion;
-        this.tipoVehiculo = tipoVehiculo;
-        this.tipoComponente = tipoComponente;
-        this.user = user.trim();
-        this.pass = pass.trim();
-    }
-
 }
-

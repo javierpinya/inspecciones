@@ -44,9 +44,10 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CabeceraInspeccionFragment extends Fragment implements RealmChangeListener<RealmResults<DetalleInspeccionBD>>, View.OnClickListener {
+public class CabeceraInspeccionFragment extends Fragment implements RealmChangeListener<RealmResults<DetalleInspeccionBD>>, View.OnClickListener{
 
     public dataListener callback;
+    private Button button;
     private Realm realm;
     private RealmResults<DetalleInspeccionBD> inspeccionBDs;
     private DetalleInspeccionBD inspeccionBD;
@@ -163,6 +164,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
         etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
+        button = (Button)view.findViewById(R.id.btn_guardar);
 
         //btn_siguiente.setOnClickListener(this);
        // btn_compartimentos.setOnClickListener(this);
@@ -207,10 +209,21 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
         realm = Realm.getDefaultInstance();
 
+        tipoInspeccion = getArguments().getString("tipoInspeccion", "sin_datos_inspeccion");
+        tipoComponente = getArguments().getString("tipoComponente", "sin_datos_componente");
+        user = getArguments().getString("user", "no_user");
+        pass = getArguments().getString("pass", "no_pass");
+        matTractora = getArguments().getString("tractora", "sin_tractora");
+        matCisterna = getArguments().getString("cisterna", "sin_cisterna");
+
+        button.setOnClickListener(this);
+
+        buscarUltimaInspeccion(user, pass);
+        renderText();
 
         return view;
     }
-
+/*
     public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoComponente, String tipoInspeccion, String user, String pass){
         //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
         this.tipoComponente =tipoComponente.trim();
@@ -224,6 +237,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         buscarUltimaInspeccion(this.user, this.pass);
         renderText();
     }
+    */
 
     public void renderText(){
 
@@ -278,31 +292,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     @Override
     public void onChange(RealmResults<DetalleInspeccionBD> detalleInspeccionBD) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        /*
-        switch (v.getId()){
-
-            case R.id.btn_compartimentos:
-                if (comprobacion == false){
-                    Toast.makeText(getActivity(), "Debe guardar la inspección primero", Toast.LENGTH_LONG).show();
-                }else{
-                    callback.continuar(inspeccion, matricula );
-                }
-                break;
-            case R.id.btn_siguiente2:
-
-
-                break;
-                default:
-                    break;
-
-
-        }
-        */
 
     }
 
@@ -428,19 +417,19 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     }
 
-    private int buscarUltimaInspeccion(final String usuario, final String pass){
+    private void buscarUltimaInspeccion(final String usuario, final String pass){
 
         StringRequest sr1 = new StringRequest(Request.Method.POST, json_url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response);
                     JSONArray json = jsonObject.optJSONArray("num_inspecciones");
                     contadorInspecciones = (json.optJSONObject(0).optInt("CONTADOR"));
                     inspeccion = usuario+String.valueOf(contadorInspecciones);
-                    //Toast.makeText(getActivity(), String.valueOf(contadorInspecciones), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -450,6 +439,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "ObtenerInspeccion: " + error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 }){
@@ -462,8 +452,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             }
         };
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr1);
-
-        return contadorInspecciones;
     }
 
     private void registrarInspeccionNube(final String user, final String pass, final String fechaInspeccion, final String inspeccion, final String matTractora, final String matCisterna,
@@ -476,14 +464,14 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             @Override
             public void onResponse(String response) {
                 respuestaNube = response;
-                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "respuestaInspeccionNube: " + response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 respuestaNube = error.toString();
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), "registrarInspeccionNube: " + error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         }){
@@ -495,7 +483,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 params.put("inspeccion", inspeccion);
                 params.put("matTractora", matTractora);
                 params.put("matCisterna", matCisterna);
-                params.put("conductor", conductor);
+                params.put("conductor", "1020101");
                 params.put("tipoComponente", tipoComponente);
                 params.put("fecha",fechaInspeccion);
                 params.put("transportista", transportista);
@@ -535,15 +523,25 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             }
         };
 
+        //Toast.makeText(getActivity(), user + pass + inspeccion + matTractora + matCisterna + conductor
+//                + tipoComponente + fechaInspeccion + transportista + tabla_calibracion + albaran, Toast.LENGTH_LONG).show();
+
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getActivity(), "prepararGuardado", Toast.LENGTH_SHORT).show();
+        prepararGuardado();
 
     }
 
     public interface dataListener{
         void guardado(Boolean guardadoOK, String matricula, String inspeccion);
         //void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
-        void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
-        void continuar(String inspeccion, String matricula);
+        //void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
+        //void continuar(String inspeccion, String matricula);
 
     }
 

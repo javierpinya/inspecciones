@@ -17,8 +17,7 @@ import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoResultadoVehi
 import clh.inspecciones.com.inspecciones_v2.R;
 
 
-public class ControlAccesoCheckingActivity extends AppCompatActivity implements ControlAccesoCheckingFragment.dataListener, ControlAccesoResultadoVehiculoFragment.dataListener {
-
+public class ControlAccesoCheckingActivity extends AppCompatActivity {
     /*
     Lanzada desde identificaciónVehiculoActivity
     Fragments: ControlAccesoCheckingFragment
@@ -53,7 +52,6 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
-        nuevaInspeccion = prefs.getInt("nuevaInspeccion", 0);
 
 
         if(getIntent().getExtras()!= null){
@@ -67,15 +65,9 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
             if (tipoVehiculo.equals("1")) {
                 vehiculos.add(cisterna);
             }
-            //vehiculos.add(conductor);
-            datos_intent(vehiculos, tipoVehiculo, tipoComponente, user, pass, nuevaInspeccion);
+           // datos_intent(vehiculos, tipoVehiculo, tipoComponente, user, pass);
         }
 
-        /*
-        El siguiente paso es hacer el onitemclicklistener sobre cada elemento,
-        conectarse a la bbdd online de control de acceso para sus datos,
-        guardarlos en una base de datos realm y mostrarlos en pantalla.
-         */
     }
 
     @Override
@@ -117,18 +109,16 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
             startActivity(intent);
     }
 
-    @Override
-    public void itemPulsado(String matVehiculo, String tipoComponente) {
-        renderizar(tipoComponente);
-    }
 
 
 
+/*
     public void datos_intent(List<String> datos, String tipoVehiculo, String tipoComponente, String user, String pass, int nuevaInspeccion) {
         ControlAccesoCheckingFragment controlAccesoCheckingFragment = (ControlAccesoCheckingFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoCheckingFragment);
         controlAccesoCheckingFragment.renderText(datos, tipoVehiculo, tipoComponente, user, pass, nuevaInspeccion);
     }
-
+*/
+/*
     @Override
     public void inspecciones() {
         Intent intent = new Intent();
@@ -140,7 +130,7 @@ public class ControlAccesoCheckingActivity extends AppCompatActivity implements 
         intent.setClass(this,DetalleInspeccionActivity.class);
         startActivity(intent);
     }
-
+*/
     public void renderizar(String tipoComponente){
         ControlAccesoResultadoVehiculoFragment controlAccesoResultadoVehiculoFragment = (ControlAccesoResultadoVehiculoFragment)getSupportFragmentManager().findFragmentById(R.id.ControlAccesoResultadoVehiculoFragment);
         controlAccesoResultadoVehiculoFragment.renderVehiculo(tipoComponente);

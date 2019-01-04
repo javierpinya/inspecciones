@@ -32,6 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoCisternaAdapter;
+import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoRigidoAdapter;
+import clh.inspecciones.com.inspecciones_v2.Adapters.ControlAccesoResultadoTractoraAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
@@ -47,17 +50,31 @@ import io.realm.RealmResults;
  */
 public class ControlAccesoCheckingFragment extends Fragment{
 
+
+    private List<String> vehiculos;
+    private String tipoComponente;    //R - rigido, T-tractora, C-cisterna
+    private String tipoInspeccion;
+    private String tipoVehiculo;
+    private String tractora;
+    private String cisterna;
+    private String conductor;
+    private String respuesta;
+    private SharedPreferences prefs;
+    private String user;
+    private String pass;
+    private int nuevaInspeccion;
+    private String nombreFragment;
+    public dataListener callback;
+
+
+
     private ListView mListView;
+    private ListView resultadoListView;
     //private Button btn;
-    private dataListener callback;
     private String json_url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/consultas_inspecciones_app.php";
     private Realm realm;
     private TextView tv;
-    private String tipoVehiculo;
-    private String tipoComponente;
     private String inspeccion;
-    private String user;
-    private String pass;
 
     private RealmResults<CARigidoBD> rigidoBD;
     private RealmResults<CACisternaBD> cisternaBD;
@@ -85,24 +102,28 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private List<Integer> capacidad;
     private List<String> tags;
 
+    //Adaptadores
+    private ControlAccesoResultadoRigidoAdapter adapterRigido;
+    private ControlAccesoResultadoTractoraAdapter adapterTractora;
+    private ControlAccesoResultadoCisternaAdapter adapterCisterna;
+
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
-
-
-    public ControlAccesoCheckingFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         try{
-            callback =(dataListener)context;
+            callback = (ControlAccesoCheckingFragment.dataListener)context;
         }catch(Exception e){
-            throw new ClassCastException(context.toString() + " should implement dataListener");
-
+            throw new ClassCastException(context.toString() + " should implement EnviarData");
         }
+    }
+
+
+    public ControlAccesoCheckingFragment() {
+        // Required empty public constructor
     }
 
     @Override
@@ -114,35 +135,67 @@ public class ControlAccesoCheckingFragment extends Fragment{
         compartimentos = new ArrayList<>();
         capacidad = new ArrayList<>();
         tags = new ArrayList<>();
+        vehiculos = new ArrayList<String>();
+        tipoVehiculo = getArguments().getString("tipoVehiculo", "sin_datos");
+        tipoInspeccion = getArguments().getString("tipoInspeccion", "sin_datos_inspeccion");
+        tipoComponente = getArguments().getString("tipoComponente", "sin_datos_componente");
+        user = getArguments().getString("user", "no_user");
+        pass = getArguments().getString("pass", "no_pass");
+        nombreFragment = getArguments().getString("fragmentActual");
+        tractora = getArguments().getString("tractora", "sin_tractora");
+        cisterna = getArguments().getString("cisterna", "sin_cisterna");
+        vehiculos.add(tractora);
+        if (tipoVehiculo.equals("1")) {
+            vehiculos.add(cisterna);
+        }
+
+        mListView = (ListView)view.findViewById(R.id.lv_controlaccesochecking);
+        resultadoListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadovehiculo);
 
         realm = Realm.getDefaultInstance();
 
+        renderText(vehiculos, tipoVehiculo, tipoComponente, user, pass);
 
 
 
-        mListView = (ListView)view.findViewById(R.id.lv_controlaccesochecking);
+
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String pulsada;
                 pulsada = mListView.getItemAtPosition(position).toString();
-
+/*
+                if(tipoComponente.equalsIgnoreCase("S")){
+                    if(position==0){
+                        renderVehiculo("T");
+                        Toast.makeText(getActivity(), tipoComponente, Toast.LENGTH_SHORT).show();
+                    }else if (position==1){
+                        renderVehiculo("C");
+                    }
+                }else{
+                    renderVehiculo(tipoComponente);
+                }
+*/
                 switch (tipoComponente){
                     case "R":
-                        callback.itemPulsado(pulsada, tipoComponente);
+                        renderVehiculo(tipoComponente);
                         break;
                     case "T":
-                        callback.itemPulsado(pulsada, tipoComponente);
+                        renderVehiculo(tipoComponente);
                         break;
                     case "C":
-                        callback.itemPulsado(pulsada, tipoComponente);
+                        //callback.itemPulsado(pulsada, tipoComponente);
+                        renderVehiculo(tipoComponente);
                         break;
                     case "S":
                         if (position==0){
+                            renderVehiculo("T");
                             //Toast.makeText(getActivity(),pulsada + ", " + tipoComponente + position , Toast.LENGTH_SHORT).show();
-                            callback.itemPulsado(pulsada, "T");
+                          //  callback.itemPulsado(pulsada, "T");
                         }else if (position==1){
-                            callback.itemPulsado(pulsada, "C");
+                            renderVehiculo("C");
+                          //  callback.itemPulsado(pulsada, "C");
                         }
                         break;
                 }
@@ -150,6 +203,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
         });
 
         //btn.setOnClickListener(this);
+
+        callback.enviarFragment(nombreFragment);
 
         return  view;
     }
@@ -159,7 +214,6 @@ public class ControlAccesoCheckingFragment extends Fragment{
         StringRequest sr = new StringRequest(Request.Method.POST, json_url2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
 
 
                 switch (tipoComponente){
@@ -512,12 +566,13 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
 
 
-    public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora, String user, String pass, int nuevaInspeccion) {
+    public void renderText(List<String> datos, String tipoVehiculo, String tipoTractora, String user, String pass) {
         this.tipoVehiculo=tipoVehiculo.trim();
         this.tipoComponente =tipoTractora.trim();
         this.user = user.trim();
         this.pass = pass.trim();
-        this.inspeccion = this.user + String.valueOf(nuevaInspeccion);
+
+        //Toast.makeText(getActivity(), datos.get(0).trim() + this.tipoComponente + this.user + this.pass, Toast.LENGTH_LONG).show();
 
         if (datos.size()>1){
             llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente, this.user, this.pass);
@@ -528,9 +583,29 @@ public class ControlAccesoCheckingFragment extends Fragment{
         mListView.setAdapter(adapter);
     }
 
-    public interface dataListener{
-        void itemPulsado(String vehiculo, String tipoVehiculo);
-        void inspecciones();
+    public void renderVehiculo(String tipoComponente){
+        switch (tipoComponente.trim()){
+            case "R":
+                rigidoBD = realm.where(CARigidoBD.class).findAll();
+                adapterRigido = new ControlAccesoResultadoRigidoAdapter(getActivity(), rigidoBD, R.layout.ca_rigido_checking_listview_item);
+                resultadoListView.setAdapter(adapterRigido);
+                break;
+            case "T":
+                tractoraBD = realm.where(CATractoraBD.class).findAll();
+                adapterTractora = new ControlAccesoResultadoTractoraAdapter(getActivity(), tractoraBD, R.layout.ca_tractora_checking_listview_item);
+                resultadoListView.setAdapter(adapterTractora);
+                break;
+            case "C":
+                cisternaBD = realm.where(CACisternaBD.class).findAll();
+                adapterCisterna = new ControlAccesoResultadoCisternaAdapter(getActivity(), cisternaBD, R.layout.ca_cisterna_checking_listview_item);
+                resultadoListView.setAdapter(adapterCisterna);
+                break;
+        }
+
     }
 
+
+    public interface dataListener {
+        void enviarFragment(String nombreFragment);
+    }
 }

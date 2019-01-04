@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
             editor.putString("user", user);
             editor.putString("pass", password);
             //editor.putInt("nuevaInspeccion", nuevaInspeccion);
-            editor.commit();
+            editor.commit();//6957186 1 adit
             editor.apply();
         //}
     }

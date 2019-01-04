@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class IdentificacionVehiculoResultadoFragment extends Fragment {
 
     RecyclerView recyclerVehiculos;
     private IdentificacionVehiculoAdapter adapter;
-    public EnviarData ed;
+    public EnviarData callback;
 
     public IdentificacionVehiculoResultadoFragment() {
         // Required empty public constructor
@@ -35,7 +34,7 @@ public class IdentificacionVehiculoResultadoFragment extends Fragment {
         super.onAttach(context);
 
         try{
-            ed = (IdentificacionVehiculoResultadoFragment.EnviarData)context;
+            callback = (IdentificacionVehiculoResultadoFragment.EnviarData)context;
         }catch(Exception e){
             throw new ClassCastException(context.toString() + " should implement EnviarData");
         }
@@ -65,7 +64,7 @@ public class IdentificacionVehiculoResultadoFragment extends Fragment {
                 tractora = identificacionVehiculoClass.getTractora().toString();
                 cisterna = identificacionVehiculoClass.getCisterna().toString();
                 conductor = identificacionVehiculoClass.getConductor();
-                ed.enviar(tractora, cisterna, conductor);
+                callback.enviar(tractora, cisterna, conductor);
             }
         });
         recyclerVehiculos.setAdapter(adapter);

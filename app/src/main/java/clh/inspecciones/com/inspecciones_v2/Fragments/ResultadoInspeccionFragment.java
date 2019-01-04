@@ -70,7 +70,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private Date fechaRevisadaP = new Date();
     private Date fechaBloqueoP = new Date();
     private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
-    private String urlFoto = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_fotos.php";
 
 
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
@@ -168,53 +167,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         realm.commitTransaction();
         //registrar en BD Online
         guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
-        fotosBD = realm.where(FotosBD.class).findAll();
-        for (int i=0; i<fotosBD.size(); i++){
-            //fotoString =  convertirBitmapString(fotosBD.get(i).getBitmap());
-            guardarFotoOnline(user, pass, fotosBD.get(i).getInspeccion(), fotosBD.get(i).getNombreFoto(), fotosBD.get(i).getBitmap());
-        }
 
-
-    }
-
-    private String convertirBitmapString(Bitmap bitmap) {
-        ByteArrayOutputStream array = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, array);
-        byte[] imagenByte = array.toByteArray();
-        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
-
-        return imagenString;
-    }
-
-    private void guardarFotoOnline(final String user, final String pass, final String inspeccion, final String nombreFoto, final String fotoString) {
-        StringRequest sr = new StringRequest(StringRequest.Method.POST, urlFoto, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-                callback.guardada();
-
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("user", user);
-                params.put("pass", pass);
-                params.put("inspeccion", inspeccion);
-                params.put("nombreFoto", nombreFoto);
-                params.put("foto", fotoString);
-                return params;
-            }
-        };
-
-
-        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
     }
 
     private void guardarOnLine(final String user, final String pass, final String inspeccionada, final String favorable, final String desfavorable, final String revisada, final String bloqueada,final  String inspeccion, final String fecha_desfavorable, final String fecha_revisada, final String fecha_bloqueo, final String comentarios) {
@@ -280,15 +233,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     }
 
-    public void guardarFoto(Bitmap bitmap) {
-        final String inspeccion = this.inspeccion;
-        String fotoString= convertirBitmapString(bitmap);
-        int currentTime = (int)System.currentTimeMillis();
-        String nombreFoto = inspeccion + "_" + currentTime;
-        realm.beginTransaction();
-        FotosBD fotosBD = new FotosBD(inspeccion, nombreFoto, fotoString);
-        realm.copyToRealmOrUpdate(fotosBD);
-        realm.commitTransaction();
+    public void renderTextoImagen(String imagen){
+        etComentarios.setText(imagen);
     }
 
 

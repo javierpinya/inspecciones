@@ -22,12 +22,12 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     private Button mButtonModificarInspeccion;
     private Button mButtonInterpolar;
     private Button mButtonSalir;
-    private EleccionMenu callback;
+  //  private EleccionMenu callback;
 
     public MenuFragment() {
         // Required empty public constructor
     }
-
+/*
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -38,7 +38,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
     }
-
+*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.altanueva:
-                callback.eleccionMenu(R.id.altanueva);
+         //       callback.eleccionMenu(R.id.altanueva);
                 break;
             case R.id.modificarInspeccion:
                 break;
@@ -79,9 +79,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
     }
-
+/*
     public interface EleccionMenu{
         void eleccionMenu(int seleccion);
     }
-
+*/
 }
