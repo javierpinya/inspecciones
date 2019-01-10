@@ -58,12 +58,11 @@ public class IdentificacionVehiculoAdapter extends RecyclerView.Adapter<Identifi
 
 
     public class IdentificacionVehiculo_Holder extends RecyclerView.ViewHolder{
-        TextView tvConductor, tvTractora, tvCisterna;
+        TextView  tvTractora, tvCisterna;
 
         public IdentificacionVehiculo_Holder(View itemView) {
             super(itemView);
 
-            tvConductor = (TextView)itemView.findViewById(R.id.tv_idvehiculoconductor);
             tvTractora = (TextView)itemView.findViewById(R.id.tv_idvehiculotractor);
             tvCisterna = (TextView)itemView.findViewById(R.id.tv_idvehiculocisterna);
         }
@@ -71,7 +70,6 @@ public class IdentificacionVehiculoAdapter extends RecyclerView.Adapter<Identifi
         public void bind(final IdentificacionVehiculoClass identificacionVehiculoClass, final OnItemClickListener listener) {
 
             this.tvTractora.setText(listaVehiculos.get(getAdapterPosition()).getTractora().toString());
-            this.tvConductor.setText(listaVehiculos.get(getAdapterPosition()).getConductor().toString());
             this.tvCisterna.setText(listaVehiculos.get(getAdapterPosition()).getCisterna().toString());
 
             itemView.setOnClickListener(new View.OnClickListener() {

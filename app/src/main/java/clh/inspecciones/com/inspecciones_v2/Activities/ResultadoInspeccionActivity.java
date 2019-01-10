@@ -23,7 +23,7 @@ import clh.inspecciones.com.inspecciones_v2.Fragments.FotosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class ResultadoInspeccionActivity extends AppCompatActivity implements ResultadoInspeccionFragment.dataListener, FotosFragment.dataListener {
+public class ResultadoInspeccionActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private String inspeccion;
@@ -47,7 +47,7 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
             inspeccion = getIntent().getStringExtra("inspeccion").trim();
         }
 
-        resultadoInspeccion(user, pass, inspeccion);
+       // resultadoInspeccion(user, pass, inspeccion);
 
 
     }
@@ -77,7 +77,7 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
     private void guardar(String user, String pass, String inspeccion) {
 
         ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
-        resultadoInspeccionFragment.guardar(user,pass,inspeccion);
+        resultadoInspeccionFragment.guardar();
 
         FotosFragment fotosFragment = (FotosFragment)getSupportFragmentManager().findFragmentById(R.id.fotosfragment);
         fotosFragment.guardar(user,pass,inspeccion);
@@ -94,23 +94,21 @@ public class ResultadoInspeccionActivity extends AppCompatActivity implements Re
         }
     }
 
+    /*
     public void resultadoInspeccion(String user, String pass, String inspeccion){
         ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
         resultadoInspeccionFragment.renderResultadoInspeccion(user, pass, inspeccion);
-    }
+    }*/
 
-    @Override
-    public void guardada() {
-        finalizada = true;
 
-    }
 
+    /*
     @Override
     public void visualizarTexto(String imagen) {
         ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
         resultadoInspeccionFragment.renderTextoImagen(imagen);
 
-    }
+    }*/
 
 /*
     @Override

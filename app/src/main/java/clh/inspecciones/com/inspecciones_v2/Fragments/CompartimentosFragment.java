@@ -46,10 +46,12 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>> {
+public class CompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>>, View.OnClickListener {
 
     private Realm realm;
     private RealmResults<CACompartimentosBD> caCompartimentosBD;
+    private Button button;
+    private dataListener callback;
     private static String matricula;
     private String inspeccion;
     private TextView cisterna;
@@ -76,7 +78,17 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            callback =(dataListener)context;
+        }catch(Exception e){
+            throw new ClassCastException(context.toString() + " should implement dataListener");
 
+        }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +98,12 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         view = inflater.inflate(R.layout.fragment_compartimentos, container, false);
         realm = Realm.getDefaultInstance();
         cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
+        button = (Button)view.findViewById(R.id.btn_guardar);
+
+        user = getArguments().getString("user", "no_user");
+        pass = getArguments().getString("pass", "no_pass");
+        matricula = getArguments().getString("cisterna", "sin_cisterna");
+        inspeccion = getArguments().getString("inspeccion", "sin_inspeccion");
 
 
         mRecyclerView = view.findViewById(R.id.rv_compartimentos);
@@ -95,13 +113,11 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         renderCompartimentos();
         cisterna.setText(caCompartimentosBD.get(0).getMatricula());
         caCompartimentosBD.addChangeListener(this);
+
+        button.setOnClickListener(this);
+
         // Inflate the layout for this fragment
         return view;
-    }
-
-    public void enviarMatricula(String matricula, String inspeccion){
-        this.matricula = matricula.trim();
-        this.inspeccion = inspeccion.trim();
     }
 
 
@@ -190,14 +206,11 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         dialog.show();
     }
 
-    public void guardar(String user, String pass){
-        this.user = user;
-        this.pass = pass;
+    public void guardar(){
         caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
         for (int i=0;i<caCompartimentosBD.size();i++) {
             //registrar en BD Online
             guardarOnLine(user, pass,String.valueOf(caCompartimentosBD.get(i).getCod_compartimento()), caCompartimentosBD.get(i).getCod_tag_cprt(), String.valueOf(caCompartimentosBD.get(i).getCan_capacidad()), String.valueOf(caCompartimentosBD.get(i).getCan_cargada()), String.valueOf(caCompartimentosBD.get(i).getCumple()), inspeccion);
-            //guardarOnLine(user, pass,String.valueOf(compartimentos.get(i)), tags.get(i), String.valueOf(capacidad.get(i)), String.valueOf(cantidad.get(i)), String.valueOf(cumpleCantidad.get(i)), inspeccion);
         }
     }
 
@@ -207,11 +220,13 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             @Override
             public void onResponse(String response) {
                // callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
+                callback.volver(true);
+                Toast.makeText(getContext(), "Guardado",Toast.LENGTH_SHORT ).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
             }
         }){
 
@@ -238,11 +253,22 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     public void onChange(RealmResults<CACompartimentosBD> caCompartimentosBDS) {
         adapter.notifyDataSetChanged();
     }
-/*
-    public interface dataListener{
-        void volver();
-        void continuar();
-        void elegirCompartimento(int compartimento);
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_guardar:
+                guardar();
+                break;
+                default:
+                    break;
+        }
     }
-*/
+
+    public interface dataListener{
+        void volver(Boolean guardadoOk);
+//        void continuar();
+//        void elegirCompartimento(int compartimento);
+    }
+
 }

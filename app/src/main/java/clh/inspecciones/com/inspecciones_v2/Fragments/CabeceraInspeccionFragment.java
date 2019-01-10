@@ -56,10 +56,12 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private Button btn_siguiente;
     private Button btn_compartimentos;
     private EditText etIa;
+    private EditText etConductor;
     private EditText etAlbaran;
     private EditText etTrans;
     private EditText etTablaCal;
-    private String ia="";
+    private String ia;
+    private String cond;
     private String albaran="";
     private String transportista="";
     private String tabla_calibracion="";
@@ -75,7 +77,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
     private String json_url1= "http://pruebaalumnosandroid.esy.es/inspecciones/consulta_num_inspeccion.php";
     private String respuestaNube;
-    //private String contadorInspecciones;
     private int contadorInspecciones;
 
 
@@ -87,7 +88,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private Button continuar;
     private Boolean purgas;
     private DetalleInspeccionBD inspecciones;
-    private String instalacion;
     private Boolean comprobacion = false;
 
     private List<Boolean> checklist;
@@ -156,18 +156,13 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cabecera_inspeccion, container, false);
 
-       // mListView = (ListView)view.findViewById(R.id.lv_detalleinspecciones);
-
-        //btn_siguiente = (Button)view.findViewById(R.id.btn_siguiente2);
-       // btn_compartimentos= (Button)view.findViewById(R.id.btn_compartimentos);
         etIa = (EditText)view.findViewById(R.id.et_instalacion);
+        etConductor = (EditText)view.findViewById(R.id.et_codcond);
         etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
         etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
         button = (Button)view.findViewById(R.id.btn_guardar);
 
-        //btn_siguiente.setOnClickListener(this);
-       // btn_compartimentos.setOnClickListener(this);
 
         /////DETALLE INSPECCION FRAGMENT
 
@@ -223,26 +218,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
         return view;
     }
-/*
-    public void crearInspeccionBD(String tractora, String cisterna, String conductor, String tipoComponente, String tipoInspeccion, String user, String pass){
-        //Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();a;
-        this.tipoComponente =tipoComponente.trim();
-        this.tipoInspeccion=tipoInspeccion.trim();
-        //inspeccion = user + nuevaInspeccion;
-        this.user = user.trim();
-        this.pass = pass.trim();
-        matTractora= tractora.trim();
-        matCisterna = cisterna.trim();
-        this.codConductor = conductor.trim();
-        buscarUltimaInspeccion(this.user, this.pass);
-        renderText();
-    }
-    */
 
     public void renderText(){
-
-
-        //detalleInspeccionBDS.addChangeListener(this);
 
         bateriaDesconectada.setChecked(true);
         fichaSeguridad.setChecked(true);
@@ -281,7 +258,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public String obtenerCambios(){
         inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
-        //Toast.makeText(getActivity(), "inspeccion: " + inspeccionBD.get(0).getSuperficieSupAntideslizante(), Toast.LENGTH_SHORT).show();
         if (inspeccionBD.getInspeccion() != null) {
             returnInspeccion = inspeccionBD.getInspeccion();
         } else{
@@ -297,15 +273,14 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public void prepararGuardado(){
         ia = etIa.getText().toString();
+        cond = etConductor.getText().toString();
         albaran = etAlbaran.getText().toString();
         transportista = etTrans.getText().toString();
         tabla_calibracion = etTablaCal.getText().toString();
 
-        if (ia.equals("") || albaran.equals("") || transportista.equals("")  || tabla_calibracion.equals("")){
-            Toast.makeText(getActivity(),  ia +  transportista + albaran + tabla_calibracion, Toast.LENGTH_SHORT).show();
+        if (ia.equals("") || albaran.equals("") || transportista.equals("")  || tabla_calibracion.equals("") || cond.equals("")){
+            Toast.makeText(getActivity(),  "Hay que rellenar todos los campos para poder guardar", Toast.LENGTH_SHORT).show();
         } else{
-            //callback.obtenerInspeccion(inspeccion, ia, albaran, transportista, tabla_calibracion);
-            //callback.continuar(obtenerCambios(), matricula);
             checklist.add(bateriaDesconectada.isChecked());
             checklist.add(fichaSeguridad.isChecked());
             checklist.add(transponderTractora.isChecked());
@@ -341,7 +316,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public void guardar(List<Boolean> checklist){
-        //Toast.makeText(getActivity(), inspeccion, Toast.LENGTH_SHORT).show();
         List<String> checkListString;
         Date today = Calendar.getInstance().getTime();
         String fechaInspeccion;
@@ -370,8 +344,8 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 this.matricula = matCisterna;
                 break;
         }
-        inspeccionBD.setConductor(codConductor);
-        inspeccionBD.setInstalacion(instalacion);
+        inspeccionBD.setConductor(cond);
+        inspeccionBD.setInstalacion(ia);
         inspeccionBD.setAlbaran(albaran);
         inspeccionBD.setTransportista(transportista);
         inspeccionBD.setTablaCalibracion(tabla_calibracion);
@@ -412,7 +386,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             checkListString.add(checklist.get(i).toString());
         }
 
-        registrarInspeccionNube(user, pass, fechaInspeccion, inspeccion, matTractora, matCisterna, codConductor, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
+        registrarInspeccionNube(user, pass, fechaInspeccion, inspeccion, ia, matTractora, matCisterna, cond, tipoComponente, transportista, albaran, tabla_calibracion, checkListString);
         callback.guardado(comprobacion, matricula, inspeccion);
 
     }
@@ -422,7 +396,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         StringRequest sr1 = new StringRequest(Request.Method.POST, json_url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response);
@@ -454,24 +427,22 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr1);
     }
 
-    private void registrarInspeccionNube(final String user, final String pass, final String fechaInspeccion, final String inspeccion, final String matTractora, final String matCisterna,
+    private void registrarInspeccionNube(final String user, final String pass, final String fechaInspeccion, final String inspeccion, final String instalacion, final String matTractora, final String matCisterna,
                                          final String conductor, final String tipoComponente, final String transportista, final String albaran, final String tabla_calibracion,  final List<String> checklist){
-        /*
-        DetalleInspeccionBD inspeccionBD;
-        inspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
-*/
+
         StringRequest  sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 respuestaNube = response;
-                Toast.makeText(getActivity(), "respuestaInspeccionNube: " + response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 respuestaNube = error.toString();
-              //  Toast.makeText(getActivity(), "registrarInspeccionNube: " + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+
 
             }
         }){
@@ -481,9 +452,10 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                 params.put("user", user);
                 params.put("pass", pass);
                 params.put("inspeccion", inspeccion);
+                params.put("instalacion", instalacion);
                 params.put("matTractora", matTractora);
                 params.put("matCisterna", matCisterna);
-                params.put("conductor", "1020101");
+                params.put("conductor", conductor);
                 params.put("tipoComponente", tipoComponente);
                 params.put("fecha",fechaInspeccion);
                 params.put("transportista", transportista);
@@ -523,26 +495,18 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             }
         };
 
-        //Toast.makeText(getActivity(), user + pass + inspeccion + matTractora + matCisterna + conductor
-//                + tipoComponente + fechaInspeccion + transportista + tabla_calibracion + albaran, Toast.LENGTH_LONG).show();
-
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
 
     }
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getActivity(), "prepararGuardado", Toast.LENGTH_SHORT).show();
         prepararGuardado();
 
     }
 
     public interface dataListener{
         void guardado(Boolean guardadoOK, String matricula, String inspeccion);
-        //void datosIntent(String tractora, String cisterna, String conductor, String t_rigido, String tipo_inspeccion);
-        //void obtenerInspeccion(String inspeccion, String Instalacion, String albaran, String transportista, String tabla_calibracion);
-        //void continuar(String inspeccion, String matricula);
-
     }
 
 }

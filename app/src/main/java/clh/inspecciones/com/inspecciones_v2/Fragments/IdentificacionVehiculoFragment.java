@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -42,7 +43,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
     private SharedPreferences prefs;
     private EditText tractora;
     private EditText cisterna;
-    private EditText conductor;
     private Button buscar;
     private DataListener callback;
     private String tipoVehiculo;
@@ -88,7 +88,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
         listaVehiculos = new ArrayList<>();
         tractora = (EditText)view.findViewById(R.id.et_tractora);
         cisterna = (EditText)view.findViewById(R.id.et_cisterna);
-        conductor = (EditText)view.findViewById(R.id.et_codcond);
         buscar = (Button)view.findViewById(R.id.Buscar);
         recyclerVehiculos = view.findViewById(R.id.rv_identificacionvehiculo);
         recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -99,8 +98,12 @@ public class IdentificacionVehiculoFragment extends Fragment {
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tractora.clearFocus();
+                cisterna.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(tractora.getWindowToken(), 0);
                 listaVehiculos.clear();
-                buscar(tractora.getText().toString(), cisterna.getText().toString(),conductor.getText().toString(), tipoVehiculo, tipoComponente, user, pass);
+                buscar(tractora.getText().toString(), cisterna.getText().toString(), tipoVehiculo, tipoComponente, user, pass);
             }
         });
 
@@ -109,7 +112,7 @@ public class IdentificacionVehiculoFragment extends Fragment {
         return view;
     }
 
-    public void buscar(final String rigido, final String cisterna, final String conductor, final String tipoVehiculo, final String tipoComponente, final String user, final String pass){
+    public void buscar(final String rigido, final String cisterna, final String tipoVehiculo, final String tipoComponente, final String user, final String pass){
 
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -132,7 +135,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
                                 identificacionVehiculoClass = new IdentificacionVehiculoClass();
                                 JSONObject jsonObject1 = null;
                                 jsonObject1=jsonVehiculo.getJSONObject(i);
-                                identificacionVehiculoClass.setConductor("-"); //jsonObject1.optString("conductor"));
                                 identificacionVehiculoClass.setTractora(jsonObject1.optString("COD_MATRICULA1"));
                                 identificacionVehiculoClass.setCisterna("-");//jsonObject1.optString("cisterna"));
                                 listaVehiculos.add(identificacionVehiculoClass);
@@ -144,7 +146,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
                                 identificacionVehiculoClass = new IdentificacionVehiculoClass();
                                 JSONObject jsonObject1;
                                 jsonObject1=jsonVehiculo.getJSONObject(i);
-                                identificacionVehiculoClass.setConductor("-");
                                 identificacionVehiculoClass.setTractora(jsonObject1.optString("COD_MATRICULA1"));
                                 identificacionVehiculoClass.setCisterna(jsonObject1.optString("COD_MATRICULA2"));
                                 listaVehiculos.add(identificacionVehiculoClass);
@@ -156,7 +157,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
                                 identificacionVehiculoClass = new IdentificacionVehiculoClass();
                                 JSONObject jsonObject2 = null;
                                 jsonObject2=jsonCisterna.getJSONObject(i);
-                                identificacionVehiculoClass.setConductor("-"); //jsonObject1.optString("conductor"));
                                 identificacionVehiculoClass.setTractora("-");
                                 identificacionVehiculoClass.setCisterna(jsonObject2.optString("COD_MATRICULA2"));//jsonObject1.optString("cisterna"));
                                 listaVehiculos.add(identificacionVehiculoClass);
@@ -194,7 +194,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
                 params.put("pass", pass);
                 params.put("tipo_consulta", tipoVehiculo);
                 params.put("tipoComponente", tipoComponente);
-                params.put("conductor", conductor);
                 params.put("rigido", rigido);
                 params.put("cisterna", cisterna);
                 return params;
@@ -214,8 +213,7 @@ public class IdentificacionVehiculoFragment extends Fragment {
                 String conductor;
                 tractora = identificacionVehiculoClass.getTractora().toString();
                 cisterna = identificacionVehiculoClass.getCisterna().toString();
-                conductor = identificacionVehiculoClass.getConductor();
-                callback.enviar(tractora, cisterna, conductor);
+                callback.enviar(tractora, cisterna);
             }
         });
         recyclerVehiculos.setAdapter(adapter);
@@ -223,6 +221,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
 
 
     public interface DataListener{
-        void enviar(String tractora, String cisterna, String conductor);
+        void enviar(String tractora, String cisterna);
     }
 }

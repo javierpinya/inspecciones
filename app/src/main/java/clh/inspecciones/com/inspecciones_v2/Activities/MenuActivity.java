@@ -34,13 +34,16 @@ import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoBusq
 import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoResultadoFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import io.realm.Realm;
 
 public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment.AltaNuevaListener,
         IdentificacionVehiculoFragment.DataListener,
         ControlAccesoCheckingFragment.dataListener,
-        CabeceraInspeccionFragment.dataListener{     //implements MenuFragment.EleccionMenu
+        CabeceraInspeccionFragment.dataListener,
+        CompartimentosFragment.dataListener,
+        ResultadoInspeccionFragment.dataListener{     //implements MenuFragment.EleccionMenu
 
 
 
@@ -71,6 +74,10 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
     private String tractora;
     private String cisterna;
     private String conductor;
+
+    private Boolean guardadoCabeceraOk=false;
+    private Boolean guardadoCompartimentosOk=false;
+    private Boolean inspeccionFinalizada=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +143,8 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                     case R.id.menu_ajustes:
                         break;
                     case R.id.menu_logout:
+                        removeSharedPreferences();
+                        logOut();
                         break;
                 }
 
@@ -250,10 +259,9 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
 
 
     @Override
-    public void enviar(String tractora, String cisterna, String conductor) {
+    public void enviar(String tractora, String cisterna) {
         this.tractora = tractora;
         this.cisterna = cisterna;
-        this.conductor = conductor;
         realm = Realm.getDefaultInstance();
         if(realm.isEmpty() == false){
             realm.beginTransaction();
@@ -294,22 +302,48 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                 args.putString("fragmentActual", "CabeceraInspeccionFragment");
                 fragment.setArguments(args);
                 nombreFragment="CabeceraInspeccionFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(3));
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
             case "CabeceraInspeccionFragment":
                 //Toast.makeText(this, "fragmentdetalleinspeccion"  + fragment.getId(), Toast.LENGTH_SHORT).show();
                // CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
                // cabeceraInspeccionFragment.prepararGuardado();
-                fragment = new CompartimentosFragment();
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "CompartimentosFragment");
-                args.putString("inspeccion", inspeccion);
-                fragment.setArguments(args);
-                nombreFragment="CompartimentosFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(3));
+                if(guardadoCabeceraOk) {
+                    fragment = new CompartimentosFragment();
+                    args.remove("fragmentActual");
+                    args.putString("fragmentActual", "CompartimentosFragment");
+                    args.putString("inspeccion", inspeccion);
+                    fragment.setArguments(args);
+                    nombreFragment = "CompartimentosFragment";
+                    changeFragment(fragment, navigationView.getMenu().getItem(1));
+                }else{
+                    Toast.makeText(this, "Hay que guardar la inspección para poder continuar", Toast.LENGTH_LONG).show();
+                }
                 break;
             case "CompartimentosFragment":
-
+                if(guardadoCompartimentosOk){
+                    fragment = new ResultadoInspeccionFragment();
+                    args.remove("fragmentActual");
+                    args.putString("fragmentActual", "ResultadoInspeccionFragment");
+                    fragment.setArguments(args);
+                    nombreFragment = "ResultadoInspeccionFragment";
+                    changeFragment(fragment, navigationView.getMenu().getItem(1));
+                }else{
+                    Toast.makeText(this, "Hay que guardar los volúmenes de los compartimentos", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case "ResultadoInspeccionFragment":
+                if(inspeccionFinalizada){
+                    Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
+                    borrarRealm();
+                }else {
+                    Toast.makeText(this, "Es posible que no todas las fotos se hayan guardado exitosamente", Toast.LENGTH_SHORT).show();
+                    //Incluir un cuadro de diálogo para poder volver a atrás y guardar de nuevo las fotos
+                }
+                fragment = new MenuFragment();
+                args.clear();
+                nombreFragment = "MenuFragment";
+                changeFragment(fragment, navigationView.getMenu().getItem(0));
                 break;
                 default:
                     break;
@@ -319,12 +353,42 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
     @Override
     public void guardado(Boolean guardadoOK, String matricula, String inspeccion) {
         this.inspeccion = inspeccion;
+        guardadoCabeceraOk = guardadoOK;
     }
 
     @Override
     public void enviarFragment(String nombreFragment) {
         this.nombreFragment = nombreFragment;
     }
+
+    @Override
+    public void volver(Boolean guardadoOk) {
+        guardadoCompartimentosOk = guardadoOk;
+    }
+
+    @Override
+    public void inspeccionGuardada(Boolean finalizadaOk) {
+        inspeccionFinalizada = finalizadaOk;
+    }
+
+    public void borrarRealm(){
+        /*
+        ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
+        resultadoInspeccionFragment.borrarRealm();
+        */
+    }
+
+    private void logOut(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void removeSharedPreferences(){
+        prefs.edit().clear().apply();
+    }
+
+
 
     /*
 
@@ -371,15 +435,7 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
 
     }
 
-    private void logOut(){
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
 
-    private void removeSharedPreferences(){
-        prefs.edit().clear().apply();
-    }
 
     */
 }

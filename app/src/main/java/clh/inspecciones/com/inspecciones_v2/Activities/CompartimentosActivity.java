@@ -12,7 +12,7 @@ import android.widget.Toast;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 
-public class CompartimentosActivity extends AppCompatActivity implements CompartimentosFragment.dataListener {
+public class CompartimentosActivity extends AppCompatActivity{ // implements CompartimentosFragment.dataListener {
 
     private String matricula;
     private String inspeccion;
@@ -33,7 +33,7 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
             matricula = getIntent().getStringExtra("matricula").trim();
             inspeccion = getIntent().getStringExtra("inspeccion").trim();
         }
-        enviarMatricula(matricula, inspeccion);
+      //  enviarMatricula(matricula, inspeccion);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_guardar:
-                guardar(user, pass);
+//                guardar(user, pass);
                 return true;
             case R.id.menu_siguiente:
                 siguiente();
@@ -55,12 +55,12 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
                 return super.onOptionsItemSelected(item);
         }
     }
-
+/*
     public void guardar(String user, String pass){
         CompartimentosFragment compartimentosFragment = (CompartimentosFragment)getSupportFragmentManager().findFragmentById(R.id.CompartimentosFragment);
         compartimentosFragment.guardar(user,pass);
     }
-
+*/
     public void siguiente(){
         Intent intent = new Intent();
         intent.setClass(CompartimentosActivity.this, ResultadoInspeccionActivity.class);
@@ -69,12 +69,13 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
         startActivity(intent);
 
     }
-
+/*
     public void enviarMatricula(String matricula, String inspeccion) {
         CompartimentosFragment compartimentosFragment = (CompartimentosFragment)getSupportFragmentManager().findFragmentById(R.id.CompartimentosFragment);
         compartimentosFragment.enviarMatricula(matricula, inspeccion);
     }
-
+*/
+    /*
     @Override
     public void volver() {
 
@@ -89,4 +90,5 @@ public class CompartimentosActivity extends AppCompatActivity implements Compart
     public void elegirCompartimento(int compartimento) {
 
     }
+    */
 }

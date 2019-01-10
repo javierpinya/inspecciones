@@ -1,38 +1,74 @@
 package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import clh.inspecciones.com.inspecciones_v2.Adapters.CameraAdapter;
+import clh.inspecciones.com.inspecciones_v2.Adapters.FotosAdapter;
+import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
+import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +77,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
 
     private Realm realm;
+
+    private Button button;
 
     private dataListener callback;
     private CheckBox cbInspeccionada;
@@ -75,6 +113,35 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
 
 
+    /*
+    Variables de fotosFragment
+     */
+
+    private GridView gridView;
+    private List<ImageView> imageViews=new ArrayList<>();
+    private Bitmap imagen;
+    private List<Uri> path;
+    private List<Bitmap> bitmaps;
+
+    private FotosAdapter myAdapter;
+    private CameraAdapter myCameraAdapter;
+    private List<ImageView> mImageViews = new ArrayList<ImageView>();
+    //private dataListener callbackFoto;
+    private List<FotosBD> fotos = new ArrayList<>();
+    private FloatingActionButton fab;
+    //private ImageView imagen;
+    private String RUTA_IMAGEN="";
+    //private String path;
+    final int COD_SELECCION=10;
+    static final int COD_CAMARA=20;
+    private String imgString;
+    private Bitmap bitmapConvertida2;
+    private String urlFoto = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_fotos.php";
+    private List<String> imgStringList;
+    final Bitmap bitmapFinal=null;
+    private int contadorFotosGuardadas=0;
+
+
     public ResultadoInspeccionFragment() {
         // Required empty public constructor
     }
@@ -103,6 +170,20 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbRevisda = (CheckBox)view.findViewById(R.id.cb_revisado);
         etFechaRevisada = (EditText) view.findViewById(R.id.et_fecha_revisado);
         etComentarios = (EditText)view.findViewById(R.id.comentarios);
+        button = (Button )view.findViewById(R.id.btn_guardar);
+
+        cbInspeccionada.setChecked(true);
+        cbFavorable.setChecked(true);
+        cbRevisda.setChecked(false);
+        cbBloqueo.setChecked(false);
+
+        realm = Realm.getDefaultInstance();
+
+        user = getArguments().getString("user", "no_user");
+        pass = getArguments().getString("pass", "no_pass");
+        inspeccion = getArguments().getString("inspeccion", "sin_inspeccion");
+
+
 
         cbInspeccionada.setOnClickListener(this);
         cbFavorable.setOnClickListener(this);
@@ -110,30 +191,46 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbBloqueo.setOnClickListener(this);
         cbRevisda.setOnClickListener(this);
 
-        realm = Realm.getDefaultInstance();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardar();
+            }
+        });
+
+
+
+        /*
+        FotosFragment
+         */
+        gridView = (GridView)view.findViewById(R.id.gridView);
+        path = new ArrayList<>();
+        bitmaps = new ArrayList<>();
+        imgStringList = new ArrayList<>();
+
+        fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarImagen();
+            }
+        });
+
+        if(validaPermisos()){
+            fab.show();
+        }else{
+            fab.hide();
+        }
+        /*
+        FotosFragment
+         */
 
         // Inflate the layout for this fragment
         return view;
     }
 
 
-
-    public void renderResultadoInspeccion(String user, String pass, String inspeccion){
-        this.user = user;
-        this.pass = pass;
-        this.inspeccion = inspeccion;
-        cbInspeccionada.setChecked(true);
-        cbFavorable.setChecked(true);
-        cbRevisda.setChecked(false);
-        cbBloqueo.setChecked(false);
-
-    }
-
-    public void guardar(String user, String pass, String inspeccion){
-        String fotoString=null;
-        this.user = user;
-        this.pass = pass;
-        this.inspeccion = inspeccion;
+    public void guardar(){
         comentarios = etComentarios.getText().toString();
         this.fecha_desfavorable = etFechaDesfavorable.getText().toString();
         this.fecha_revisada = etFechaRevisada.getText().toString();
@@ -145,13 +242,29 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         bloqueada = String.valueOf(cbBloqueo.isChecked());
         revisada = String.valueOf(cbRevisda.isChecked());
 
-        try {
-            this.fechaDesfavorableP = parseador.parse(this.fecha_desfavorable);
-            this.fechaRevisadaP = parseador.parse(this.fecha_revisada);
-            this.fechaBloqueoP = parseador.parse(this.fecha_bloqueo);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(cbDesfavorable.isChecked()){
+            try {
+                this.fechaDesfavorableP = parseador.parse(this.fecha_desfavorable);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
+        if(cbBloqueo.isChecked()){
+            try {
+                this.fechaBloqueoP = parseador.parse(this.fecha_bloqueo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(cbRevisda.isChecked()){
+            try {
+                this.fechaRevisadaP = parseador.parse(this.fecha_revisada);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
         realm.beginTransaction();
         detalleInspeccionBD.setInspeccionada(cbInspeccionada.isChecked());
@@ -176,6 +289,12 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                if(bitmaps.size()>0) {
+                    guardarFotos();
+                }else{
+                    Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                    callback.inspeccionGuardada(true);
+                }
 
 
             }
@@ -233,14 +352,238 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     }
 
-    public void renderTextoImagen(String imagen){
-        etComentarios.setText(imagen);
-    }
 
 
     public interface dataListener{
-        void guardada();
-        //void renderFotos(ImageView imageViews);
+        void inspeccionGuardada(Boolean finalizadaOk);
+    }
+
+
+    private void cargarImagen() {
+        final CharSequence[] opciones={"Camara", "Galeria", "Cancelar"};
+        final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(getActivity());
+        alertOpciones.setTitle("Seleccione una opción");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (opciones[which].toString()){
+                    case "Camara":
+                        try {
+                            tomarFoto();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        //Toast.makeText(getActivity(), "Tomando Foto", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "Galeria":
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/");
+                        startActivityForResult(intent.createChooser(intent, "Seleccione la aplicacion"), COD_SELECCION);
+                        break;
+                    case "Cancelar":
+                        dialog.dismiss();
+                }
+            }
+        });
+
+        alertOpciones.show();
+    }
+
+    private void tomarFoto() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + imageFileName;
+        File image = new File(storageDir);
+
+        // Save a file: path for use with ACTION_VIEW intents
+        RUTA_IMAGEN = image.getAbsolutePath();
+
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+            String authorities=getActivity().getApplicationContext().getPackageName()+ ".provider";
+            Uri imageUri = FileProvider.getUriForFile(getActivity(), authorities, image);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        }else{
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+        }
+        startActivityForResult(intent, COD_CAMARA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap=null;
+
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case COD_SELECCION:
+                    Uri miPath = data.getData();
+                    path.add(miPath);
+
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),miPath);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case COD_CAMARA:
+                    MediaScannerConnection.scanFile(getContext(), new String[]{RUTA_IMAGEN}, null, new MediaScannerConnection.OnScanCompletedListener(){
+
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("Ruta de almacenamiento", "Path: " + path);
+                        }
+                    });
+
+                    bitmap = BitmapFactory.decodeFile(RUTA_IMAGEN);
+                    break;
+            }
+
+            bitmaps.add(bitmap);
+            imgString = convertirImgString(bitmap); //Quizá convendría hacerlo en un AsyncTask... hay que mirar cómo
+            imgStringList.add(imgString);
+            myCameraAdapter = new CameraAdapter(getActivity(), R.layout.list_fotos, bitmaps);
+            gridView.setAdapter(myCameraAdapter);
+            myCameraAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private String convertirImgString(final Bitmap bitmap) {
+
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, array);
+        byte[] imagenByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
+
+        return imagenString;
+    }
+
+    private boolean validaPermisos(){
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            return true;
+        }
+        if((checkSelfPermission(getActivity(),CAMERA) == PackageManager.PERMISSION_GRANTED && (checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED))){
+            return true;
+        }
+        if((shouldShowRequestPermissionRationale(CAMERA)) || (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE))){
+            cargarDialogoRecomendacion();
+        }else{
+            requestPermissions(new String[] {WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100){
+            if(grantResults.length==2 && grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED){
+                fab.show();
+            }else{
+                solicitarPermisosManual();
+            }
+        }
+    }
+
+    private void solicitarPermisosManual() {
+        final CharSequence[] opciones={"si", "no"};
+        final AlertDialog.Builder alertOpciones= new AlertDialog.Builder(getActivity());
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(opciones[which].equals("si")){
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package",getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void cargarDialogoRecomendacion() {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(new String[] {WRITE_EXTERNAL_STORAGE, CAMERA}, 100);;
+            }
+        });
+        dialogo.show();
+    }
+
+
+    public void guardarFotos() {
+        //int currentTime = (int)System.currentTimeMillis();
+        String nombreFoto;
+        for (int i=0; i<imgStringList.size(); i++){
+            nombreFoto = inspeccion + "_" + i; // + "_" + currentTime;
+            guardarFotoOnline(user, pass, inspeccion, nombreFoto, imgStringList.get(i));
+        }
+
+
+    }
+
+    private void guardarFotoOnline(final String user, final String pass, final String inspeccion, final String nombreFoto, final String fotoString) {
+        StringRequest sr = new StringRequest(StringRequest.Method.POST, urlFoto, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.trim().equalsIgnoreCase("guardada")) {
+                    contadorFotosGuardadas = contadorFotosGuardadas + 1;
+                    Toast.makeText(getActivity(), "Foto " + contadorFotosGuardadas + " guardada", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getActivity(), response.trim(), Toast.LENGTH_LONG).show();
+                }
+                if(imgStringList.size()==contadorFotosGuardadas) {
+                    callback.inspeccionGuardada(true);
+                }else{
+                    callback.inspeccionGuardada(false);
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("user", user);
+                params.put("pass", pass);
+                params.put("inspeccion", inspeccion);
+                params.put("nombreFoto", nombreFoto);
+                params.put("foto", fotoString);
+                return params;
+            }
+        };
+
+        sr.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+    }
+
+    public void borrarRealm() {
+        realm = Realm.getDefaultInstance();
+        if(realm.isEmpty() == false){
+            realm.beginTransaction();
+            realm.delete(CARigidoBD.class);
+            realm.delete(CATractoraBD.class);
+            realm.delete(CACisternaBD.class);
+            realm.delete(CACompartimentosBD.class);
+            realm.commitTransaction();
+        }
     }
 
 }

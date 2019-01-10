@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.Toast;
 
 import clh.inspecciones.com.inspecciones_v2.Fragments.LoginFragment;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);

@@ -95,16 +95,6 @@ public class FotosFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try{
-            callback = (FotosFragment.dataListener)context;
-        }catch(Exception e){
-            throw new ClassCastException(context.toString() + " should implement EnviarData");
-        }
-    }
 
 
     @Override

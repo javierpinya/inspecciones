@@ -82,7 +82,7 @@ public class IdentificacionVehiculoBusquedaFragment extends Fragment {
         listaVehiculos = new ArrayList<>();
         tractora = (EditText)view.findViewById(R.id.et_tractora);
         cisterna = (EditText)view.findViewById(R.id.et_cisterna);
-        conductor = (EditText)view.findViewById(R.id.et_codcond);
+
         buscar = (Button)view.findViewById(R.id.Buscar);
         Toast.makeText(getActivity(), tipoVehiculo, Toast.LENGTH_SHORT).show();
 

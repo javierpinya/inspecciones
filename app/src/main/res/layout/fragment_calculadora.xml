@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/gradient"
     tools:context=".Fragments.CalculadoraFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:paddingTop="20dp"
         android:orientation="vertical">
 
@@ -17,30 +19,40 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/et_litrostotales"
-        android:layout_width="0dp"
-        android:layout_weight="0.7"
-        android:layout_height="wrap_content"
-        android:hint="Introducir valor placa"
-        android:inputType="numberDecimal"/>
+            <EditText
+                android:id="@+id/et_litrostotales"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
+                android:hint="Introducir valor placa"
+                android:inputType="numberDecimal"/>
 
-    <TextView
-        android:id="@+id/tv_resultado96"
-        android:layout_width="0dp"
-        android:layout_weight="0.3"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        android:hint="10000"/>
+            <TextView
+                android:id="@+id/tv_resultado96"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:hint="10000"/>
 
         </LinearLayout>
-
-    <Button
-        android:id="@+id/calcular"
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calcular 96%"/>
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/calcular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorAccent"
+            android:textColor="#FFF"
+            android:text="Calcular 96%"/>
 
     </LinearLayout>
+
 
 </FrameLayout>

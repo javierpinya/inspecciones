@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:fitsSystemWindows="true"
     tools:context=".Fragments.LoginFragment">
 
     <LinearLayout
@@ -34,6 +36,8 @@
             android:id="@+id/et_usuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
             android:hint="@string/usuario"/>
 
     </LinearLayout>
@@ -48,6 +52,8 @@
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
             android:hint="@string/password"/>
 
     </LinearLayout>
@@ -57,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recordar"
+            android:textColor="#FFF"
             android:layout_gravity="right"/>
 
     <Button
@@ -65,6 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
         android:enabled="false"
+        android:background="@drawable/gradient_invertido"
+        android:textColor="#FFF"
         android:text="@string/login"/>
     </LinearLayout>
     </LinearLayout>
