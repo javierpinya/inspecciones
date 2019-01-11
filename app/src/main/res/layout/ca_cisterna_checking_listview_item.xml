@@ -3,66 +3,74 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
     <TextView
         android:id="@+id/tv_rigido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
         android:textStyle="bold"
-        android:background="@color/colorAccent"
-        android:textColor="#FFF"
+        android:textColor="@color/colorWhite"
         android:text="DATOS DE LA CISTERNA" />
+
+        <TextView
+            android:id="@+id/tv_tractoramatricula"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textSize="22dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:text="R0000AAA" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_tractoramatricula"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:text="R0000AAA" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="6dp">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_tipotractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="TIPO COMPONENTE" />
 
                     <TextView
                         android:id="@+id/tv_tipotractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="TIPO COMPONENTE"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_tipotractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -71,55 +79,50 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/cb_chiptractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="CHIP" />
-
                     <TextView
                         android:id="@+id/tv_chiptractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="CHIP"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_chiptractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_adrtractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="ADR" />
 
                     <TextView
                         android:id="@+id/tv_adrtractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="ADR"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_adrtractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -127,28 +130,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_itvtractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="ITV" />
 
                     <TextView
                         android:id="@+id/tv_itvtractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="ITV"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_itvtractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -156,28 +156,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_ejestractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Ejes" />
 
                     <TextView
                         android:id="@+id/tv_ejestractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Ejes"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_ejestractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -185,28 +182,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_taratractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Tara" />
 
                     <TextView
                         android:id="@+id/tv_taratractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Tara"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_taratractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
+                        android:text="0 Kgs"
                         android:textSize="18sp"
-                        android:text="0 Kgs" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -214,28 +208,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_mmatractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="MMA" />
 
                     <TextView
                         android:id="@+id/tv_mmatractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:text="MMA"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_mmatractora1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0 Kgs" />
+                        android:text="0 Kgs"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -244,27 +234,23 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <CheckBox
+                    <TextView
                         android:id="@+id/cb_contadortractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Contador" />
+                        android:text="Contador"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_contadortractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -272,28 +258,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/cb_tablacaltractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Tabla Calibración" />
 
                     <TextView
                         android:id="@+id/tv_tablacaltractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Tabla Calibración"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_tablacaltractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -302,27 +285,24 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <CheckBox
+                    <TextView
                         android:id="@+id/cb_sologasoleostractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Sólo Gasóleos" />
+                        android:text="Sólo Gasóleos"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_sologasoleostractora"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -331,27 +311,24 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <CheckBox
+                    <TextView
                         android:id="@+id/cb_cargapesados"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:checked="true"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Carga Pesados" />
+                        android:text="Carga Pesados"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_cargapesados"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -366,18 +343,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:enabled="false"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Bloqueado" />
+                        android:clickable="false"
+                        android:text="Bloqueado"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
                 <ListView
                     android:id="@+id/lv_compartimentos"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </ListView>
+                    android:layout_height="wrap_content"></ListView>
 
             </LinearLayout>
         </ScrollView>

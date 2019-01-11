@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 
 /**
@@ -60,7 +58,7 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(layout,null);
             vh = new ViewHolder();
             vh.matricula = (TextView)convertView.findViewById(R.id.tv_tractoramatricula);
-            vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora);
+            vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora1);
             vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora);
             vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora);
             vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora);

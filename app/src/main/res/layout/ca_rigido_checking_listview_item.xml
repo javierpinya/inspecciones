@@ -3,30 +3,41 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_rigido"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:background="@color/colorAccent"
-        android:textColor="#FFF"
-        android:text="DATOS DEL RÍGIDO" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_rigido"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:text="DATOS DEL RÍGIDO" />
 
         <TextView
             android:id="@+id/tv_tractoramatricula"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textSize="22sp"
-            android:textColor="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:textSize="22dp"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold"
             android:text="E0000AAA" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -34,6 +45,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
+                android:padding="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -43,23 +55,22 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_tipotractora"
+                        android:id="@+id/tv_tipotractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="TIPO COMPONENTE" />
 
                     <TextView
-                        android:id="@+id/tv_tipotractora"
+                        android:id="@+id/tv_tipotractora1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -70,23 +81,23 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_chiptractora"
+                        android:id="@+id/tv_chiptractora"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="CHIP" />
 
                     <TextView
-                        android:id="@+id/tv_chiptractora"
+                        android:id="@+id/tv_chiptractora1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -94,25 +105,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cb_adrtractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="ADR" />
 
                     <TextView
                         android:id="@+id/tv_adrtractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="ADR" />
+
+                    <TextView
+                        android:id="@+id/tv_adrtractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -121,25 +131,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cb_itvtractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="ITV" />
 
                     <TextView
                         android:id="@+id/tv_itvtractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="ITV" />
+
+                    <TextView
+                        android:id="@+id/tv_itvtractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -148,25 +157,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cb_ejestractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Ejes" />
 
                     <TextView
                         android:id="@+id/tv_ejestractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Ejes" />
+
+                    <TextView
+                        android:id="@+id/tv_ejestractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -175,25 +183,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cb_taratractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Tara" />
 
                     <TextView
                         android:id="@+id/tv_taratractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Tara" />
+
+                    <TextView
+                        android:id="@+id/tv_taratractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0 Kgs" />
 
                 </LinearLayout>
@@ -202,25 +209,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cb_mmatractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="MMA" />
 
                     <TextView
                         android:id="@+id/tv_mmatractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="MMA" />
+
+                    <TextView
+                        android:id="@+id/tv_mmatractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0 Kgs" />
 
                 </LinearLayout>
@@ -232,23 +238,22 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_tablacaltractora"
+                        android:id="@+id/tv_tablacaltractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="Tabla Calibración" />
 
                     <TextView
-                        android:id="@+id/tv_tablacaltractora"
+                        android:id="@+id/tv_tablacaltractora1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -257,25 +262,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/cb_sologasoleostractora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="Sólo Gasóleos" />
 
                     <TextView
                         android:id="@+id/tv_sologasoleostractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Sólo Gasóleos" />
+
+                    <TextView
+                        android:id="@+id/tv_sologasoleostractora1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -286,23 +290,22 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_cargapesados"
+                        android:id="@+id/tv_cargapesados"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="Carga Pesados" />
 
                     <TextView
-                        android:id="@+id/tv_cargapesados"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_cargapesados1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0" />
 
                 </LinearLayout>
@@ -316,37 +319,35 @@
                         android:id="@+id/tv_transportistaresp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="Codigo Trpt Resp" />
 
                     <TextView
                         android:id="@+id/tv_transportistaresp1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="0000" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <CheckBox
                         android:id="@+id/cb_Bloqueadotractora"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:enabled="false"
+                        android:clickable="false"
                         android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:text="Bloqueado" />
 
                 </LinearLayout>

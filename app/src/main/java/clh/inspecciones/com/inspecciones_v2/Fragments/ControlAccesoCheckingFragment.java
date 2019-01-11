@@ -163,21 +163,9 @@ public class ControlAccesoCheckingFragment extends Fragment{
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String pulsada;
-                pulsada = mListView.getItemAtPosition(position).toString();
-/*
-                if(tipoComponente.equalsIgnoreCase("S")){
-                    if(position==0){
-                        renderVehiculo("T");
-                        Toast.makeText(getActivity(), tipoComponente, Toast.LENGTH_SHORT).show();
-                    }else if (position==1){
-                        renderVehiculo("C");
-                    }
-                }else{
-                    renderVehiculo(tipoComponente);
-                }
-*/
-                switch (tipoComponente){
+              //  String pulsada;
+               // pulsada = mListView.getItemAtPosition(position).toString();
+           switch (tipoComponente){
                     case "R":
                         renderVehiculo(tipoComponente);
                         break;
@@ -185,17 +173,13 @@ public class ControlAccesoCheckingFragment extends Fragment{
                         renderVehiculo(tipoComponente);
                         break;
                     case "C":
-                        //callback.itemPulsado(pulsada, tipoComponente);
                         renderVehiculo(tipoComponente);
                         break;
                     case "S":
                         if (position==0){
                             renderVehiculo("T");
-                            //Toast.makeText(getActivity(),pulsada + ", " + tipoComponente + position , Toast.LENGTH_SHORT).show();
-                          //  callback.itemPulsado(pulsada, "T");
                         }else if (position==1){
                             renderVehiculo("C");
-                          //  callback.itemPulsado(pulsada, "C");
                         }
                         break;
                 }
@@ -448,16 +432,11 @@ public class ControlAccesoCheckingFragment extends Fragment{
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
-
                         break;
-
                     default:
                         break;
-
                 }
             }
-
         },
                 new Response.ErrorListener() {
                     @Override
@@ -572,7 +551,6 @@ public class ControlAccesoCheckingFragment extends Fragment{
         this.user = user.trim();
         this.pass = pass.trim();
 
-        //Toast.makeText(getActivity(), datos.get(0).trim() + this.tipoComponente + this.user + this.pass, Toast.LENGTH_LONG).show();
 
         if (datos.size()>1){
             llamadaVolley(datos.get(0).trim(), datos.get(1).trim(), this.tipoComponente, this.user, this.pass);

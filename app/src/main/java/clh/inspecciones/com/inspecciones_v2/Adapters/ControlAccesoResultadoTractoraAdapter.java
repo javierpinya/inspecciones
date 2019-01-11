@@ -7,12 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +59,7 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(layout,null);
             vh = new ViewHolder();
             vh.matricula = (TextView)convertView.findViewById(R.id.tv_tractoramatricula);
-            vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora);
+            vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora1);
             vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora);
             vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora);
             vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora);

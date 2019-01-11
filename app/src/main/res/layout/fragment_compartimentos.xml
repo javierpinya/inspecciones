@@ -3,117 +3,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    android:fitsSystemWindows="true"
     tools:context=".Fragments.CompartimentosFragment">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
 
 
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_cisterna"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:elevation="4dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal">
-
-
-                <TextView
-                    android:background="@color/colorAccent"
-                    android:textColor="#FFF"
-                    android:id="@+id/tv_cisterna"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_codvehiculo"
-                    android:gravity="center_horizontal"
-                    android:textSize="16dp"
-                    android:layout_weight="0.5"/>
-
-                <TextView
-                    android:background="#FFF"
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/tv_cisternamatricula"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="R5484FSF"
-                    android:textSize="16dp"
-                    android:gravity="center_horizontal"
-                    android:layout_weight="0.5"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp"
+                android:text="@string/tv_codvehiculo"/>
 
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:id="@+id/tv_compartimentos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:textColor="#FFF"
-                    android:textSize="16dp"
-                    android:text="COMPARTIMENTOS"/>
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_compartimentos"
-                android:padding="8dp"
-                android:elevation="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-
-            </android.support.v7.widget.RecyclerView>
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_cisternamatricula"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_guardar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="@color/colorAccent"
-                    android:textColor="#FFF"
-                    android:text="Guardar"/>
-            </LinearLayout>
+                android:layout_weight="0.5"
+                android:gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textColor="@color/colorWhite"
+                android:text="R5484FSF"/>
 
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:orientation="vertical">
 
-    </android.support.v4.widget.NestedScrollView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_compartimentos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:text="Guardar"/>
+    </LinearLayout>
 
 </FrameLayout>

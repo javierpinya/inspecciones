@@ -11,22 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +28,6 @@ import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.CompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
@@ -219,8 +211,8 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-               // callback.continuar();  //mejor continuar para incluir observaciones, etc, no volver
-                callback.volver(true);
+               // callback.continuar();  //mejor continuar para incluir observaciones, etc, no compartimentosGuardados
+                callback.compartimentosGuardados(true);
                 Toast.makeText(getContext(), "Guardado",Toast.LENGTH_SHORT ).show();
             }
         }, new Response.ErrorListener() {
@@ -266,9 +258,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     }
 
     public interface dataListener{
-        void volver(Boolean guardadoOk);
-//        void continuar();
-//        void elegirCompartimento(int compartimento);
+        void compartimentosGuardados(Boolean guardadoOk);
     }
 
 }

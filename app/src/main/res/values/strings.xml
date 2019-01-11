@@ -70,7 +70,7 @@
     <string name="siguiente2">CONTINUAR</string>
     <string name="albaran">ALBARÁN</string>
     <string name="titulo_docyprocesodecarga">CHECKLIST CARGADERO</string>
-    <string name="docyprocesodecarga">DOCUMENTACIÓN Y PROCESO DE CARGA</string>
+    <string name="docyprocesodecarga">CHEKLIST DEL VEHÍCULO</string>
     <string name="editar_anomalias">Editar Anomalías</string>
     <string name="permiso_conducir">PERMISO CIRCULACIÓN</string>
     <string name="adrcond">ADR CONDUCTOR</string>
@@ -80,7 +80,8 @@
     <string name="adrt">ADR TRACTORA</string>
     <string name="adrc">ADR CISTERNA</string>
     <string name="ficha_seguridad">FICHA SEGURIDAD</string>
-    <string name="tv_tablacal">TABLA CALIBRACIÓN:</string>
+    <string name="tv_empresacalibradora">EMPRESA CALIBRADORA</string>
+    <string name="tv_tablacal">TABLA CALIBRACION</string>
     <string name="et_tablacal">01/01/2018</string>
     <string name="transpondert">TRANSPONDER TRAC</string>
     <string name="transponderc">TRANSPONDER CIST</string>

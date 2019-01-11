@@ -166,13 +166,8 @@ public class IdentificacionVehiculoFragment extends Fragment {
 
                         default:
                             break;
-
                     }
-
                     renderText(listaVehiculos);
-                    //callback.buscarVehiculos(listaVehiculos, tipoVehiculo);
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -213,7 +208,7 @@ public class IdentificacionVehiculoFragment extends Fragment {
                 String conductor;
                 tractora = identificacionVehiculoClass.getTractora().toString();
                 cisterna = identificacionVehiculoClass.getCisterna().toString();
-                callback.enviar(tractora, cisterna);
+                callback.enviarVehiculoIdentificado(tractora, cisterna);
             }
         });
         recyclerVehiculos.setAdapter(adapter);
@@ -221,6 +216,6 @@ public class IdentificacionVehiculoFragment extends Fragment {
 
 
     public interface DataListener{
-        void enviar(String tractora, String cisterna);
+        void enviarVehiculoIdentificado(String tractora, String cisterna);
     }
 }

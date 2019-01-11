@@ -4,7 +4,7 @@
     android:id="@+id/CabeceraInspeccionFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context=".Fragments.CabeceraInspeccionFragment">
 
@@ -15,7 +15,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/colorAccent"
             android:padding="4dp">
 
 
@@ -32,6 +38,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="40"
                     android:gravity="center_horizontal|center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:text="@string/tv_ia" />
 
                 <EditText
@@ -39,6 +47,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:layout_weight="60" />
 
             </LinearLayout>
@@ -56,6 +66,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="40"
                     android:gravity="center_horizontal|center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:text="CONDUCTOR" />
 
                 <EditText
@@ -64,6 +76,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="60"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
+                    android:textSize="16dp"
                     android:inputType="numberDecimal" />
             </LinearLayout>
 
@@ -80,6 +95,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="40"
                     android:gravity="center_horizontal|center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:text="@string/tv_transp" />
 
                 <EditText
@@ -87,6 +104,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:layout_weight="60" />
 
             </LinearLayout>
@@ -104,6 +123,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="40"
                     android:gravity="center_horizontal|center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:text="@string/albaran" />
 
                 <EditText
@@ -112,6 +133,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="60"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:inputType="numberDecimal" />
 
             </LinearLayout>
@@ -129,16 +152,27 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="40"
                     android:gravity="center_horizontal|center"
-                    android:text="@string/tv_tablacal" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
+                    android:text="@string/tv_empresacalibradora" />
 
                 <EditText
                     android:id="@+id/et_empresatablacalibracion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16dp"
                     android:layout_weight="60" />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
             <LinearLayout
@@ -150,6 +184,10 @@
                     android:id="@+id/tv_docyprocesocarga"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18dp"
                     android:text="@string/docyprocesodecarga" />
 
                 <CheckBox
@@ -203,18 +241,25 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="6dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_tablacalibracion"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textSize="16dp"
                         android:text="@string/tv_tablacal" />
 
                     <EditText
                         android:id="@+id/et_tablacalibracion"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:textSize="16dp"
+                        android:inputType="date"
                         android:hint="@string/et_tablacal" />
                 </LinearLayout>
 
@@ -379,10 +424,12 @@
                 android:id="@+id/btn_guardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
+                android:background="@color/colorPrimary"
+                android:textSize="20dp"
                 android:text="GUARDAR"
-                android:textColor="#FFF" />
+                android:textColor="@color/colorWhite" />
 
+        </LinearLayout>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

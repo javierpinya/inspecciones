@@ -2,81 +2,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
     android:fitsSystemWindows="true"
     tools:context=".Fragments.LoginFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="80"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_usuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textColorHint="#FFF"
+                    android:hint="@string/usuario"/>
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textColorHint="#FFF"
+                    android:hint="@string/password"/>
+
+            <Switch
+                android:id="@+id/sw_preferences"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recordar"
+                android:textColor="#FFF"
+                android:visibility="gone"
+                android:layout_gravity="right"/>
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="20">
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp">
-
-        <EditText
-            android:id="@+id/et_usuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFF"
-            android:textColorHint="#FFF"
-            android:hint="@string/usuario"/>
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp">
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:enabled="false"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+                android:text="@string/login"/>
 
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#FFF"
-            android:textColorHint="#FFF"
-            android:hint="@string/password"/>
+        </LinearLayout>
 
-    </LinearLayout>
-
-        <Switch
-            android:id="@+id/sw_preferences"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recordar"
-            android:textColor="#FFF"
-            android:layout_gravity="right"/>
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:enabled="false"
-        android:background="@drawable/gradient_invertido"
-        android:textColor="#FFF"
-        android:text="@string/login"/>
-    </LinearLayout>
-    </LinearLayout>
 
 
 </FrameLayout>

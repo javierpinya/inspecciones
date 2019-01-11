@@ -21,7 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.SplashActivity">
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,12 +42,6 @@
         </provider>
 
         <activity android:name=".Activities.MenuActivity" />
-        <activity android:name=".Activities.AltaNuevaActivity" />
-        <activity android:name=".Activities.IdentificacionVehiculoActivity" />
-        <activity android:name=".Activities.ControlAccesoCheckingActivity" />
-        <activity android:name=".Activities.DetalleInspeccionActivity" />
-        <activity android:name=".Activities.CompartimentosActivity" />
-        <activity android:name=".Activities.ResultadoInspeccionActivity" />
         <activity android:name=".Activities.LoginActivity" />
     </application>
 

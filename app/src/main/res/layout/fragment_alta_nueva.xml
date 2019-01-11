@@ -2,56 +2,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
     tools:context="clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvtipovehiculo"
-            android:paddingTop="10dp"
-            android:paddingBottom="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/tvTipoVehiculo" />
 
-        <CheckBox
-            android:id="@+id/cbrigido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="@string/cbRigido" />
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <CheckBox
-            android:id="@+id/cbconjunto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="@string/cbSLO" />
+            <ImageView
+                android:id="@+id/barra1"
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="3dp" />
 
-        <CheckBox
-            android:id="@+id/cbtractora"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="@string/cbTractora" />
+            <TextView
+                android:id="@+id/tvtipovehiculo"
+                android:paddingTop="10dp"
+                android:paddingBottom="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:text="@string/tvTipoVehiculo" />
 
-        <CheckBox
-            android:id="@+id/cbcisterna"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="@string/cbCisterna" />
+            <CheckBox
+                android:id="@+id/cbrigido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/cbRigido" />
+
+            <CheckBox
+                android:id="@+id/cbconjunto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/cbSLO" />
+
+            <CheckBox
+                android:id="@+id/cbtractora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/cbTractora" />
+
+            <CheckBox
+                android:id="@+id/cbcisterna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:text="@string/cbCisterna" />
+
+            <ImageView
+                android:id="@+id/barra"
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="3dp" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvtipoinspeccion"
@@ -60,8 +95,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/colorWhite"
             android:text="@string/tvTipoInspeccion" />
 
         <CheckBox
@@ -70,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="16sp"
+            android:textColor="#FFF"
             android:text="@string/cbligeros" />
 
         <CheckBox
@@ -78,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="16sp"
+            android:textColor="#FFF"
             android:text="@string/cbpesados" />
 
         <CheckBox
@@ -86,15 +125,32 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="16sp"
+            android:textColor="#FFF"
             android:text="@string/cbjeta" />
-
-        <Button
-            android:id="@+id/btn_siguiente1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/siguiente1"/>
+    </LinearLayout>
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_siguiente1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:padding="8dp"
+                android:elevation="6dp"
+                android:shadowColor="#FFF"
+                android:fadingEdgeLength="@dimen/cardview_default_elevation"
+                android:textSize="20sp"
+                android:textColor="#FFF"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/siguiente1"/>
+
+        </LinearLayout>
+
 
 </FrameLayout>

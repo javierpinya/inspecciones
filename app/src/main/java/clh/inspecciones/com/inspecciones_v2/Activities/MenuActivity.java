@@ -15,24 +15,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-
-import java.util.ArrayList;
-
 import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.IdentificacionVehiculoClass;
 import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CalculadoraFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoBusquedaFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoResultadoFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -221,6 +214,7 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
        // setToolbarMenu(fragment, toolbar.getMenu());
     }
 
+    /*
     private void setToolbarMenu(Fragment fragment, Menu menu) {
         switch (fragment.getId()){
             case R.id.altanuevafragment:
@@ -234,7 +228,7 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                 break;
         }
     }
-
+*/
     @Override
     public void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoComponente) {
         /*
@@ -243,7 +237,7 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         this.tipoVehiculo = tipoVehiculo;
         this.tipoInspeccion = tipoInspeccion;
         this.tipoComponente = tipoComponente;
-        //enviarDatos(tipoVehiculo,tipoInspeccion, tipoComponente, user, pass);
+
         fragment = new IdentificacionVehiculoFragment();
         args.putString("tipoVehiculo", tipoVehiculo);
         args.putString("tipoInspeccion", tipoInspeccion);
@@ -253,13 +247,16 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         args.remove("fragmentActual");
         args.putString("fragmentActual", "identificacionVehiculoFragment");
         fragment.setArguments(args);
-        changeFragment(fragment, navigationView.getMenu().getItem(3));
+        changeFragment(fragment, navigationView.getMenu().getItem(1));
 
     }
 
 
     @Override
-    public void enviar(String tractora, String cisterna) {
+    public void enviarVehiculoIdentificado(String tractora, String cisterna) {
+        /*
+        método proveniente del fragment IdentificacionVehiculoFragment, una vez pulsado sobre el vehículo a inspeccionar
+         */
         this.tractora = tractora;
         this.cisterna = cisterna;
         realm = Realm.getDefaultInstance();
@@ -272,10 +269,7 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
             realm.commitTransaction();
         }
 
-
-
         fragment = new ControlAccesoCheckingFragment();
-        fragment.getId();
 
         args.putString("tipoVehiculo", tipoVehiculo);
         args.putString("tipoInspeccion", tipoInspeccion);
@@ -289,8 +283,6 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         args.putString("fragmentActual", "ControlAccesoCheckingFragment");
         fragment.setArguments(args);
         changeFragment(fragment, navigationView.getMenu().getItem(3));
-
-        //Toast.makeText(MenuActivity.this, "Enviamos datos a ControlDeAccesoChecking", Toast.LENGTH_SHORT).show();
     }
 
     private void siguiente() {
@@ -305,9 +297,6 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
             case "CabeceraInspeccionFragment":
-                //Toast.makeText(this, "fragmentdetalleinspeccion"  + fragment.getId(), Toast.LENGTH_SHORT).show();
-               // CabeceraInspeccionFragment cabeceraInspeccionFragment = (CabeceraInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.CabeceraInspeccionFragment);
-               // cabeceraInspeccionFragment.prepararGuardado();
                 if(guardadoCabeceraOk) {
                     fragment = new CompartimentosFragment();
                     args.remove("fragmentActual");
@@ -335,12 +324,12 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
             case "ResultadoInspeccionFragment":
                 if(inspeccionFinalizada){
                     Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
-                    borrarRealm();
                 }else {
                     Toast.makeText(this, "Es posible que no todas las fotos se hayan guardado exitosamente", Toast.LENGTH_SHORT).show();
-                    //Incluir un cuadro de diálogo para poder volver a atrás y guardar de nuevo las fotos
+                    //Incluir un cuadro de diálogo para poder compartimentosGuardados a atrás y guardar de nuevo las fotos
                 }
                 fragment = new MenuFragment();
+                borrarRealm();
                 args.clear();
                 nombreFragment = "MenuFragment";
                 changeFragment(fragment, navigationView.getMenu().getItem(0));
@@ -362,7 +351,10 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     @Override
-    public void volver(Boolean guardadoOk) {
+    public void compartimentosGuardados(Boolean guardadoOk) {
+        /*
+        viene de CompartimentosFragment, una vez se pulsa el botón de guardar
+         */
         guardadoCompartimentosOk = guardadoOk;
     }
 
@@ -372,10 +364,15 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     public void borrarRealm(){
-        /*
-        ResultadoInspeccionFragment resultadoInspeccionFragment = (ResultadoInspeccionFragment)getSupportFragmentManager().findFragmentById(R.id.resultadoinspeccionfragment);
-        resultadoInspeccionFragment.borrarRealm();
-        */
+        realm = Realm.getDefaultInstance();
+        if(realm.isEmpty() == false){
+            realm.beginTransaction();
+            realm.delete(CARigidoBD.class);
+            realm.delete(CATractoraBD.class);
+            realm.delete(CACisternaBD.class);
+            realm.delete(CACompartimentosBD.class);
+            realm.commitTransaction();
+        }
     }
 
     private void logOut(){

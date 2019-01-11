@@ -574,16 +574,4 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
     }
 
-    public void borrarRealm() {
-        realm = Realm.getDefaultInstance();
-        if(realm.isEmpty() == false){
-            realm.beginTransaction();
-            realm.delete(CARigidoBD.class);
-            realm.delete(CATractoraBD.class);
-            realm.delete(CACisternaBD.class);
-            realm.delete(CACompartimentosBD.class);
-            realm.commitTransaction();
-        }
-    }
-
 }

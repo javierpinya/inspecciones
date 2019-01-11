@@ -435,15 +435,12 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             public void onResponse(String response) {
                 respuestaNube = response;
                 Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 respuestaNube = error.toString();
                 Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-
-
             }
         }){
             @Override
@@ -496,7 +493,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         };
 
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
-
     }
 
     @Override

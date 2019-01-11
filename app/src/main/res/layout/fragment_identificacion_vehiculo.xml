@@ -3,97 +3,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".Fragments.IdentificacionVehiculoFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="40"
-        android:background="@drawable/gradient"
-        android:padding="10dp"
-        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_tractora"
-                android:layout_width="wrap_content"
+            android:background="@color/colorAccent"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="TRACTORA" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_tractora"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_tractora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorWhite"
+                    android:text="TRACTORA" />
+
+                <EditText
+                    android:id="@+id/et_tractora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:textColor="@color/colorWhite"
+                    android:inputType="numberDecimal"
+                    android:hint="3660"
+                    android:textColorHint="@color/cardview_shadow_start_color"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:hint="2354" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cisterna"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorWhite"
+                    android:text="CISTERNA" />
+
+                <EditText
+                    android:id="@+id/et_cisterna"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:textColor="@color/colorWhite"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@color/cardview_shadow_start_color"
+                    android:textSize="18dp"
+                    android:hint="2474" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/Buscar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="buscar" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="70"
+            android:background="#FFF"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_cisterna"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="CISTERNA" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_identificacionvehiculo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/et_cisterna"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:hint="2354" />
+            </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/Buscar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="buscar" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="60"
-        android:background="@color/colorAccent"
-        android:orientation="vertical">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_identificacionvehiculo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
