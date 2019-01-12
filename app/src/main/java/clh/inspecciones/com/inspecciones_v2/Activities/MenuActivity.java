@@ -123,14 +123,17 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                         break;
                     case R.id.menu_altanueva:
                         fragment = new AltaNuevaFragment();
+                        nombreFragment = "AltaNuevaFragment";
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_buscar:
                         fragment = new BuscarInspeccionFragment();
+                        nombreFragment= "BuscarInspeccionFragment";
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_calibrar:
                         fragment = new CalculadoraFragment();
+                        nombreFragment="CalculadoraFragment";
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_ajustes:
@@ -238,16 +241,7 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         this.tipoInspeccion = tipoInspeccion;
         this.tipoComponente = tipoComponente;
 
-        fragment = new IdentificacionVehiculoFragment();
-        args.putString("tipoVehiculo", tipoVehiculo);
-        args.putString("tipoInspeccion", tipoInspeccion);
-        args.putString("tipoComponente", tipoComponente);
-        args.putString("user", user);
-        args.putString("pass", pass);
-        args.remove("fragmentActual");
-        args.putString("fragmentActual", "identificacionVehiculoFragment");
-        fragment.setArguments(args);
-        changeFragment(fragment, navigationView.getMenu().getItem(1));
+
 
     }
 
@@ -282,13 +276,26 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         args.remove("fragmentActual");
         args.putString("fragmentActual", "ControlAccesoCheckingFragment");
         fragment.setArguments(args);
-        changeFragment(fragment, navigationView.getMenu().getItem(3));
+        changeFragment(fragment, navigationView.getMenu().getItem(1));
     }
 
     private void siguiente() {
         switch (nombreFragment){
+            case "AltaNuevaFragment":
+                fragment = new IdentificacionVehiculoFragment();
+                args.putString("tipoVehiculo", tipoVehiculo);
+                args.putString("tipoInspeccion", tipoInspeccion);
+                args.putString("tipoComponente", tipoComponente);
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "identificacionVehiculoFragment");
+                fragment.setArguments(args);
+                nombreFragment = "IdentificacionVehiculoFragment";
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+
             case "ControlAccesoCheckingFragment":
-                Toast.makeText(this, "controlaccesocheckin: ", Toast.LENGTH_SHORT).show();
                 fragment = new CabeceraInspeccionFragment();
                 args.remove("fragmentActual");
                 args.putString("fragmentActual", "CabeceraInspeccionFragment");

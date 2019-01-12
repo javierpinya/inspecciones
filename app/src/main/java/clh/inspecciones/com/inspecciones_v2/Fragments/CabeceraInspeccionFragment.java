@@ -95,6 +95,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private TextView tractora;
     private TextView cisterna;
     private TextView conductor;
+    private TextView tvInspeccion;
     private CheckBox bateriaDesconectada;
     private CheckBox fichaSeguridad;
     private CheckBox transponderTractora;
@@ -162,6 +163,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
         etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
         button = (Button)view.findViewById(R.id.btn_guardar);
+        tvInspeccion = (TextView)view.findViewById(R.id.tv_inspeccion1);
 
 
         /////DETALLE INSPECCION FRAGMENT
@@ -402,7 +404,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                     JSONArray json = jsonObject.optJSONArray("num_inspecciones");
                     contadorInspecciones = (json.optJSONObject(0).optInt("CONTADOR"));
                     inspeccion = usuario+String.valueOf(contadorInspecciones);
-                    Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();
+                    tvInspeccion.setText(inspeccion);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -434,7 +436,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             @Override
             public void onResponse(String response) {
                 respuestaNube = response;
-                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), response.trim(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

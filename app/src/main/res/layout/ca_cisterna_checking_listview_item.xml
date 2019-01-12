@@ -221,6 +221,7 @@
                         android:id="@+id/tv_mmatractora1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:text="0 Kgs"
@@ -235,7 +236,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_contadortractora"
+                        android:id="@+id/tv_contadortractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Contador"
@@ -243,9 +244,10 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_contadortractora"
+                        android:id="@+id/tv_contadortractora1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="right"
                         android:padding="10dp"
                         android:text="0"
@@ -286,7 +288,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_sologasoleostractora"
+                        android:id="@+id/tv_sologasoleostractora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sólo Gasóleos"
@@ -294,7 +296,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_sologasoleostractora"
+                        android:id="@+id/tv_sologasoleostractora1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -312,7 +314,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cb_cargapesados"
+                        android:id="@+id/tv_cargapesados"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Carga Pesados"
@@ -320,7 +322,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_cargapesados"
+                        android:id="@+id/tv_cargapesados1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

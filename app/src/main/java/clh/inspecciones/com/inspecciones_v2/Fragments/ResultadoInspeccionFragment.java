@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -231,6 +232,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
 
     public void guardar(){
+        Toast.makeText(getActivity(), "Guardando...", Toast.LENGTH_LONG).show();
         comentarios = etComentarios.getText().toString();
         this.fecha_desfavorable = etFechaDesfavorable.getText().toString();
         this.fecha_revisada = etFechaRevisada.getText().toString();
@@ -284,6 +286,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     }
 
     private void guardarOnLine(final String user, final String pass, final String inspeccionada, final String favorable, final String desfavorable, final String revisada, final String bloqueada,final  String inspeccion, final String fecha_desfavorable, final String fecha_revisada, final String fecha_bloqueo, final String comentarios) {
+
 
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override

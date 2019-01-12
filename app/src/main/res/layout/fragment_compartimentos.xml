@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@color/colorWhite"
     android:fitsSystemWindows="true"
     tools:context=".Fragments.CompartimentosFragment">
 
@@ -28,8 +28,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:gravity="center_horizontal"
+                android:gravity="left"
+                android:layout_margin="6dp"
                 android:textColor="@color/colorWhite"
+                android:textStyle="bold|italic"
                 android:textSize="20dp"
                 android:text="@string/tv_codvehiculo"/>
 
@@ -38,8 +40,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:gravity="center_horizontal"
+                android:gravity="right"
+                android:layout_margin="6dp"
                 android:textSize="20dp"
+                android:textStyle="italic|bold"
                 android:textColor="@color/colorWhite"
                 android:text="R5484FSF"/>
 

@@ -26,8 +26,8 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
     private List<CATractoraBD> caTractora;
     private int layout;
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-    private String adr;
-    private Date adr_D = new Date();
+    private String transp_resp;
+
 
 
     public ControlAccesoResultadoTractoraAdapter(Context context,List<CATractoraBD> caTractora, int layout ){
@@ -60,12 +60,12 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
             vh = new ViewHolder();
             vh.matricula = (TextView)convertView.findViewById(R.id.tv_tractoramatricula);
             vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora1);
-            vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora);
-            vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora);
-            vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora);
-            vh.tara = (TextView)convertView.findViewById(R.id.tv_taratractora);
-            vh.mma = (TextView)convertView.findViewById(R.id.tv_mmatractora);
-            vh.ind_solo_gasoleos = (TextView)convertView.findViewById(R.id.tv_sologasoleostractora);
+            vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora1);
+            vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora1);
+            vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora1);
+            vh.tara = (TextView)convertView.findViewById(R.id.tv_taratractora1);
+            vh.mma = (TextView)convertView.findViewById(R.id.tv_mmatractora1);
+            vh.ind_solo_gasoleos = (TextView)convertView.findViewById(R.id.tv_sologasoleostractora1);
             vh.cod_transportista_responsable = (TextView)convertView.findViewById(R.id.tv_transportistaresp1);
             vh.ind_bloqueo = (CheckBox) convertView.findViewById(R.id.cb_Bloqueadotractora);
             convertView.setTag(vh);
@@ -74,26 +74,24 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
         }
 
         CATractoraBD caTractoraBD = caTractora.get(position);
-        if (caTractoraBD.getAdr() == null){
-            adr="null";
+        if(caTractoraBD.getCod_transportista_resp() == null){
+            transp_resp = "null";
         }else{
-           // adr = df.parse(caTractoraBD.getAdr().toString());
-                adr = df.format(caTractoraBD.getAdr());
-
+            transp_resp = caTractoraBD.getCod_transportista_resp();
         }
 
 
 
         vh.matricula.setText(caTractoraBD.getMatricula().toString());
         vh.tipo_componente.setText(caTractoraBD.getTipo_componente());
-        vh.adr.setText(adr_D.toString());
-        vh.itv.setText(caTractoraBD.getItv().toString());
-        vh.ind_bloqueo.setChecked(caTractoraBD.isBloqueado());
-        vh.mma.setText(String.valueOf(caTractoraBD.getMma()));
-        vh.tara.setText(String.valueOf(caTractoraBD.getTara()));
+        vh.adr.setText(df.format(caTractoraBD.getAdr()));
+        vh.itv.setText(df.format(caTractoraBD.getItv()));
+        vh.mma.setText(String.valueOf(caTractoraBD.getMma()) + "Kgs");
+        vh.tara.setText(String.valueOf(caTractoraBD.getTara()) + "Kgs");
         vh.chip.setText(String.valueOf(caTractoraBD.getChip()));
         vh.ind_solo_gasoleos.setText(caTractoraBD.getSoloGasoelos());
         vh.cod_transportista_responsable.setText(caTractoraBD.getCod_transportista_resp());
+        vh.ind_bloqueo.setChecked(caTractoraBD.isBloqueado());
 
         return convertView;
     }

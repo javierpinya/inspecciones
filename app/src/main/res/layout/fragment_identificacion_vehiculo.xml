@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/identificacionvehiculofragment"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWhite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -12,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:padding="10dp"
             android:orientation="vertical">
             <LinearLayout
@@ -72,24 +73,38 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"
-                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/Buscar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorWhite"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="buscar" />
-            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/colorWhite"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:layout_marginRight="3dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/Buscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimaryDark"
+                android:text="buscar" />
         </LinearLayout>
 
         <LinearLayout

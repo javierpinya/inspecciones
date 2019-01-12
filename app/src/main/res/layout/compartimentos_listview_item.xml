@@ -4,16 +4,21 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite">
 
-    <TextView
-        android:id="@+id/tv_numcomp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"/>
-    <!--android:text="Compartimento X"-->
+        android:background="@color/colorPrimary">
 
+        <TextView
+            android:id="@+id/tv_numcomp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

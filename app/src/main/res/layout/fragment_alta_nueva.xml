@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@color/colorWhite"
     tools:context="clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment">
 
     <LinearLayout
@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/barra1"
-                android:background="@color/colorAccent"
+                android:background="@color/colorWhite"
                 android:layout_width="match_parent"
                 android:layout_height="3dp" />
 
@@ -76,7 +76,7 @@
 
             <ImageView
                 android:id="@+id/barra"
-                android:background="@color/colorAccent"
+                android:background="@color/colorWhite"
                 android:layout_width="match_parent"
                 android:layout_height="3dp" />
 
@@ -130,27 +130,7 @@
     </LinearLayout>
 
     </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_siguiente1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:padding="8dp"
-                android:elevation="6dp"
-                android:shadowColor="#FFF"
-                android:fadingEdgeLength="@dimen/cardview_default_elevation"
-                android:textSize="20sp"
-                android:textColor="#FFF"
-                android:background="@color/colorPrimaryDark"
-                android:text="@string/siguiente1"/>
-
-        </LinearLayout>
 
 
 </FrameLayout>

@@ -25,8 +25,6 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
     private int layout;
     private List<CARigidoBD> rigido;
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-    private String adr;
-    private String fec_cadu_calibracion;
     private String transp_resp;
 
     public ControlAccesoResultadoRigidoAdapter(Context context, List<CARigidoBD> rigido, int layout ){
@@ -59,15 +57,15 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
             vh = new ViewHolder();
             vh.matricula = (TextView)convertView.findViewById(R.id.tv_tractoramatricula);
             vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora1);
-            vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora);
-            vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora);
-            vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora);
-            vh.tara = (TextView)convertView.findViewById(R.id.tv_taratractora);
-            vh.ejes = (TextView)convertView.findViewById(R.id.tv_ejestractora);
-            vh.mma = (TextView)convertView.findViewById(R.id.tv_mmatractora);
-            vh.ind_solo_gasoleos = (TextView)convertView.findViewById(R.id.tv_sologasoleostractora);
-            vh.ind_carga_pesados = (TextView)convertView.findViewById(R.id.tv_cargapesados);
-            vh.fec_cadu_calibracion = (TextView)convertView.findViewById(R.id.tv_tablacaltractora);
+            vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora1);
+            vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora1);
+            vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora1);
+            vh.tara = (TextView)convertView.findViewById(R.id.tv_taratractora1);
+            vh.ejes = (TextView)convertView.findViewById(R.id.tv_ejestractora1);
+            vh.mma = (TextView)convertView.findViewById(R.id.tv_mmatractora1);
+            vh.ind_solo_gasoleos = (TextView)convertView.findViewById(R.id.tv_sologasoleostractora1);
+            vh.ind_carga_pesados = (TextView)convertView.findViewById(R.id.tv_cargapesados1);
+            vh.fec_cadu_calibracion = (TextView)convertView.findViewById(R.id.tv_tablacaltractora1);
             vh.cod_transportista_responsable = (TextView)convertView.findViewById(R.id.tv_transportistaresp1);
             vh.ind_bloqueo = (CheckBox) convertView.findViewById(R.id.cb_Bloqueadotractora);
             convertView.setTag(vh);
@@ -76,18 +74,7 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
         }
 
         CARigidoBD caRigidoBD = rigido.get(position);
-        if (caRigidoBD.getAdr() == null){
-            adr="null";
-        }else{
-            adr = df.format(caRigidoBD.getAdr());
 
-        }
-
-        if(caRigidoBD.getFec_cadu_calibracion() == null){
-            fec_cadu_calibracion = "null";
-        }else{
-            fec_cadu_calibracion = df.format(caRigidoBD.getFec_cadu_calibracion());
-        }
         if(caRigidoBD.getCod_transportista_resp() == null){
             transp_resp = "null";
         }else{
@@ -99,16 +86,18 @@ public class ControlAccesoResultadoRigidoAdapter extends BaseAdapter {
 
         vh.matricula.setText(caRigidoBD.getMatricula());
         vh.tipo_componente.setText(caRigidoBD.getTipo_componente());
-        vh.adr.setText(caRigidoBD.getAdr().toString());
-        vh.itv.setText(caRigidoBD.getItv().toString());
+        vh.adr.setText(df.format(caRigidoBD.getAdr()));
+        vh.itv.setText(df.format(caRigidoBD.getItv()));
         vh.ejes.setText(String.valueOf(caRigidoBD.getEjes()));
         vh.ind_bloqueo.setChecked(caRigidoBD.isBloqueado());
-        vh.mma.setText(String.valueOf(caRigidoBD.getMma()));
-        vh.tara.setText(String.valueOf(caRigidoBD.getTara()));
+        vh.mma.setText(String.valueOf(caRigidoBD.getMma())+ "Kgs");
+        vh.tara.setText(String.valueOf(caRigidoBD.getTara())+ "Kgs");
         vh.chip.setText(String.valueOf(caRigidoBD.getChip()));
         vh.ind_solo_gasoleos.setText(caRigidoBD.getSoloGasoelos());
-        vh.fec_cadu_calibracion.setText(caRigidoBD.getFec_cadu_calibracion().toString());
+        vh.ind_carga_pesados.setText(caRigidoBD.getInd_carga_pesados());
+        vh.fec_cadu_calibracion.setText(df.format(caRigidoBD.getFec_cadu_calibracion()));
         vh.cod_transportista_responsable.setText(transp_resp);
+        vh.ind_bloqueo.setChecked(caRigidoBD.isBloqueado());
 
 
 

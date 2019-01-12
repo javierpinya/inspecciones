@@ -1,6 +1,7 @@
 package clh.inspecciones.com.inspecciones_v2.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -24,8 +26,7 @@ public class ControlAccesoResultadoCisternaAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<CACisternaBD> cisterna;
-    private DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-    private String adr;
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     public ControlAccesoResultadoCisternaAdapter(Context context, List<CACisternaBD> cisterna, int layout ){
         this.context=context;
@@ -59,15 +60,15 @@ public class ControlAccesoResultadoCisternaAdapter extends BaseAdapter {
             vh = new ViewHolder();
             vh.matricula = (TextView)convertView.findViewById(R.id.tv_tractoramatricula);
             vh.tipo_componente = (TextView)convertView.findViewById(R.id.tv_tipotractora1);
-            vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora);
-            vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora);
-            vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora);
-            vh.tara = (TextView)convertView.findViewById(R.id.tv_taratractora);
-            vh.ejes = (TextView)convertView.findViewById(R.id.tv_ejestractora);
-            vh.mma = (TextView)convertView.findViewById(R.id.tv_mmatractora);
-            vh.ind_solo_gasoleos = (TextView)convertView.findViewById(R.id.tv_sologasoleostractora);
-            vh.ind_carga_pesados = (TextView)convertView.findViewById(R.id.tv_cargapesados);
-            vh.fec_cadu_calibracion = (TextView)convertView.findViewById(R.id.tv_tablacaltractora);
+            vh.chip = (TextView)convertView.findViewById(R.id.tv_chiptractora1);
+            vh.adr = (TextView)convertView.findViewById(R.id.tv_adrtractora1);
+            vh.itv = (TextView)convertView.findViewById(R.id.tv_itvtractora1);
+            vh.tara = (TextView)convertView.findViewById(R.id.tv_taratractora1);
+            vh.ejes = (TextView)convertView.findViewById(R.id.tv_ejestractora1);
+            vh.mma = (TextView)convertView.findViewById(R.id.tv_mmatractora1);
+            vh.ind_solo_gasoleos = (TextView)convertView.findViewById(R.id.tv_sologasoleostractora1);
+            vh.ind_carga_pesados = (TextView)convertView.findViewById(R.id.tv_cargapesados1);
+            vh.fec_cadu_calibracion = (TextView)convertView.findViewById(R.id.tv_tablacaltractora1);
             vh.cod_transportista_responsable = (TextView)convertView.findViewById(R.id.tv_transportistaresp1);
             vh.ind_bloqueo = (CheckBox) convertView.findViewById(R.id.cb_Bloqueadotractora);
             convertView.setTag(vh);
@@ -77,18 +78,18 @@ public class ControlAccesoResultadoCisternaAdapter extends BaseAdapter {
 
         CACisternaBD caCisternaBD = cisterna.get(position);
 
-        vh.matricula.setText(caCisternaBD.getMatricula().toString());
+        vh.matricula.setText(caCisternaBD.getMatricula());
         vh.tipo_componente.setText(caCisternaBD.getTipo_componente());
-        vh.adr.setText(caCisternaBD.getAdr().toString());
-        vh.itv.setText(caCisternaBD.getItv().toString());
+        vh.adr.setText(df.format(caCisternaBD.getAdr()));
+        vh.itv.setText(df.format(caCisternaBD.getItv()));
         vh.ejes.setText(String.valueOf(caCisternaBD.getEjes()));
         vh.ind_bloqueo.setChecked(caCisternaBD.isBloqueado());
-        vh.mma.setText(String.valueOf(caCisternaBD.getMma()));
-        vh.tara.setText(String.valueOf(caCisternaBD.getTara()));
+        vh.mma.setText(String.valueOf(caCisternaBD.getMma())+ "Kgs");
+        vh.tara.setText(String.valueOf(caCisternaBD.getTara())+ "Kgs");
         vh.chip.setText(String.valueOf(caCisternaBD.getChip()));
         vh.ind_solo_gasoleos.setText(caCisternaBD.getSoloGasoelos());
         vh.ind_carga_pesados.setText(caCisternaBD.getInd_carga_pesados());
-        vh.fec_cadu_calibracion.setText(caCisternaBD.getFec_calibracion().toString());
+        vh.fec_cadu_calibracion.setText(df.format(caCisternaBD.getFec_calibracion()));
 
 
         return convertView;

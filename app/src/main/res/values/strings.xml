@@ -105,9 +105,9 @@
     <string name="tv_cumple">Cumple</string>
     <string name="comentariosfinales">Comentarios</string>
     <string name="simac">SIMAC</string>
-    <string name="instalacionsimacok">Instalación SIMAC ok</string>
-    <string name="lecturatagsisleta">Lectura TAGs isleta</string>
-    <string name="bajadatags">Bajada Tags Planta</string>
+    <string name="instalacionsimacok">INSTALACIÓN SIMAC OK</string>
+    <string name="lecturatagsisleta">LECTURA TAGS ISLETA</string>
+    <string name="bajadatags">BAJADA TAGS PLANTA</string>
 
 
     <!-- check list control de acceso -->

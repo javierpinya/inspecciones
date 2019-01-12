@@ -39,7 +39,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private EditText Usuario;
     private EditText Password;
     private Button ButtonLogin;
-    private Switch swRemember;
+    //private Switch swRemember;
     private String User;
     private String Pass;
     private String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/login.php";
@@ -74,7 +74,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
         Usuario = view.findViewById(R.id.et_usuario);
         Password = view.findViewById(R.id.et_password);
-        swRemember = view.findViewById(R.id.sw_preferences);
+        //swRemember = view.findViewById(R.id.sw_preferences);
         ButtonLogin = view.findViewById(R.id.btn_login);
         ButtonLogin.setEnabled(true);
 
@@ -106,7 +106,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     StringRequest sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-            callback.loginOk(User, Pass, swRemember.isChecked());
+            callback.loginOk(User, Pass);
         }
     },
             new Response.ErrorListener() {
@@ -139,6 +139,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     public interface loginOk{
-        void loginOk(String usuario, String password, boolean sw);
+        void loginOk(String usuario, String password);
     }
 }

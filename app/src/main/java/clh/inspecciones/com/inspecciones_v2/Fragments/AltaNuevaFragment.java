@@ -26,7 +26,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     CheckBox cbligeros;
     CheckBox cbpesados;
     CheckBox cbjeta;
-    Button btn_siguiente1;
+   // Button btn_siguiente1;
     String tipoVehiculo;
     String tipoInspeccion;
     String tipoComponente;
@@ -59,7 +59,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
         cbligeros = v.findViewById(R.id.cbligeros);
         cbpesados = v.findViewById(R.id.cbpesados);
         cbjeta = v.findViewById(R.id.cbjeta);
-        btn_siguiente1 = v.findViewById(R.id.btn_siguiente1);
+        //btn_siguiente1 = v.findViewById(R.id.btn_siguiente1);
 
         cbrigido.setOnClickListener(this);
         cbtractora.setOnClickListener(this);
@@ -68,7 +68,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
         cbligeros.setOnClickListener(this);
         cbpesados.setOnClickListener(this);
         cbjeta.setOnClickListener(this);
-        btn_siguiente1.setOnClickListener(this);
+        //btn_siguiente1.setOnClickListener(this);
 
         return v;
     }
@@ -119,12 +119,10 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
                 cbligeros.setChecked(false);
                 cbpesados.setChecked(false);
                 break;
-            case R.id.btn_siguiente1:
-                callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoComponente);
-                break;
             default:
                 break;
         }
+        callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoComponente);
     }
 
     public interface AltaNuevaListener{

@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -82,7 +82,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
     //Variables donde recibir los datos de internet y pasarlos después a la BBDD
     private String matVehiculo;
-    private String tipo_componente;
+    private String id_tipo_componente;
     private int chip;
     private String adr;
     private String itv;
@@ -97,6 +97,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private String tResp;
     private String cod_nacion;
 
+    private Date itv_parseada;
+
     //compartimentos
     private List<Integer> compartimentos;
     private List<Integer> capacidad;
@@ -108,7 +110,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private ControlAccesoResultadoCisternaAdapter adapterCisterna;
 
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     public void onAttach(Context context) {
@@ -213,8 +216,8 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             for (int i=0; i<json.length(); i++){
 
                                 matVehiculo=(json.optJSONObject(i).optString("cod_matricula_real"));
-                                tipo_componente=(json.optJSONObject(i).optString("id_tipo_componente"));
-                                //tipo_componente=(response);
+                                id_tipo_componente=(json.optJSONObject(i).optString("id_tipo_componente"));
+                                //id_tipo_componente=(response);
                                 itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                                 adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
                                 tara=(json.optJSONObject(i).optInt("can_tara"));
@@ -245,7 +248,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                                 fec_baja_p=null;
                             }
 
-                            createNewRigido(matVehiculo,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes, tResp);
+                            createNewRigido(matVehiculo, id_tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado, carga_pesados, fec_cadu_calibracion_p, num_ejes, tResp);
                             anadirCompartimentos(matVehiculo, compartimentos, capacidad, tags);
 
 
@@ -268,7 +271,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
                             for (int i=0; i<json.length(); i++){
 
-                                //tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
+                                id_tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
                                 matVehiculo=(json.optJSONObject(i).optString("cod_matricula_real"));
                                 itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                                 adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
@@ -290,7 +293,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             }
 
 
-                            createNewTractora(matVehiculo,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                            createNewTractora(matVehiculo, id_tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -310,7 +313,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             for (int i=0; i<json.length(); i++){
 
                                 matVehiculo=(json.optJSONObject(i).optString("cod_matricula_real"));
-                                tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
+                                id_tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
                                 num_ejes = (json.optJSONObject(i).optInt("num_ejes"));
                                 itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                                 adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
@@ -332,6 +335,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                                 capacidad.add(json1.optJSONObject(i).optInt("can_capacidad"));
                             }
 
+
                             Date adr_p = parseador.parse(adr);
                             Date itv_p = parseador.parse(itv);
                             Date fec_calibracion_p = parseador.parse(fec_cadu_calibracion);
@@ -343,7 +347,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             }
 
 
-                            createNewCisterna(matVehiculo,tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                            createNewCisterna(matVehiculo, id_tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
                             anadirCompartimentos(matVehiculo,compartimentos,capacidad,tags);
 
                         } catch (JSONException e) {
@@ -366,7 +370,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
                             for (int i=0; i<json.length(); i++){
 
-                                //tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
+                                id_tipo_componente = (json.optJSONObject(i).optString("id_tipo_componente"));
                                 matVehiculo=(json.optJSONObject(i).optString("cod_matricula_real"));
                                 itv=(json.optJSONObject(i).optString("fec_cadu_itv"));
                                 adr=(json.optJSONObject(i).optString("fec_cadu_adr"));
@@ -387,12 +391,12 @@ public class ControlAccesoCheckingFragment extends Fragment{
                                 fec_baja_p=null;
                             }
 
-                            createNewTractora(matVehiculo,tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                            createNewTractora(matVehiculo, id_tipo_componente, itv_p,adr_p,tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
 
                             for (int i=0; i<json1.length(); i++){
 
                                 matVehiculo=(json1.optJSONObject(i).optString("cod_matricula_real"));
-                                tipo_componente = (json1.optJSONObject(i).optString("id_tipo_componente"));
+                                id_tipo_componente = (json1.optJSONObject(i).optString("id_tipo_componente"));
                                 num_ejes = (json1.optJSONObject(i).optInt("num_ejes"));
                                 itv=(json1.optJSONObject(i).optString("fec_cadu_itv"));
                                 adr=(json1.optJSONObject(i).optString("fec_cadu_adr"));
@@ -418,12 +422,14 @@ public class ControlAccesoCheckingFragment extends Fragment{
                             }
 
                             Date fec_calibracion_p = parseador.parse(fec_cadu_calibracion);
+                            adr_p = parseador.parse(adr);
+                            itv_p = parseador.parse(itv);
                             if (fec_baja!=null){
                                 fec_baja_p = parseador.parse(fec_baja);
                             } else {
                                 fec_baja_p=null;
                             }
-                            createNewCisterna(matVehiculo,tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
+                            createNewCisterna(matVehiculo, id_tipo_componente, num_ejes, itv_p,adr_p,fec_calibracion_p,carga_pesados,cod_nacion, tara,mma,chip,fec_baja_p,solo_gasoleo,bloqueado);
                             anadirCompartimentos(matVehiculo,compartimentos,capacidad,tags);
 
                         } catch (JSONException e) {

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@drawable/gradient"
     android:fitsSystemWindows="true"
     tools:context=".Fragments.LoginFragment">
 
@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
+            android:padding="30dp"
             android:orientation="vertical">
 
                 <EditText
@@ -31,14 +32,16 @@
                     android:textColorHint="#FFF"
                     android:hint="@string/password"/>
 
-            <Switch
-                android:id="@+id/sw_preferences"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recordar"
-                android:textColor="#FFF"
-                android:visibility="gone"
-                android:layout_gravity="right"/>
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:enabled="false"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/login"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -48,15 +51,7 @@
             android:layout_gravity="bottom"
             android:gravity="bottom">
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:enabled="false"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/colorWhite"
-                android:text="@string/login"/>
+
 
         </LinearLayout>
 
