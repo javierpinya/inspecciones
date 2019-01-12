@@ -70,11 +70,14 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         setContentView(R.layout.activity_alta);
         setToolbar();
 
+        Bundle bundle = new Bundle();
+        nombreFragment = bundle.getString("nombreFragment");
+
 
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
-        nombreFragment = prefs.getString("nombreFragment", "errorNombreFragment");
+        //nombreFragment = prefs.getString("nombreFragment", "errorNombreFragment");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.navview);
 
