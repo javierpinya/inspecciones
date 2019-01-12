@@ -3,12 +3,15 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import clh.inspecciones.com.inspecciones_v2.R;
 
@@ -17,17 +20,16 @@ import clh.inspecciones.com.inspecciones_v2.R;
  */
 public class MenuFragment extends Fragment implements View.OnClickListener{
 
-    private Button mButtonNuevaInspeccion;
-    private Button mButtonBuscarPrioritarias;
-    private Button mButtonModificarInspeccion;
-    private Button mButtonInterpolar;
-    private Button mButtonSalir;
-  //  private EleccionMenu callback;
+    private ImageButton nuevaInspeccion;
+    private ImageButton buscarInspeccion;
+    private ImageButton calculadora;
+    private ImageButton salir;
+    private EleccionMenu callback;
 
     public MenuFragment() {
         // Required empty public constructor
     }
-/*
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -38,24 +40,22 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
     }
-*/
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        mButtonNuevaInspeccion = v.findViewById(R.id.altanueva);
-        mButtonBuscarPrioritarias = v.findViewById(R.id.buscarPrioritarias);
-        mButtonModificarInspeccion = v.findViewById(R.id.modificarInspeccion);
-        mButtonInterpolar = v.findViewById(R.id.interpolar);
-        mButtonSalir = v.findViewById(R.id.salir);
+        nuevaInspeccion = (ImageButton)v.findViewById(R.id.altanueva);
+        buscarInspeccion = (ImageButton)v.findViewById(R.id.buscarinspeccion);
+        calculadora = (ImageButton)v.findViewById(R.id.calculadora);
+        salir = (ImageButton)v.findViewById(R.id.salir);
 
-        mButtonNuevaInspeccion.setOnClickListener(this);
-        mButtonModificarInspeccion.setOnClickListener(this);
-        mButtonBuscarPrioritarias.setOnClickListener(this);
-        mButtonInterpolar.setOnClickListener(this);
-        mButtonSalir.setOnClickListener(this);
+        nuevaInspeccion.setOnClickListener(this);
+        buscarInspeccion.setOnClickListener(this);
+        calculadora.setOnClickListener(this);
+        salir.setOnClickListener(this);
 
 
         return v;
@@ -65,13 +65,16 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.altanueva:
-         //       callback.eleccionMenu(R.id.altanueva);
+                callback.eleccionMenu("altaNueva");
                 break;
-            case R.id.modificarInspeccion:
+            case R.id.buscarinspeccion:
+                callback.eleccionMenu("buscarInspeccion");
                 break;
-            case R.id.buscarPrioritarias:
+            case R.id.calculadora:
+                callback.eleccionMenu("calculadora");
                 break;
-            case R.id.interpolar:
+            case R.id.salir:
+                callback.eleccionMenu("salir");
                 break;
             default:
                 break;
@@ -79,9 +82,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
     }
-/*
+
     public interface EleccionMenu{
-        void eleccionMenu(int seleccion);
+        void eleccionMenu(String seleccion);
     }
-*/
+
 }

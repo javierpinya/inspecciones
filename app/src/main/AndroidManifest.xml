@@ -43,6 +43,7 @@
 
         <activity android:name=".Activities.MenuActivity" />
         <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.AltaActivity"></activity>
     </application>
 
 </manifest>

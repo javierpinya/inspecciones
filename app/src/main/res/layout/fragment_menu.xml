@@ -2,72 +2,71 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     tools:context=".Fragments.MenuFragment">
 
     <TableLayout
+        android:padding="6dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/altanueva"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="ALTA NUEVA" />
+                android:background="@color/colorWhite"
+                android:src="@drawable/nueva_inspeccion"
+                />
 
-            <Button
-                android:id="@+id/modificarInspeccion"
+
+
+            <ImageButton
+                android:id="@+id/buscarinspeccion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="MODIFICAR INSPECCION" />
+                android:background="@color/colorWhite"
+                android:src="@drawable/buscar_inspeccion" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="left"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/buscarPrioritarias"
+            <ImageButton
+                android:id="@+id/calculadora"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="BUSCAR PRIORITARIAS" />
+                android:background="@color/colorWhite"
+                android:src="@drawable/calculadora" />
 
-            <Button
-                android:id="@+id/interpolar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="INTERPOLAR" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
+            <ImageButton
                 android:id="@+id/salir"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="SALIR" />
+                android:background="@color/colorWhite"
+                android:src="@drawable/salir"
+                />
+
 
         </TableRow>
 
+
+
     </TableLayout>
-
-
 
 
 </FrameLayout>

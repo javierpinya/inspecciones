@@ -31,12 +31,9 @@ import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragmen
 import clh.inspecciones.com.inspecciones_v2.R;
 import io.realm.Realm;
 
-public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment.AltaNuevaListener,
-        IdentificacionVehiculoFragment.DataListener,
-        ControlAccesoCheckingFragment.dataListener,
-        CabeceraInspeccionFragment.dataListener,
-        CompartimentosFragment.dataListener,
-        ResultadoInspeccionFragment.dataListener{     //implements MenuFragment.EleccionMenu
+public class MenuActivity extends AppCompatActivity implements
+        ResultadoInspeccionFragment.dataListener,
+        MenuFragment.EleccionMenu{     //implements MenuFragment.EleccionMenu
 
 
 
@@ -122,9 +119,12 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_altanueva:
+                        altanueva();
+                        /*
                         fragment = new AltaNuevaFragment();
                         nombreFragment = "AltaNuevaFragment";
                         fragmentTransaction = true;
+                        */
                         break;
                     case R.id.menu_buscar:
                         fragment = new BuscarInspeccionFragment();
@@ -153,36 +153,11 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         });
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-/*
-        switch (fragment.getId()){
-            case R.id.altanuevafragment:
-                getMenuInflater().inflate(R.menu.menu_siguiente, menu);
-                break;
-            case R.id.controlaccesocheckingfragment:
-                getMenuInflater().inflate(R.menu.menu_guardar, menu);
-                break;
-            default:
-                getMenuInflater().inflate(R.menu.menu, menu);
-                break;
-        }
-*/
-        getMenuInflater().inflate(R.menu.menu_siguiente, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-
-
     private void setToolbar(){
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // getSupportActionBar().setDisplayOptions(R.menu.menu);
-        //getSupportActionBar().setTitle(null);
     }
 
     @Override
@@ -191,10 +166,6 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-                //case android.R.id.me
-            case R.id.menu_siguiente:
-                siguiente();
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -202,8 +173,6 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
     private void setFragmentByDefault(){
         fragment = new MenuFragment();
         changeFragment(fragment, navigationView.getMenu().getItem(0));
-        //toolbar.inflateMenu(R.menu.menu_siguiente);
-
     }
 
     private void changeFragment(Fragment fragment, MenuItem item){
@@ -213,156 +182,6 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
                 .commit();
         item.setChecked(true);
         getSupportActionBar().setTitle(item.getTitle());
-        //Toast.makeText(this, "this.fragment: " + this.fragment.getId() + " fragment: " + fragment.getId(), Toast.LENGTH_LONG).show();
-       // setToolbarMenu(fragment, toolbar.getMenu());
-    }
-
-    /*
-    private void setToolbarMenu(Fragment fragment, Menu menu) {
-        switch (fragment.getId()){
-            case R.id.altanuevafragment:
-                getSupportActionBar().setDisplayOptions(R.menu.menu_siguiente);
-                break;
-            case R.id.controlaccesocheckingfragment:
-                getSupportActionBar().setDisplayOptions(R.menu.menu_guardar);
-                break;
-            default:
-                getSupportActionBar().setDisplayOptions(R.menu.menu);
-                break;
-        }
-    }
-*/
-    @Override
-    public void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoComponente) {
-        /*
-        Viene de AltaNuevaFragment
-         */
-        this.tipoVehiculo = tipoVehiculo;
-        this.tipoInspeccion = tipoInspeccion;
-        this.tipoComponente = tipoComponente;
-
-
-
-    }
-
-
-    @Override
-    public void enviarVehiculoIdentificado(String tractora, String cisterna) {
-        /*
-        método proveniente del fragment IdentificacionVehiculoFragment, una vez pulsado sobre el vehículo a inspeccionar
-         */
-        this.tractora = tractora;
-        this.cisterna = cisterna;
-        realm = Realm.getDefaultInstance();
-        if(realm.isEmpty() == false){
-            realm.beginTransaction();
-            realm.delete(CARigidoBD.class);
-            realm.delete(CATractoraBD.class);
-            realm.delete(CACisternaBD.class);
-            realm.delete(CACompartimentosBD.class);
-            realm.commitTransaction();
-        }
-
-        fragment = new ControlAccesoCheckingFragment();
-
-        args.putString("tipoVehiculo", tipoVehiculo);
-        args.putString("tipoInspeccion", tipoInspeccion);
-        args.putString("tipoComponente", tipoComponente);
-        args.putString("tractora", tractora);
-        args.putString("cisterna", cisterna);
-        args.putString("conductor", conductor);
-        args.putString("user", user);
-        args.putString("pass", pass);
-        args.remove("fragmentActual");
-        args.putString("fragmentActual", "ControlAccesoCheckingFragment");
-        fragment.setArguments(args);
-        changeFragment(fragment, navigationView.getMenu().getItem(1));
-    }
-
-    private void siguiente() {
-        switch (nombreFragment){
-            case "AltaNuevaFragment":
-                fragment = new IdentificacionVehiculoFragment();
-                args.putString("tipoVehiculo", tipoVehiculo);
-                args.putString("tipoInspeccion", tipoInspeccion);
-                args.putString("tipoComponente", tipoComponente);
-                args.putString("user", user);
-                args.putString("pass", pass);
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "identificacionVehiculoFragment");
-                fragment.setArguments(args);
-                nombreFragment = "IdentificacionVehiculoFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                break;
-
-            case "ControlAccesoCheckingFragment":
-                fragment = new CabeceraInspeccionFragment();
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "CabeceraInspeccionFragment");
-                fragment.setArguments(args);
-                nombreFragment="CabeceraInspeccionFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                break;
-            case "CabeceraInspeccionFragment":
-                if(guardadoCabeceraOk) {
-                    fragment = new CompartimentosFragment();
-                    args.remove("fragmentActual");
-                    args.putString("fragmentActual", "CompartimentosFragment");
-                    args.putString("inspeccion", inspeccion);
-                    fragment.setArguments(args);
-                    nombreFragment = "CompartimentosFragment";
-                    changeFragment(fragment, navigationView.getMenu().getItem(1));
-                }else{
-                    Toast.makeText(this, "Hay que guardar la inspección para poder continuar", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case "CompartimentosFragment":
-                if(guardadoCompartimentosOk){
-                    fragment = new ResultadoInspeccionFragment();
-                    args.remove("fragmentActual");
-                    args.putString("fragmentActual", "ResultadoInspeccionFragment");
-                    fragment.setArguments(args);
-                    nombreFragment = "ResultadoInspeccionFragment";
-                    changeFragment(fragment, navigationView.getMenu().getItem(1));
-                }else{
-                    Toast.makeText(this, "Hay que guardar los volúmenes de los compartimentos", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case "ResultadoInspeccionFragment":
-                if(inspeccionFinalizada){
-                    Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(this, "Es posible que no todas las fotos se hayan guardado exitosamente", Toast.LENGTH_SHORT).show();
-                    //Incluir un cuadro de diálogo para poder compartimentosGuardados a atrás y guardar de nuevo las fotos
-                }
-                fragment = new MenuFragment();
-                borrarRealm();
-                args.clear();
-                nombreFragment = "MenuFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(0));
-                break;
-                default:
-                    break;
-        }
-    }
-
-    @Override
-    public void guardado(Boolean guardadoOK, String matricula, String inspeccion) {
-        this.inspeccion = inspeccion;
-        guardadoCabeceraOk = guardadoOK;
-    }
-
-    @Override
-    public void enviarFragment(String nombreFragment) {
-        this.nombreFragment = nombreFragment;
-    }
-
-    @Override
-    public void compartimentosGuardados(Boolean guardadoOk) {
-        /*
-        viene de CompartimentosFragment, una vez se pulsa el botón de guardar
-         */
-        guardadoCompartimentosOk = guardadoOk;
     }
 
     @Override
@@ -370,17 +189,23 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         inspeccionFinalizada = finalizadaOk;
     }
 
-    public void borrarRealm(){
-        realm = Realm.getDefaultInstance();
-        if(realm.isEmpty() == false){
-            realm.beginTransaction();
-            realm.delete(CARigidoBD.class);
-            realm.delete(CATractoraBD.class);
-            realm.delete(CACisternaBD.class);
-            realm.delete(CACompartimentosBD.class);
-            realm.commitTransaction();
-        }
+
+    public void altanueva(){
+        Intent intent = new Intent();
+        intent.setClass(MenuActivity.this, AltaActivity.class);
+        nombreFragment = "AltaNuevaFragment";
+        intent.putExtra("nombreFragment", nombreFragment);
+        startActivity(intent);
     }
+
+    public void buscarInspeccion(){
+
+    }
+
+    public void calculadora(){
+
+    }
+
 
     private void logOut(){
         Intent intent = new Intent(this, LoginActivity.class);
@@ -392,54 +217,24 @@ public class MenuActivity extends AppCompatActivity implements AltaNuevaFragment
         prefs.edit().clear().apply();
     }
 
-
-
-    /*
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.menu_logout:
-                logOut();
-                return true;
-            case R.id.menu_forget_logout:
-                removeSharedPreferences();
-                logOut();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-
-    @Override
-    public void eleccionMenu(int seleccion) {
-        Intent intent = new Intent();
+    public void eleccionMenu(String seleccion) {
         switch (seleccion){
-            case R.id.altanueva:
-                intent.setClass(this,AltaNuevaActivity.class);
+            case "altaNueva":
+                altanueva();
                 break;
-            case R.id.buscarPrioritarias:
+            case "buscarInspeccion":
+                buscarInspeccion();
                 break;
-            case R.id.modificarInspeccion:
+            case "calculadora":
+                calculadora();
                 break;
-            case R.id.interpolar:
+            case "salir":
+                logOut();
                 break;
-            default:
-                break;
+                default:
+                    break;
         }
-        startActivity(intent);
 
     }
-
-
-
-    */
 }
