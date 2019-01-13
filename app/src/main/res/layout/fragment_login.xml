@@ -39,7 +39,7 @@
                     android:layout_gravity="right"
                     android:enabled="false"
                     android:background="@color/colorPrimaryDark"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:text="@string/login"/>
 
         </LinearLayout>

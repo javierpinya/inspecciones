@@ -11,10 +11,22 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/icons"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:background="@drawable/gradientprimary">
 
             <ListView
                 android:id="@+id/lv_controlaccesochecking"
@@ -33,13 +45,13 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@color/colorWhite"
+                android:background="@color/icons"
                 />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@color/colorWhite"
+            android:background="@color/icons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ListView

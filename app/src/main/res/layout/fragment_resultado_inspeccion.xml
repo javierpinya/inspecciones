@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/icons"
     tools:context=".Fragments.ResultadoInspeccionFragment">
 
 
@@ -31,7 +31,7 @@
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textSize="20dp"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:text="RESULTADO INSPECCIÓN"/>
 
                 <CheckBox
@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:textSize="16dp"
                     android:text="@string/inspeccionada" />
 
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:textSize="16dp"
                     android:text="@string/favorable" />
 
@@ -64,7 +64,7 @@
                         android:layout_gravity="start"
                         android:layout_weight="0.5"
                         android:checked="false"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/icons"
                         android:textSize="16dp"
                         android:text="@string/desfavorable" />
 
@@ -75,7 +75,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="0.5"
                         android:enabled="false"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/icons"
                         android:textSize="16dp"
                         android:hint="@string/fechaDesfavorable"
                         android:textColorHint="@color/cardview_shadow_start_color"
@@ -94,7 +94,7 @@
                         android:layout_gravity="start"
                         android:layout_weight="0.5"
                         android:checked="false"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/icons"
                         android:textSize="16dp"
                         android:text="@string/bloqueo" />
 
@@ -106,7 +106,7 @@
                         android:layout_weight="0.5"
                         android:enabled="false"
                         android:hint="@string/fechaBloqueo"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/icons"
                         android:textColorHint="@color/cardview_shadow_start_color"
                         android:textSize="16dp"
                         android:inputType="date" />
@@ -124,7 +124,7 @@
                         android:layout_gravity="start"
                         android:layout_weight="0.5"
                         android:checked="false"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/icons"
                         android:textSize="16dp"
                         android:text="@string/revisado" />
 
@@ -136,7 +136,7 @@
                         android:layout_weight="0.5"
                         android:enabled="false"
                         android:hint="@string/fechaRevisado"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/icons"
                         android:textColorHint="@color/cardview_shadow_start_color"
                         android:textSize="16dp"
                         android:inputType="date" />
@@ -150,7 +150,7 @@
                     android:id="@+id/tv_comentarios"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:text="@string/comentariosfinales" />
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="introducir comentarios"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:textColorHint="@color/cardview_shadow_start_color"
                     android:textSize="16dp"
                     android:inputType="textMultiLine" />
@@ -170,7 +170,7 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:background="@color/colorWhite"
+                    android:background="@color/icons"
                     android:padding="6dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimary"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/icons"
             android:text="Guardar"/>
 
 

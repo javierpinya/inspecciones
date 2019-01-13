@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:paddingTop="20dp"
+        android:padding="18dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_litrostotales"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:hint="Valor placa"
+                android:inputType="numberDecimal"/>
+
+            <TextView
+                android:id="@+id/tv_resultado96"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimaryText"
+                android:hint="10000"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="18dp"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/calcular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:padding="6dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/icons"
+            android:text="Calcular 96%"/>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

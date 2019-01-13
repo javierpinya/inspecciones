@@ -3,25 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
+    android:background="@color/icons"
     tools:context=".Fragments.MenuFragment">
 
     <TableLayout
-        android:padding="6dp"
+        android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="12dp">
 
             <ImageButton
                 android:id="@+id/altanueva"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorWhite"
+                android:background="@color/icons"
                 android:src="@drawable/nueva_inspeccion"
                 />
 
@@ -32,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorWhite"
+                android:background="@color/icons"
                 android:src="@drawable/buscar_inspeccion" />
 
         </TableRow>
@@ -40,16 +41,15 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:gravity="left"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="12dp">
 
             <ImageButton
                 android:id="@+id/calculadora"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorWhite"
+                android:background="@color/icons"
                 android:src="@drawable/calculadora" />
 
             <ImageButton
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorWhite"
+                android:background="@color/icons"
                 android:src="@drawable/salir"
                 />
 

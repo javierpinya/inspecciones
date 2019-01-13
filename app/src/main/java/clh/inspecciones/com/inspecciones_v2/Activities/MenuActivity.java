@@ -1,5 +1,6 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
+import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -11,21 +12,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
-import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
+
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.CalculadoraFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -50,6 +45,13 @@ public class MenuActivity extends AppCompatActivity implements
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+
+    /*
+    variables cuadro dialogo
+     */
+    private Double dato;
+    private Integer datoInt;
+    private String texto;
 
     private String tipoVehiculo;
     private String tipoInspeccion;
@@ -132,9 +134,12 @@ public class MenuActivity extends AppCompatActivity implements
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_calibrar:
+                        abrirCuadroDialogoCalculadora();
+                        /*
                         fragment = new CalculadoraFragment();
                         nombreFragment="CalculadoraFragment";
                         fragmentTransaction = true;
+                        */
                         break;
                     case R.id.menu_ajustes:
                         break;
@@ -159,6 +164,8 @@ public class MenuActivity extends AppCompatActivity implements
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -193,8 +200,8 @@ public class MenuActivity extends AppCompatActivity implements
     public void altanueva(){
         Intent intent = new Intent();
         intent.setClass(MenuActivity.this, AltaActivity.class);
-        nombreFragment = "AltaNuevaFragment";
-        intent.putExtra("nombreFragment", nombreFragment);
+        //nombreFragment = "AltaNuevaFragment";
+        intent.putExtra("nombreFragment", "AltaNuevaFragment");
         startActivity(intent);
     }
 
@@ -219,22 +226,53 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override
     public void eleccionMenu(String seleccion) {
-        switch (seleccion){
-            case "altaNueva":
-                altanueva();
-                break;
-            case "buscarInspeccion":
-                buscarInspeccion();
-                break;
-            case "calculadora":
-                calculadora();
-                break;
-            case "salir":
-                logOut();
-                break;
-                default:
-                    break;
-        }
 
+        if (seleccion.equals("altaNueva")) {
+            altanueva();
+        } else if (seleccion.equals("buscarInspeccion")) {
+            buscarInspeccion();
+        } else if (seleccion.equals("calculadora")) {
+            abrirCuadroDialogoCalculadora();
+        } else if (seleccion.equals("salir")) {
+            logOut();
+        }
+    }
+
+    private void abrirCuadroDialogoCalculadora(){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Calculadora");
+
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.calculadora_cuadro_dialogo, null);
+        builder.setView(viewInflated);
+
+        final EditText litros = (EditText)viewInflated.findViewById(R.id.et_litrostotales);
+        final TextView litros96 = (TextView)viewInflated.findViewById(R.id.tv_resultado96);
+        Button calcular = (Button)viewInflated.findViewById(R.id.calcular);
+
+
+
+        calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dato = Double.parseDouble(litros.getText().toString());
+                dato = 0.96 * dato;
+
+                datoInt = (int)Math.round(dato);
+                texto = String.valueOf(datoInt);
+
+
+                if(texto!="0"){
+
+                    litros96.setText(datoInt.toString());
+                }else{
+                    Toast.makeText(MenuActivity.this, "Introducir valor", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

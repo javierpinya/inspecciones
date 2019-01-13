@@ -1,5 +1,6 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,9 +12,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
@@ -23,11 +28,9 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.CalculadoraFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import io.realm.Realm;
@@ -45,6 +48,13 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+
+    /*
+    variables cuadro dialogo
+     */
+    private Double dato;
+    private Integer datoInt;
+    private String texto;
 
     private Fragment fragment;
     private String nombreFragment;
@@ -70,14 +80,13 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         setContentView(R.layout.activity_alta);
         setToolbar();
 
-        Bundle bundle = new Bundle();
-        nombreFragment = bundle.getString("nombreFragment");
-
+        Intent i = getIntent();
+        nombreFragment = i.getStringExtra("nombreFragment");
 
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
-        //nombreFragment = prefs.getString("nombreFragment", "errorNombreFragment");
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.navview);
 
@@ -114,8 +123,9 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
 
                 switch (item.getItemId()){
                     case R.id.menu:
-                        fragment = new MenuFragment();
-                        fragmentTransaction = true;
+                        Intent i = new Intent();
+                        i.setClass(AltaActivity.this, MenuActivity.class);
+                        startActivity(i);
                         break;
                     case R.id.menu_altanueva:
                         fragment = new AltaNuevaFragment();
@@ -128,9 +138,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_calibrar:
-                        fragment = new CalculadoraFragment();
-                        nombreFragment="CalculadoraFragment";
-                        fragmentTransaction = true;
+                        abrirCuadroDialogoCalculadora();
                         break;
                     case R.id.menu_ajustes:
                         break;
@@ -179,10 +187,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
 
     private void setFragmentByDefault(){
         fragment = new AltaNuevaFragment();
-        nombreFragment = "IdentificacionVehiculoFragment";
-        changeFragment(fragment, navigationView.getMenu().getItem(0));
-        //toolbar.inflateMenu(R.menu.menu_siguiente);
-
+        changeFragment(fragment, navigationView.getMenu().getItem(1));
     }
 
     private void changeFragment(Fragment fragment, MenuItem item){
@@ -192,8 +197,6 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
                 .commit();
         item.setChecked(true);
         getSupportActionBar().setTitle(item.getTitle());
-        //Toast.makeText(this, "this.fragment: " + this.fragment.getId() + " fragment: " + fragment.getId(), Toast.LENGTH_LONG).show();
-        // setToolbarMenu(fragment, toolbar.getMenu());
     }
 
     @Override
@@ -204,9 +207,6 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         this.tipoVehiculo = tipoVehiculo;
         this.tipoInspeccion = tipoInspeccion;
         this.tipoComponente = tipoComponente;
-
-
-
     }
 
 
@@ -244,6 +244,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     private void siguiente() {
+        Toast.makeText(this, nombreFragment, Toast.LENGTH_LONG).show();
         switch (nombreFragment){
             case "AltaNuevaFragment":
                 fragment = new IdentificacionVehiculoFragment();
@@ -354,6 +355,45 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
 
     private void removeSharedPreferences(){
         prefs.edit().clear().apply();
+    }
+
+
+    private void abrirCuadroDialogoCalculadora(){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Calculadora");
+
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.calculadora_cuadro_dialogo, null);
+        builder.setView(viewInflated);
+
+        final EditText litros = (EditText)viewInflated.findViewById(R.id.et_litrostotales);
+        final TextView litros96 = (TextView)viewInflated.findViewById(R.id.tv_resultado96);
+        Button calcular = (Button)viewInflated.findViewById(R.id.calcular);
+
+
+
+        calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dato = Double.parseDouble(litros.getText().toString());
+                dato = 0.96 * dato;
+
+                datoInt = (int)Math.round(dato);
+                texto = String.valueOf(datoInt);
+
+
+                if(texto!="0"){
+
+                    litros96.setText(datoInt.toString());
+                }else{
+                    Toast.makeText(AltaActivity.this, "Introducir valor", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

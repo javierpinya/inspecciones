@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite"
+    android:background="@color/icons"
     android:fitsSystemWindows="true"
     tools:context=".Fragments.CompartimentosFragment">
 
@@ -30,7 +30,7 @@
                 android:layout_weight="0.5"
                 android:gravity="left"
                 android:layout_margin="6dp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/icons"
                 android:textStyle="bold|italic"
                 android:textSize="20dp"
                 android:text="@string/tv_codvehiculo"/>
@@ -44,7 +44,7 @@
                 android:layout_margin="6dp"
                 android:textSize="20dp"
                 android:textStyle="italic|bold"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/icons"
                 android:text="R5484FSF"/>
 
 
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimary"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/icons"
             android:text="Guardar"/>
     </LinearLayout>
 

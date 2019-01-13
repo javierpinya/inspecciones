@@ -4,7 +4,7 @@
     android:id="@+id/CabeceraInspeccionFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/icons"
     android:orientation="vertical"
     tools:context=".Fragments.CabeceraInspeccionFragment">
 
@@ -20,13 +20,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary"
-            android:padding="4dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/gradientprimary"
                 android:orientation="horizontal">
 
 
@@ -35,7 +34,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
+                    android:layout_marginLeft="6dp"
                     android:textSize="20dp"
                     android:textStyle="italic|bold"
                     android:text="INSPECCIÓN:"
@@ -47,10 +47,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:textColor="@color/colorWhite"
+                    android:layout_marginRight="6dp"
+                    android:textColor="@color/colorAccent"
                     android:textSize="20dp"
                     android:textStyle="italic|bold"
-                    android:text=""
+                    android:text="sdf"
                     />
 
             </LinearLayout>
@@ -62,151 +63,161 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background="@color/colorWhite"/>
+                    android:background="@color/icons"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal">
+                android:background="@drawable/gradientprimary"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_instalacion"
-                    android:layout_width="0dp"
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="40"
-                    android:gravity="center_horizontal|center"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
 
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:text="@string/tv_ia" />
+                    <TextView
+                        android:id="@+id/tv_instalacion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="40"
+                        android:gravity="center_horizontal|center"
 
-                <EditText
-                    android:id="@+id/et_instalacion"
-                    android:layout_width="0dp"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:text="@string/tv_ia" />
+
+                    <EditText
+                        android:id="@+id/et_instalacion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:layout_weight="60" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:layout_weight="60" />
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_codcond"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="40"
+                        android:gravity="center_horizontal|center"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:text="CONDUCTOR" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/et_codcond"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="60"
+                        android:textColor="@color/icons"
+                        android:textColorHint="@color/icons"
+                        android:textSize="16dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_codcond"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="40"
-                    android:gravity="center_horizontal|center"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:text="CONDUCTOR" />
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/et_codcond"
-                    android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/tv_transportistaresp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="40"
+                        android:gravity="center_horizontal|center"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:text="@string/tv_transp" />
+
+                    <EditText
+                        android:id="@+id/et_transportistaresp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:layout_weight="60" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="60"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:inputType="numberDecimal" />
-            </LinearLayout>
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_albaran"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="40"
+                        android:gravity="center_horizontal|center"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:text="@string/albaran" />
 
-                <TextView
-                    android:id="@+id/tv_transportistaresp"
-                    android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/et_albaran"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="60"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="40"
-                    android:gravity="center_horizontal|center"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:text="@string/tv_transp" />
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/et_transportistaresp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:layout_weight="60" />
+                    <TextView
+                        android:id="@+id/tv_empresatablacalibracion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="40"
+                        android:gravity="center_horizontal|center"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:text="@string/tv_empresacalibradora" />
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_empresatablacalibracion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/icons"
+                        android:textSize="16dp"
+                        android:layout_weight="60" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_albaran"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="40"
-                    android:gravity="center_horizontal|center"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:text="@string/albaran" />
-
-                <EditText
-                    android:id="@+id/et_albaran"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="60"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:inputType="numberDecimal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_empresatablacalibracion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="40"
-                    android:gravity="center_horizontal|center"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:text="@string/tv_empresacalibradora" />
-
-                <EditText
-                    android:id="@+id/et_empresatablacalibracion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
-                    android:layout_weight="60" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -225,7 +236,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
-                        android:background="@color/colorWhite"/>
+                        android:background="@color/icons"/>
                 </LinearLayout>
 
 
@@ -240,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:background="@color/colorPrimary"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/icons"
                     android:textSize="18dp"
                     android:text="@string/docyprocesodecarga" />
 
@@ -248,48 +259,56 @@
                     android:id="@+id/cb_permisoconducir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/permiso_conducir" />
 
                 <CheckBox
                     android:id="@+id/cb_adrcond"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/adrcond" />
 
                 <CheckBox
                     android:id="@+id/cb_tc2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tc2c" />
+                    android:text="@string/tc2c"
+                    android:textColor="@color/colorPrimaryText" />
 
                 <CheckBox
                     android:id="@+id/cb_itvt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/itvt" />
 
                 <CheckBox
                     android:id="@+id/cb_adrt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/adrt" />
 
                 <CheckBox
                     android:id="@+id/cb_itvc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/itvc" />
 
                 <CheckBox
                     android:id="@+id/cb_adrc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/adrc" />
 
                 <CheckBox
                     android:id="@+id/cb_fichaseguridad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/ficha_seguridad" />
 
                 <LinearLayout
@@ -302,6 +321,7 @@
                         android:id="@+id/tv_tablacalibracion"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryText"
                         android:layout_weight="0.5"
                         android:textSize="16dp"
                         android:text="@string/tv_tablacal" />
@@ -314,6 +334,7 @@
                         android:gravity="end"
                         android:textSize="16dp"
                         android:inputType="date"
+                        android:textColor="@color/colorPrimaryText"
                         android:hint="@string/et_tablacal" />
                 </LinearLayout>
 
@@ -322,6 +343,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/transpondert" />
 
                 <CheckBox
@@ -329,6 +351,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/transponderc" />
 
                 <CheckBox
@@ -336,6 +359,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/superficiesuperior" />
 
                 <CheckBox
@@ -343,6 +367,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/posicionvehiculo" />
 
                 <CheckBox
@@ -350,6 +375,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/frenoestacionamiento" />
 
                 <CheckBox
@@ -357,6 +383,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/desconectadobaterias" />
 
                 <CheckBox
@@ -364,6 +391,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/apagallamas" />
 
                 <CheckBox
@@ -371,6 +399,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/movil" />
 
                 <CheckBox
@@ -378,6 +407,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/interruptoresemergencia" />
 
                 <CheckBox
@@ -385,6 +415,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/scully" />
 
                 <CheckBox
@@ -392,6 +423,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/recvap" />
 
                 <CheckBox
@@ -399,6 +431,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/estancajonvalvulas" />
 
                 <CheckBox
@@ -406,6 +439,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/estancisterna" />
 
                 <CheckBox
@@ -413,6 +447,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/estanequipotrasiego" />
 
                 <CheckBox
@@ -420,6 +455,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/estanvalvulasapi" />
 
                 <CheckBox
@@ -427,6 +463,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/estanvalvulasfondo" />
 
                 <CheckBox
@@ -434,6 +471,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/purga" />
 
                 <CheckBox
@@ -441,6 +479,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/bajadatags" />
 
                 <CheckBox
@@ -448,6 +487,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/tagsok" />
 
 
@@ -456,6 +496,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/lecturatagsisleta" />
 
                 <CheckBox
@@ -463,6 +504,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/recogeralbaran" />
 
                 <CheckBox
@@ -470,6 +512,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryText"
                     android:text="@string/ropa" />
 
             </LinearLayout>
@@ -481,7 +524,7 @@
                 android:background="@color/colorPrimary"
                 android:textSize="20dp"
                 android:text="GUARDAR"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/icons" />
 
         </LinearLayout>
         </LinearLayout>
