@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -89,9 +90,10 @@ public class ControlAccesoResultadoTractoraAdapter extends BaseAdapter {
         vh.mma.setText(String.valueOf(caTractoraBD.getMma()) + "Kgs");
         vh.tara.setText(String.valueOf(caTractoraBD.getTara()) + "Kgs");
         vh.chip.setText(String.valueOf(caTractoraBD.getChip()));
-        vh.ind_solo_gasoleos.setText(caTractoraBD.getSoloGasoelos());
+        vh.ind_solo_gasoleos.setText(caTractoraBD.getSoloGasoleos());
         vh.cod_transportista_responsable.setText(caTractoraBD.getCod_transportista_resp());
         vh.ind_bloqueo.setChecked(caTractoraBD.isBloqueado());
+
 
         return convertView;
     }

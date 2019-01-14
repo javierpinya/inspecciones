@@ -516,7 +516,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
         tractora.setMma(peso_maximo);
         tractora.setChip(chip);
         tractora.setFec_baja(fec_baja);
-        tractora.setSoloGasoelos(solo_gasoleos);
+        tractora.setSoloGasoleos(solo_gasoleos);
         tractora.setBloqueado(bloqueado);
         realm.copyToRealmOrUpdate(tractora);
         realm.commitTransaction();

@@ -244,7 +244,6 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     private void siguiente() {
-        Toast.makeText(this, nombreFragment, Toast.LENGTH_LONG).show();
         switch (nombreFragment){
             case "AltaNuevaFragment":
                 fragment = new IdentificacionVehiculoFragment();

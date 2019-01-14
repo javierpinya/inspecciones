@@ -22,7 +22,7 @@ public class CATractoraBD extends RealmObject {
     private Date itv;
     private int tara;
     private int mma;
-    private String soloGasoelos;
+    private String soloGasoleos;
     private String cod_transportista_resp;
     private boolean bloqueado;
     private Date fec_baja;
@@ -96,10 +96,10 @@ public class CATractoraBD extends RealmObject {
         this.mma = mma;
     }
 
-    public String getSoloGasoelos() {return soloGasoelos;    }
+    public String getSoloGasoleos() {return soloGasoleos;    }
 
-    public void setSoloGasoelos(String SoloGasoelos) {
-        this.soloGasoelos = soloGasoelos;
+    public void setSoloGasoleos(String soloGasoleos) {
+        this.soloGasoleos = soloGasoleos;
     }
 
     public String getCod_transportista_resp() {
