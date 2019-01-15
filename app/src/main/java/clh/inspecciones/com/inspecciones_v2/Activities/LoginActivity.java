@@ -34,8 +34,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
     }
 
     @Override
-    public void loginOk(String usuario, String password) {
-        saveOnPreferences(usuario,password);
+    public void loginOk(String usuario, String password, String rutaFoto) {
+        saveOnPreferences(usuario,password, rutaFoto);
         Intent intent = new Intent(this, MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("usuario", usuario);
@@ -43,10 +43,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
         startActivity(intent);
     }
 
-    private void saveOnPreferences(String user, String password){
+    private void saveOnPreferences(String user, String password, String rutaFoto){
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("user", user);
             editor.putString("pass", password);
+            editor.putString("rutaFoto", rutaFoto);
             editor.commit();
             editor.apply();
     }

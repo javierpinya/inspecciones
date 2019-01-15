@@ -42,7 +42,8 @@
         </provider>
 
         <activity android:name=".Activities.MenuActivity" />
-        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.LoginActivity"
+            android:theme="@style/LoginScreen"/>
         <activity android:name=".Activities.AltaActivity"></activity>
     </application>
 
