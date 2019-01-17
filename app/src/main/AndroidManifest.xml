@@ -42,9 +42,11 @@
         </provider>
 
         <activity android:name=".Activities.MenuActivity" />
-        <activity android:name=".Activities.LoginActivity"
-            android:theme="@style/LoginScreen"/>
-        <activity android:name=".Activities.AltaActivity"></activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/LoginScreen" />
+        <activity android:name=".Activities.AltaActivity" />
+        <activity android:name=".Activities.ViewPDFActivity"></activity>
     </application>
 
 </manifest>

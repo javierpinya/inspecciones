@@ -1,16 +1,18 @@
 package clh.inspecciones.com.inspecciones_v2.Activities;
 
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,10 +22,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import clh.inspecciones.com.inspecciones_v2.Clases.TemplatePDF;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
 public class MenuActivity extends AppCompatActivity implements
@@ -42,9 +48,14 @@ public class MenuActivity extends AppCompatActivity implements
     private SharedPreferences prefs;
     private String user;
     private String pass;
+    private String rutaFoto;
+    private CircleImageView foto_perfil;
+    private Bitmap bm = null;
+    private TextView nombrePerfil;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+
 
     /*
     variables cuadro dialogo
@@ -58,6 +69,7 @@ public class MenuActivity extends AppCompatActivity implements
     private String tipoComponente;
     private String inspeccion;
 
+    private String fotoPrueba = "/storage/emulated/0/DCIM/Camera/IMG_20190110_162420.jpg";
     private Fragment fragment;
     private String nombreFragment;
     Bundle args = new Bundle();
@@ -66,6 +78,7 @@ public class MenuActivity extends AppCompatActivity implements
     private String tractora;
     private String cisterna;
     private String conductor;
+
 
     private Boolean guardadoCabeceraOk=false;
     private Boolean guardadoCompartimentosOk=false;
@@ -81,8 +94,16 @@ public class MenuActivity extends AppCompatActivity implements
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView)findViewById(R.id.navview);
+        rutaFoto = prefs.getString("rutaFoto", "errorRutaFoto");
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navview);
+        View header = navigationView.getHeaderView(0);
+        foto_perfil = header.findViewById(R.id.headerCircle);
+        nombrePerfil = header.findViewById(R.id.nombrePerfil);
+
+        bm = BitmapFactory.decodeFile(rutaFoto);
+        foto_perfil.setImageBitmap(bm);
+        nombrePerfil.setText(user);
 
         setFragmentByDefault();
 
@@ -122,11 +143,6 @@ public class MenuActivity extends AppCompatActivity implements
                         break;
                     case R.id.menu_altanueva:
                         altanueva();
-                        /*
-                        fragment = new AltaNuevaFragment();
-                        nombreFragment = "AltaNuevaFragment";
-                        fragmentTransaction = true;
-                        */
                         break;
                     case R.id.menu_buscar:
                         fragment = new BuscarInspeccionFragment();
@@ -135,11 +151,6 @@ public class MenuActivity extends AppCompatActivity implements
                         break;
                     case R.id.menu_calibrar:
                         abrirCuadroDialogoCalculadora();
-                        /*
-                        fragment = new CalculadoraFragment();
-                        nombreFragment="CalculadoraFragment";
-                        fragmentTransaction = true;
-                        */
                         break;
                     case R.id.menu_ajustes:
                         break;
@@ -159,7 +170,7 @@ public class MenuActivity extends AppCompatActivity implements
     }
 
     private void setToolbar(){
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -194,6 +205,34 @@ public class MenuActivity extends AppCompatActivity implements
     @Override
     public void inspeccionGuardada(Boolean finalizadaOk) {
         inspeccionFinalizada = finalizadaOk;
+    }
+
+    @Override
+    public void generarPDF() {
+
+        String[] header = {"Id", "Nombre", "Apellido"};
+        String shortText = "Hola";
+        String longText = "Vehículo inspeccionado con resultado favorable";
+
+        TemplatePDF templatePDF = new TemplatePDF(getApplicationContext());
+        templatePDF.openDocument();
+        templatePDF.addMetaData("Inseccion Nº", "Inspecciones", "Inspector");
+        templatePDF.addTitles("Inspección nº ", "Vehiculo: ", "17/01/2019");
+        templatePDF.addParagraph(shortText);
+        templatePDF.addParagraph(longText);
+        templatePDF.createTable(header, getClientes());
+        templatePDF.closeDocuemnt();
+
+
+    }
+
+    private ArrayList<String[]> getClientes() {
+        ArrayList<String[]> rows = new ArrayList<>();
+        rows.add(new String[]{"1", "Pedro", "Lopez"});
+        rows.add(new String[]{"2", "Alberto", "Donate"});
+        rows.add(new String[]{"1", "Paco", "Lopez"});
+
+        return rows;
     }
 
 
@@ -247,9 +286,9 @@ public class MenuActivity extends AppCompatActivity implements
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.calculadora_cuadro_dialogo, null);
         builder.setView(viewInflated);
 
-        final EditText litros = (EditText)viewInflated.findViewById(R.id.et_litrostotales);
-        final TextView litros96 = (TextView)viewInflated.findViewById(R.id.tv_resultado96);
-        Button calcular = (Button)viewInflated.findViewById(R.id.calcular);
+        final EditText litros = viewInflated.findViewById(R.id.et_litrostotales);
+        final TextView litros96 = viewInflated.findViewById(R.id.tv_resultado96);
+        Button calcular = viewInflated.findViewById(R.id.calcular);
 
 
 

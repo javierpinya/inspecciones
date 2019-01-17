@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,10 +29,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,10 +39,8 @@ import com.android.volley.toolbox.StringRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,10 +49,6 @@ import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.CameraAdapter;
 import clh.inspecciones.com.inspecciones_v2.Adapters.FotosAdapter;
-import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -141,6 +132,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private List<String> imgStringList;
     final Bitmap bitmapFinal=null;
     private int contadorFotosGuardadas=0;
+    private Button buttonpdf;
 
 
     public ResultadoInspeccionFragment() {
@@ -162,16 +154,17 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resultado_inspeccion, container, false);
 
-        cbInspeccionada = (CheckBox)view.findViewById(R.id.cb_inspeccionada);
-        cbFavorable = (CheckBox)view.findViewById(R.id.cb_favorable);
-        cbDesfavorable = (CheckBox)view.findViewById(R.id.cb_desfavorable);
-        etFechaDesfavorable = (EditText)view.findViewById(R.id.et_fechadesfavorable);
-        cbBloqueo = (CheckBox)view.findViewById(R.id.cb_bloqueo);
-        etFechaBloqueo = (EditText)view.findViewById(R.id.et_fechabloqueo);
-        cbRevisda = (CheckBox)view.findViewById(R.id.cb_revisado);
-        etFechaRevisada = (EditText) view.findViewById(R.id.et_fecha_revisado);
-        etComentarios = (EditText)view.findViewById(R.id.comentarios);
-        button = (Button )view.findViewById(R.id.btn_guardar);
+        cbInspeccionada = view.findViewById(R.id.cb_inspeccionada);
+        cbFavorable = view.findViewById(R.id.cb_favorable);
+        cbDesfavorable = view.findViewById(R.id.cb_desfavorable);
+        etFechaDesfavorable = view.findViewById(R.id.et_fechadesfavorable);
+        cbBloqueo = view.findViewById(R.id.cb_bloqueo);
+        etFechaBloqueo = view.findViewById(R.id.et_fechabloqueo);
+        cbRevisda = view.findViewById(R.id.cb_revisado);
+        etFechaRevisada = view.findViewById(R.id.et_fecha_revisado);
+        etComentarios = view.findViewById(R.id.comentarios);
+        button = view.findViewById(R.id.btn_guardar);
+        buttonpdf = view.findViewById(R.id.generarPDF);
 
         cbInspeccionada.setChecked(true);
         cbFavorable.setChecked(true);
@@ -199,12 +192,22 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
             }
         });
 
+        buttonpdf.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                generarPDF();
+            }
+
+
+        });
+
 
 
         /*
         FotosFragment
          */
-        gridView = (GridView)view.findViewById(R.id.gridView);
+        gridView = view.findViewById(R.id.gridView);
         path = new ArrayList<>();
         bitmaps = new ArrayList<>();
         imgStringList = new ArrayList<>();
@@ -309,7 +312,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                     }
                 }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String,String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);
@@ -355,12 +358,9 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     }
 
-
-
-    public interface dataListener{
-        void inspeccionGuardada(Boolean finalizadaOk);
+    private void generarPDF() {
+        callback.generarPDF();
     }
-
 
     private void cargarImagen() {
         final CharSequence[] opciones={"Camara", "Galeria", "Cancelar"};
@@ -381,7 +381,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                     case "Galeria":
                         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/");
-                        startActivityForResult(intent.createChooser(intent, "Seleccione la aplicacion"), COD_SELECCION);
+                        startActivityForResult(Intent.createChooser(intent, "Seleccione la aplicacion"), COD_SELECCION);
                         break;
                     case "Cancelar":
                         dialog.dismiss();
@@ -392,7 +392,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         alertOpciones.show();
     }
 
-    private void tomarFoto() throws IOException {
+    private void tomarFoto() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
         String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + imageFileName;
@@ -411,6 +411,19 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
         }
         startActivityForResult(intent, COD_CAMARA);
+    }
+
+    private void cargarDialogoRecomendacion() {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+            }
+        });
+        dialogo.show();
     }
 
     @Override
@@ -511,31 +524,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         });
     }
 
-    private void cargarDialogoRecomendacion() {
-        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
-        dialogo.setTitle("Permisos desactivados");
-        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
-        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                requestPermissions(new String[] {WRITE_EXTERNAL_STORAGE, CAMERA}, 100);;
-            }
-        });
-        dialogo.show();
-    }
-
-
-    public void guardarFotos() {
-        //int currentTime = (int)System.currentTimeMillis();
-        String nombreFoto;
-        for (int i=0; i<imgStringList.size(); i++){
-            nombreFoto = inspeccion + "_" + i; // + "_" + currentTime;
-            guardarFotoOnline(user, pass, inspeccion, nombreFoto, imgStringList.get(i));
-        }
-
-
-    }
-
     private void guardarFotoOnline(final String user, final String pass, final String inspeccion, final String nombreFoto, final String fotoString) {
         StringRequest sr = new StringRequest(StringRequest.Method.POST, urlFoto, new Response.Listener<String>() {
             @Override
@@ -561,7 +549,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                     }
                 }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String,String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);
@@ -575,6 +563,24 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         sr.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+    }
+
+
+    public void guardarFotos() {
+        //int currentTime = (int)System.currentTimeMillis();
+        String nombreFoto;
+        for (int i = 0; i < imgStringList.size(); i++) {
+            nombreFoto = inspeccion + "_" + i; // + "_" + currentTime;
+            guardarFotoOnline(user, pass, inspeccion, nombreFoto, imgStringList.get(i));
+        }
+
+
+    }
+
+    public interface dataListener {
+        void inspeccionGuardada(Boolean finalizadaOk);
+
+        void generarPDF();
     }
 
 }

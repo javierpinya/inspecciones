@@ -4,13 +4,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +35,7 @@ import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragm
 import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
 public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment.AltaNuevaListener,
@@ -45,6 +48,10 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     private SharedPreferences prefs;
     private String user;
     private String pass;
+    private String rutaFoto;
+    private CircleImageView foto_perfil;
+    private Bitmap bm = null;
+    private TextView nombrePerfil;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -86,9 +93,16 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
+        rutaFoto = prefs.getString("rutaFoto", "errorRutaFoto");
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navview);
+        View header = navigationView.getHeaderView(0);
+        foto_perfil = header.findViewById(R.id.headerCircle);
+        nombrePerfil = header.findViewById(R.id.nombrePerfil);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView)findViewById(R.id.navview);
+        bm = BitmapFactory.decodeFile(rutaFoto);
+        foto_perfil.setImageBitmap(bm);
+        nombrePerfil.setText(user);
 
         setFragmentByDefault();
 
@@ -158,7 +172,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     private void setToolbar(){
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -334,6 +348,11 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         inspeccionFinalizada = finalizadaOk;
     }
 
+    @Override
+    public void generarPDF() {
+        //Usamos Realm para generar el pdf
+    }
+
     public void borrarRealm(){
         realm = Realm.getDefaultInstance();
         if(realm.isEmpty() == false){
@@ -366,9 +385,9 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.calculadora_cuadro_dialogo, null);
         builder.setView(viewInflated);
 
-        final EditText litros = (EditText)viewInflated.findViewById(R.id.et_litrostotales);
-        final TextView litros96 = (TextView)viewInflated.findViewById(R.id.tv_resultado96);
-        Button calcular = (Button)viewInflated.findViewById(R.id.calcular);
+        final EditText litros = viewInflated.findViewById(R.id.et_litrostotales);
+        final TextView litros96 = viewInflated.findViewById(R.id.tv_resultado96);
+        Button calcular = viewInflated.findViewById(R.id.calcular);
 
 
 

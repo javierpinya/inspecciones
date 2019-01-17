@@ -13,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -115,15 +113,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         @Override
         public void onResponse(String response) {
 
-            Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
-
             try {
                 //Convierto la respuesta, de tipo String, a un JSONObject.
                 JSONObject jsonObject = new JSONObject(response);
-                JSONArray json = jsonObject.optJSONArray("usuario");
+                JSONArray json = jsonObject.optJSONArray("foto");
 
-
-                foto = json.optJSONObject(0).optString("foto");
+                foto = json.optString(0);
                 rutaFoto = decodeImg(foto);
 
             } catch (JSONException e) {
@@ -134,6 +129,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
 
             callback.loginOk(User, Pass, rutaFoto);
+
         }
     },
             new Response.ErrorListener() {
@@ -143,7 +139,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 }
             }){
         @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
+        protected Map<String, String> getParams() {
             Map<String, String> params = new HashMap<>();
             params.put("user", User);
             params.put("pass", Pass);
@@ -152,11 +148,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     };
 
     private boolean login (String password){
-        if(!isValidPassword(password)){
-            return false;
-        }else{
-            return true;
-        }
+        return isValidPassword(password);
     }
 
 
@@ -178,8 +170,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        fotoConRuta = file + file.pathSeparator + filename;
-        Toast.makeText(getActivity(), fotoConRuta, Toast.LENGTH_LONG).show();
+        fotoConRuta = file + "/" + filename;
         return fotoConRuta;
     }
 

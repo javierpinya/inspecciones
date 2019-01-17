@@ -1,3 +1,4 @@
+<!--
 <FrameLayout
     android:layout_height="200dp"
     android:layout_width="match_parent"
@@ -5,12 +6,18 @@
     android:background="@drawable/gradient"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/gradient"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center_vertical|center_horizontal"
-        >
+        android:layout_gravity="center_vertical|center_horizontal">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -30,6 +37,7 @@
         android:gravity="bottom">
 
         <TextView
+            android:id="@+id/nombrePerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Javier Piña"
@@ -42,4 +50,8 @@
 
 
     </LinearLayout>
-</FrameLayout>
+
+</LinearLayout>
+
+    <!--
+    </FrameLayout -->

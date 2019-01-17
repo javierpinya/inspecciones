@@ -210,12 +210,22 @@
 
         <Button
             android:id="@+id/btn_guardar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimary"
             android:textColor="@color/icons"
             android:text="Guardar"/>
+
+        <Button
+            android:id="@+id/generarPDF"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="PDF"
+            android:textColor="@color/icons" />
 
 
     </LinearLayout>
