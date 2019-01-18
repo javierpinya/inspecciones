@@ -43,7 +43,7 @@ public class MenuActivity extends AppCompatActivity implements
     private SharedPreferences prefs;
     private String user;
     private String pass;
-    private String rutaFoto;
+    private String rutaFoto = "ruta";
     private String nombre;
     private CircleImageView foto_perfil;
     private Bitmap bm = null;
@@ -102,10 +102,15 @@ public class MenuActivity extends AppCompatActivity implements
         foto_perfil = header.findViewById(R.id.headerCircle);
         nombrePerfil = header.findViewById(R.id.nombrePerfil);
 
-        bm = BitmapFactory.decodeFile(rutaFoto);
-        foto_perfil.setImageBitmap(bm);
-        nombrePerfil.setText(user);
+        if (rutaFoto.equals("ruta")) {
+            foto_perfil.setImageResource(R.drawable.ic_launcher_background);
+        } else {
+            bm = BitmapFactory.decodeFile(rutaFoto);
+            foto_perfil.setImageBitmap(bm);
+        }
 
+
+        nombrePerfil.setText(nombre);
         setFragmentByDefault();
 
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

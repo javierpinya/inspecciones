@@ -1,11 +1,19 @@
 package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -32,6 +40,11 @@ import java.util.Map;
 import clh.inspecciones.com.inspecciones_v2.Clases.Login;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 
 /**
@@ -101,6 +114,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_login:
+                if (!validaPermisos()) {
+                    Toast.makeText(getActivity(), "Algunos datos no se podrán obtener si no se aceptan los permisos", Toast.LENGTH_LONG).show();
+                }
                 User = Usuario.getText().toString();
                 Pass = Password.getText().toString();
                 if(login(Pass)){
@@ -108,7 +124,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 }else{
                     Toast.makeText(getActivity(), "Password no válido", Toast.LENGTH_LONG).show();
                 }
-
         }
 
 
@@ -145,20 +160,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     JSONObject jsonObject = new JSONObject(response);
 
                     JSONArray json = jsonObject.optJSONArray("foto");
-                    /*
                     JSONArray json2 = jsonObject.optJSONArray("nombre");
                     JSONArray json5 = jsonObject.optJSONArray("puesto");
                     JSONArray json3 = jsonObject.optJSONArray("correo");
                     JSONArray json4 = jsonObject.optJSONArray("movil");
-*/
+
+
                     foto = json.optString(0);
                     rutaFoto = decodeImg(foto);
-                    /*
-                    nombre = json2.optString(0);
-                    correo = json3.optString(0);
-                    movil = json4.optString(0);
-                    puesto = json5.optString(0);
-*/
+                    nombre = json2.optJSONObject(0).optString("nombre");
+                    correo = json3.optJSONObject(0).optString("correo");
+                    movil = json4.optJSONObject(0).optString("movil");
+                    puesto = json5.optJSONObject(0).optString("puesto");
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -213,6 +227,67 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         }
         fotoConRuta = file + "/" + filename;
         return fotoConRuta;
+    }
+
+    private void cargarDialogoRecomendacion() {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+            }
+        });
+        dialogo.show();
+    }
+
+    private boolean validaPermisos() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        if ((checkSelfPermission(getActivity(), CAMERA) == PackageManager.PERMISSION_GRANTED && (checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED))) {
+            return true;
+        }
+        if ((shouldShowRequestPermissionRationale(CAMERA)) || (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE))) {
+            cargarDialogoRecomendacion();
+        } else {
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults.length == 2 && grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
+
+            } else {
+                solicitarPermisosManual();
+            }
+        }
+    }
+
+    private void solicitarPermisosManual() {
+        final CharSequence[] opciones = {"si", "no"};
+        final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(getActivity());
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (opciones[which].equals("si")) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
 

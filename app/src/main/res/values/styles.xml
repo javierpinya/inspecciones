@@ -17,10 +17,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar" />
+
+
+    <style name="ProfileScreen" parent="Theme.AppCompat.Light.NoActionBar" />
+
+
+    <style name="LoginScreen" parent="Theme.AppCompat.Light.NoActionBar">
 
     </style>
-
-    <style name="LoginScreen" parent="Theme.AppCompat.Light.NoActionBar"/>
 
 </resources>

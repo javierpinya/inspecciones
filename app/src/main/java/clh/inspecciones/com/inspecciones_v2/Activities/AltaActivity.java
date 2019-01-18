@@ -79,6 +79,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     private Boolean guardadoCabeceraOk=false;
     private Boolean guardadoCompartimentosOk=false;
     private Boolean inspeccionFinalizada=false;
+    private String nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,8 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
         rutaFoto = prefs.getString("rutaFoto", "errorRutaFoto");
+        nombre = prefs.getString("nombre", "errorNombre");
+
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navview);
         View header = navigationView.getHeaderView(0);
@@ -102,7 +105,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
 
         bm = BitmapFactory.decodeFile(rutaFoto);
         foto_perfil.setImageBitmap(bm);
-        nombrePerfil.setText(user);
+        nombrePerfil.setText(nombre);
 
         setFragmentByDefault();
 
@@ -167,6 +170,15 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
                     drawerLayout.closeDrawers();
                 }
                 return false;
+            }
+        });
+
+        foto_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(AltaActivity.this, ProfileActivity.class);
+                startActivity(intent);
             }
         });
     }

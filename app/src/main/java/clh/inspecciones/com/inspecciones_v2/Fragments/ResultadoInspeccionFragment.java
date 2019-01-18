@@ -412,18 +412,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         startActivityForResult(intent, COD_CAMARA);
     }
 
-    private void cargarDialogoRecomendacion() {
-        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
-        dialogo.setTitle("Permisos desactivados");
-        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
-        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
-            }
-        });
-        dialogo.show();
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -473,6 +462,19 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
 
         return imagenString;
+    }
+
+    private void cargarDialogoRecomendacion() {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+            }
+        });
+        dialogo.show();
     }
 
     private boolean validaPermisos(){

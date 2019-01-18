@@ -47,7 +47,11 @@
             android:theme="@style/LoginScreen" />
         <activity android:name=".Activities.AltaActivity" />
         <activity android:name=".Activities.ViewPDFActivity" />
-        <activity android:name=".Activities.ProfileActivity"></activity>
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:theme="@style/ProfileScreen">
+
+        </activity>
     </application>
 
 </manifest>
