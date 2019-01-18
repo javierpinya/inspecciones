@@ -22,18 +22,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import clh.inspecciones.com.inspecciones_v2.Clases.TemplatePDF;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
 public class MenuActivity extends AppCompatActivity implements
-        ResultadoInspeccionFragment.dataListener,
         MenuFragment.EleccionMenu{     //implements MenuFragment.EleccionMenu
 
 
@@ -49,6 +44,7 @@ public class MenuActivity extends AppCompatActivity implements
     private String user;
     private String pass;
     private String rutaFoto;
+    private String nombre;
     private CircleImageView foto_perfil;
     private Bitmap bm = null;
     private TextView nombrePerfil;
@@ -83,6 +79,8 @@ public class MenuActivity extends AppCompatActivity implements
     private Boolean guardadoCabeceraOk=false;
     private Boolean guardadoCompartimentosOk=false;
     private Boolean inspeccionFinalizada=false;
+    private String correo;
+    private String movil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +93,9 @@ public class MenuActivity extends AppCompatActivity implements
         user = prefs.getString("user", "errorUser");
         pass = prefs.getString("pass", "errorPass");
         rutaFoto = prefs.getString("rutaFoto", "errorRutaFoto");
+        nombre = prefs.getString("nombre", "errorNombre");
+        correo = prefs.getString("correo", "errorCorreo");
+        movil = prefs.getString("movil", "errorMovil");
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navview);
         View header = navigationView.getHeaderView(0);
@@ -126,6 +127,15 @@ public class MenuActivity extends AppCompatActivity implements
             @Override
             public void onDrawerStateChanged(int newState) {
 
+            }
+        });
+
+        foto_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MenuActivity.this, ProfileActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -202,39 +212,6 @@ public class MenuActivity extends AppCompatActivity implements
         getSupportActionBar().setTitle(item.getTitle());
     }
 
-    @Override
-    public void inspeccionGuardada(Boolean finalizadaOk) {
-        inspeccionFinalizada = finalizadaOk;
-    }
-
-    @Override
-    public void generarPDF() {
-
-        String[] header = {"Id", "Nombre", "Apellido"};
-        String shortText = "Hola";
-        String longText = "Vehículo inspeccionado con resultado favorable";
-
-        TemplatePDF templatePDF = new TemplatePDF(getApplicationContext());
-        templatePDF.openDocument();
-        templatePDF.addMetaData("Inseccion Nº", "Inspecciones", "Inspector");
-        templatePDF.addTitles("Inspección nº ", "Vehiculo: ", "17/01/2019");
-        templatePDF.addParagraph(shortText);
-        templatePDF.addParagraph(longText);
-        templatePDF.createTable(header, getClientes());
-        templatePDF.closeDocuemnt();
-
-
-    }
-
-    private ArrayList<String[]> getClientes() {
-        ArrayList<String[]> rows = new ArrayList<>();
-        rows.add(new String[]{"1", "Pedro", "Lopez"});
-        rows.add(new String[]{"2", "Alberto", "Donate"});
-        rows.add(new String[]{"1", "Paco", "Lopez"});
-
-        return rows;
-    }
-
 
     public void altanueva(){
         Intent intent = new Intent();
@@ -245,11 +222,12 @@ public class MenuActivity extends AppCompatActivity implements
     }
 
     public void buscarInspeccion(){
-
-    }
-
-    public void calculadora(){
-
+        fragment = new BuscarInspeccionFragment();
+        args.remove("fragmentActual");
+        args.putString("fragmentActual", "BuscarInspeccionFragment");
+        fragment.setArguments(args);
+        nombreFragment = "BuscarInspeccionFragment";
+        changeFragment(fragment, navigationView.getMenu().getItem(0));
     }
 
 

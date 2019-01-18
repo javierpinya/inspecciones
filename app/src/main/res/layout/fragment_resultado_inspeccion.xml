@@ -208,26 +208,55 @@
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@android:drawable/ic_menu_camera" />
 
-        <Button
-            android:id="@+id/btn_guardar"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/icons"
-            android:text="Guardar"/>
-
-        <Button
-            android:id="@+id/generarPDF"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
-            android:text="PDF"
-            android:textColor="@color/icons" />
+            android:orientation="horizontal">
 
 
+            <Button
+                android:id="@+id/btn_guardar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Guardar"
+                android:textColor="@color/icons" />
+
+            <ImageView
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="@color/icons" />
+
+            <Button
+                android:id="@+id/generarPDF"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Generar PDF"
+                android:textColor="@color/icons" />
+
+            <ImageView
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="@color/icons" />
+
+            <Button
+                android:id="@+id/enviarPDF"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Enviar PDF"
+                android:textColor="@color/icons" />
+
+
+        </LinearLayout>
     </LinearLayout>
 
 

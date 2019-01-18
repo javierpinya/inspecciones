@@ -3,11 +3,9 @@ package clh.inspecciones.com.inspecciones_v2.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
-import android.widget.Toast;
 
 import clh.inspecciones.com.inspecciones_v2.Fragments.LoginFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -34,8 +32,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
     }
 
     @Override
-    public void loginOk(String usuario, String password, String rutaFoto) {
-        saveOnPreferences(usuario,password, rutaFoto);
+    public void loginOk(String usuario, String password, String rutaFoto, String nombre, String puesto, String correo, String movil) {
+        saveOnPreferences(usuario, password, rutaFoto, nombre, puesto, correo, movil);
         Intent intent = new Intent(this, MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("usuario", usuario);
@@ -43,11 +41,15 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.lo
         startActivity(intent);
     }
 
-    private void saveOnPreferences(String user, String password, String rutaFoto){
+    private void saveOnPreferences(String user, String password, String rutaFoto, String nombre, String puesto, String correo, String movil) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("user", user);
             editor.putString("pass", password);
             editor.putString("rutaFoto", rutaFoto);
+        editor.putString("nombre", nombre);
+        editor.putString("puesto", puesto);
+        editor.putString("correo", correo);
+        editor.putString("movil", movil);
             editor.commit();
             editor.apply();
     }

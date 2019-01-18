@@ -348,10 +348,6 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         inspeccionFinalizada = finalizadaOk;
     }
 
-    @Override
-    public void generarPDF() {
-        //Usamos Realm para generar el pdf
-    }
 
     public void borrarRealm(){
         realm = Realm.getDefaultInstance();

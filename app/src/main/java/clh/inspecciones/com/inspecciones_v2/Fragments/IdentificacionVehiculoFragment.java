@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -86,9 +85,9 @@ public class IdentificacionVehiculoFragment extends Fragment {
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
         listaVehiculos = new ArrayList<>();
-        tractora = (EditText)view.findViewById(R.id.et_tractora);
-        cisterna = (EditText)view.findViewById(R.id.et_cisterna);
-        buscar = (Button)view.findViewById(R.id.Buscar);
+        tractora = view.findViewById(R.id.et_tractora);
+        cisterna = view.findViewById(R.id.et_cisterna);
+        buscar = view.findViewById(R.id.Buscar);
         recyclerVehiculos = view.findViewById(R.id.rv_identificacionvehiculo);
         recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerVehiculos.setHasFixedSize(true);
@@ -117,7 +116,9 @@ public class IdentificacionVehiculoFragment extends Fragment {
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 try {
+
                     //listaVehiculos.clear();
                     //Convierto la respuesta, de tipo String, a un JSONObject.
                     JSONObject jsonObject = new JSONObject(response);
@@ -183,7 +184,7 @@ public class IdentificacionVehiculoFragment extends Fragment {
             }
         }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String,String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);
@@ -206,8 +207,8 @@ public class IdentificacionVehiculoFragment extends Fragment {
                 String tractora;
                 String cisterna;
                 String conductor;
-                tractora = identificacionVehiculoClass.getTractora().toString();
-                cisterna = identificacionVehiculoClass.getCisterna().toString();
+                tractora = identificacionVehiculoClass.getTractora();
+                cisterna = identificacionVehiculoClass.getCisterna();
                 callback.enviarVehiculoIdentificado(tractora, cisterna);
             }
         });

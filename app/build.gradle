@@ -34,4 +34,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.1'
+
+
 }

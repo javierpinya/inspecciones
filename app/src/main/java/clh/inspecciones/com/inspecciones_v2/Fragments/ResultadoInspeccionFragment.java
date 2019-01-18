@@ -51,6 +51,7 @@ import clh.inspecciones.com.inspecciones_v2.Adapters.CameraAdapter;
 import clh.inspecciones.com.inspecciones_v2.Adapters.FotosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.TemplatePDF;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
@@ -70,7 +71,10 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     private Realm realm;
 
-    private Button button;
+    private Button btnGuardar;
+    private Button btnGenerarPDF;
+    private Button btnEnviarPDF;
+
 
     private dataListener callback;
     private CheckBox cbInspeccionada;
@@ -84,6 +88,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private EditText etComentarios;
     private String user;
     private String pass;
+    private String inspector = user;
     private String inspeccion;
     private DetalleInspeccionBD detalleInspeccionBD;
     private RealmResults<FotosBD> fotosBD;
@@ -132,7 +137,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private List<String> imgStringList;
     final Bitmap bitmapFinal=null;
     private int contadorFotosGuardadas=0;
-    private Button buttonpdf;
+
 
 
     public ResultadoInspeccionFragment() {
@@ -163,8 +168,9 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbRevisda = view.findViewById(R.id.cb_revisado);
         etFechaRevisada = view.findViewById(R.id.et_fecha_revisado);
         etComentarios = view.findViewById(R.id.comentarios);
-        button = view.findViewById(R.id.btn_guardar);
-        buttonpdf = view.findViewById(R.id.generarPDF);
+        btnGuardar = view.findViewById(R.id.btn_guardar);
+        btnGenerarPDF = view.findViewById(R.id.generarPDF);
+        btnEnviarPDF = view.findViewById(R.id.enviarPDF);
 
         cbInspeccionada.setChecked(true);
         cbFavorable.setChecked(true);
@@ -184,23 +190,10 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbDesfavorable.setOnClickListener(this);
         cbBloqueo.setOnClickListener(this);
         cbRevisda.setOnClickListener(this);
+        btnGuardar.setOnClickListener(this);
+        btnGenerarPDF.setOnClickListener(this);
+        btnEnviarPDF.setOnClickListener(this);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                guardar();
-            }
-        });
-
-        buttonpdf.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                generarPDF();
-            }
-
-
-        });
 
 
 
@@ -352,15 +345,21 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                 break;
             case R.id.cb_revisado:
                 etFechaRevisada.setEnabled(cbRevisda.isChecked());
+            case R.id.btn_guardar:
+                guardar();
+                break;
+            case R.id.generarPDF:
+                generarPDF();
+                break;
+            case R.id.enviarPDF:
+                enviarPDF();
+                break;
                 default:
                     break;
         }
 
     }
 
-    private void generarPDF() {
-        callback.generarPDF();
-    }
 
     private void cargarImagen() {
         final CharSequence[] opciones={"Camara", "Galeria", "Cancelar"};
@@ -531,6 +530,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                 if (response.trim().equalsIgnoreCase("guardada")) {
                     contadorFotosGuardadas = contadorFotosGuardadas + 1;
                     Toast.makeText(getActivity(), "Foto " + contadorFotosGuardadas + " guardada", Toast.LENGTH_LONG).show();
+
                 }else{
                     Toast.makeText(getActivity(), response.trim(), Toast.LENGTH_LONG).show();
                 }
@@ -577,10 +577,54 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     }
 
+    public void generarPDF() {
+        detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
+        //Usamos Realm para generar el pdf
+        String[] header = {"Id", "Nombre", "Apellido"};
+        String resultado = "";
+        String shortText = "Hola";
+        String longText = "Vehículo inspeccionado con resultado ";
+        String nombrePDF = "inspeccion_" + inspeccion;
+
+        if (detalleInspeccionBD.getFavorable()) {
+            resultado = "Favorable";
+        } else {
+            resultado = "Desfavorable";
+        }
+
+        longText = longText + resultado;
+
+        TemplatePDF templatePDF = new TemplatePDF(getActivity(), nombrePDF);
+        templatePDF.openDocument();
+        templatePDF.addMetaData("Inspeccion: " + inspeccion, "Inspecciones", "" + inspector);
+        templatePDF.addTitles("Inspección: " + inspeccion, "Vehiculo: " + detalleInspeccionBD.getTractora() + " - " + detalleInspeccionBD.getRigido() + " - " + detalleInspeccionBD.getCisterna(), detalleInspeccionBD.getFechaInspeccion().toString());
+        //templatePDF.addParagraph(shortText);
+        templatePDF.addSpacing10();
+        templatePDF.createTable(header, getCabeceraInspeccion());
+        templatePDF.addParagraph(longText);
+        templatePDF.addSpacing10();
+        templatePDF.closeDocuemnt();
+        Toast.makeText(getActivity(), "PDFGenerado", Toast.LENGTH_SHORT).show();
+        templatePDF.viewPDF();
+
+    }
+
+    private ArrayList<String[]> getCabeceraInspeccion() {
+        ArrayList<String[]> rows = new ArrayList<>();
+        rows.add(new String[]{"Vehiculo: " + detalleInspeccionBD.getTractora() + " - " + detalleInspeccionBD.getRigido() + " - " + detalleInspeccionBD.getCisterna(), "Inspector: " + inspector, "Fecha Inspeccion: " + detalleInspeccionBD.getFechaInspeccion().toString()});
+        rows.add(new String[]{"Albaran: " + detalleInspeccionBD.getAlbaran(), "Conductor: " + detalleInspeccionBD.getConductor(), "hola"});
+        rows.add(new String[]{"Observaciones: " + detalleInspeccionBD.getObservaciones(), "hola2", "hola3"});
+
+        return rows;
+    }
+
+    private void enviarPDF() {
+
+    }
+
+
     public interface dataListener {
         void inspeccionGuardada(Boolean finalizadaOk);
-
-        void generarPDF();
     }
 
 }

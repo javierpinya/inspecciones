@@ -46,11 +46,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     //private Switch swRemember;
     private String User;
     private String Pass;
+    private String nombre = "";
     private String json_url = "http://pruebaalumnosandroid.esy.es/inspecciones/login.php";
 
     private loginOk callback;
     private String foto;
     private String rutaFoto="";
+    private String urlPerfil = "http://pruebaalumnosandroid.esy.es/inspecciones/recibir_foto_usuario.php";
+    private String correo = "";
+    private String movil = "";
+    private String puesto = "";
 
 
     public LoginFragment() {
@@ -112,24 +117,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     StringRequest sr = new StringRequest(Request.Method.POST, json_url, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-
-            try {
-                //Convierto la respuesta, de tipo String, a un JSONObject.
-                JSONObject jsonObject = new JSONObject(response);
-                JSONArray json = jsonObject.optJSONArray("foto");
-
-                foto = json.optString(0);
-                rutaFoto = decodeImg(foto);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(getActivity(),"e.printStackTrace: " + e.toString(),Toast.LENGTH_LONG).show();
-            }
-
-
-
-            callback.loginOk(User, Pass, rutaFoto);
-
+            obtenerPerfil(User, Pass, urlPerfil);
         }
     },
             new Response.ErrorListener() {
@@ -137,7 +125,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(getContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
                 }
-            }){
+            }) {
         @Override
         protected Map<String, String> getParams() {
             Map<String, String> params = new HashMap<>();
@@ -146,6 +134,59 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             return params;
         }
     };
+
+    private void obtenerPerfil(final String user, final String pass, final String urlPerfil) {
+        StringRequest srPerfil = new StringRequest(Request.Method.POST, urlPerfil, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    //Convierto la respuesta, de tipo String, a un JSONObject.
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    JSONArray json = jsonObject.optJSONArray("foto");
+                    /*
+                    JSONArray json2 = jsonObject.optJSONArray("nombre");
+                    JSONArray json5 = jsonObject.optJSONArray("puesto");
+                    JSONArray json3 = jsonObject.optJSONArray("correo");
+                    JSONArray json4 = jsonObject.optJSONArray("movil");
+*/
+                    foto = json.optString(0);
+                    rutaFoto = decodeImg(foto);
+                    /*
+                    nombre = json2.optString(0);
+                    correo = json3.optString(0);
+                    movil = json4.optString(0);
+                    puesto = json5.optString(0);
+*/
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "e.printStackTrace: " + e.toString(), Toast.LENGTH_LONG).show();
+                }
+
+
+                callback.loginOk(User, Pass, rutaFoto, nombre, puesto, correo, movil);
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", user);
+                params.put("pass", pass);
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(srPerfil);
+    }
 
     private boolean login (String password){
         return isValidPassword(password);
@@ -180,6 +221,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
     public interface loginOk{
-        void loginOk(String usuario, String password, String rutaFoto);
+        void loginOk(String usuario, String password, String rutaFoto, String nombre, String puesto, String correo, String movil);
     }
 }
