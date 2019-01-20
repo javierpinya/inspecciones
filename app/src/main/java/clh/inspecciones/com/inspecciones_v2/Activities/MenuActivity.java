@@ -228,6 +228,8 @@ public class MenuActivity extends AppCompatActivity implements
 
     public void buscarInspeccion(){
         fragment = new BuscarInspeccionFragment();
+        args.putString("user", user);
+        args.putString("pass", pass);
         args.remove("fragmentActual");
         args.putString("fragmentActual", "BuscarInspeccionFragment");
         fragment.setArguments(args);

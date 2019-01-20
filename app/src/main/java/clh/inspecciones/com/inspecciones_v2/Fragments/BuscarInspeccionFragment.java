@@ -23,7 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +42,8 @@ import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 public class BuscarInspeccionFragment extends Fragment {
 
     public BuscarInspeccionClass buscarInspeccionClass;
-    String url = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspeccion.php";
-    String url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspeccion2.php";
+    String url = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspecciones_max10.php";
+    String url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspeccion.php";
     ArrayList<BuscarInspeccionClass> listaDatosInspeccion;
     RecyclerView recyclerVehiculos;
     private Button buscar;
@@ -48,6 +52,13 @@ public class BuscarInspeccionFragment extends Fragment {
     private String user;
     private String pass;
     private BuscarInspeccionAdapter adapter;
+    Date date = new Date();
+    private String mTractora = "";
+    private String mCisterna = "";
+    private Object BuscarInspeccionClass;
+    private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    private String fecha = "";
 
 
     public BuscarInspeccionFragment() {
@@ -61,24 +72,46 @@ public class BuscarInspeccionFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_buscar_inspeccion, container, false);
 
+        user = getArguments().getString("user", "no_user");
+        pass = getArguments().getString("pass", "no_pass");
+
         buscar = view.findViewById(R.id.BuscarInspeccion);
-        tractora = view.findViewById(R.id.tvTractoraBuscarInspeccion);
-        cisterna = view.findViewById(R.id.tvCisternaBuscarInspeccion);
+        tractora = view.findViewById(R.id.etTractoraBuscarInspeccion);
+        cisterna = view.findViewById(R.id.etCisternaBuscarInspeccion);
+
+        tractora.setText("");
+        cisterna.setText("");
 
         listaDatosInspeccion = new ArrayList<>();
         recyclerVehiculos = view.findViewById(R.id.rv_buscarInspecciones);
         recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerVehiculos.setHasFixedSize(true);
 
+        buscarUltimasInspeccionesMax10(user, pass);
+
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (tractora.getText().toString().equals("")) {
+                    mTractora = "";
+                } else {
+                    mTractora = tractora.getText().toString();
+                }
+
+                if (cisterna.getText().toString().equals("")) {
+                    mCisterna = "";
+                } else {
+                    mCisterna = cisterna.getText().toString();
+                }
+
+
                 tractora.clearFocus();
                 cisterna.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tractora.getWindowToken(), 0);
                 listaDatosInspeccion.clear();
-                buscar(tractora.getText().toString(), cisterna.getText().toString(), user, pass);
+                buscar(mTractora, mCisterna, user, pass);
             }
         });
 
@@ -86,11 +119,77 @@ public class BuscarInspeccionFragment extends Fragment {
         return view;
     }
 
+    private void buscarUltimasInspeccionesMax10(final String user, final String pass) {
+
+        StringRequest srUltimas = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+
+                try {
+
+                    //listaVehiculos.clear();
+                    //Convierto la respuesta, de tipo String, a un JSONObject.
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    //Cramos un JSONArray del objeto JSON "vehiculo"
+                    JSONArray jsonVehiculo = jsonObject.optJSONArray("inspecciones");
+                    //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
+
+                    for (int i = 0; i < jsonVehiculo.length(); i++) {
+                        buscarInspeccionClass = new BuscarInspeccionClass();
+                        JSONObject jsonObject1 = null;
+                        jsonObject1 = jsonVehiculo.getJSONObject(i);
+                        buscarInspeccionClass.setTractora(jsonObject1.optString("MATRICULA1"));
+                        buscarInspeccionClass.setCisterna(jsonObject1.optString("MATRICULA2"));
+                        buscarInspeccionClass.setInstalacion(jsonObject1.optString("INSTALACION"));
+
+                        fecha = jsonObject1.optString("FECHA");
+                        date = parseador.parse(fecha);
+                        buscarInspeccionClass.setFecha(df.format(date));
+
+
+                        listaDatosInspeccion.add(buscarInspeccionClass);
+                    }
+
+                    renderText(listaDatosInspeccion);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "error: " + error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", user);
+                params.put("pass", pass);
+                return params;
+            }
+
+        };
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(srUltimas);
+
+    }
+
     private void buscar(final String tractora, final String cisterna, final String user, final String pass) {
 
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
 
                 try {
 
@@ -131,5 +230,26 @@ public class BuscarInspeccionFragment extends Fragment {
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
     }
 
+
+    public void renderText(ArrayList<BuscarInspeccionClass> listaVehiculos) {
+
+        adapter = new BuscarInspeccionAdapter(listaVehiculos, new BuscarInspeccionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BuscarInspeccionClass buscarInspeccionClass, int position) {
+                String tractora;
+                String cisterna;
+                String fecha;
+                String instalacion;
+
+                tractora = buscarInspeccionClass.getTractora();
+                cisterna = buscarInspeccionClass.getCisterna();
+                fecha = buscarInspeccionClass.getFecha();
+                instalacion = buscarInspeccionClass.getInstalacion();
+
+                //callback.
+            }
+        });
+        recyclerVehiculos.setAdapter(adapter);
+    }
 
 }

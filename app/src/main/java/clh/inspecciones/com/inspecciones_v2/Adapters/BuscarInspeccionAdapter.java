@@ -42,10 +42,7 @@ public class BuscarInspeccionAdapter extends RecyclerView.Adapter<BuscarInspecci
         return listaDatosInspeccion.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(BuscarInspeccionClass buscarInspeccionClass, int position);
 
-    }
 
     public class BuscarInspeccion_Holder extends RecyclerView.ViewHolder {
         TextView tvTractora, tvCisterna, tvInstalacion, tvFecha;
@@ -75,6 +72,11 @@ public class BuscarInspeccionAdapter extends RecyclerView.Adapter<BuscarInspecci
                 }
             });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(BuscarInspeccionClass buscarInspeccionClass, int position);
+
     }
 
 }

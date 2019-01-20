@@ -345,6 +345,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                 break;
             case R.id.cb_revisado:
                 etFechaRevisada.setEnabled(cbRevisda.isChecked());
+                break;
             case R.id.btn_guardar:
                 guardar();
                 break;
