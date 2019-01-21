@@ -28,7 +28,6 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
@@ -147,11 +146,6 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
                     case R.id.menu_altanueva:
                         fragment = new AltaNuevaFragment();
                         nombreFragment = "AltaNuevaFragment";
-                        fragmentTransaction = true;
-                        break;
-                    case R.id.menu_buscar:
-                        fragment = new BuscarInspeccionFragment();
-                        nombreFragment= "BuscarInspeccionFragment";
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_calibrar:
