@@ -125,8 +125,6 @@ public class BuscarInspeccionFragment extends Fragment {
             @Override
             public void onResponse(String response) {
 
-                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
-
                 try {
 
                     //listaVehiculos.clear();
