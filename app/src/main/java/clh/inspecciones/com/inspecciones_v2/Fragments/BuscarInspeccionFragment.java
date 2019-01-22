@@ -2,6 +2,7 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +56,6 @@ public class BuscarInspeccionFragment extends Fragment {
     Date date = new Date();
     private String mTractora = "";
     private String mCisterna = "";
-    private Object BuscarInspeccionClass;
     private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     private String fecha = "";
@@ -74,6 +74,8 @@ public class BuscarInspeccionFragment extends Fragment {
 
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
+
+
 
         buscar = view.findViewById(R.id.BuscarInspeccion);
         tractora = view.findViewById(R.id.etTractoraBuscarInspeccion);
@@ -183,11 +185,9 @@ public class BuscarInspeccionFragment extends Fragment {
 
     private void buscar(final String tractora, final String cisterna, final String user, final String pass) {
 
-        StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
 
                 try {
 

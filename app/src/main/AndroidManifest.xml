@@ -49,9 +49,8 @@
         <activity android:name=".Activities.ViewPDFActivity" />
         <activity
             android:name=".Activities.ProfileActivity"
-            android:theme="@style/ProfileScreen">
-
-        </activity>
+            android:theme="@style/ProfileScreen"></activity>
+        <activity android:name=".Activities.BuscarActivity"></activity>
     </application>
 
 </manifest>

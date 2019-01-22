@@ -194,12 +194,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         btnGenerarPDF.setOnClickListener(this);
         btnEnviarPDF.setOnClickListener(this);
 
-
-
-
-        /*
-        FotosFragment
-         */
         gridView = view.findViewById(R.id.gridView);
         path = new ArrayList<>();
         bitmaps = new ArrayList<>();
@@ -218,11 +212,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         }else{
             fab.hide();
         }
-        /*
-        FotosFragment
-         */
 
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -287,7 +277,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 if(bitmaps.size()>0) {
                     guardarFotos();
                 }else{
@@ -534,8 +523,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                     contadorFotosGuardadas = contadorFotosGuardadas + 1;
                     Toast.makeText(getActivity(), "Foto " + contadorFotosGuardadas + " guardada", Toast.LENGTH_LONG).show();
 
-                }else{
-                    Toast.makeText(getActivity(), response.trim(), Toast.LENGTH_LONG).show();
                 }
                 if(imgStringList.size()==contadorFotosGuardadas) {
                     callback.inspeccionGuardada(true);
