@@ -69,6 +69,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private String correo = "";
     private String movil = "";
     private String puesto = "";
+    private boolean validaPermisos;
 
 
     public LoginFragment() {
@@ -96,16 +97,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
 
 
+
         Usuario = view.findViewById(R.id.et_usuario);
         Password = view.findViewById(R.id.et_password);
         //swRemember = view.findViewById(R.id.sw_preferences);
         ButtonLogin = view.findViewById(R.id.btn_login);
         ButtonLogin.setEnabled(true);
-
         Usuario.setText("");
         Password.setText("");
 
+        if(validaPermisos()){
+            validaPermisos=true;
+        }else{
+            validaPermisos=false;
+        }
+
         ButtonLogin.setOnClickListener(this);
+
+
+
 
         return view;
     }
@@ -114,13 +124,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_login:
-                if (!validaPermisos()) {
-                    Toast.makeText(getActivity(), "Algunos datos no se podrán obtener si no se aceptan los permisos", Toast.LENGTH_LONG).show();
-                }
                 User = Usuario.getText().toString();
                 Pass = Password.getText().toString();
+
                 if(login(Pass)){
-                    VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+                    if (validaPermisos) {
+                        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+                    }
                 }else{
                     Toast.makeText(getActivity(), "Password no válido", Toast.LENGTH_LONG).show();
                 }
@@ -179,7 +189,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), "e.printStackTrace: " + e.toString(), Toast.LENGTH_LONG).show();
                 }
 
-
                 callback.loginOk(User, Pass, rutaFoto, nombre, puesto, correo, movil);
 
             }
@@ -232,7 +241,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private void cargarDialogoRecomendacion() {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
         dialogo.setTitle("Permisos desactivados");
-        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
+        dialogo.setMessage("Debe aceptar los permisos para continuar");
         dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -264,6 +273,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             if (grantResults.length == 2 && grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
 
             } else {
+                Toast.makeText(getActivity(), "Es necesario aceptar los permisos para continuar", Toast.LENGTH_LONG).show();
                 solicitarPermisosManual();
             }
         }

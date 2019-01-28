@@ -20,6 +20,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +63,10 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private List<Integer> cantidad;
     private List<Boolean> cumpleCantidad = new ArrayList<>();
 
+    //FAB
+    private FloatingActionButton fabCalculadora;
+    private FloatingActionsMenu fabMenu;
+
     private RecyclerView mRecyclerView;
     // Puede ser declarado como 'RecyclerView.Adapter' o como nuetra clase adaptador 'MyAdapter'
 
@@ -96,6 +102,16 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         pass = getArguments().getString("pass", "no_pass");
         matricula = getArguments().getString("cisterna", "sin_cisterna");
         inspeccion = getArguments().getString("inspeccion", "sin_inspeccion");
+
+        fabCalculadora = view.findViewById(R.id.fabCalculadora);
+        fabMenu = view.findViewById(R.id.grupoFab);
+        fabCalculadora.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                fabMenu.collapse();
+                callback.abrirCalculadora();
+            }
+        });
 
 
         mRecyclerView = view.findViewById(R.id.rv_compartimentos);
@@ -213,7 +229,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
             public void onResponse(String response) {
                // callback.continuar();  //mejor continuar para incluir observaciones, etc, no compartimentosGuardados
                 callback.compartimentosGuardados(true);
-                Toast.makeText(getContext(), "Guardado",Toast.LENGTH_SHORT ).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -259,6 +274,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     public interface dataListener{
         void compartimentosGuardados(Boolean guardadoOk);
+        void abrirCalculadora();
     }
 
 }

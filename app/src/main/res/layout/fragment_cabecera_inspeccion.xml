@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/CabeceraInspeccionFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -80,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginTop="6dp"
+                    android:paddingBottom="2dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -89,13 +91,12 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="40"
                         android:gravity="center_horizontal|center"
-
                         android:textColor="@color/icons"
                         android:textSize="16dp"
                         android:text="@string/tv_ia" />
 
-                    <EditText
-                        android:id="@+id/et_instalacion"
+                    <Spinner
+                        android:id="@+id/sp_instalacion"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -530,6 +531,35 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
+
+
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/grupoFab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:fab_addButtonColorNormal="@color/colorAccent">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCalculadora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                app:fab_icon="@drawable/calculadora"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </LinearLayout>
+
 
 
 

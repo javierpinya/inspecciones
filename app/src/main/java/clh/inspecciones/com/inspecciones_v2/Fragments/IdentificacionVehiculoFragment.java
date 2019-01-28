@@ -19,6 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +54,8 @@ public class IdentificacionVehiculoFragment extends Fragment {
     private String pass;
     public IdentificacionVehiculoClass identificacionVehiculoClass;
     ArrayList<IdentificacionVehiculoClass> listaVehiculos;
+    private FloatingActionButton fabCalculadora;
+    private FloatingActionsMenu fabMenu;
 
     RecyclerView recyclerVehiculos;
     private IdentificacionVehiculoAdapter adapter;
@@ -79,7 +83,7 @@ public class IdentificacionVehiculoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_identificacion_vehiculo, container, false);
 
         //Bundle args = getArguments();
-        tipoVehiculo = getArguments().getString("tipoVehiculo", "sin_datos");
+        tipoVehiculo = "1"; //getArguments().getString("tipoVehiculo", "sin_datos");
         tipoInspeccion = getArguments().getString("tipoInspeccion", "sin_datos_inspeccion");
         tipoComponente = getArguments().getString("tipoComponente", "sin_datos_componente");
         user = getArguments().getString("user", "no_user");
@@ -93,6 +97,16 @@ public class IdentificacionVehiculoFragment extends Fragment {
         recyclerVehiculos.setHasFixedSize(true);
 
         tractora.setHint("3660");
+
+        fabCalculadora = view.findViewById(R.id.fabCalculadora);
+        fabMenu = view.findViewById(R.id.grupoFab);
+        fabCalculadora.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                fabMenu.collapse();
+                callback.abrirCalculadora();
+            }
+        });
 
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,9 +221,17 @@ public class IdentificacionVehiculoFragment extends Fragment {
                 String tractora;
                 String cisterna;
                 String conductor;
+                String tipoComponente="";
                 tractora = identificacionVehiculoClass.getTractora();
                 cisterna = identificacionVehiculoClass.getCisterna();
-                callback.enviarVehiculoIdentificado(tractora, cisterna);
+                if(tractora.isEmpty()){
+                    tipoComponente="C";
+                }else if (cisterna.isEmpty()){
+                    tipoComponente="R";
+                }else{
+                    tipoComponente="S";
+                }
+                callback.enviarVehiculoIdentificado(tractora, cisterna, tipoComponente);
             }
         });
         recyclerVehiculos.setAdapter(adapter);
@@ -217,6 +239,7 @@ public class IdentificacionVehiculoFragment extends Fragment {
 
 
     public interface DataListener{
-        void enviarVehiculoIdentificado(String tractora, String cisterna);
+        void enviarVehiculoIdentificado(String tractora, String cisterna, String tipoComponente);
+        void abrirCalculadora();
     }
 }

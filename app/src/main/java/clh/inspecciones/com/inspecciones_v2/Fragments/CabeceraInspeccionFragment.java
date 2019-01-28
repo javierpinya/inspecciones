@@ -5,12 +5,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,14 +22,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,7 +60,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private String returnInspeccion;
     private Button btn_siguiente;
     private Button btn_compartimentos;
-    private EditText etIa;
+    private Spinner spIa;
     private EditText etConductor;
     private EditText etAlbaran;
     private EditText etTrans;
@@ -128,10 +133,14 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     private CheckBox superficieSupAntiDes;
     private CheckBox tc2;
 
+    //FAB
+    private FloatingActionButton fabCalculadora;
+    private FloatingActionsMenu fabMenu;
+
     private Boolean chequeo;
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
     private SimpleDateFormat parseador2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void onAttach(Context context) {
@@ -157,15 +166,44 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_cabecera_inspeccion, container, false);
 
-        etIa = (EditText)view.findViewById(R.id.et_instalacion);
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(getActivity(),
+                        R.array.instalaciones,
+                        android.R.layout.simple_spinner_item);
+
+        spIa = view.findViewById(R.id.sp_instalacion);
         etConductor = (EditText)view.findViewById(R.id.et_codcond);
         etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
         etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
         etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
         button = (Button)view.findViewById(R.id.btn_guardar);
         tvInspeccion = (TextView)view.findViewById(R.id.tv_inspeccion1);
+        fabCalculadora = view.findViewById(R.id.fabCalculadora);
+        fabMenu = view.findViewById(R.id.grupoFab);
 
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
 
+        spIa.setAdapter(adapter);
+
+        fabCalculadora.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                fabMenu.collapse();
+                callback.abrirCalculadora();
+            }
+        });
+
+        spIa.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ia = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         /////DETALLE INSPECCION FRAGMENT
 
         checklist = new ArrayList<>();
@@ -274,7 +312,6 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
     }
 
     public void prepararGuardado(){
-        ia = etIa.getText().toString();
         cond = etConductor.getText().toString();
         albaran = etAlbaran.getText().toString();
         transportista = etTrans.getText().toString();
@@ -319,9 +356,14 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public void guardar(List<Boolean> checklist){
         List<String> checkListString;
-        Date today = Calendar.getInstance().getTime();
+        Date today = new Date();
         String fechaInspeccion;
-        fechaInspeccion = parseador2.format(today);
+        try {
+            today = parseador2.parse(String.valueOf(Calendar.getInstance().getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        fechaInspeccion = df.format(today);
         checkListString = new ArrayList<>();
         realm.beginTransaction();
         DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
@@ -351,6 +393,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         inspeccionBD.setAlbaran(albaran);
         inspeccionBD.setTransportista(transportista);
         inspeccionBD.setTablaCalibracion(tabla_calibracion);
+        inspeccionBD.setFechaInspeccion(today);
         inspeccionBD.setAccDesconectadorBaterias(checklist.get(0));
         inspeccionBD.setFichaSeguridad(checklist.get(1));
         inspeccionBD.setTransponderTractora(checklist.get(2));
@@ -505,6 +548,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
     public interface dataListener{
         void guardado(Boolean guardadoOK, String matricula, String inspeccion);
+        void abrirCalculadora();
     }
 
 }

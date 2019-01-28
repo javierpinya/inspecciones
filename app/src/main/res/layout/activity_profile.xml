@@ -188,5 +188,23 @@
             android:textStyle="bold|italic" />
     </LinearLayout>
 
+    <!--
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp">
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/graph" />
+
+    </LinearLayout>
+implementation 'com.jjoe64:graphview:4.2.2'
+-->
 </LinearLayout>

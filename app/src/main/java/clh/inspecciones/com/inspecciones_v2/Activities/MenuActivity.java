@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.MenuFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -225,7 +224,7 @@ public class MenuActivity extends AppCompatActivity implements
 
     public void buscarInspeccion(){
         Intent intent = new Intent();
-        intent.setClass(MenuActivity.this, BuscarActivity.class);
+        intent.setClass(MenuActivity.this, BuscarInspeccionActivity.class);
         intent.putExtra("nombreFragment", "BuscarInspeccionFragment");
         startActivity(intent);
         /*

@@ -1,9 +1,5 @@
 package clh.inspecciones.com.inspecciones_v2.Clases;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -120,12 +116,9 @@ public class DetalleInspeccionBD extends RealmObject {
     private int c8VolTotalPlaca;
     private Boolean inspeccionada;
     private Boolean favorable;
-    private Boolean desfavorable;
-    private Date fechaDesfavorable;
     private Boolean bloqueo;
-    private Date fechaBloqueo;
     private Boolean revisado;
-    private Date fechaRevisado;
+    private Date fechaFinInspeccion;
     private Boolean tc2;
     private Boolean montajeCorrectoTags;
     private Boolean bajadaTagPlanta; //6460729. EL435NP.
@@ -148,10 +141,8 @@ public class DetalleInspeccionBD extends RealmObject {
         this.id=InicializacionRealm.CACisternaBDId.incrementAndGet();
         this.inspeccion=inspeccion;
         this.fechaArnes = new Date();
-        this.fechaBloqueo = new Date();
-        this.fechaDesfavorable = new Date();
         this.fechaInspeccion = new Date();
-        this.fechaRevisado = new Date();
+        this.fechaFinInspeccion = new Date();
         this.fechaTablaCalCisterna = new Date();
         this.fechaTablaCalRigido = new Date();
         setAccDesconectadorBaterias(true);
@@ -168,7 +159,6 @@ public class DetalleInspeccionBD extends RealmObject {
         setConexionMangueraGases(true);
         setConexionTomaTierra(true);
         setDescTfnoMovil(true);
-        setDesfavorable(false); //
         setEstanqueidadCajon(true);
         setEstanqueidadCisterna(true);
         setEstanqueidadEquiposTrasiego(true);
@@ -1036,36 +1026,12 @@ public class DetalleInspeccionBD extends RealmObject {
         this.favorable = favorable;
     }
 
-    public Boolean getDesfavorable() {
-        return desfavorable;
-    }
-
-    public void setDesfavorable(Boolean desfavorable) {
-        this.desfavorable = desfavorable;
-    }
-
-    public Date getFechaDesfavorable() {
-        return fechaDesfavorable;
-    }
-
-    public void setFechaDesfavorable(Date fechaDesfavorable) {
-        this.fechaDesfavorable = fechaDesfavorable;
-    }
-
     public Boolean getBloqueo() {
         return bloqueo;
     }
 
     public void setBloqueo(Boolean bloqueo) {
         this.bloqueo = bloqueo;
-    }
-
-    public Date getFechaBloqueo() {
-        return fechaBloqueo;
-    }
-
-    public void setFechaBloqueo(Date fechaBloqueo) {
-        this.fechaBloqueo = fechaBloqueo;
     }
 
     public Boolean getRevisado() {
@@ -1076,12 +1042,12 @@ public class DetalleInspeccionBD extends RealmObject {
         this.revisado = revisado;
     }
 
-    public Date getFechaRevisado() {
-        return fechaRevisado;
+    public Date getFechaFinInspeccion() {
+        return fechaFinInspeccion;
     }
 
-    public void setFechaRevisado(Date fechaRevisado) {
-        this.fechaRevisado = fechaRevisado;
+    public void setFechaFinInspeccion(Date fechaFinInspeccion) {
+        this.fechaFinInspeccion = fechaFinInspeccion;
     }
 
     public Boolean getTc2() {

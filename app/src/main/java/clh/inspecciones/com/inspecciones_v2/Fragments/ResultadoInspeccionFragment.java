@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
@@ -24,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,13 +35,17 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +70,7 @@ import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResultadoInspeccionFragment extends Fragment implements View.OnClickListener{
+public class ResultadoInspeccionFragment extends Fragment implements View.OnClickListener {
 
 
     private Realm realm;
@@ -79,12 +83,10 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private dataListener callback;
     private CheckBox cbInspeccionada;
     private CheckBox cbFavorable;
-    private CheckBox cbDesfavorable;
-    private EditText etFechaDesfavorable;
     private CheckBox cbBloqueo;
-    private EditText etFechaBloqueo;
+
     private CheckBox cbRevisda;
-    private EditText etFechaRevisada;
+
     private EditText etComentarios;
     private String user;
     private String pass;
@@ -97,9 +99,9 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private String favorable;
     private String desfavorable;
     private String revisada;
-    private String fecha_desfavorable="0";
+    private String fechaFinInspeccion ="0";
     private String comentarios="0";
-    private Date fechaDesfavorableP=new Date();
+    private Date fechaFinInspeccionP =new Date();
     private String fecha_revisada = "0";
     private String fecha_bloqueo="0";
     private Date fechaRevisadaP = new Date();
@@ -107,7 +109,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/registrar_inspeccion.php";
 
 
-    private SimpleDateFormat parseador = new SimpleDateFormat("dd-MM-yyyy");
+    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat parseador2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
     /*
@@ -125,7 +128,9 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private List<ImageView> mImageViews = new ArrayList<ImageView>();
     //private dataListener callbackFoto;
     private List<FotosBD> fotos = new ArrayList<>();
-    private FloatingActionButton fab;
+    private FloatingActionButton fabFoto;
+    private FloatingActionButton fabCalculadora;
+    private FloatingActionsMenu fabMenu;
     //private ImageView imagen;
     private String RUTA_IMAGEN="";
     //private String path;
@@ -137,7 +142,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     private List<String> imgStringList;
     final Bitmap bitmapFinal=null;
     private int contadorFotosGuardadas=0;
-
+    private int fotoSize;
+    private List<String> rutaImagenes;
 
 
     public ResultadoInspeccionFragment() {
@@ -161,12 +167,8 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
         cbInspeccionada = view.findViewById(R.id.cb_inspeccionada);
         cbFavorable = view.findViewById(R.id.cb_favorable);
-        cbDesfavorable = view.findViewById(R.id.cb_desfavorable);
-        etFechaDesfavorable = view.findViewById(R.id.et_fechadesfavorable);
         cbBloqueo = view.findViewById(R.id.cb_bloqueo);
-        etFechaBloqueo = view.findViewById(R.id.et_fechabloqueo);
         cbRevisda = view.findViewById(R.id.cb_revisado);
-        etFechaRevisada = view.findViewById(R.id.et_fecha_revisado);
         etComentarios = view.findViewById(R.id.comentarios);
         btnGuardar = view.findViewById(R.id.btn_guardar);
         btnGenerarPDF = view.findViewById(R.id.generarPDF);
@@ -182,12 +184,19 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
         inspeccion = getArguments().getString("inspeccion", "sin_inspeccion");
+        /*
+        fotoSize = getArguments().getInt("fotoSize", 0);
+        rutaImagenes = new ArrayList<>();
+        for(int i=0;i<fotoSize;i++){
+            rutaImagenes.add(getArguments().getString("foto" + i, "sinRutaFoto"));
+        }
+
+        */
 
 
 
         cbInspeccionada.setOnClickListener(this);
         cbFavorable.setOnClickListener(this);
-        cbDesfavorable.setOnClickListener(this);
         cbBloqueo.setOnClickListener(this);
         cbRevisda.setOnClickListener(this);
         btnGuardar.setOnClickListener(this);
@@ -199,19 +208,23 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         bitmaps = new ArrayList<>();
         imgStringList = new ArrayList<>();
 
-        fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabFoto = view.findViewById(R.id.fabFoto);
+        fabCalculadora = view.findViewById(R.id.fabCalculadora);
+        fabMenu = view.findViewById(R.id.grupoFab);
+        fabCalculadora.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                callback.abrirCalculadora();
+                fabMenu.collapse();
+            }
+        });
+        fabFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fabMenu.collapse();
                 cargarImagen();
             }
         });
-
-        if(validaPermisos()){
-            fab.show();
-        }else{
-            fab.hide();
-        }
 
         return view;
     }
@@ -219,59 +232,38 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     public void guardar(){
         Toast.makeText(getActivity(), "Guardando...", Toast.LENGTH_LONG).show();
+        Date today = new Date();
+        try {
+            today = parseador2.parse(String.valueOf(Calendar.getInstance().getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String fechaFinInspeccion;
+        fechaFinInspeccion = df.format(today);
         comentarios = etComentarios.getText().toString();
-        this.fecha_desfavorable = etFechaDesfavorable.getText().toString();
-        this.fecha_revisada = etFechaRevisada.getText().toString();
-        this.fecha_bloqueo = etFechaBloqueo.getText().toString();
 
         inspeccionada = String.valueOf(cbInspeccionada.isChecked());
         favorable = String.valueOf(cbFavorable.isChecked());
-        desfavorable = String.valueOf(cbDesfavorable.isChecked());
         bloqueada = String.valueOf(cbBloqueo.isChecked());
         revisada = String.valueOf(cbRevisda.isChecked());
-
-        if(cbDesfavorable.isChecked()){
-            try {
-                this.fechaDesfavorableP = parseador.parse(this.fecha_desfavorable);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(cbBloqueo.isChecked()){
-            try {
-                this.fechaBloqueoP = parseador.parse(this.fecha_bloqueo);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        if(cbRevisda.isChecked()){
-            try {
-                this.fechaRevisadaP = parseador.parse(this.fecha_revisada);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
 
         detalleInspeccionBD = realm.where(DetalleInspeccionBD.class).equalTo("inspeccion", inspeccion).findFirst();
         realm.beginTransaction();
         detalleInspeccionBD.setInspeccionada(cbInspeccionada.isChecked());
         detalleInspeccionBD.setFavorable(cbFavorable.isChecked());
-        detalleInspeccionBD.setDesfavorable(cbDesfavorable.isChecked());
-        detalleInspeccionBD.setFechaDesfavorable(this.fechaDesfavorableP);
+        detalleInspeccionBD.setFechaFinInspeccion(today);
         detalleInspeccionBD.setRevisado(cbRevisda.isChecked());
-        detalleInspeccionBD.setFechaRevisado(this.fechaRevisadaP);
         detalleInspeccionBD.setBloqueo(cbBloqueo.isChecked());
-        detalleInspeccionBD.setFechaBloqueo(this.fechaBloqueoP);
         detalleInspeccionBD.setObservaciones(comentarios);
         realm.copyToRealmOrUpdate(detalleInspeccionBD);
         realm.commitTransaction();
+        btnGenerarPDF.setEnabled(true);
         //registrar en BD Online
-        guardarOnLine(user, pass,inspeccionada, favorable, desfavorable, revisada, bloqueada, inspeccion, fecha_desfavorable, fecha_revisada, fecha_bloqueo, comentarios);
+        guardarOnLine(user, pass,inspeccionada, favorable, revisada, bloqueada, inspeccion, fechaFinInspeccion, comentarios);
 
     }
 
-    private void guardarOnLine(final String user, final String pass, final String inspeccionada, final String favorable, final String desfavorable, final String revisada, final String bloqueada,final  String inspeccion, final String fecha_desfavorable, final String fecha_revisada, final String fecha_bloqueo, final String comentarios) {
+    private void guardarOnLine(final String user, final String pass, final String inspeccionada, final String favorable, final String revisada, final String bloqueada,final  String inspeccion, final String fechaFinInspeccion, final String comentarios) {
 
 
         StringRequest sr = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
@@ -301,12 +293,9 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                 params.put("inspeccion", inspeccion);
                 params.put("inspeccionada", inspeccionada);
                 params.put("favorable", favorable);
-                params.put("desfavorable", desfavorable);
                 params.put("revisada", revisada);
                 params.put("bloqueada", bloqueada);
-                params.put("fecha_desfavorable", fecha_desfavorable);
-                params.put("fecha_revisada", fecha_revisada);
-                params.put("fecha_bloqueo", fecha_bloqueo);
+                params.put("fecha_fin_inspeccion", fechaFinInspeccion);
                 params.put("comentarios", comentarios);
                 return params;
             }
@@ -319,22 +308,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.cb_favorable:
-                cbFavorable.setChecked(true);
-                cbDesfavorable.setChecked(false);
-                etFechaDesfavorable.setEnabled(false);
-                break;
-            case R.id.cb_desfavorable:
-                cbDesfavorable.setChecked(true);
-                cbFavorable.setChecked(false);
-                etFechaDesfavorable.setEnabled(true);
-                break;
-            case R.id.cb_bloqueo:
-                etFechaBloqueo.setEnabled(cbBloqueo.isChecked());
-                break;
-            case R.id.cb_revisado:
-                etFechaRevisada.setEnabled(cbRevisda.isChecked());
-                break;
             case R.id.btn_guardar:
                 guardar();
                 break;
@@ -383,7 +356,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     private void tomarFoto() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        String imageFileName = inspeccion + "_" + timeStamp + ".jpg";
         String storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + imageFileName;
         File image = new File(storageDir);
 
@@ -438,10 +411,17 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
             bitmaps.add(bitmap);
             imgString = convertirImgString(bitmap); //Quizá convendría hacerlo en un AsyncTask... hay que mirar cómo
             imgStringList.add(imgString);
-            myCameraAdapter = new CameraAdapter(getActivity(), R.layout.list_fotos, bitmaps);
-            gridView.setAdapter(myCameraAdapter);
-            myCameraAdapter.notifyDataSetChanged();
+            establecerImagenes(bitmaps);
+
         }
+    }
+
+
+
+    private void establecerImagenes(List<Bitmap> bitmap){
+        myCameraAdapter = new CameraAdapter(getActivity(), R.layout.list_fotos, bitmap);
+        gridView.setAdapter(myCameraAdapter);
+        myCameraAdapter.notifyDataSetChanged();
     }
 
     private String convertirImgString(final Bitmap bitmap) {
@@ -454,66 +434,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         return imagenString;
     }
 
-    private void cargarDialogoRecomendacion() {
-        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
-        dialogo.setTitle("Permisos desactivados");
-        dialogo.setMessage("Debe aceptar los permisos para tomar fotos");
-        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
-            }
-        });
-        dialogo.show();
-    }
 
-    private boolean validaPermisos(){
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
-            return true;
-        }
-        if((checkSelfPermission(getActivity(),CAMERA) == PackageManager.PERMISSION_GRANTED && (checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED))){
-            return true;
-        }
-        if((shouldShowRequestPermissionRationale(CAMERA)) || (shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE))){
-            cargarDialogoRecomendacion();
-        }else{
-            requestPermissions(new String[] {WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
-        }
-        return false;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==100){
-            if(grantResults.length==2 && grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED){
-                fab.show();
-            }else{
-                solicitarPermisosManual();
-            }
-        }
-    }
-
-    private void solicitarPermisosManual() {
-        final CharSequence[] opciones={"si", "no"};
-        final AlertDialog.Builder alertOpciones= new AlertDialog.Builder(getActivity());
-        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
-        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(opciones[which].equals("si")){
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package",getActivity().getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_LONG).show();
-                    dialog.dismiss();
-                }
-            }
-        });
-    }
 
     private void guardarFotoOnline(final String user, final String pass, final String inspeccion, final String nombreFoto, final String fotoString) {
         StringRequest sr = new StringRequest(StringRequest.Method.POST, urlFoto, new Response.Listener<String>() {
@@ -612,9 +533,31 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     }
 
+    /*
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        borrarFoto(view.getId());
+        return true;
+    }
 
+    private void borrarFoto(int elemento){
+
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para continuar");
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                gridView.getAdapter().getView().
+            }
+        });
+        dialogo.show();
+    }
+
+*/
     public interface dataListener {
         void inspeccionGuardada(Boolean finalizadaOk);
+        void abrirCalculadora();
     }
 
 }

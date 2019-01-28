@@ -17,7 +17,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
  */
 public class AltaNuevaFragment extends Fragment implements View.OnClickListener {
 
-    public AltaNuevaListener callback;
+    // public AltaNuevaListener callback;
 
     CheckBox cbrigido;
     CheckBox cbtractora;
@@ -35,6 +35,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
     public AltaNuevaFragment() {
         // Required empty public constructor
     }
+    /*
 
     @Override
     public void onAttach(Context context) {
@@ -45,7 +46,7 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
             throw new ClassCastException(context.toString() + " should implement AltaNuevaListener");
         }
     }
-
+*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -122,11 +123,11 @@ public class AltaNuevaFragment extends Fragment implements View.OnClickListener 
             default:
                 break;
         }
-        callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoComponente);
+  //      callback.altaNueva(tipoVehiculo, tipoInspeccion, tipoComponente);
     }
-
+/*
     public interface AltaNuevaListener{
         void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoComponente);
     }
-
+*/
 }

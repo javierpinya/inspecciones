@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="instalaciones">
+        <item>Albuixech</item>
+        <item>Alcázar</item>
+        <item>Alicante</item>
+        <item>Arahal</item>
+        <item>Barcelona</item>
+        <item>Burgos</item>
+        <item>Cartagena</item>
+        <item>Castellón</item>
+        <item>Córdoba</item>
+        <item>Coruña-Bens</item>
+        <item>Coruña-Puerto</item>
+        <item>El Calero</item>
+        <item>Gijón</item>
+        <item>Gerona</item>
+        <item>Huelva</item>
+        <item>Ibiza</item>
+        <item>Isla Verde</item>
+        <item>León</item>
+        <item>Lérida</item>
+        <item>Loeches</item>
+        <item>Mahón</item>
+        <item>Málaga</item>
+        <item>Mérida</item>
+        <item>Motril</item>
+        <item>Navarra</item>
+        <item>Porto Pí</item>
+        <item>Rivabellosa</item>
+        <item>Rota</item>
+        <item>Salamanca</item>
+        <item>San Roque</item>
+        <item>Sevilla</item>
+        <item>Son Banya</item>
+        <item>Tarragona</item>
+        <item>Torrejón</item>
+        <item>Vigo</item>
+        <item>Villaverde</item>
+        <item>Zaragoza</item>
+    </string-array>
+</resources>

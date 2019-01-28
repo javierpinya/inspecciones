@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/controlaccesocheckingfragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -65,5 +66,36 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
+
+
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/grupoFab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:fab_addButtonColorNormal="@color/colorAccent">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCalculadora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                app:fab_icon="@drawable/calculadora"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </LinearLayout>
+
+
+
 
 </FrameLayout>

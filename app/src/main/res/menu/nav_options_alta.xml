@@ -10,14 +10,15 @@
             android:id="@+id/menu_altanueva"
             android:title="Alta Nueva" />
 
-        <item
-            android:id="@+id/menu_calibrar"
-            android:icon="@android:drawable/ic_menu_compass"
-            android:title="Calculadora" />
 
     </group>
     <item android:title="Otras Opciones">
         <menu>
+
+            <item
+                android:id="@+id/menu_calibrar"
+                android:icon="@android:drawable/ic_menu_compass"
+                android:title="Calculadora" />
             <item
                 android:id="@+id/menu_ajustes"
                 android:icon="@android:drawable/ic_menu_preferences"

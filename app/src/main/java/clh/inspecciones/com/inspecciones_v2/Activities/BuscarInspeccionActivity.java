@@ -32,7 +32,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
-public class BuscarActivity extends AppCompatActivity {
+public class BuscarInspeccionActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private String user;
@@ -132,7 +132,7 @@ public class BuscarActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.menu:
                         Intent i = new Intent();
-                        i.setClass(BuscarActivity.this, MenuActivity.class);
+                        i.setClass(BuscarInspeccionActivity.this, MenuActivity.class);
                         startActivity(i);
                         break;
                     case R.id.menu_buscar:
@@ -163,7 +163,7 @@ public class BuscarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(BuscarActivity.this, ProfileActivity.class);
+                intent.setClass(BuscarInspeccionActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
         });
@@ -294,7 +294,7 @@ public class BuscarActivity extends AppCompatActivity {
 
                     litros96.setText(datoInt.toString());
                 }else{
-                    Toast.makeText(BuscarActivity.this, "Introducir valor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuscarInspeccionActivity.this, "Introducir valor", Toast.LENGTH_SHORT).show();
                 }
             }
         });

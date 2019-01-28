@@ -241,7 +241,7 @@
     <string name="revisado">Revisado</string>
     <string name="fechaDesfavorable">Fecha desfavorable</string>
     <string name="fechaBloqueo">Fecha bloqueo</string>
-    <string name="fechaRevisado">Fecha revisado</string>
+    <string name="fechaFinInspeccion">Fecha revisado</string>
     <string name="observaciones">Observaciones</string>
     <string name="title_activity_fab">FABActivity</string>
     <string name="action_settings">Settings</string>

@@ -37,8 +37,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
-public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment.AltaNuevaListener,
-        IdentificacionVehiculoFragment.DataListener,
+public class AltaActivity extends AppCompatActivity implements IdentificacionVehiculoFragment.DataListener,
         ControlAccesoCheckingFragment.dataListener,
         CabeceraInspeccionFragment.dataListener,
         CompartimentosFragment.dataListener,
@@ -79,6 +78,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     private Boolean guardadoCompartimentosOk=false;
     private Boolean inspeccionFinalizada=false;
     private String nombre;
+    private String cargaPesados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +206,12 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     private void setFragmentByDefault(){
-        fragment = new AltaNuevaFragment();
+        fragment = new  IdentificacionVehiculoFragment();
+        args.putString("user", user);
+        args.putString("pass", pass);
+        args.putString("fragmentActual", "identificacionVehiculoFragment");
+        fragment.setArguments(args);
+        nombreFragment = "IdentificacionVehiculoFragment";
         changeFragment(fragment, navigationView.getMenu().getItem(1));
     }
 
@@ -218,37 +223,29 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         item.setChecked(true);
         getSupportActionBar().setTitle(item.getTitle());
     }
-
+/*
     @Override
     public void altaNueva(String tipoVehiculo, String tipoInspeccion, String tipoComponente) {
         /*
         Viene de AltaNuevaFragment
-         */
+
         this.tipoVehiculo = tipoVehiculo;
         this.tipoInspeccion = tipoInspeccion;
         this.tipoComponente = tipoComponente;
     }
-
+*/
 
     @Override
-    public void enviarVehiculoIdentificado(String tractora, String cisterna) {
+    public void enviarVehiculoIdentificado(String tractora, String cisterna, String tipoComponente) {
         /*
         método proveniente del fragment IdentificacionVehiculoFragment, una vez pulsado sobre el vehículo a inspeccionar
          */
         this.tractora = tractora;
         this.cisterna = cisterna;
-        realm = Realm.getDefaultInstance();
-        if(realm.isEmpty() == false){
-            realm.beginTransaction();
-            realm.delete(CARigidoBD.class);
-            realm.delete(CATractoraBD.class);
-            realm.delete(CACisternaBD.class);
-            realm.delete(CACompartimentosBD.class);
-            realm.commitTransaction();
-        }
+        this.tipoComponente = tipoComponente;
+        borrarRealm();
 
         fragment = new ControlAccesoCheckingFragment();
-
         args.putString("tipoVehiculo", tipoVehiculo);
         args.putString("tipoInspeccion", tipoInspeccion);
         args.putString("tipoComponente", tipoComponente);
@@ -263,8 +260,14 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         changeFragment(fragment, navigationView.getMenu().getItem(1));
     }
 
+    @Override
+    public void abrirCalculadora() {
+        abrirCuadroDialogoCalculadora();
+    }
+
     private void siguiente() {
         switch (nombreFragment){
+            /*
             case "AltaNuevaFragment":
                 fragment = new IdentificacionVehiculoFragment();
                 args.putString("tipoVehiculo", tipoVehiculo);
@@ -278,7 +281,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
                 nombreFragment = "IdentificacionVehiculoFragment";
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
-
+*/
             case "ControlAccesoCheckingFragment":
                 fragment = new CabeceraInspeccionFragment();
                 args.remove("fragmentActual");
@@ -292,6 +295,7 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
                     fragment = new CompartimentosFragment();
                     args.remove("fragmentActual");
                     args.putString("fragmentActual", "CompartimentosFragment");
+                    args.putString("cargaPesados", cargaPesados);
                     args.putString("inspeccion", inspeccion);
                     fragment.setArguments(args);
                     nombreFragment = "CompartimentosFragment";
@@ -337,8 +341,9 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
     }
 
     @Override
-    public void enviarFragment(String nombreFragment) {
+    public void enviarFragmentCargaPesados(String nombreFragment, String cargaPesados) {
         this.nombreFragment = nombreFragment;
+        this.cargaPesados = cargaPesados;
     }
 
     @Override
@@ -347,6 +352,8 @@ public class AltaActivity extends AppCompatActivity implements AltaNuevaFragment
         viene de CompartimentosFragment, una vez se pulsa el botón de guardar
          */
         guardadoCompartimentosOk = guardadoOk;
+        Toast.makeText(this, "Guardado",Toast.LENGTH_SHORT ).show();
+
     }
 
     @Override

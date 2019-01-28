@@ -19,6 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,6 +111,10 @@ public class ControlAccesoCheckingFragment extends Fragment{
     private ControlAccesoResultadoTractoraAdapter adapterTractora;
     private ControlAccesoResultadoCisternaAdapter adapterCisterna;
 
+    //FAB
+    private FloatingActionButton fabCalculadora;
+    private FloatingActionsMenu fabMenu;
+
 
     private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -139,7 +145,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
         capacidad = new ArrayList<>();
         tags = new ArrayList<>();
         vehiculos = new ArrayList<String>();
-        tipoVehiculo = getArguments().getString("tipoVehiculo", "sin_datos");
+        tipoVehiculo = "1"; //getArguments().getString("tipoVehiculo", "sin_datos");
         tipoInspeccion = getArguments().getString("tipoInspeccion", "sin_datos_inspeccion");
         tipoComponente = getArguments().getString("tipoComponente", "sin_datos_componente");
         user = getArguments().getString("user", "no_user");
@@ -151,6 +157,16 @@ public class ControlAccesoCheckingFragment extends Fragment{
         if (tipoVehiculo.equals("1")) {
             vehiculos.add(cisterna);
         }
+
+        fabCalculadora = view.findViewById(R.id.fabCalculadora);
+        fabMenu = view.findViewById(R.id.grupoFab);
+        fabCalculadora.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                fabMenu.collapse();
+                callback.abrirCalculadora();
+            }
+        });
 
         mListView = (ListView)view.findViewById(R.id.lv_controlaccesochecking);
         resultadoListView = (ListView)view.findViewById(R.id.lv_controlaccesoresultadovehiculo);
@@ -191,7 +207,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
         //btn.setOnClickListener(this);
 
-        callback.enviarFragment(nombreFragment);
+        callback.enviarFragmentCargaPesados(nombreFragment, carga_pesados);
 
         return  view;
     }
@@ -456,7 +472,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
                 Map<String, String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);
-                params.put("tipo_consulta", tipoComponente);  //R - Rigido, T - Tractora, C - cisterna
+                params.put("tipo_consulta", tipoComponente);  //R - Rigido, T - Tractora, C - cisterna, S - conjunto
                 params.put("primer_componente", primerComponente);
                 params.put("segundo_componente", segundoComponente);
                 return params;
@@ -590,6 +606,7 @@ public class ControlAccesoCheckingFragment extends Fragment{
 
 
     public interface dataListener {
-        void enviarFragment(String nombreFragment);
+        void enviarFragmentCargaPesados(String nombreFragment, String cargaPesados);
+        void abrirCalculadora();
     }
 }
