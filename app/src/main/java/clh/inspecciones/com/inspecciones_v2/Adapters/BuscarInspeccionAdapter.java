@@ -62,7 +62,7 @@ public class BuscarInspeccionAdapter extends RecyclerView.Adapter<BuscarInspecci
             this.tvTractora.setText(listaDatosInspeccion.get(getAdapterPosition()).getTractora());
             this.tvCisterna.setText(listaDatosInspeccion.get(getAdapterPosition()).getCisterna());
             this.tvInstalacion.setText(listaDatosInspeccion.get(getAdapterPosition()).getInstalacion());
-            this.tvFecha.setText(listaDatosInspeccion.get(getAdapterPosition()).getFecha());
+            this.tvFecha.setText(listaDatosInspeccion.get(getAdapterPosition()).getFechaInicioInspeccion());
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

@@ -265,74 +265,75 @@ public class AltaActivity extends AppCompatActivity implements IdentificacionVeh
         abrirCuadroDialogoCalculadora();
     }
 
-    private void siguiente() {
-        switch (nombreFragment){
-            /*
-            case "AltaNuevaFragment":
-                fragment = new IdentificacionVehiculoFragment();
-                args.putString("tipoVehiculo", tipoVehiculo);
-                args.putString("tipoInspeccion", tipoInspeccion);
-                args.putString("tipoComponente", tipoComponente);
-                args.putString("user", user);
-                args.putString("pass", pass);
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "identificacionVehiculoFragment");
-                fragment.setArguments(args);
-                nombreFragment = "IdentificacionVehiculoFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                break;
-*/
-            case "ControlAccesoCheckingFragment":
-                fragment = new CabeceraInspeccionFragment();
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "CabeceraInspeccionFragment");
-                fragment.setArguments(args);
-                nombreFragment="CabeceraInspeccionFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                break;
-            case "CabeceraInspeccionFragment":
-                if(guardadoCabeceraOk) {
-                    fragment = new CompartimentosFragment();
-                    args.remove("fragmentActual");
-                    args.putString("fragmentActual", "CompartimentosFragment");
-                    args.putString("cargaPesados", cargaPesados);
-                    args.putString("inspeccion", inspeccion);
-                    fragment.setArguments(args);
-                    nombreFragment = "CompartimentosFragment";
-                    changeFragment(fragment, navigationView.getMenu().getItem(1));
-                }else{
-                    Toast.makeText(this, "Hay que guardar la inspección para poder continuar", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case "CompartimentosFragment":
-                if(guardadoCompartimentosOk){
-                    fragment = new ResultadoInspeccionFragment();
-                    args.remove("fragmentActual");
-                    args.putString("fragmentActual", "ResultadoInspeccionFragment");
-                    fragment.setArguments(args);
-                    nombreFragment = "ResultadoInspeccionFragment";
-                    changeFragment(fragment, navigationView.getMenu().getItem(1));
-                }else{
-                    Toast.makeText(this, "Hay que guardar los volúmenes de los compartimentos", Toast.LENGTH_LONG).show();
-                }
-                break;
-            case "ResultadoInspeccionFragment":
-                if(inspeccionFinalizada){
-                    Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(this, "Es posible que la inspección no se haya guardado con éxito", Toast.LENGTH_SHORT).show();
-                }
 
-                borrarRealm();  //a lo mejor no hay que borrarlo tan a la ligera...
-                args.clear();
-                Intent intent = new Intent();
-                intent.setClass(AltaActivity.this, MenuActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-    }
+       private void siguiente() {
+           switch (nombreFragment){
+
+               case "AltaNuevaFragment":
+                   fragment = new IdentificacionVehiculoFragment();
+                   args.putString("tipoVehiculo", tipoVehiculo);
+                   args.putString("tipoInspeccion", tipoInspeccion);
+                   args.putString("tipoComponente", tipoComponente);
+                   args.putString("user", user);
+                   args.putString("pass", pass);
+                   args.remove("fragmentActual");
+                   args.putString("fragmentActual", "identificacionVehiculoFragment");
+                   fragment.setArguments(args);
+                   nombreFragment = "IdentificacionVehiculoFragment";
+                   changeFragment(fragment, navigationView.getMenu().getItem(1));
+                   break;
+
+               case "ControlAccesoCheckingFragment":
+                   fragment = new CabeceraInspeccionFragment();
+                   args.remove("fragmentActual");
+                   args.putString("fragmentActual", "CabeceraInspeccionFragment");
+                   fragment.setArguments(args);
+                   nombreFragment="CabeceraInspeccionFragment";
+                   changeFragment(fragment, navigationView.getMenu().getItem(1));
+                   break;
+               case "CabeceraInspeccionFragment":
+                   if(guardadoCabeceraOk) {
+                       fragment = new CompartimentosFragment();
+                       args.remove("fragmentActual");
+                       args.putString("fragmentActual", "CompartimentosFragment");
+                       args.putString("cargaPesados", cargaPesados);
+                       args.putString("inspeccion", inspeccion);
+                       fragment.setArguments(args);
+                       nombreFragment = "CompartimentosFragment";
+                       changeFragment(fragment, navigationView.getMenu().getItem(1));
+                   }else{
+                       Toast.makeText(this, "Hay que guardar la inspección para poder continuar", Toast.LENGTH_LONG).show();
+                   }
+                   break;
+               case "CompartimentosFragment":
+                   if(guardadoCompartimentosOk){
+                       fragment = new ResultadoInspeccionFragment();
+                       args.remove("fragmentActual");
+                       args.putString("fragmentActual", "ResultadoInspeccionFragment");
+                       fragment.setArguments(args);
+                       nombreFragment = "ResultadoInspeccionFragment";
+                       changeFragment(fragment, navigationView.getMenu().getItem(1));
+                   }else{
+                       Toast.makeText(this, "Hay que guardar los volúmenes de los compartimentos", Toast.LENGTH_LONG).show();
+                   }
+                   break;
+               case "ResultadoInspeccionFragment":
+                   if(inspeccionFinalizada){
+                       Toast.makeText(this, "Inspección finalizada", Toast.LENGTH_SHORT).show();
+                   }else {
+                       Toast.makeText(this, "Es posible que la inspección no se haya guardado con éxito", Toast.LENGTH_SHORT).show();
+                   }
+
+                   borrarRealm();  //a lo mejor no hay que borrarlo tan a la ligera...
+                   args.clear();
+                   Intent intent = new Intent();
+                   intent.setClass(AltaActivity.this, MenuActivity.class);
+                   startActivity(intent);
+                   break;
+               default:
+                   break;
+           }
+       }
 
     @Override
     public void guardado(Boolean guardadoOK, String matricula, String inspeccion) {

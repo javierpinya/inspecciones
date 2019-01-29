@@ -34,6 +34,7 @@ import java.util.Map;
 
 import clh.inspecciones.com.inspecciones_v2.Adapters.BuscarInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
+import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
@@ -44,10 +45,15 @@ import io.realm.Realm;
  */
 public class BuscarInspeccionFragment extends Fragment {
 
-    public BuscarInspeccionClass buscarInspeccionClass;
+    private  List<String> checklistNames = new ArrayList<>();
+    private List<Boolean> checklistBoolean = new ArrayList<>();
+
     String url = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspecciones_max10.php";
     String url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspeccion.php";
+
+    public BuscarInspeccionClass buscarInspeccionClass;
     ArrayList<BuscarInspeccionClass> listaDatosInspeccion;
+    ArrayList<CACompartimentosBD> listaCompartimentos;
     RecyclerView recyclerVehiculos;
     private Button buscar;
     private EditText tractora;
@@ -62,7 +68,19 @@ public class BuscarInspeccionFragment extends Fragment {
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     private String fecha = "";
 
+    //Datos de la inspección
+    private String inspeccion;
+    private String fechaInicioInspeccion;
+
     private Realm realm;
+    private String instalacion;
+    private String albaran;
+    private String conductor;
+    private String transportista;
+    private String conjunto;
+    private String empresaTablaCalibracion;
+    private String tipoComponente;
+    private String urlDescargarInspeccionElegida="http://pruebaalumnosandroid.esy.es/inspecciones/descargarInspeccionElegida.php";
 
     public BuscarInspeccionFragment() {
         // Required empty public constructor
@@ -74,6 +92,84 @@ public class BuscarInspeccionFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_buscar_inspeccion, container, false);
+
+        checklistNames.add("BATERIAS");
+        checklistNames.add("FICHASEGURIDAD");
+        checklistNames.add("TRANSPONDERTRAC");
+        checklistNames.add("TRANSPONDERCIST");
+        checklistNames.add("FRENOESTACIONAMIENTO");
+        checklistNames.add("APAGALLAMAS");
+        checklistNames.add("BAJADATAGS");
+        checklistNames.add("ADRCISTERNAS");
+        checklistNames.add("ADRCONDUCTOR");
+        checklistNames.add("ADRTRACTORA");
+        checklistNames.add("MANGUERAGASES");
+        checklistNames.add("TOMATIERRA");
+        checklistNames.add("TFNOMOVIL");
+        checklistNames.add("ESTCAJON");
+        checklistNames.add("ESTCISTERNA");
+        checklistNames.add("ESTEQUIPOS");
+        checklistNames.add("ESTVALVULASAPI");
+        checklistNames.add("ESTVALVULASFONDO");
+        checklistNames.add("INTERRUPEMERGENCIA");
+        checklistNames.add("ITVCISTERNA");
+        checklistNames.add("ITVTRACTORA");
+        checklistNames.add("LECTURATAGS");
+        checklistNames.add("MONTAJETAGS");
+        checklistNames.add("PERMISOCONDUCIR");
+        checklistNames.add("POSICIONISLETA");
+        checklistNames.add("PURGA");
+        checklistNames.add("RECOGEALBARAN");
+        checklistNames.add("ROPASEGURIDAD");
+        checklistNames.add("SUPERFANTIDESLIZ");
+        checklistNames.add("TC2");
+        checklistNames.add("C1_CODTAG");
+        checklistNames.add("C1_CAPACIDAD");
+        checklistNames.add("C1_CANTIDAD");
+        checklistNames.add("C1_DIFERENCIA");
+        checklistNames.add("C1_CUMPLE");
+        checklistNames.add("C2_CODTAG");
+        checklistNames.add("C2_CAPACIDAD");
+        checklistNames.add("C2_CANTIDAD");
+        checklistNames.add("C2_DIFERENCIA");
+        checklistNames.add("C2_CUMPLE");
+        checklistNames.add("C3_CODTAG");
+        checklistNames.add("C3_CAPACIDAD");
+        checklistNames.add("C3_CANTIDAD");
+        checklistNames.add("C3_DIFERENCIA");
+        checklistNames.add("C3_CUMPLE");
+        checklistNames.add("C4_CODTAG");
+        checklistNames.add("C4_CAPACIDAD");
+        checklistNames.add("C4_CANTIDAD");
+        checklistNames.add("C4_DIFERENCIA");
+        checklistNames.add("C4_CUMPLE");
+        checklistNames.add("C5_CODTAG");
+        checklistNames.add("C5_CAPACIDAD");
+        checklistNames.add("C5_CANTIDAD");
+        checklistNames.add("C5_DIFERENCIA");
+        checklistNames.add("C5_CUMPLE");
+        checklistNames.add("C6_CODTAG");
+        checklistNames.add("C6_CAPACIDAD");
+        checklistNames.add("C6_CANTIDAD");
+        checklistNames.add("C6_DIFERENCIA");
+        checklistNames.add("C6_CUMPLE");
+        checklistNames.add("C7_CODTAG");
+        checklistNames.add("C7_CAPACIDAD");
+        checklistNames.add("C7_CANTIDAD");
+        checklistNames.add("C7_DIFERENCIA");
+        checklistNames.add("C7_CUMPLE");
+        checklistNames.add("C8_CODTAG");
+        checklistNames.add("C8_CAPACIDAD");
+        checklistNames.add("C8_CANTIDAD");
+        checklistNames.add("C8_DIFERENCIA");
+        checklistNames.add("C8_CUMPLE");
+        checklistNames.add("INSPECCIONADA");
+        checklistNames.add("FAVORABLE");
+        checklistNames.add("FECHA_FIN_INSPECCION");
+        checklistNames.add("REVISADA");
+        checklistNames.add("BLOQUEADA");
+        checklistNames.add("OBSERVACIONES");
+
 
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
@@ -87,6 +183,7 @@ public class BuscarInspeccionFragment extends Fragment {
         realm = Realm.getDefaultInstance();
 
         listaDatosInspeccion = new ArrayList<>();
+        listaCompartimentos = new ArrayList<>();
         recyclerVehiculos = view.findViewById(R.id.rv_buscarInspecciones);
         recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerVehiculos.setHasFixedSize(true);
@@ -128,7 +225,7 @@ public class BuscarInspeccionFragment extends Fragment {
         StringRequest srUltimas = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                 try {
 
                     //listaVehiculos.clear();
@@ -143,13 +240,19 @@ public class BuscarInspeccionFragment extends Fragment {
                         buscarInspeccionClass = new BuscarInspeccionClass();
                         JSONObject jsonObject1 = null;
                         jsonObject1 = jsonVehiculo.getJSONObject(i);
+                        buscarInspeccionClass.setInspeccion(jsonObject1.optString("NUM_INSPECCION"));
                         buscarInspeccionClass.setTractora(jsonObject1.optString("MATRICULA1"));
                         buscarInspeccionClass.setCisterna(jsonObject1.optString("MATRICULA2"));
                         buscarInspeccionClass.setInstalacion(jsonObject1.optString("INSTALACION"));
-
-                        fecha = jsonObject1.optString("FECHA");
+                        fecha = jsonObject1.optString("FECHA_INICIO_INSPECCION");
                         date = parseador.parse(fecha);
-                        buscarInspeccionClass.setFecha(df.format(date));
+                        buscarInspeccionClass.setFechaInicioInspeccion(df.format(date));
+                        buscarInspeccionClass.setAlbaran(jsonObject1.optString("ALBARAN"));
+                        buscarInspeccionClass.setConductor(jsonObject1.optString("CONDUCTOR"));
+                        buscarInspeccionClass.setTransportista(jsonObject1.optString("ID_TRANSPORTISTA"));
+                        buscarInspeccionClass.setConjunto(jsonObject1.optString("CONJUNTO"));
+                        buscarInspeccionClass.setEmpresaTablaCalibracion(jsonObject1.optString("TABLA_CALIBRACION"));
+                        buscarInspeccionClass.setTipoComponente(jsonObject1.optString("TIPO_COMPONENTE"));
 
                         listaDatosInspeccion.add(buscarInspeccionClass);
                     }
@@ -190,6 +293,8 @@ public class BuscarInspeccionFragment extends Fragment {
             @Override
             public void onResponse(String response) {
 
+                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
                 try {
 
                     //listaVehiculos.clear();
@@ -197,15 +302,39 @@ public class BuscarInspeccionFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
 
                     //Cramos un JSONArray del objeto JSON "vehiculo"
-                    JSONArray jsonVehiculo = jsonObject.optJSONArray("vehiculo");
-                    JSONArray jsonCisterna = jsonObject.optJSONArray("cisterna");
+                    JSONArray jsonVehiculo = jsonObject.optJSONArray("inspecciones");
                     //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
 
+                    for (int i = 0; i < jsonVehiculo.length(); i++) {
+                        buscarInspeccionClass = new BuscarInspeccionClass();
+                        JSONObject jsonObject1 = null;
+                        jsonObject1 = jsonVehiculo.getJSONObject(i);
+                        buscarInspeccionClass.setTractora(jsonObject1.optString("MATRICULA1"));
+                        buscarInspeccionClass.setCisterna(jsonObject1.optString("MATRICULA2"));
+                        buscarInspeccionClass.setInstalacion(jsonObject1.optString("INSTALACION"));
+                        fecha = jsonObject1.optString("FECHA_INICIO_INSPECCION");
+                        date = parseador.parse(fecha);
+                        buscarInspeccionClass.setFechaInicioInspeccion(df.format(date));
+                        buscarInspeccionClass.setInspeccion(jsonObject1.optString("NUM_INSPECCION"));
+                        buscarInspeccionClass.setAlbaran(jsonObject1.optString("ALBARAN"));
+                        buscarInspeccionClass.setConductor(jsonObject1.optString("CONDUCTOR"));
+                        buscarInspeccionClass.setTransportista(jsonObject1.optString("ID_TRANSPORTISTA"));
+                        buscarInspeccionClass.setConjunto(jsonObject1.optString("CONJUNTO"));
+                        buscarInspeccionClass.setEmpresaTablaCalibracion(jsonObject1.optString("TABLA_CALIBRACION"));
+                        buscarInspeccionClass.setTipoComponente(jsonObject1.optString("TIPO_COMPONENTE"));
+
+                        listaDatosInspeccion.add(buscarInspeccionClass);
+                    }
+
+                    renderText(listaDatosInspeccion);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (ParseException p){
+                    p.printStackTrace();
                 }
 
+                Toast.makeText(getActivity(), "inspeccion: " + inspeccion + "Baterias: " + String.valueOf(checklistBoolean.get(0)), Toast.LENGTH_LONG).show();
                 //guardarLocal(inspeccion, checklist);
             }
         }, new Response.ErrorListener() {
@@ -229,7 +358,6 @@ public class BuscarInspeccionFragment extends Fragment {
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
     }
 
-
     public void renderText(ArrayList<BuscarInspeccionClass> listaVehiculos) {
 
         adapter = new BuscarInspeccionAdapter(listaVehiculos, new BuscarInspeccionAdapter.OnItemClickListener() {
@@ -242,13 +370,56 @@ public class BuscarInspeccionFragment extends Fragment {
 
                 tractora = buscarInspeccionClass.getTractora();
                 cisterna = buscarInspeccionClass.getCisterna();
-                fecha = buscarInspeccionClass.getFecha();
+                fecha = buscarInspeccionClass.getFechaInicioInspeccion();
                 instalacion = buscarInspeccionClass.getInstalacion();
 
                 //callback.
             }
         });
         recyclerVehiculos.setAdapter(adapter);
+    }
+
+    public void descargarInspeccionElegida(final String user, final String pass, final String inspeccion){
+        StringRequest sr = new StringRequest(Request.Method.POST, urlDescargarInspeccionElegida, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    //listaVehiculos.clear();
+                    //Convierto la respuesta, de tipo String, a un JSONObject.
+                    JSONObject jsonObject = new JSONObject(response);
+                    //Cramos un JSONArray del objeto JSON "vehiculo"
+                    JSONArray jsonVehiculo = jsonObject.optJSONArray("inspecciones");
+                    //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
+                    JSONObject jsonObject1 = null;
+                    jsonObject1 = jsonVehiculo.getJSONObject(0);
+                    for (int j=0; j<checklistNames.size(); j++){
+                        checklistBoolean.add(Boolean.valueOf(jsonObject1.optString(checklistNames.get(0))));
+                    }
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", user);
+                params.put("pass", pass);
+                params.put("num_inspeccion", inspeccion);
+                return params;
+            }
+
+        };
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
     }
 
     public void guardarLocal(String inspeccion, List<String> checkListString, String instalacion, String transportista, String fechaInspeccion, String conjunto, String tractora, String rigido, String cisterna, String fechaTablaCalibracion, String conductor, String albaran, String empresaTablaCalibracion, String observaciones ){
@@ -259,7 +430,6 @@ public class BuscarInspeccionFragment extends Fragment {
         for (int i=0;i<checkListString.size();i++){
             checklist.add(Boolean.getBoolean(checkListString.get(i)));
         }
-
 
         inspeccionBD.setInstalacion(instalacion);
         inspeccionBD.setTransportista(transportista);
@@ -278,7 +448,6 @@ public class BuscarInspeccionFragment extends Fragment {
         inspeccionBD.setTablaCalibracion(empresaTablaCalibracion);
         inspeccionBD.setObservaciones(observaciones);
         inspeccionBD.setConductor(conductor);
-
         inspeccionBD.setAccDesconectadorBaterias(checklist.get(0));
         inspeccionBD.setFichaSeguridad(checklist.get(1));
         inspeccionBD.setTransponderTractora(checklist.get(2));
