@@ -13,7 +13,7 @@ public class DetalleInspeccionBD extends RealmObject {
     @Required
     private String inspeccion;
     private String instalacion;
-    private Date fechaInspeccion;
+    private Date fechaInicioInspeccion;
     private String transportista;
     private String conjunto;
     private String tractora;
@@ -141,7 +141,7 @@ public class DetalleInspeccionBD extends RealmObject {
         this.id=InicializacionRealm.CACisternaBDId.incrementAndGet();
         this.inspeccion=inspeccion;
         this.fechaArnes = new Date();
-        this.fechaInspeccion = new Date();
+        this.fechaInicioInspeccion = new Date();
         this.fechaFinInspeccion = new Date();
         this.fechaTablaCalCisterna = new Date();
         this.fechaTablaCalRigido = new Date();
@@ -202,12 +202,12 @@ public class DetalleInspeccionBD extends RealmObject {
         this.instalacion = instalacion;
     }
 
-    public Date getFechaInspeccion() {
-        return fechaInspeccion;
+    public Date getFechaInicioInspeccion() {
+        return fechaInicioInspeccion;
     }
 
-    public void setFechaInspeccion(Date fechaInspeccion) {
-        this.fechaInspeccion = fechaInspeccion;
+    public void setFechaInicioInspeccion(Date fechaInicioInspeccion) {
+        this.fechaInicioInspeccion = fechaInicioInspeccion;
     }
 
     public String getTransportista() {

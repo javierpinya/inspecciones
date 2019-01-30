@@ -499,7 +499,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         TemplatePDF templatePDF = new TemplatePDF(getActivity(), nombrePDF);
         templatePDF.openDocument();
         templatePDF.addMetaData("Inspeccion: " + inspeccion, "Inspecciones", "" + inspector);
-        templatePDF.addTitles("Inspección: " + inspeccion, "Vehiculo: " + detalleInspeccionBD.getTractora() + " - " + detalleInspeccionBD.getRigido() + " - " + detalleInspeccionBD.getCisterna(), detalleInspeccionBD.getFechaInspeccion().toString());
+        templatePDF.addTitles("Inspección: " + inspeccion, "Vehiculo: " + detalleInspeccionBD.getTractora() + " - " + detalleInspeccionBD.getRigido() + " - " + detalleInspeccionBD.getCisterna(), detalleInspeccionBD.getFechaInicioInspeccion().toString());
         //templatePDF.addParagraph(shortText);
         templatePDF.addSpacing10();
         templatePDF.createTable(header, getCabeceraInspeccion());
@@ -513,7 +513,7 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
 
     private ArrayList<String[]> getCabeceraInspeccion() {
         ArrayList<String[]> rows = new ArrayList<>();
-        rows.add(new String[]{"Vehiculo: " + detalleInspeccionBD.getTractora() + " - " + detalleInspeccionBD.getRigido() + " - " + detalleInspeccionBD.getCisterna(), "Inspector: " + inspector, "Fecha Inspeccion: " + detalleInspeccionBD.getFechaInspeccion().toString()});
+        rows.add(new String[]{"Vehiculo: " + detalleInspeccionBD.getTractora() + " - " + detalleInspeccionBD.getRigido() + " - " + detalleInspeccionBD.getCisterna(), "Inspector: " + inspector, "Fecha Inspeccion: " + detalleInspeccionBD.getFechaInicioInspeccion().toString()});
         rows.add(new String[]{"Albaran: " + detalleInspeccionBD.getAlbaran(), "Conductor: " + detalleInspeccionBD.getConductor(), "hola"});
         rows.add(new String[]{"Observaciones: " + detalleInspeccionBD.getObservaciones(), "hola2", "hola3"});
 

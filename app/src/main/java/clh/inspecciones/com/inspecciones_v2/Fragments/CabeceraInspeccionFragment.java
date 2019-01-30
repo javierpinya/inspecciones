@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -393,7 +392,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
         inspeccionBD.setAlbaran(albaran);
         inspeccionBD.setTransportista(transportista);
         inspeccionBD.setTablaCalibracion(tabla_calibracion);
-        inspeccionBD.setFechaInspeccion(today);
+        inspeccionBD.setFechaInicioInspeccion(today);
         inspeccionBD.setAccDesconectadorBaterias(checklist.get(0));
         inspeccionBD.setFichaSeguridad(checklist.get(1));
         inspeccionBD.setTransponderTractora(checklist.get(2));
