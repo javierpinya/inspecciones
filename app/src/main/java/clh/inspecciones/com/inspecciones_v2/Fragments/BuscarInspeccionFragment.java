@@ -2,14 +2,10 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,10 +35,12 @@ import java.util.Map;
 import clh.inspecciones.com.inspecciones_v2.Adapters.BuscarInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.DecodificaImagenClass;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +50,9 @@ public class BuscarInspeccionFragment extends Fragment {
     private  List<String> checklistNames = new ArrayList<>();
     private List<Boolean> checklistBoolean = new ArrayList<>();
     private List<String> listaFotos = new ArrayList<>();
+    private DecodificaImagenClass decodificaImagenClass = new DecodificaImagenClass();
+    public dataListener callback;
+    public RealmResults<BuscarInspeccionClass> rBuscarInspeccionClass;
 
     String url = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspecciones_max10.php";
     String url2 = "http://pruebaalumnosandroid.esy.es/inspecciones/buscar_inspeccion.php";
@@ -89,12 +88,31 @@ public class BuscarInspeccionFragment extends Fragment {
     private String tipoComponente;
     private String urlDescargarInspeccionElegida="http://pruebaalumnosandroid.esy.es/inspecciones/descargarFotosInspeccionElegida.php";
     private String foto;
-    private String rutaFoto="";
+    private List<String> rutaFoto= new ArrayList<>();
+    private int progreso;
+    private String secuencial;
+    private String matriculas;
+    private int numFotosDescargadas=0;
+    private BuscarInspeccionClass inspeccionBD;
+    private Date fechaFinInspeccion;
+    private String tag;
+    private Integer capacidad=-1;
+    private Integer cargada;
+    private Boolean cumple;
 
     public BuscarInspeccionFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            callback = (dataListener)context;
+        }catch (Exception e){
+            throw new ClassCastException(context.toString() + " should implement dataListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -181,8 +199,6 @@ public class BuscarInspeccionFragment extends Fragment {
         checklistNames.add("C8_CUMPLE");
         */
 
-
-
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
 
@@ -222,7 +238,7 @@ public class BuscarInspeccionFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tractora.getWindowToken(), 0);
                 listaDatosInspeccion.clear();
-                buscar(mTractora, mCisterna, user, pass);
+                buscar(mTractora, mCisterna, user, pass, inspeccion);
             }
         });
 
@@ -255,12 +271,13 @@ public class BuscarInspeccionFragment extends Fragment {
 
     }
 
-    private void buscar(final String tractora, final String cisterna, final String user, final String pass) {
+    private void buscar(final String tractora, final String cisterna, final String user, final String pass, final String inspeccion) {
 
         StringRequest sr = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 crearJson(response);
+                descargarFotosInspeccionElegida(user, pass, inspeccion);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -286,17 +303,9 @@ public class BuscarInspeccionFragment extends Fragment {
         adapter = new BuscarInspeccionAdapter(listaVehiculos, new BuscarInspeccionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BuscarInspeccionClass buscarInspeccionClass, int position) {
-                String tractora;
-                String cisterna;
-                String fecha;
-                String instalacion;
 
-                tractora = buscarInspeccionClass.getTractora();
-                cisterna = buscarInspeccionClass.getCisterna();
-                fecha = buscarInspeccionClass.getFechaInicioInspeccion();
-                instalacion = buscarInspeccionClass.getInstalacion();
-
-                //callback.
+                String inspeccion = buscarInspeccionClass.getInspeccion();
+                callback.verInspeccion(inspeccion, numFotosDescargadas);
             }
         });
         recyclerVehiculos.setAdapter(adapter);
@@ -317,12 +326,19 @@ public class BuscarInspeccionFragment extends Fragment {
                     JSONArray jsonVehiculo = jsonObject.optJSONArray("fotos_inspeccion");
                     //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
 
-                    for (int i = 0; i < jsonVehiculo.length(); i++) {
+                    numFotosDescargadas=jsonVehiculo.length();
 
-                        JSONObject jsonObject1 = null;
-                        jsonObject1 = jsonVehiculo.getJSONObject(i);
-                        foto = (jsonObject1.optString("foto"));
-                        rutaFoto = decodeImg(foto, i);
+                    if(numFotosDescargadas>0) {
+
+                        for (int i = 0; i < jsonVehiculo.length(); i++) {
+                            // = new DecodificaImagenClass().execute(foto, inspeccion, secuencial);
+                            JSONObject jsonObject1 = null;
+                            jsonObject1 = jsonVehiculo.getJSONObject(i);
+                            foto = (jsonObject1.optString("foto"));
+                            secuencial = String.valueOf(i + 1);
+                            decodificaImagenClass.execute(foto, inspeccion, secuencial);
+                            //rutaFoto.add(decodificaImagenClass.getRuta());
+                        }
                     }
 
                 }catch (JSONException e){
@@ -362,16 +378,17 @@ public class BuscarInspeccionFragment extends Fragment {
             //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
 
             for (int i = 0; i < jsonVehiculo.length(); i++) {
-                buscarInspeccionClass = new BuscarInspeccionClass();
                 JSONObject jsonObject1 = null;
                 jsonObject1 = jsonVehiculo.getJSONObject(i);
+                inspeccion = jsonObject1.optString("NUM_INSPECCION");
+                realm.beginTransaction();
+                buscarInspeccionClass = new BuscarInspeccionClass(inspeccion);
                 buscarInspeccionClass.setTractora(jsonObject1.optString("MATRICULA1"));
                 buscarInspeccionClass.setCisterna(jsonObject1.optString("MATRICULA2"));
                 buscarInspeccionClass.setInstalacion(jsonObject1.optString("INSTALACION"));
                 fecha = jsonObject1.optString("FECHA_INICIO_INSPECCION");
                 date = parseador.parse(fecha);
-                buscarInspeccionClass.setFechaInicioInspeccion(df.format(date));
-                buscarInspeccionClass.setInspeccion(jsonObject1.optString("NUM_INSPECCION"));
+                buscarInspeccionClass.setFechaInicioInspeccion(date);
                 buscarInspeccionClass.setAlbaran(jsonObject1.optString("ALBARAN"));
                 buscarInspeccionClass.setConductor(jsonObject1.optString("CONDUCTOR"));
                 buscarInspeccionClass.setTransportista(jsonObject1.optString("ID_TRANSPORTISTA"));
@@ -383,19 +400,71 @@ public class BuscarInspeccionFragment extends Fragment {
                 buscarInspeccionClass.setBloqueada(Boolean.valueOf(jsonObject1.optString("BLOQUEADA")));
                 buscarInspeccionClass.setRevisada(Boolean.valueOf(jsonObject1.optString("REVISADA")));
                 buscarInspeccionClass.setObservaciones(jsonObject1.optString("OBSERVACIONES"));
-
+                buscarInspeccionClass.setAccDesconectadorBaterias(Boolean.valueOf(jsonObject1.optString(checklistNames.get(0))));
+                buscarInspeccionClass.setFichaSeguridad(Boolean.valueOf(jsonObject1.optString(checklistNames.get(1))));
+                buscarInspeccionClass.setTransponderTractora(Boolean.valueOf(jsonObject1.optString(checklistNames.get(2))));
+                buscarInspeccionClass.setTransponderCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(3))));
+                buscarInspeccionClass.setAccFrenoEstacionamientoMarchaCorta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(4))));
+                buscarInspeccionClass.setApagallamas(Boolean.valueOf(jsonObject1.optString(checklistNames.get(5))));
+                buscarInspeccionClass.setBajadaTagPlanta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(6))));
+                buscarInspeccionClass.setAdrCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(7))));
+                buscarInspeccionClass.setAdrConductor(Boolean.valueOf(jsonObject1.optString(checklistNames.get(8))));
+                buscarInspeccionClass.setAdrTractoraRigido(Boolean.valueOf(jsonObject1.optString(checklistNames.get(9))));
+                buscarInspeccionClass.setConexionMangueraGases(Boolean.valueOf(jsonObject1.optString(checklistNames.get(10))));
+                buscarInspeccionClass.setConexionTomaTierra(Boolean.valueOf(jsonObject1.optString(checklistNames.get(11))));
+                buscarInspeccionClass.setDescTfnoMovil(Boolean.valueOf(jsonObject1.optString(checklistNames.get(12))));
+                buscarInspeccionClass.setEstanqueidadCajon(Boolean.valueOf(jsonObject1.optString(checklistNames.get(13))));
+                buscarInspeccionClass.setEstanqueidadCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(14))));
+                buscarInspeccionClass.setEstanqueidadEquiposTrasiego(Boolean.valueOf(jsonObject1.optString(checklistNames.get(15))));
+                buscarInspeccionClass.setEstanqueidadValvulasAPI(Boolean.valueOf(jsonObject1.optString(checklistNames.get(16))));
+                buscarInspeccionClass.setEstanqueidadValvulasFondo(Boolean.valueOf(jsonObject1.optString(checklistNames.get(17))));
+                buscarInspeccionClass.setInterrupEmergenciaYFuego(Boolean.valueOf(jsonObject1.optString(checklistNames.get(18))));
+                buscarInspeccionClass.setItvCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(19))));
+                buscarInspeccionClass.setItvTractoraRigido(Boolean.valueOf(jsonObject1.optString(checklistNames.get(20))));
+                buscarInspeccionClass.setLecturaTagIsleta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(21))));
+                buscarInspeccionClass.setMontajeCorrectoTags(Boolean.valueOf(jsonObject1.optString(checklistNames.get(22))));
+                buscarInspeccionClass.setPermisoConducir(Boolean.valueOf(jsonObject1.optString(checklistNames.get(23))));
+                buscarInspeccionClass.setPosicionamientoAdecuadoEnIsleta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(24))));
+                buscarInspeccionClass.setPurgaCompartimentos(Boolean.valueOf(jsonObject1.optString(checklistNames.get(25))));
+                buscarInspeccionClass.setRecogerAlbaran(Boolean.valueOf(jsonObject1.optString(checklistNames.get(26))));
+                buscarInspeccionClass.setRopaSeguridad(Boolean.valueOf(jsonObject1.optString(checklistNames.get(27))));
+                buscarInspeccionClass.setSuperficieSupAntideslizante(Boolean.valueOf(jsonObject1.optString(checklistNames.get(28))));
+                buscarInspeccionClass.setTc2(Boolean.valueOf(jsonObject1.optString(checklistNames.get(29))));
+                buscarInspeccionClass.setInspeccionada(Boolean.valueOf(jsonObject1.optString(checklistNames.get(30))));
+                buscarInspeccionClass.setFavorable(Boolean.valueOf(jsonObject1.optString(checklistNames.get(31))));
+                fecha = jsonObject1.optString("FECHA_FIN_INSPECCION");
+                date = parseador.parse(fecha);
+                buscarInspeccionClass.setFechaFinInspeccion(date);
+                buscarInspeccionClass.setRevisada(Boolean.valueOf(jsonObject1.optString(checklistNames.get(33))));
+                buscarInspeccionClass.setBloqueada(Boolean.valueOf(jsonObject1.optString(checklistNames.get(34))));
+                buscarInspeccionClass.setObservaciones(jsonObject1.optString(jsonObject1.optString(checklistNames.get(35))));
+                realm.copyToRealmOrUpdate(buscarInspeccionClass);
+                realm.commitTransaction();
 
                 for (int j=0;j<8;j++){
-                    caCompartimentosBD = new CACompartimentosBD();
                     jsonObject1 = jsonVehiculo.getJSONObject(j);
-                    caCompartimentosBD.setCod_compartimento(j+1);
-                    caCompartimentosBD.setCod_tag_cprt(jsonObject1.optString("C" + j+1 + "_CODTAG"));
-                    caCompartimentosBD.setCan_capacidad(Integer.valueOf(jsonObject1.optString("C" + j + 1 + "_CAPACIDAD")));
-                    caCompartimentosBD.setCan_cargada(Integer.valueOf(jsonObject1.optString("C" + j+1+"_CANTIDAD")));
-                    caCompartimentosBD.setMatricula(jsonObject1.optString("MATRICULA1") + jsonObject1.optString("MATRICULA2"));
-                    caCompartimentosBD.setCumple(Boolean.valueOf(jsonObject1.optString("C" + j+1 + "_CUMPLE")));
+                    matriculas=jsonObject1.optString("MATRICULA1") + jsonObject1.optString("MATRICULA2");
+                    try{
+                        tag=jsonObject1.optString("C" + j+1 + "_CODTAG");
+                        capacidad=Integer.valueOf(jsonObject1.optString("C" + j + 1 + "_CAPACIDAD"));
+                        cargada=Integer.valueOf(jsonObject1.optString("C" + j+1+"_CANTIDAD"));
+                        cumple=Boolean.valueOf(jsonObject1.optString("C" + j+1 + "_CUMPLE"));
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
 
-                    listaCompartimentos.add(caCompartimentosBD);
+                    if(capacidad != -1) {
+                        realm.beginTransaction();
+                        caCompartimentosBD = new CACompartimentosBD(matriculas);
+                        caCompartimentosBD.setCod_compartimento(j + 1);
+                        caCompartimentosBD.setCod_tag_cprt(tag);
+                        caCompartimentosBD.setCan_capacidad(capacidad);
+                        caCompartimentosBD.setCan_cargada(cargada);
+                        caCompartimentosBD.setCumple(cumple);
+                        realm.copyToRealmOrUpdate(caCompartimentosBD);
+                        realm.commitTransaction();
+                        listaCompartimentos.add(caCompartimentosBD);
+                    }
                 }
 
                 listaDatosInspeccion.add(buscarInspeccionClass);
@@ -409,6 +478,12 @@ public class BuscarInspeccionFragment extends Fragment {
             p.printStackTrace();
         }
     }
+
+    public interface dataListener{
+        void verInspeccion(String inspeccion, int numFotosDescargadas);
+    }
+
+    /*
 
     public void guardarLocal(String inspeccion, List<String> checkListString, String instalacion, String transportista, String fechaInicioInspeccion, String fechaFinInspeccion, String conjunto, String tractora, String rigido, String cisterna, String fechaTablaCalibracion, String conductor, String albaran, String empresaTablaCalibracion, String observaciones ){
         realm.beginTransaction();
@@ -435,7 +510,7 @@ public class BuscarInspeccionFragment extends Fragment {
         inspeccionBD.setRigido(rigido);
         inspeccionBD.setCisterna(cisterna);
         inspeccionBD.setAlbaran(albaran);
-        inspeccionBD.setTablaCalibracion(empresaTablaCalibracion);
+        inspeccionBD.setFechaTablaCalibracion(empresaTablaCalibracion);
         inspeccionBD.setObservaciones(observaciones);
         inspeccionBD.setConductor(conductor);
         inspeccionBD.setAccDesconectadorBaterias(checklist.get(0));
@@ -472,26 +547,6 @@ public class BuscarInspeccionFragment extends Fragment {
         realm.commitTransaction();
     }
 
-    private String decodeImg(String foto, int i){
-        String fotoConRuta;
-        byte[] decodedString = Base64.decode(foto, Base64.DEFAULT);
-        // Bitmap Image
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-        String filename = "foto_" + inspeccion + "_" + i + ".png";
-        File file= Environment.getExternalStorageDirectory();
-        File dest = new File(file, filename);
-
-        try {
-            FileOutputStream out = new FileOutputStream(dest);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        fotoConRuta = file + "/" + filename;
-        return fotoConRuta;
-    }
+    */
 
 }

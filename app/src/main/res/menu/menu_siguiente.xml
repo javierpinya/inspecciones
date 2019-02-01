@@ -8,4 +8,9 @@
         app:showAsAction="ifRoom"/>
 <!--android:icon="@drawable/ic_launcher_foreground"-->
 
+    <item android:id="@+id/menu_atras"
+        android:title="Volver"
+        android:icon="@drawable/ic_arrow_back_black_24dp"
+        app:showAsAction="ifRoom"/>
+
 </menu>

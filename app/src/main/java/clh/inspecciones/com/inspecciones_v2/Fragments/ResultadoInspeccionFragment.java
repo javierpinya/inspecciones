@@ -475,8 +475,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
             nombreFoto = inspeccion + "_" + i; // + "_" + currentTime;
             guardarFotoOnline(user, pass, inspeccion, nombreFoto, imgStringList.get(i));
         }
-
-
     }
 
     public void generarPDF() {

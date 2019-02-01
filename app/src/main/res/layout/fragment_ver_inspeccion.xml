@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/CabeceraInspeccionFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/icons"
+    android:orientation="vertical"
+    tools:context=".Fragments.VerInspeccionFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradientprimary"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/tv_inspeccion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/icons"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="20dp"
+                        android:textStyle="italic|bold"
+                        android:text="INSPECCIÓN:"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_inspeccion1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:layout_marginRight="6dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20dp"
+                        android:textStyle="italic|bold"
+                        android:text="sdf"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@color/icons"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradientprimary"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_tractora"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="@string/tv_tractora" />
+
+                        <TextView
+                            android:id="@+id/tv_cisterna"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="@string/tv_cisterna" />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="6dp"
+                        android:paddingBottom="2dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_instalacion"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="@string/tv_ia" />
+
+                        <TextView
+                            android:id="@+id/tv_codcond"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="CONDUCTOR" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_transportistaresp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="@string/tv_transp" />
+
+                        <TextView
+                            android:id="@+id/tv_albaran"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="@string/albaran" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_empresatablacalibracion"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="40"
+                            android:gravity="center_horizontal|center"
+                            android:textColor="@color/icons"
+                            android:textSize="16dp"
+                            android:text="@string/tv_empresacalibradora" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@color/icons"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_docyprocesocarga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/icons"
+                        android:textSize="18dp"
+                        android:text="@string/docyprocesodecarga" />
+
+                    <CheckBox
+                        android:id="@+id/cb_permisoconducir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/permiso_conducir" />
+
+                    <CheckBox
+                        android:id="@+id/cb_adrcond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/adrcond" />
+
+                    <CheckBox
+                        android:id="@+id/cb_tc2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:text="@string/tc2c"
+                        android:textColor="@color/colorPrimaryText" />
+
+                    <CheckBox
+                        android:id="@+id/cb_itvt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/itvt" />
+
+                    <CheckBox
+                        android:id="@+id/cb_adrt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/adrt" />
+
+                    <CheckBox
+                        android:id="@+id/cb_itvc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/itvc" />
+
+                    <CheckBox
+                        android:id="@+id/cb_adrc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/adrc" />
+
+                    <CheckBox
+                        android:id="@+id/cb_fichaseguridad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/ficha_seguridad" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_tablacalibracion"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryText"
+                            android:layout_weight="0.5"
+                            android:textSize="16dp"
+                            android:text="@string/tv_tablacal" />
+
+                        <TextView
+                            android:id="@+id/tv_tablacalibracion1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:gravity="end"
+                            android:textSize="16dp"
+                            android:textColor="@color/colorPrimaryText"
+                            android:text="@string/et_tablacal" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/cb_transpondert"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/transpondert" />
+
+                    <CheckBox
+                        android:id="@+id/cb_transponderc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/transponderc" />
+
+                    <CheckBox
+                        android:id="@+id/cb_superficiesuperior"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/superficiesuperior" />
+
+                    <CheckBox
+                        android:id="@+id/cb_posicionvehiculo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/posicionvehiculo" />
+
+                    <CheckBox
+                        android:id="@+id/cb_frenoestacionamiento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/frenoestacionamiento" />
+
+                    <CheckBox
+                        android:id="@+id/cb_baterias"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/desconectadobaterias" />
+
+                    <CheckBox
+                        android:id="@+id/cb_apagallamas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/apagallamas" />
+
+                    <CheckBox
+                        android:id="@+id/cb_movil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/movil" />
+
+                    <CheckBox
+                        android:id="@+id/cb_interruptores"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/interruptoresemergencia" />
+
+                    <CheckBox
+                        android:id="@+id/cb_scully"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/scully" />
+
+                    <CheckBox
+                        android:id="@+id/cb_manguera_gases"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/recvap" />
+
+                    <CheckBox
+                        android:id="@+id/cb_estanqueidadcajon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/estancajonvalvulas" />
+
+                    <CheckBox
+                        android:id="@+id/cb_estanqueidadcisterna"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/estancisterna" />
+
+                    <CheckBox
+                        android:id="@+id/cb_estanqueidadequipostrasiegos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/estanequipotrasiego" />
+
+                    <CheckBox
+                        android:id="@+id/cb_estanqueidadvalvulasapi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/estanvalvulasapi" />
+
+                    <CheckBox
+                        android:id="@+id/cb_estanqueidadvalvulasfondo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/estanvalvulasfondo" />
+
+                    <CheckBox
+                        android:id="@+id/cb_purga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/purga" />
+
+                    <CheckBox
+                        android:id="@+id/cb_bajadatags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/bajadatags" />
+
+                    <CheckBox
+                        android:id="@+id/cb_tags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/tagsok" />
+
+
+                    <CheckBox
+                        android:id="@+id/cb_lecturatagsisleta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/lecturatagsisleta" />
+
+                    <CheckBox
+                        android:id="@+id/cb_recogealbaran"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/recogeralbaran" />
+
+                    <CheckBox
+                        android:id="@+id/cb_ropa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:textColor="@color/colorPrimaryText"
+                        android:text="@string/ropa" />
+
+                    <TextView
+                        android:id="@+id/observaciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryText"/>
+
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/btn_verFotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:text="VER FOTOS"
+                    android:textColor="@color/icons" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimary"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="left"
+                        android:layout_margin="6dp"
+                        android:textColor="@color/icons"
+                        android:textStyle="bold|italic"
+                        android:textSize="20dp"
+                        android:text="COMPARTIMENTOS"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="64dp"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_compartimentos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
+
+
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/grupoFab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:fab_addButtonColorNormal="@color/colorAccent">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabCalculadora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/colorAccent"
+                app:fab_colorPressed="@color/colorPrimaryDark"
+                app:fab_icon="@drawable/calculadora"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </LinearLayout>
+
+
+
+
+</FrameLayout>

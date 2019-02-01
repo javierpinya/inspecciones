@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
@@ -16,6 +18,7 @@ public class BuscarInspeccionAdapter extends RecyclerView.Adapter<BuscarInspecci
 
     private List<BuscarInspeccionClass> listaDatosInspeccion;
     private OnItemClickListener itemClickListener;
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
 
     public BuscarInspeccionAdapter(List<BuscarInspeccionClass> listaDatosInspeccion, OnItemClickListener listener) {
@@ -62,7 +65,7 @@ public class BuscarInspeccionAdapter extends RecyclerView.Adapter<BuscarInspecci
             this.tvTractora.setText(listaDatosInspeccion.get(getAdapterPosition()).getTractora());
             this.tvCisterna.setText(listaDatosInspeccion.get(getAdapterPosition()).getCisterna());
             this.tvInstalacion.setText(listaDatosInspeccion.get(getAdapterPosition()).getInstalacion());
-            this.tvFecha.setText(listaDatosInspeccion.get(getAdapterPosition()).getFechaInicioInspeccion());
+            this.tvFecha.setText(df.format(listaDatosInspeccion.get(getAdapterPosition()).getFechaInicioInspeccion()));
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

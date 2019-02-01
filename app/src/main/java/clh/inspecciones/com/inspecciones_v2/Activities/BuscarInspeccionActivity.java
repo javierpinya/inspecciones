@@ -28,11 +28,12 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
-public class BuscarInspeccionActivity extends AppCompatActivity {
+public class BuscarInspeccionActivity extends AppCompatActivity implements BuscarInspeccionFragment.dataListener {
 
     private SharedPreferences prefs;
     private String user;
@@ -69,6 +70,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity {
     private Boolean guardadoCompartimentosOk=false;
     private Boolean inspeccionFinalizada=false;
     private String nombre;
+    private int numFotosDescargadas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +237,16 @@ public class BuscarInspeccionActivity extends AppCompatActivity {
                 */
                 break;
 
-
+            case "VerInspeccionFragment":
+                fragment = new VerInspeccionFragment();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("numFotos", String.valueOf(numFotosDescargadas));
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
             default:
                 break;
         }
@@ -304,4 +315,19 @@ public class BuscarInspeccionActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void verInspeccion(String inspeccion, int numFotosDescargadas) {
+        nombreFragment="VerInspeccionFragment";
+        this.numFotosDescargadas = numFotosDescargadas;
+
+        fragment = new VerInspeccionFragment();
+        args.putString("user", user);
+        args.putString("pass", pass);
+        args.putString("inspeccion", inspeccion);
+        args.putString("numFotos", String.valueOf(numFotosDescargadas));
+        args.remove("fragmentActual");
+        args.putString("fragmentActual", "VerInspeccionFragment");
+        fragment.setArguments(args);
+        changeFragment(fragment, navigationView.getMenu().getItem(1));
+    }
 }

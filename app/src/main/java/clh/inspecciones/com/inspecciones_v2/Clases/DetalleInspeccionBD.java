@@ -138,7 +138,7 @@ public class DetalleInspeccionBD extends RealmObject {
     public DetalleInspeccionBD(){}
 
     public DetalleInspeccionBD(String inspeccion){
-        this.id=InicializacionRealm.CACisternaBDId.incrementAndGet();
+        this.id=InicializacionRealm.DetalleInspeccionBDId.incrementAndGet();
         this.inspeccion=inspeccion;
         this.fechaArnes = new Date();
         this.fechaInicioInspeccion = new Date();

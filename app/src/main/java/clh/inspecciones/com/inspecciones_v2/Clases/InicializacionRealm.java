@@ -21,6 +21,7 @@ public class InicializacionRealm extends Application {
     public static AtomicInteger CARigidoBDId = new AtomicInteger();
     public static AtomicInteger CACompartimentosBDId = new AtomicInteger();
     public static AtomicInteger FotosBDId  = new AtomicInteger();
+    public static AtomicInteger BuscarInspeccionId = new AtomicInteger();
 
     //Esta clase sirve para temas de configuración.
     //Se lanza antes que la activity principal.
