@@ -2,15 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/menu_atras"
+        android:icon="@drawable/ic_arrow_back"
+        android:title="Volver"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/menu_siguiente"
         android:title="Siguiente"
         android:icon="@drawable/ic_next"
         app:showAsAction="ifRoom"/>
 <!--android:icon="@drawable/ic_launcher_foreground"-->
 
-    <item android:id="@+id/menu_atras"
-        android:title="Volver"
-        android:icon="@drawable/ic_arrow_back_black_24dp"
-        app:showAsAction="ifRoom"/>
 
 </menu>

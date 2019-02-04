@@ -3,6 +3,7 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.json.JSONArray;
@@ -171,12 +170,12 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                         android.R.layout.simple_spinner_item);
 
         spIa = view.findViewById(R.id.sp_instalacion);
-        etConductor = (EditText)view.findViewById(R.id.et_codcond);
-        etAlbaran = (EditText)view.findViewById(R.id.et_albaran);
-        etTrans = (EditText)view.findViewById(R.id.et_transportistaresp);
-        etTablaCal = (EditText)view.findViewById(R.id.et_empresatablacalibracion);
-        button = (Button)view.findViewById(R.id.btn_guardar);
-        tvInspeccion = (TextView)view.findViewById(R.id.tv_inspeccion1);
+        etConductor = view.findViewById(R.id.et_codcond);
+        etAlbaran = view.findViewById(R.id.et_albaran);
+        etTrans = view.findViewById(R.id.et_transportistaresp);
+        etTablaCal = view.findViewById(R.id.et_empresatablacalibracion);
+        button = view.findViewById(R.id.btn_guardar);
+        tvInspeccion = view.findViewById(R.id.tv_inspeccion1);
         fabCalculadora = view.findViewById(R.id.fabCalculadora);
         fabMenu = view.findViewById(R.id.grupoFab);
 
@@ -207,39 +206,39 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
 
         checklist = new ArrayList<>();
 
-        tractora = (TextView)view.findViewById(R.id.tv_tractoramatricula);
-        cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
-        conductor = (TextView)view.findViewById(R.id.tv_codcond);
-        bateriaDesconectada = (CheckBox) view.findViewById(R.id.cb_baterias);
-        fichaSeguridad = (CheckBox) view.findViewById(R.id.cb_fichaseguridad);
-        transponderTractora = (CheckBox) view.findViewById(R.id.cb_transpondert);
-        transponderCisterna = (CheckBox) view.findViewById(R.id.cb_transponderc);
-        frenoEstacionamiento = (CheckBox) view.findViewById(R.id.cb_frenoestacionamiento);
-        apagallamas = (CheckBox) view.findViewById(R.id.cb_apagallamas);
-        bajadaTagsPlanta = (CheckBox)view.findViewById(R.id.cb_bajadatags);
-        adrCisterna = (CheckBox) view.findViewById(R.id.cb_adrc);
-        adrConductor = (CheckBox) view.findViewById(R.id.cb_adrcond);
-        adrTractora = (CheckBox) view.findViewById(R.id.cb_adrt);
-        mangueraGases = (CheckBox) view.findViewById(R.id.cb_manguera_gases);
-        tomaTierra = (CheckBox)view.findViewById(R.id.cb_scully);
-        movilDesconectado = (CheckBox) view.findViewById(R.id.cb_movil);
-        estanqueidadCajon = (CheckBox)view.findViewById(R.id.cb_estanqueidadcajon);
-        estanqueidadCisterna = (CheckBox)view.findViewById(R.id.cb_estanqueidadcisterna);
-        estanqueidadEquiposTrasiego = (CheckBox)view.findViewById(R.id.cb_estanqueidadequipostrasiegos);
-        estanqueidadValvulasAPI = (CheckBox)view.findViewById(R.id.cb_estanqueidadvalvulasapi);
-        estanqueidadValvulasFondo = (CheckBox)view.findViewById(R.id.cb_estanqueidadvalvulasfondo);
-        interruptorEmergencia = (CheckBox) view.findViewById(R.id.cb_interruptores);
-        itvCisterna = (CheckBox) view.findViewById(R.id.cb_itvc);
-        itvTractora = (CheckBox) view.findViewById(R.id.cb_itvt);
-        lecturaTagsIsleta = (CheckBox)view.findViewById(R.id.cb_lecturatagsisleta);
-        tagsCorrectos = (CheckBox)view.findViewById(R.id.cb_tags);
-        permisoCirculacion = (CheckBox) view.findViewById(R.id.cb_permisoconducir);
-        posicionVehiculo = (CheckBox) view.findViewById(R.id.cb_posicionvehiculo);
-        purgaCompartimentos = (CheckBox) view.findViewById(R.id.cb_purga);
-        recogerAlbaran = (CheckBox)view.findViewById(R.id.cb_recogealbaran);
-        ropa = (CheckBox) view.findViewById(R.id.cb_ropa);
-        superficieSupAntiDes = (CheckBox) view.findViewById(R.id.cb_superficiesuperior);
-        tc2 = (CheckBox) view.findViewById(R.id.cb_tc2);
+        tractora = view.findViewById(R.id.tv_tractoramatricula);
+        cisterna = view.findViewById(R.id.tv_cisternamatricula);
+        conductor = view.findViewById(R.id.tv_codcond);
+        bateriaDesconectada = view.findViewById(R.id.cb_baterias);
+        fichaSeguridad = view.findViewById(R.id.cb_fichaseguridad);
+        transponderTractora = view.findViewById(R.id.cb_transpondert);
+        transponderCisterna = view.findViewById(R.id.cb_transponderc);
+        frenoEstacionamiento = view.findViewById(R.id.cb_frenoestacionamiento);
+        apagallamas = view.findViewById(R.id.cb_apagallamas);
+        bajadaTagsPlanta = view.findViewById(R.id.cb_bajadatags);
+        adrCisterna = view.findViewById(R.id.cb_adrc);
+        adrConductor = view.findViewById(R.id.cb_adrcond);
+        adrTractora = view.findViewById(R.id.cb_adrt);
+        mangueraGases = view.findViewById(R.id.cb_manguera_gases);
+        tomaTierra = view.findViewById(R.id.cb_scully);
+        movilDesconectado = view.findViewById(R.id.cb_movil);
+        estanqueidadCajon = view.findViewById(R.id.cb_estanqueidadcajon);
+        estanqueidadCisterna = view.findViewById(R.id.cb_estanqueidadcisterna);
+        estanqueidadEquiposTrasiego = view.findViewById(R.id.cb_estanqueidadequipostrasiegos);
+        estanqueidadValvulasAPI = view.findViewById(R.id.cb_estanqueidadvalvulasapi);
+        estanqueidadValvulasFondo = view.findViewById(R.id.cb_estanqueidadvalvulasfondo);
+        interruptorEmergencia = view.findViewById(R.id.cb_interruptores);
+        itvCisterna = view.findViewById(R.id.cb_itvc);
+        itvTractora = view.findViewById(R.id.cb_itvt);
+        lecturaTagsIsleta = view.findViewById(R.id.cb_lecturatagsisleta);
+        tagsCorrectos = view.findViewById(R.id.cb_tags);
+        permisoCirculacion = view.findViewById(R.id.cb_permisoconducir);
+        posicionVehiculo = view.findViewById(R.id.cb_posicionvehiculo);
+        purgaCompartimentos = view.findViewById(R.id.cb_purga);
+        recogerAlbaran = view.findViewById(R.id.cb_recogealbaran);
+        ropa = view.findViewById(R.id.cb_ropa);
+        superficieSupAntiDes = view.findViewById(R.id.cb_superficiesuperior);
+        tc2 = view.findViewById(R.id.cb_tc2);
 
         realm = Realm.getDefaultInstance();
 
@@ -461,7 +460,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
                     }
                 }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("user", usuario);
                 params.put("pass", pass);
@@ -488,7 +487,7 @@ public class CabeceraInspeccionFragment extends Fragment implements RealmChangeL
             }
         }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);

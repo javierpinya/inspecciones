@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import clh.inspecciones.com.inspecciones_v2.Adapters.CompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Adapters.VerCompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
@@ -226,7 +224,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         }
         listaCompartimentos = realm.where(CACompartimentosBD.class).equalTo("matricula", matricula).findAll();
 
-
+/*
         if (listaCompartimentos.size() > 0) {
             //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
             adapter = new VerCompartimentosAdapter(getActivity(), R.layout.compartimentos_listview_item, listaCompartimentos);
@@ -234,7 +232,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         }else{
             Toast.makeText(getActivity(), "la query no da resultados...", Toast.LENGTH_SHORT).show();
         }
-
+*/
         // Inflate the layout for this fragment
         return view;
     }
