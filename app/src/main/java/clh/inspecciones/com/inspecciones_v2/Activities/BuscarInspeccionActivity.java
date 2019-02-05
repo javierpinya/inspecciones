@@ -299,8 +299,6 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
 
                 datoInt = (int)Math.round(dato);
                 texto = String.valueOf(datoInt);
-
-
                 if(texto!="0"){
 
                     litros96.setText(datoInt.toString());
@@ -316,7 +314,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
 
 
     @Override
-    public void verInspeccion(String inspeccion, int numFotosDescargadas) {
+    public void verInspeccion(String inspeccion) {
         nombreFragment="VerInspeccionFragment";
         this.numFotosDescargadas = numFotosDescargadas;
 
@@ -324,7 +322,6 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         args.putString("user", user);
         args.putString("pass", pass);
         args.putString("inspeccion", inspeccion);
-        args.putString("numFotos", String.valueOf(numFotosDescargadas));
         args.remove("fragmentActual");
         args.putString("fragmentActual", "VerInspeccionFragment");
         fragment.setArguments(args);

@@ -49,8 +49,7 @@ public class BuscarInspeccionFragment extends Fragment {
 
     private  List<String> checklistNames = new ArrayList<>();
     private List<Boolean> checklistBoolean = new ArrayList<>();
-    private List<String> listaFotos = new ArrayList<>();
-    private DecodificaImagenClass decodificaImagenClass = new DecodificaImagenClass();
+
     public dataListener callback;
     public RealmResults<BuscarInspeccionClass> rBuscarInspeccionClass;
 
@@ -86,13 +85,13 @@ public class BuscarInspeccionFragment extends Fragment {
     private String conjunto;
     private String empresaTablaCalibracion;
     private String tipoComponente;
-    private String urlDescargarInspeccionElegida="http://pruebaalumnosandroid.esy.es/inspecciones/descargarFotosInspeccionElegida.php";
-    private String foto;
-    private List<String> rutaFoto= new ArrayList<>();
-    private int progreso;
-    private String secuencial;
+
+
+
     private String matriculas;
-    private int numFotosDescargadas=0;
+    private List<String> rutaFoto= new ArrayList<>();
+
+
     private BuscarInspeccionClass inspeccionBD;
     private Date fechaFinInspeccion;
     private String tag;
@@ -277,7 +276,7 @@ public class BuscarInspeccionFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 crearJson(response);
-                descargarFotosInspeccionElegida(user, pass, inspeccion);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -305,68 +304,16 @@ public class BuscarInspeccionFragment extends Fragment {
             public void onItemClick(BuscarInspeccionClass buscarInspeccionClass, int position) {
 
                 String inspeccion = buscarInspeccionClass.getInspeccion();
-                callback.verInspeccion(inspeccion, numFotosDescargadas);
+                callback.verInspeccion(inspeccion);
             }
         });
         recyclerVehiculos.setAdapter(adapter);
     }
 
-    public void descargarFotosInspeccionElegida(final String user, final String pass, final String inspeccion){
-        StringRequest sr = new StringRequest(Request.Method.POST, urlDescargarInspeccionElegida, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
 
-                try {
-
-                    //listaVehiculos.clear();
-                    //Convierto la respuesta, de tipo String, a un JSONObject.
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    //Cramos un JSONArray del objeto JSON "vehiculo"
-                    JSONArray jsonVehiculo = jsonObject.optJSONArray("fotos_inspeccion");
-                    //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
-
-                    numFotosDescargadas=jsonVehiculo.length();
-
-                    if(numFotosDescargadas>0) {
-
-                        for (int i = 0; i < jsonVehiculo.length(); i++) {
-                            // = new DecodificaImagenClass().execute(foto, inspeccion, secuencial);
-                            JSONObject jsonObject1 = null;
-                            jsonObject1 = jsonVehiculo.getJSONObject(i);
-                            foto = (jsonObject1.optString("foto"));
-                            secuencial = String.valueOf(i + 1);
-                            decodificaImagenClass.execute(foto, inspeccion, secuencial);
-                            //rutaFoto.add(decodificaImagenClass.getRuta());
-                        }
-                    }
-
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", user);
-                params.put("pass", pass);
-                params.put("num_inspeccion", inspeccion);
-                return params;
-            }
-
-        };
-        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
-    }
 
     public void crearJson(String response){
+        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
         try {
 
             //listaVehiculos.clear();
@@ -375,7 +322,7 @@ public class BuscarInspeccionFragment extends Fragment {
 
             //Cramos un JSONArray del objeto JSON "vehiculo"
             JSONArray jsonVehiculo = jsonObject.optJSONArray("inspecciones");
-            //Del objeto JSON "vehiculo" capturamos el primer grupo de valores
+            //Del objeto JSON "vehiculo" capturamos el primer grupo de valores 5145688
 
             for (int i = 0; i < jsonVehiculo.length(); i++) {
                 JSONObject jsonObject1 = null;
@@ -396,6 +343,7 @@ public class BuscarInspeccionFragment extends Fragment {
                 buscarInspeccionClass.setEmpresaTablaCalibracion(jsonObject1.optString("TABLA_CALIBRACION"));
                 buscarInspeccionClass.setTipoComponente(jsonObject1.optString("TIPO_COMPONENTE"));
                 buscarInspeccionClass.setInspeccionada(Boolean.valueOf(jsonObject1.optString("INSPECCIONADA")));
+
                 buscarInspeccionClass.setFavorable(Boolean.valueOf(jsonObject1.optString("FAVORABLE")));
                 buscarInspeccionClass.setBloqueada(Boolean.valueOf(jsonObject1.optString("BLOQUEADA")));
                 buscarInspeccionClass.setRevisada(Boolean.valueOf(jsonObject1.optString("REVISADA")));
@@ -440,23 +388,25 @@ public class BuscarInspeccionFragment extends Fragment {
                 buscarInspeccionClass.setObservaciones(jsonObject1.optString(jsonObject1.optString(checklistNames.get(35))));
                 realm.copyToRealmOrUpdate(buscarInspeccionClass);
                 realm.commitTransaction();
+                listaDatosInspeccion.add(buscarInspeccionClass);
 
-                for (int j=0;j<8;j++){
+                for (int j=1;j<9;j++){
                     jsonObject1 = jsonVehiculo.getJSONObject(j);
                     matriculas=jsonObject1.optString("MATRICULA1") + jsonObject1.optString("MATRICULA2");
                     try{
-                        tag=jsonObject1.optString("C" + j+1 + "_CODTAG");
-                        capacidad=Integer.valueOf(jsonObject1.optString("C" + j + 1 + "_CAPACIDAD"));
-                        cargada=Integer.valueOf(jsonObject1.optString("C" + j+1+"_CANTIDAD"));
-                        cumple=Boolean.valueOf(jsonObject1.optString("C" + j+1 + "_CUMPLE"));
+                        tag=jsonObject1.optString("C" + j + "_CODTAG");
+                        capacidad=jsonObject1.optInt("C" + j + "_CAPACIDAD");
+                        cargada=jsonObject1.optInt("C" + j+"_CANTIDAD");
+                        cumple=jsonObject1.optBoolean("C" + j+ "_CUMPLE");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
 
                     if(capacidad != -1) {
+                        capacidad=-1;
                         realm.beginTransaction();
                         caCompartimentosBD = new CACompartimentosBD(matriculas);
-                        caCompartimentosBD.setCod_compartimento(j + 1);
+                        caCompartimentosBD.setCod_compartimento(j);
                         caCompartimentosBD.setCod_tag_cprt(tag);
                         caCompartimentosBD.setCan_capacidad(capacidad);
                         caCompartimentosBD.setCan_cargada(cargada);
@@ -466,8 +416,6 @@ public class BuscarInspeccionFragment extends Fragment {
                         listaCompartimentos.add(caCompartimentosBD);
                     }
                 }
-
-                listaDatosInspeccion.add(buscarInspeccionClass);
             }
 
             renderText(listaDatosInspeccion);
@@ -480,7 +428,7 @@ public class BuscarInspeccionFragment extends Fragment {
     }
 
     public interface dataListener{
-        void verInspeccion(String inspeccion, int numFotosDescargadas);
+        void verInspeccion(String inspeccion);
     }
 
     /*
