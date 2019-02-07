@@ -14,12 +14,10 @@ import clh.inspecciones.com.inspecciones_v2.R;
 
 public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartimentosAdapter.VerCompartimentos_Holder> {
 
-    private Context context;
     private int layout;
     private List<CACompartimentosBD> compartimentosBDList;
 
-    public VerCompartimentosAdapter(Context context, int layout, List<CACompartimentosBD> compartimentosList) {
-        this.context = context;
+    public VerCompartimentosAdapter(int layout, List<CACompartimentosBD> compartimentosList) {
         this.layout = layout;
         this.compartimentosBDList = compartimentosList;
 
@@ -60,10 +58,10 @@ public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartime
         }
 
         public void bind(final CACompartimentosBD compartimentosBD) {
-            this.tv_codCompartimento.setText(compartimentosBDList.get(getAdapterPosition()).getCod_compartimento());
-            this.tv_codTag.setText(compartimentosBDList.get(getAdapterPosition()).getCod_tag_cprt());
-            this.tv_capacidad.setText(compartimentosBDList.get(getAdapterPosition()).getCan_capacidad());
-            this.tv_cantidad.setText(compartimentosBDList.get(getAdapterPosition()).getCan_cargada());
+            this.tv_codCompartimento.setText(compartimentosBD.getCod_compartimento());
+            this.tv_codTag.setText(compartimentosBD.getCod_tag_cprt());
+            this.tv_capacidad.setText(compartimentosBD.getCan_capacidad());
+            this.tv_cantidad.setText(compartimentosBD.getCan_cargada());
         }
 
     }

@@ -23,10 +23,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
+import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
@@ -257,10 +260,13 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         realm = Realm.getDefaultInstance();
         if(realm.isEmpty() == false){
             realm.beginTransaction();
+            realm.delete(BuscarInspeccionClass.class);
+            realm.delete(DetalleInspeccionBD.class);
             realm.delete(CARigidoBD.class);
             realm.delete(CATractoraBD.class);
             realm.delete(CACisternaBD.class);
             realm.delete(CACompartimentosBD.class);
+            realm.delete(FotosBD.class);
             realm.commitTransaction();
         }
     }
@@ -299,8 +305,6 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
 
                 datoInt = (int)Math.round(dato);
                 texto = String.valueOf(datoInt);
-
-
                 if(texto!="0"){
 
                     litros96.setText(datoInt.toString());
@@ -316,7 +320,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
 
 
     @Override
-    public void verInspeccion(String inspeccion, int numFotosDescargadas) {
+    public void verInspeccion(String inspeccion) {
         nombreFragment="VerInspeccionFragment";
         this.numFotosDescargadas = numFotosDescargadas;
 
@@ -324,7 +328,6 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         args.putString("user", user);
         args.putString("pass", pass);
         args.putString("inspeccion", inspeccion);
-        args.putString("numFotos", String.valueOf(numFotosDescargadas));
         args.remove("fragmentActual");
         args.putString("fragmentActual", "VerInspeccionFragment");
         fragment.setArguments(args);
