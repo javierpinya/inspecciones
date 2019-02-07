@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -202,7 +201,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
             cb_itvt.setChecked(buscarInspeccionClass.getItvTractoraRigido());
             cb_adrt.setChecked(buscarInspeccionClass.getAdrTractoraRigido());
             cb_fichaseguridad.setChecked(buscarInspeccionClass.getFichaSeguridad());
-            tv_tablacalibracion1.setText(buscarInspeccionClass.getFechaTablaCalibracion().toString());
+            //tv_tablacalibracion1.setText(buscarInspeccionClass.getFechaTablaCalibracion().toString());
             cb_transpondert.setChecked(buscarInspeccionClass.getTransponderTractora());
             cb_transponderc.setChecked(buscarInspeccionClass.getTransponderCisterna());
             cb_superficiesuperior.setChecked(buscarInspeccionClass.getSuperficieSupAntideslizante());
