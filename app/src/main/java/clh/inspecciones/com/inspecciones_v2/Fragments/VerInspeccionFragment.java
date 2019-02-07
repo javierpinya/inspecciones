@@ -3,7 +3,6 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import clh.inspecciones.com.inspecciones_v2.Adapters.CompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Adapters.VerCompartimentosAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
@@ -107,7 +104,6 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     private String matricula;
     private List<Integer> compartimentos;
     private VerCompartimentosAdapter adapter;
-    private RecyclerView mRecyclerView;
     private String numFotos;
     private String url = "http://pruebaalumnosandroid.esy.es/inspecciones/descargar_fotos_inspeccion_elegida.php";
     private String urlDescargarInspeccionElegida="http://pruebaalumnosandroid.esy.es/inspecciones/descargarFotosInspeccionElegida.php";
@@ -139,6 +135,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
 
         verFotos.setOnClickListener(this);
 
+
         tv_inspeccion = view.findViewById(R.id.tv_inspeccion);
         tv_inspeccion1 = view.findViewById(R.id.tv_inspeccion1);
         tv_tractora = view.findViewById(R.id.tv_tractora);
@@ -158,7 +155,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         cb_fichaseguridad = view.findViewById(R.id.cb_fichaseguridad);
         tv_tablacalibracion = view.findViewById(R.id.tv_tablacalibracion);
         tv_tablacalibracion1 = view.findViewById(R.id.tv_tablacalibracion1);
-        cb_transpondert = view.findViewById(R.id.cb_transpondert);
+        cb_transpondert = view.findViewById(R.id.cbtranspondert);
         cb_transponderc = view.findViewById(R.id.cb_transponderc);
         cb_superficiesuperior = view.findViewById(R.id.cb_superficiesuperior);
         cb_posicionvehiculo = view.findViewById(R.id.cb_posicionvehiculo);
@@ -231,17 +228,18 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         }catch (Exception e){
             e.printStackTrace();
         }
-        listaCompartimentos = realm.where(CACompartimentosBD.class).equalTo("matricula", matricula).findAll();
+        //listaCompartimentos = realm.where(CACompartimentosBD.class).equalTo("matricula", matricula).findAll();
 
-
+/*
         if (listaCompartimentos.size() > 0) {
             //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
-            adapter = new VerCompartimentosAdapter(getActivity(), R.layout.compartimentos_listview_item, listaCompartimentos);
+            adapter = new VerCompartimentosAdapter(R.layout.compartimentos_listview_item, listaCompartimentos);
             mRecyclerView.setAdapter(adapter);
         }else{
             Toast.makeText(getActivity(), "la query no da resultados...", Toast.LENGTH_SHORT).show();
         }
-        descargarFotosInspeccionElegida(user, pass, inspeccion);
+        */
+        //descargarFotosInspeccionElegida(user, pass, inspeccion);
 
         // Inflate the layout for this fragment
         return view;

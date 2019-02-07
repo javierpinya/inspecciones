@@ -85,6 +85,7 @@ public class BuscarInspeccionFragment extends Fragment {
     private String conjunto;
     private String empresaTablaCalibracion;
     private String tipoComponente;
+    private Boolean baterias=false;
 
 
 
@@ -214,6 +215,7 @@ public class BuscarInspeccionFragment extends Fragment {
         recyclerVehiculos = view.findViewById(R.id.rv_buscarInspecciones);
         recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerVehiculos.setHasFixedSize(true);
+        Toast.makeText(getActivity(), checklistNames.get(0), Toast.LENGTH_SHORT).show();
 
         buscarUltimasInspeccionesMax10(user, pass);
 
@@ -313,7 +315,7 @@ public class BuscarInspeccionFragment extends Fragment {
 
 
     public void crearJson(String response){
-        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
         try {
 
             //listaVehiculos.clear();
@@ -327,6 +329,7 @@ public class BuscarInspeccionFragment extends Fragment {
             for (int i = 0; i < jsonVehiculo.length(); i++) {
                 JSONObject jsonObject1 = null;
                 jsonObject1 = jsonVehiculo.getJSONObject(i);
+
                 inspeccion = jsonObject1.optString("NUM_INSPECCION");
                 realm.beginTransaction();
                 buscarInspeccionClass = new BuscarInspeccionClass(inspeccion);
@@ -343,49 +346,45 @@ public class BuscarInspeccionFragment extends Fragment {
                 buscarInspeccionClass.setEmpresaTablaCalibracion(jsonObject1.optString("TABLA_CALIBRACION"));
                 buscarInspeccionClass.setTipoComponente(jsonObject1.optString("TIPO_COMPONENTE"));
                 buscarInspeccionClass.setInspeccionada(Boolean.valueOf(jsonObject1.optString("INSPECCIONADA")));
-
-                buscarInspeccionClass.setFavorable(Boolean.valueOf(jsonObject1.optString("FAVORABLE")));
-                buscarInspeccionClass.setBloqueada(Boolean.valueOf(jsonObject1.optString("BLOQUEADA")));
-                buscarInspeccionClass.setRevisada(Boolean.valueOf(jsonObject1.optString("REVISADA")));
                 buscarInspeccionClass.setObservaciones(jsonObject1.optString("OBSERVACIONES"));
-                buscarInspeccionClass.setAccDesconectadorBaterias(Boolean.valueOf(jsonObject1.optString(checklistNames.get(0))));
-                buscarInspeccionClass.setFichaSeguridad(Boolean.valueOf(jsonObject1.optString(checklistNames.get(1))));
-                buscarInspeccionClass.setTransponderTractora(Boolean.valueOf(jsonObject1.optString(checklistNames.get(2))));
-                buscarInspeccionClass.setTransponderCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(3))));
-                buscarInspeccionClass.setAccFrenoEstacionamientoMarchaCorta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(4))));
-                buscarInspeccionClass.setApagallamas(Boolean.valueOf(jsonObject1.optString(checklistNames.get(5))));
-                buscarInspeccionClass.setBajadaTagPlanta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(6))));
-                buscarInspeccionClass.setAdrCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(7))));
-                buscarInspeccionClass.setAdrConductor(Boolean.valueOf(jsonObject1.optString(checklistNames.get(8))));
-                buscarInspeccionClass.setAdrTractoraRigido(Boolean.valueOf(jsonObject1.optString(checklistNames.get(9))));
-                buscarInspeccionClass.setConexionMangueraGases(Boolean.valueOf(jsonObject1.optString(checklistNames.get(10))));
-                buscarInspeccionClass.setConexionTomaTierra(Boolean.valueOf(jsonObject1.optString(checklistNames.get(11))));
-                buscarInspeccionClass.setDescTfnoMovil(Boolean.valueOf(jsonObject1.optString(checklistNames.get(12))));
-                buscarInspeccionClass.setEstanqueidadCajon(Boolean.valueOf(jsonObject1.optString(checklistNames.get(13))));
-                buscarInspeccionClass.setEstanqueidadCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(14))));
-                buscarInspeccionClass.setEstanqueidadEquiposTrasiego(Boolean.valueOf(jsonObject1.optString(checklistNames.get(15))));
-                buscarInspeccionClass.setEstanqueidadValvulasAPI(Boolean.valueOf(jsonObject1.optString(checklistNames.get(16))));
-                buscarInspeccionClass.setEstanqueidadValvulasFondo(Boolean.valueOf(jsonObject1.optString(checklistNames.get(17))));
-                buscarInspeccionClass.setInterrupEmergenciaYFuego(Boolean.valueOf(jsonObject1.optString(checklistNames.get(18))));
-                buscarInspeccionClass.setItvCisterna(Boolean.valueOf(jsonObject1.optString(checklistNames.get(19))));
-                buscarInspeccionClass.setItvTractoraRigido(Boolean.valueOf(jsonObject1.optString(checklistNames.get(20))));
-                buscarInspeccionClass.setLecturaTagIsleta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(21))));
-                buscarInspeccionClass.setMontajeCorrectoTags(Boolean.valueOf(jsonObject1.optString(checklistNames.get(22))));
-                buscarInspeccionClass.setPermisoConducir(Boolean.valueOf(jsonObject1.optString(checklistNames.get(23))));
-                buscarInspeccionClass.setPosicionamientoAdecuadoEnIsleta(Boolean.valueOf(jsonObject1.optString(checklistNames.get(24))));
-                buscarInspeccionClass.setPurgaCompartimentos(Boolean.valueOf(jsonObject1.optString(checklistNames.get(25))));
-                buscarInspeccionClass.setRecogerAlbaran(Boolean.valueOf(jsonObject1.optString(checklistNames.get(26))));
-                buscarInspeccionClass.setRopaSeguridad(Boolean.valueOf(jsonObject1.optString(checklistNames.get(27))));
-                buscarInspeccionClass.setSuperficieSupAntideslizante(Boolean.valueOf(jsonObject1.optString(checklistNames.get(28))));
-                buscarInspeccionClass.setTc2(Boolean.valueOf(jsonObject1.optString(checklistNames.get(29))));
-                buscarInspeccionClass.setInspeccionada(Boolean.valueOf(jsonObject1.optString(checklistNames.get(30))));
-                buscarInspeccionClass.setFavorable(Boolean.valueOf(jsonObject1.optString(checklistNames.get(31))));
+
+                buscarInspeccionClass.setAccDesconectadorBaterias(1 == jsonObject1.optInt("BATERIAS"));
+                buscarInspeccionClass.setFichaSeguridad(1 == jsonObject1.optInt("FICHASEGURIDAD"));
+                buscarInspeccionClass.setTransponderTractora(1 == jsonObject1.optInt("TRANSPONDERTRAC"));
+                buscarInspeccionClass.setTransponderCisterna(1 == jsonObject1.optInt("TRANSPONDERCIST"));
+                buscarInspeccionClass.setAccFrenoEstacionamientoMarchaCorta(1 == jsonObject1.optInt("FRENOESTACIONAMIENTO"));
+                buscarInspeccionClass.setApagallamas(1 == jsonObject1.optInt("APAGALLAMAS"));
+                buscarInspeccionClass.setBajadaTagPlanta(1 == jsonObject1.optInt("BAJADATAGS"));
+                buscarInspeccionClass.setAdrCisterna(1 == jsonObject1.optInt("ADRCISTERNAS"));
+                buscarInspeccionClass.setAdrConductor(1 == jsonObject1.optInt("ADRCONDUCTOR"));
+                buscarInspeccionClass.setAdrTractoraRigido(1 == jsonObject1.optInt("ADRTRACTORA"));
+                buscarInspeccionClass.setConexionMangueraGases(1 == jsonObject1.optInt("MANGUERAGASES"));
+                buscarInspeccionClass.setConexionTomaTierra(1 == jsonObject1.optInt("TOMATIERRA"));
+                buscarInspeccionClass.setDescTfnoMovil(1 == jsonObject1.optInt("TFNOMOVIL"));
+                buscarInspeccionClass.setEstanqueidadCajon(1 == jsonObject1.optInt("ESTCAJON"));
+                buscarInspeccionClass.setEstanqueidadCisterna(1 == jsonObject1.optInt("ESTCISTERNA"));
+                buscarInspeccionClass.setEstanqueidadEquiposTrasiego(1 == jsonObject1.optInt(checklistNames.get(15)));
+                buscarInspeccionClass.setEstanqueidadValvulasAPI(1 == jsonObject1.optInt(checklistNames.get(16)));
+                buscarInspeccionClass.setEstanqueidadValvulasFondo(1 == jsonObject1.optInt(checklistNames.get(17)));
+                buscarInspeccionClass.setInterrupEmergenciaYFuego(1 == jsonObject1.optInt(checklistNames.get(18)));
+                buscarInspeccionClass.setItvCisterna(1 == jsonObject1.optInt(checklistNames.get(19)));
+                buscarInspeccionClass.setItvTractoraRigido(1 == jsonObject1.optInt(checklistNames.get(20)));
+                buscarInspeccionClass.setLecturaTagIsleta(1 == jsonObject1.optInt(checklistNames.get(21)));
+                buscarInspeccionClass.setMontajeCorrectoTags(1 == jsonObject1.optInt(checklistNames.get(22)));
+                buscarInspeccionClass.setPermisoConducir(1 == jsonObject1.optInt(checklistNames.get(23)));
+                buscarInspeccionClass.setPosicionamientoAdecuadoEnIsleta(1 == jsonObject1.optInt(checklistNames.get(24)));
+                buscarInspeccionClass.setPurgaCompartimentos(1 == jsonObject1.optInt(checklistNames.get(25)));
+                buscarInspeccionClass.setRecogerAlbaran(1 == jsonObject1.optInt(checklistNames.get(26)));
+                buscarInspeccionClass.setRopaSeguridad(1 == jsonObject1.optInt(checklistNames.get(27)));
+                buscarInspeccionClass.setSuperficieSupAntideslizante(1 == jsonObject1.optInt(checklistNames.get(28)));
+                buscarInspeccionClass.setTc2(1 == jsonObject1.optInt(checklistNames.get(29)));
+                buscarInspeccionClass.setInspeccionada(1 == jsonObject1.optInt(checklistNames.get(30)));
+                buscarInspeccionClass.setFavorable(1 == jsonObject1.optInt(checklistNames.get(31)));
                 fecha = jsonObject1.optString("FECHA_FIN_INSPECCION");
                 date = parseador.parse(fecha);
                 buscarInspeccionClass.setFechaFinInspeccion(date);
-                buscarInspeccionClass.setRevisada(Boolean.valueOf(jsonObject1.optString(checklistNames.get(33))));
-                buscarInspeccionClass.setBloqueada(Boolean.valueOf(jsonObject1.optString(checklistNames.get(34))));
-                buscarInspeccionClass.setObservaciones(jsonObject1.optString(jsonObject1.optString(checklistNames.get(35))));
+                buscarInspeccionClass.setRevisada(1 == jsonObject1.optInt(checklistNames.get(33)));
+                buscarInspeccionClass.setBloqueada(1 == jsonObject1.optInt(checklistNames.get(34)));
                 realm.copyToRealmOrUpdate(buscarInspeccionClass);
                 realm.commitTransaction();
                 listaDatosInspeccion.add(buscarInspeccionClass);
