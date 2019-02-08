@@ -1,6 +1,7 @@
 package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,12 +48,12 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     private String inspeccion;
     private String user;
     private String pass;
+    public dataListener callback;
 
     private SimpleDateFormat parseador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     private String fecha;
-    private Button verFotos;
 
     //Views del layout
     private TextView tv_inspeccion;
@@ -98,6 +99,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     private CheckBox cb_ropa;
     private TextView tv_observaciones;
     private Button btn_verfotos;
+    private Button btn_verComp;
     private String matTractora;
     private String matCisterna;
     private String matricula;
@@ -119,6 +121,17 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            callback =(dataListener)context;
+        }catch(Exception e){
+            throw new ClassCastException(context.toString() + " should implement dataListener");
+
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -129,10 +142,12 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         pass = getArguments().getString("pass", "sin_datos_pass");
         inspeccion = getArguments().getString("inspeccion", "sin_datos_inspeccion");
         numFotos = getArguments().getString("numFotos", "0");
-        verFotos = view.findViewById(R.id.btn_verFotos);
-        verFotos.setText("VER " + numFotos + " FOTOS");
+        btn_verComp = view.findViewById(R.id.btn_verCompartimentos);
+        btn_verfotos = view.findViewById(R.id.btn_verFotos);
+        btn_verfotos.setText("VER " + numFotos + " FOTOS");
 
-        verFotos.setOnClickListener(this);
+        btn_verfotos.setOnClickListener(this);
+        btn_verComp.setOnClickListener(this);
 
 
         tv_inspeccion = view.findViewById(R.id.tv_inspeccion);
@@ -228,8 +243,8 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
             e.printStackTrace();
         }
         //listaCompartimentos = realm.where(CACompartimentosBD.class).equalTo("matricula", matricula).findAll();
-
 /*
+
         if (listaCompartimentos.size() > 0) {
             //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
             adapter = new VerCompartimentosAdapter(R.layout.compartimentos_listview_item, listaCompartimentos);
@@ -237,7 +252,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         }else{
             Toast.makeText(getActivity(), "la query no da resultados...", Toast.LENGTH_SHORT).show();
         }
-        */
+  */
         //descargarFotosInspeccionElegida(user, pass, inspeccion);
 
         // Inflate the layout for this fragment
@@ -246,9 +261,16 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_verFotos:
+                //descargarFotos(user, pass, inspeccion);
+                //Abrir fragment con las fotos (gridview)
+                break;
+            case R.id.btn_verCompartimentos:
+                callback.compartimentos("CompartimentosFragment", matricula);
+                break;
+        }
 
-        //descargarFotos(user, pass, inspeccion);
-        //Abrir fragment con las fotos (gridview)
 
     }
 
@@ -304,6 +326,10 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
 
         };
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
+    }
+
+    public interface dataListener{
+        void compartimentos(String fragment, String matriculas);
     }
 
     /*

@@ -31,12 +31,15 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
-public class BuscarInspeccionActivity extends AppCompatActivity implements BuscarInspeccionFragment.dataListener {
+public class BuscarInspeccionActivity extends AppCompatActivity implements BuscarInspeccionFragment.dataListener,
+    VerInspeccionFragment.dataListener,
+    CompartimentosFragment.dataListener{
 
     private SharedPreferences prefs;
     private String user;
@@ -198,6 +201,9 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
             case R.id.menu_siguiente:
                 siguiente();
                 return true;
+            case R.id.menu_atras:
+                volver();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -245,6 +251,17 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
                 args.putString("user", user);
                 args.putString("pass", pass);
                 args.putString("numFotos", String.valueOf(numFotosDescargadas));
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            case "CompartimentosFragment":
+                fragment = new CompartimentosFragment();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("inspeccion", inspeccion);
+                args.putString("soloVer", "1");
                 args.remove("fragmentActual");
                 args.putString("fragmentActual", "VerInspeccionFragment");
                 fragment.setArguments(args);
@@ -323,7 +340,6 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     public void verInspeccion(String inspeccion) {
         nombreFragment="VerInspeccionFragment";
         this.numFotosDescargadas = numFotosDescargadas;
-
         fragment = new VerInspeccionFragment();
         args.putString("user", user);
         args.putString("pass", pass);
@@ -332,5 +348,102 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         args.putString("fragmentActual", "VerInspeccionFragment");
         fragment.setArguments(args);
         changeFragment(fragment, navigationView.getMenu().getItem(1));
+    }
+
+    @Override
+    public void compartimentos(String fragmentName, String matriculas) {
+        nombreFragment=fragmentName;
+        siguiente();
+    }
+
+    private void volver(){
+        switch (nombreFragment){
+            case "BuscarInspeccionFragment":
+                /*
+                fragment = new IdentificacionVehiculoFragment();
+                args.putString("tipoVehiculo", tipoVehiculo);
+                args.putString("tipoInspeccion", tipoInspeccion);
+                args.putString("tipoComponente", tipoComponente);
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "identificacionVehiculoFragment");
+                fragment.setArguments(args);
+                nombreFragment = "IdentificacionVehiculoFragment";
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                */
+                break;
+
+            case "VerInspeccionFragment":
+                fragment = new BuscarInspeccionFragment();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("numFotos", String.valueOf(numFotosDescargadas));
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            case "CompartimentosFragment":
+                fragment = new VerInspeccionFragment();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("inspeccion", inspeccion);
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void compartimentosGuardados(Boolean guardadoOk) {
+
+    }
+
+    @Override
+    public void abrirCalculadora() {
+        abrirCalculadoraDialogo();
+    }
+
+    private void abrirCalculadoraDialogo(){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Calculadora");
+
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.calculadora_cuadro_dialogo, null);
+        builder.setView(viewInflated);
+
+        final EditText litros = viewInflated.findViewById(R.id.et_litrostotales);
+        final TextView litros96 = viewInflated.findViewById(R.id.tv_resultado96);
+        Button calcular = viewInflated.findViewById(R.id.calcular);
+
+
+
+        calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dato = Double.parseDouble(litros.getText().toString());
+                dato = 0.96 * dato;
+
+                datoInt = (int)Math.round(dato);
+                texto = String.valueOf(datoInt);
+
+
+                if(texto!="0"){
+
+                    litros96.setText(datoInt.toString());
+                }else{
+                    Toast.makeText(BuscarInspeccionActivity.this, "Introducir valor", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

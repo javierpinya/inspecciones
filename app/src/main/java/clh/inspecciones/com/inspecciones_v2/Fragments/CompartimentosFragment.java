@@ -68,6 +68,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private FloatingActionsMenu fabMenu;
 
     private RecyclerView mRecyclerView;
+    private String soloVer="0";
     // Puede ser declarado como 'RecyclerView.Adapter' o como nuetra clase adaptador 'MyAdapter'
 
     
@@ -102,6 +103,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         pass = getArguments().getString("pass", "no_pass");
         matricula = getArguments().getString("cisterna", "sin_cisterna");
         inspeccion = getArguments().getString("inspeccion", "sin_inspeccion");
+        soloVer = getArguments().getString("soloVer", "0");
 
         fabCalculadora = view.findViewById(R.id.fabCalculadora);
         fabMenu = view.findViewById(R.id.grupoFab);
@@ -131,7 +133,6 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
     public void renderCompartimentos(){
 
-
         caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
         compartimentos = new ArrayList<>();
         capacidad = new ArrayList<>();
@@ -154,7 +155,10 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
             @Override
             public void onItemClick(CACompartimentosBD compartimentosList, int position) {
-                dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento(), compartimentosList.getCan_capacidad(), position);
+                if(soloVer.equalsIgnoreCase("0")) {
+                    dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento(), compartimentosList.getCan_capacidad(), position);
+                }
+
             }
         });
 
