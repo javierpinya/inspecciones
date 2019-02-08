@@ -30,7 +30,6 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
-import clh.inspecciones.com.inspecciones_v2.Fragments.AddCompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerCompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
@@ -40,7 +39,7 @@ import io.realm.Realm;
 
 public class BuscarInspeccionActivity extends AppCompatActivity implements BuscarInspeccionFragment.dataListener,
     VerInspeccionFragment.dataListener,
-        AddCompartimentosFragment.dataListener {
+        VerCompartimentosFragment.dataListener {
 
     private SharedPreferences prefs;
     private String user;
@@ -400,10 +399,6 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         }
     }
 
-    @Override
-    public void compartimentosGuardados(Boolean guardadoOk) {
-
-    }
 
     @Override
     public void abrirCalculadora() {

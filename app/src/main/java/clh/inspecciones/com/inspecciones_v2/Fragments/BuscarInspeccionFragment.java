@@ -313,7 +313,6 @@ public class BuscarInspeccionFragment extends Fragment {
 
 
     public void crearJson(String response){
-        Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
         try {
 
             //listaVehiculos.clear();
