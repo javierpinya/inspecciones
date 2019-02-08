@@ -267,7 +267,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
                 //Abrir fragment con las fotos (gridview)
                 break;
             case R.id.btn_verCompartimentos:
-                callback.compartimentos("CompartimentosFragment", matricula);
+                callback.compartimentos("AddCompartimentosFragment", matricula);
                 break;
         }
 

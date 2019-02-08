@@ -30,8 +30,9 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
+import clh.inspecciones.com.inspecciones_v2.Fragments.AddCompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.VerCompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,7 +40,7 @@ import io.realm.Realm;
 
 public class BuscarInspeccionActivity extends AppCompatActivity implements BuscarInspeccionFragment.dataListener,
     VerInspeccionFragment.dataListener,
-    CompartimentosFragment.dataListener{
+        AddCompartimentosFragment.dataListener {
 
     private SharedPreferences prefs;
     private String user;
@@ -256,8 +257,8 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
                 fragment.setArguments(args);
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
-            case "CompartimentosFragment":
-                fragment = new CompartimentosFragment();
+            case "VerCompartimentosFragment":
+                fragment = new VerCompartimentosFragment();
                 args.putString("user", user);
                 args.putString("pass", pass);
                 args.putString("inspeccion", inspeccion);
@@ -384,7 +385,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
                 fragment.setArguments(args);
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
-            case "CompartimentosFragment":
+            case "VerCompartimentosFragment":
                 fragment = new VerInspeccionFragment();
                 args.putString("user", user);
                 args.putString("pass", pass);

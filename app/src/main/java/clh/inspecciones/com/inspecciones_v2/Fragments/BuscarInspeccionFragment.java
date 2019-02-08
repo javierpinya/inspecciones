@@ -35,8 +35,6 @@ import java.util.Map;
 import clh.inspecciones.com.inspecciones_v2.Adapters.BuscarInspeccionAdapter;
 import clh.inspecciones.com.inspecciones_v2.Clases.BuscarInspeccionClass;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
-import clh.inspecciones.com.inspecciones_v2.Clases.DecodificaImagenClass;
-import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
@@ -396,13 +394,12 @@ public class BuscarInspeccionFragment extends Fragment {
                         tag=jsonObject1.optString("C" + j + "_CODTAG");
                         capacidad=jsonObject1.optInt("C" + j + "_CAPACIDAD");
                         cargada=jsonObject1.optInt("C" + j+"_CANTIDAD");
-                        cumple=jsonObject1.optBoolean("C" + j+ "_CUMPLE");
+                        cumple = (1 == jsonObject1.optInt("C" + j + "_CUMPLE"));
                     }catch(Exception e){
                         e.printStackTrace();
                     }
 
                     if(capacidad != -1) {
-                        capacidad=-1;
                         realm.beginTransaction();
                         caCompartimentosBD = new CACompartimentosBD(matriculas);
                         caCompartimentosBD.setCod_compartimento(j);
@@ -413,6 +410,7 @@ public class BuscarInspeccionFragment extends Fragment {
                         realm.copyToRealmOrUpdate(caCompartimentosBD);
                         realm.commitTransaction();
                         listaCompartimentos.add(caCompartimentosBD);
+                        capacidad = -1;
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package clh.inspecciones.com.inspecciones_v2.Adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +25,7 @@ public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartime
 
     @Override
     public VerCompartimentos_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.compartimentos_listview_item, parent, false);
+        View vista = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         vista.setLayoutParams(layoutParams);
         return new VerCompartimentos_Holder(vista);
@@ -51,10 +50,10 @@ public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartime
 
         public VerCompartimentos_Holder(View itemView) {
             super(itemView);
-            tv_codCompartimento = (TextView) itemView.findViewById(R.id.tv_numcomp);
-            tv_codTag = (TextView) itemView.findViewById(R.id.tv_codtag);
-            tv_capacidad = (TextView) itemView.findViewById(R.id.tv_capacidadtotalcomp1);
-            tv_cantidad = (TextView) itemView.findViewById(R.id.tv_cant_cargada);
+            tv_codCompartimento = itemView.findViewById(R.id.tv_numcomp);
+            tv_codTag = itemView.findViewById(R.id.tv_codtag);
+            tv_capacidad = itemView.findViewById(R.id.tv_capacidadtotalcomp1);
+            tv_cantidad = itemView.findViewById(R.id.tv_cant_cargada);
         }
 
         public void bind(final CACompartimentosBD compartimentosBD) {

@@ -27,9 +27,9 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CACisternaBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CACompartimentosBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CARigidoBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
+import clh.inspecciones.com.inspecciones_v2.Fragments.AddCompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.AltaNuevaFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.CabeceraInspeccionFragment;
-import clh.inspecciones.com.inspecciones_v2.Fragments.CompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ControlAccesoCheckingFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.IdentificacionVehiculoFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.ResultadoInspeccionFragment;
@@ -40,7 +40,7 @@ import io.realm.Realm;
 public class AltaActivity extends AppCompatActivity implements IdentificacionVehiculoFragment.DataListener,
         ControlAccesoCheckingFragment.dataListener,
         CabeceraInspeccionFragment.dataListener,
-        CompartimentosFragment.dataListener,
+        AddCompartimentosFragment.dataListener,
         ResultadoInspeccionFragment.dataListener{
 
     private SharedPreferences prefs;
@@ -293,19 +293,19 @@ public class AltaActivity extends AppCompatActivity implements IdentificacionVeh
                    break;
                case "CabeceraInspeccionFragment":
                    if(guardadoCabeceraOk) {
-                       fragment = new CompartimentosFragment();
+                       fragment = new AddCompartimentosFragment();
                        args.remove("fragmentActual");
-                       args.putString("fragmentActual", "CompartimentosFragment");
+                       args.putString("fragmentActual", "AddCompartimentosFragment");
                        args.putString("cargaPesados", cargaPesados);
                        args.putString("inspeccion", inspeccion);
                        fragment.setArguments(args);
-                       nombreFragment = "CompartimentosFragment";
+                       nombreFragment = "AddCompartimentosFragment";
                        changeFragment(fragment, navigationView.getMenu().getItem(1));
                    }else{
                        Toast.makeText(this, "Hay que guardar la inspección para poder continuar", Toast.LENGTH_LONG).show();
                    }
                    break;
-               case "CompartimentosFragment":
+               case "AddCompartimentosFragment":
                    if(guardadoCompartimentosOk){
                        fragment = new ResultadoInspeccionFragment();
                        args.remove("fragmentActual");
@@ -350,7 +350,7 @@ public class AltaActivity extends AppCompatActivity implements IdentificacionVeh
     @Override
     public void compartimentosGuardados(Boolean guardadoOk) {
         /*
-        viene de CompartimentosFragment, una vez se pulsa el botón de guardar
+        viene de AddCompartimentosFragment, una vez se pulsa el botón de guardar
          */
         guardadoCompartimentosOk = guardadoOk;
         Toast.makeText(this, "Guardado",Toast.LENGTH_SHORT ).show();

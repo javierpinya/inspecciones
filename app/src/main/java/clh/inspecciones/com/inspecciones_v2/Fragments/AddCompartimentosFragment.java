@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -40,7 +39,7 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>>, View.OnClickListener {
+public class AddCompartimentosFragment extends Fragment implements RealmChangeListener<RealmResults<CACompartimentosBD>>, View.OnClickListener {
 
     private Realm realm;
     private RealmResults<CACompartimentosBD> caCompartimentosBD;
@@ -71,9 +70,8 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
     private String soloVer="0";
     // Puede ser declarado como 'RecyclerView.Adapter' o como nuetra clase adaptador 'MyAdapter'
 
-    
 
-    public CompartimentosFragment() {
+    public AddCompartimentosFragment() {
         // Required empty public constructor
     }
 
@@ -94,10 +92,10 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
                              Bundle savedInstanceState) {
 
         View view;
-        view = inflater.inflate(R.layout.fragment_compartimentos, container, false);
+        view = inflater.inflate(R.layout.fragment_add_compartimentos, container, false);
         realm = Realm.getDefaultInstance();
-        cisterna = (TextView)view.findViewById(R.id.tv_cisternamatricula);
-        button = (Button)view.findViewById(R.id.btn_guardar);
+        cisterna = view.findViewById(R.id.tv_cisternamatricula);
+        button = view.findViewById(R.id.btn_guardar);
 
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
@@ -155,9 +153,8 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
             @Override
             public void onItemClick(CACompartimentosBD compartimentosList, int position) {
-                if(soloVer.equalsIgnoreCase("0")) {
                     dialogoIntroducirCantidad("Introducir cantidad cargada comp " + compartimentosList.getCod_compartimento(), compartimentosList.getCan_capacidad(), position);
-                }
+
 
             }
         });
@@ -177,7 +174,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
         View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.dialogo_cantidad_cargada, null);
         builder.setView(viewInflated);
 
-        final EditText input = (EditText) viewInflated.findViewById(R.id.et_cant_cargada);
+        final EditText input = viewInflated.findViewById(R.id.et_cant_cargada);
 
 
         builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
@@ -243,7 +240,7 @@ public class CompartimentosFragment extends Fragment implements RealmChangeListe
 
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() {
                 Map<String,String> params = new HashMap<>();
                 params.put("user", user);
                 params.put("pass", pass);
