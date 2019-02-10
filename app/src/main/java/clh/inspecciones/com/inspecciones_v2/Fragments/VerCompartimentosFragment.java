@@ -41,6 +41,7 @@ public class VerCompartimentosFragment extends Fragment implements RealmChangeLi
     private Realm realm;
     //compartimentos
     private RealmResults<CACompartimentosBD> caCompartimentosBD;
+    private CACompartimentosBD caCompartimentos;
     private List<Integer> compartimentos;
     private List<Integer> capacidad;
     private List<String> tags;
@@ -74,11 +75,11 @@ public class VerCompartimentosFragment extends Fragment implements RealmChangeLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ver_compartimentos, container, false);
-        cisterna = view.findViewById(R.id.tv_cisternamatricula);
+        cisterna = view.findViewById(R.id.tvcisternamatricula);
         realm = Realm.getDefaultInstance();
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
-        //matricula = getArguments().getString("matricula", "sin_matricula");
+        matricula = getArguments().getString("matriculas", "sin_matricula");
         inspeccion = getArguments().getString("inspeccion", "sin_inspeccion");
         soloVer = getArguments().getString("soloVer", "0");
 
@@ -105,13 +106,16 @@ public class VerCompartimentosFragment extends Fragment implements RealmChangeLi
 
     public void renderCompartimentos() {
 
-        caCompartimentosBD = realm.where(CACompartimentosBD.class).findAll();
+
+        caCompartimentosBD = realm.where(CACompartimentosBD.class).equalTo("inspeccion", inspeccion).findAll();
+        Toast.makeText(getActivity(), "ConsultaCompartimentosSize: " + caCompartimentosBD.size(), Toast.LENGTH_SHORT).show();
         compartimentos = new ArrayList<>();
         capacidad = new ArrayList<>();
         tags = new ArrayList<>();
         cantidad = new ArrayList<>();
 
         if (caCompartimentosBD.size() > 0) {
+            //if (caCompartimentos.s > 0) {
             //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
 
             for (int i = 0; i < caCompartimentosBD.size(); i++) {
@@ -119,12 +123,13 @@ public class VerCompartimentosFragment extends Fragment implements RealmChangeLi
                 capacidad.add(caCompartimentosBD.get(i).getCan_capacidad());
                 tags.add(caCompartimentosBD.get(i).getCod_tag_cprt());
             }
+            adapter = new VerCompartimentosAdapter(R.layout.compartimentos_listview_item, caCompartimentosBD);
+            mRecyclerView.setAdapter(adapter);
         } else {
             Toast.makeText(getActivity(), "la query no da resultados...", Toast.LENGTH_SHORT).show();
         }
 
-        adapter = new VerCompartimentosAdapter(R.layout.compartimentos_listview_item, caCompartimentosBD);
-        mRecyclerView.setAdapter(adapter);
+
     }
 
     @Override

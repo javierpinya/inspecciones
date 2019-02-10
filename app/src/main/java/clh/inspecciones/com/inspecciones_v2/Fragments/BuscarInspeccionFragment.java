@@ -323,11 +323,13 @@ public class BuscarInspeccionFragment extends Fragment {
             JSONArray jsonVehiculo = jsonObject.optJSONArray("inspecciones");
             //Del objeto JSON "vehiculo" capturamos el primer grupo de valores 5145688
 
+            Toast.makeText(getActivity(), "jsonLongitud: " + jsonVehiculo.length(), Toast.LENGTH_SHORT).show();
             for (int i = 0; i < jsonVehiculo.length(); i++) {
+
                 JSONObject jsonObject1 = null;
                 jsonObject1 = jsonVehiculo.getJSONObject(i);
 
-                inspeccion = jsonObject1.optString("NUM_INSPECCION");
+                inspeccion = jsonObject1.optString("NUM_INSPECCION").trim();
                 realm.beginTransaction();
                 buscarInspeccionClass = new BuscarInspeccionClass(inspeccion);
                 buscarInspeccionClass.setTractora(jsonObject1.optString("MATRICULA1"));
@@ -401,6 +403,7 @@ public class BuscarInspeccionFragment extends Fragment {
                     if(capacidad != -1) {
                         realm.beginTransaction();
                         caCompartimentosBD = new CACompartimentosBD(matriculas);
+                        caCompartimentosBD.setInspeccion(inspeccion);
                         caCompartimentosBD.setCod_compartimento(j);
                         caCompartimentosBD.setCod_tag_cprt(tag);
                         caCompartimentosBD.setCan_capacidad(capacidad);

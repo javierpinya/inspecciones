@@ -15,10 +15,18 @@ public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartime
 
     private int layout;
     private List<CACompartimentosBD> compartimentosBDList;
+    private List<Integer> compartimento;
+    private List<String> tag;
+    private List<Integer> capacidad;
+    private List<Integer> cantidad;
 
-    public VerCompartimentosAdapter(int layout, List<CACompartimentosBD> compartimentosList) {
+    public VerCompartimentosAdapter(int layout, List<CACompartimentosBD> compartimentosList) { //}, List<Integer> compartimento,List<String> tag, List<Integer> capacidad, List<Integer> cantidad ) {
         this.layout = layout;
         this.compartimentosBDList = compartimentosList;
+        this.compartimento = compartimento;
+        this.tag = tag;
+        this.capacidad = capacidad;
+        this.cantidad = cantidad;
 
     }
 
@@ -34,6 +42,7 @@ public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartime
     @Override
     public void onBindViewHolder(VerCompartimentos_Holder holder, int position) {
         holder.bind(compartimentosBDList.get(position));
+        // holder.bind(compartimento.get(position));
     }
 
     @Override
@@ -57,10 +66,17 @@ public class VerCompartimentosAdapter extends RecyclerView.Adapter<VerCompartime
         }
 
         public void bind(final CACompartimentosBD compartimentosBD) {
+            // public void bind(final Integer compartimento, ) {
+            this.tv_codCompartimento.setText("Compartimento " + compartimentosBDList.get(getAdapterPosition()).getCod_compartimento());
+            this.tv_codTag.setText(compartimentosBDList.get(getAdapterPosition()).getCod_tag_cprt());
+            this.tv_capacidad.setText(String.valueOf(compartimentosBDList.get(getAdapterPosition()).getCan_capacidad()));
+            this.tv_cantidad.setText(String.valueOf(compartimentosBDList.get(getAdapterPosition()).getCan_cargada()));
+            /*
             this.tv_codCompartimento.setText(compartimentosBD.getCod_compartimento());
             this.tv_codTag.setText(compartimentosBD.getCod_tag_cprt());
             this.tv_capacidad.setText(compartimentosBD.getCan_capacidad());
             this.tv_cantidad.setText(compartimentosBD.getCan_cargada());
+            */
         }
 
     }

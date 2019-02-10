@@ -77,6 +77,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     private Boolean inspeccionFinalizada=false;
     private String nombre;
     private int numFotosDescargadas;
+    private String matriculas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,12 +259,13 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
                 break;
             case "VerCompartimentosFragment":
                 fragment = new VerCompartimentosFragment();
+                args.clear();
                 args.putString("user", user);
                 args.putString("pass", pass);
                 args.putString("inspeccion", inspeccion);
                 args.putString("soloVer", "1");
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "VerInspeccionFragment");
+                args.putString("matriculas", matriculas);
+                args.putString("fragmentActual", "VerCompartimentosFragment");
                 fragment.setArguments(args);
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
@@ -339,12 +341,12 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     @Override
     public void verInspeccion(String inspeccion) {
         nombreFragment="VerInspeccionFragment";
-        this.numFotosDescargadas = numFotosDescargadas;
+        this.inspeccion = inspeccion;
         fragment = new VerInspeccionFragment();
+        args.clear();
         args.putString("user", user);
         args.putString("pass", pass);
         args.putString("inspeccion", inspeccion);
-        args.remove("fragmentActual");
         args.putString("fragmentActual", "VerInspeccionFragment");
         fragment.setArguments(args);
         changeFragment(fragment, navigationView.getMenu().getItem(1));
@@ -353,6 +355,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     @Override
     public void compartimentos(String fragmentName, String matriculas) {
         nombreFragment=fragmentName;
+        this.matriculas = matriculas;
         siguiente();
     }
 

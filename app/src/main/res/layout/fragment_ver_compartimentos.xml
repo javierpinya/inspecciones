@@ -37,7 +37,7 @@
                 android:textStyle="bold|italic" />
 
             <TextView
-                android:id="@+id/tv_cisternamatricula"
+                android:id="@+id/tvcisternamatricula"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
