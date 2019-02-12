@@ -144,7 +144,7 @@ public class BuscarInspeccionFragment extends Fragment {
         checklistNames.add("PERMISOCONDUCIR");
         checklistNames.add("POSICIONISLETA");
         checklistNames.add("PURGA");
-        checklistNames.add("RECOGEALBARAN");
+        checklistNames.add("RECOGERALBARAN");
         checklistNames.add("ROPASEGURIDAD");
         checklistNames.add("SUPERFANTIDESLIZ");
         checklistNames.add("TC2");
@@ -154,48 +154,7 @@ public class BuscarInspeccionFragment extends Fragment {
         checklistNames.add("REVISADA");
         checklistNames.add("BLOQUEADA");
         checklistNames.add("OBSERVACIONES");
-        /*
-        checklistNames.add("C1_CODTAG");
-        checklistNames.add("C1_CAPACIDAD");
-        checklistNames.add("C1_CANTIDAD");
-        checklistNames.add("C1_DIFERENCIA");
-        checklistNames.add("C1_CUMPLE");
-        checklistNames.add("C2_CODTAG");
-        checklistNames.add("C2_CAPACIDAD");
-        checklistNames.add("C2_CANTIDAD");
-        checklistNames.add("C2_DIFERENCIA");
-        checklistNames.add("C2_CUMPLE");
-        checklistNames.add("C3_CODTAG");
-        checklistNames.add("C3_CAPACIDAD");
-        checklistNames.add("C3_CANTIDAD");
-        checklistNames.add("C3_DIFERENCIA");
-        checklistNames.add("C3_CUMPLE");
-        checklistNames.add("C4_CODTAG");
-        checklistNames.add("C4_CAPACIDAD");
-        checklistNames.add("C4_CANTIDAD");
-        checklistNames.add("C4_DIFERENCIA");
-        checklistNames.add("C4_CUMPLE");
-        checklistNames.add("C5_CODTAG");
-        checklistNames.add("C5_CAPACIDAD");
-        checklistNames.add("C5_CANTIDAD");
-        checklistNames.add("C5_DIFERENCIA");
-        checklistNames.add("C5_CUMPLE");
-        checklistNames.add("C6_CODTAG");
-        checklistNames.add("C6_CAPACIDAD");
-        checklistNames.add("C6_CANTIDAD");
-        checklistNames.add("C6_DIFERENCIA");
-        checklistNames.add("C6_CUMPLE");
-        checklistNames.add("C7_CODTAG");
-        checklistNames.add("C7_CAPACIDAD");
-        checklistNames.add("C7_CANTIDAD");
-        checklistNames.add("C7_DIFERENCIA");
-        checklistNames.add("C7_CUMPLE");
-        checklistNames.add("C8_CODTAG");
-        checklistNames.add("C8_CAPACIDAD");
-        checklistNames.add("C8_CANTIDAD");
-        checklistNames.add("C8_DIFERENCIA");
-        checklistNames.add("C8_CUMPLE");
-        */
+
 
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
@@ -213,7 +172,6 @@ public class BuscarInspeccionFragment extends Fragment {
         recyclerVehiculos = view.findViewById(R.id.rv_buscarInspecciones);
         recyclerVehiculos.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerVehiculos.setHasFixedSize(true);
-        Toast.makeText(getActivity(), checklistNames.get(0), Toast.LENGTH_SHORT).show();
 
         buscarUltimasInspeccionesMax10(user, pass);
 
@@ -323,7 +281,6 @@ public class BuscarInspeccionFragment extends Fragment {
             JSONArray jsonVehiculo = jsonObject.optJSONArray("inspecciones");
             //Del objeto JSON "vehiculo" capturamos el primer grupo de valores 5145688
 
-            Toast.makeText(getActivity(), "jsonLongitud: " + jsonVehiculo.length(), Toast.LENGTH_SHORT).show();
             for (int i = 0; i < jsonVehiculo.length(); i++) {
 
                 JSONObject jsonObject1 = null;
@@ -388,13 +345,13 @@ public class BuscarInspeccionFragment extends Fragment {
                 realm.commitTransaction();
                 listaDatosInspeccion.add(buscarInspeccionClass);
 
-                for (int j=1;j<9;j++){
-                    jsonObject1 = jsonVehiculo.getJSONObject(j);
-                    matriculas=jsonObject1.optString("MATRICULA1") + jsonObject1.optString("MATRICULA2");
+                for (int j = 1; j < 8; j++) {
+                    //jsonObject1 = jsonVehiculo.getJSONObject(j);
+                    matriculas = jsonObject1.optString("MATRICULA1") + " - " + jsonObject1.optString("MATRICULA2");
                     try{
                         tag=jsonObject1.optString("C" + j + "_CODTAG");
                         capacidad=jsonObject1.optInt("C" + j + "_CAPACIDAD");
-                        cargada=jsonObject1.optInt("C" + j+"_CANTIDAD");
+                        cargada = jsonObject1.optInt("C" + j + "_CANTIDAD");
                         cumple = (1 == jsonObject1.optInt("C" + j + "_CUMPLE"));
                     }catch(Exception e){
                         e.printStackTrace();
@@ -429,71 +386,5 @@ public class BuscarInspeccionFragment extends Fragment {
     public interface dataListener{
         void verInspeccion(String inspeccion);
     }
-
-    /*
-
-    public void guardarLocal(String inspeccion, List<String> checkListString, String instalacion, String transportista, String fechaInicioInspeccion, String fechaFinInspeccion, String conjunto, String tractora, String rigido, String cisterna, String fechaTablaCalibracion, String conductor, String albaran, String empresaTablaCalibracion, String observaciones ){
-        realm.beginTransaction();
-        DetalleInspeccionBD inspeccionBD = new DetalleInspeccionBD(inspeccion);
-        List<Boolean> checklist;
-        checklist = new ArrayList<>();
-        for (int i=0;i<checkListString.size();i++){
-            checklist.add(Boolean.getBoolean(checkListString.get(i)));
-        }
-
-        inspeccionBD.setInstalacion(instalacion);
-        inspeccionBD.setTransportista(transportista);
-
-        try {
-            inspeccionBD.setFechaInicioInspeccion(parseador.parse(fechaInicioInspeccion));
-            inspeccionBD.setFechaTablaCalCisterna(parseador.parse(fechaTablaCalibracion));
-            inspeccionBD.setFechaFinInspeccion(parseador.parse(fechaFinInspeccion));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        inspeccionBD.setConjunto(conjunto);
-        inspeccionBD.setTractora(tractora);
-        inspeccionBD.setRigido(rigido);
-        inspeccionBD.setCisterna(cisterna);
-        inspeccionBD.setAlbaran(albaran);
-        inspeccionBD.setFechaTablaCalibracion(empresaTablaCalibracion);
-        inspeccionBD.setObservaciones(observaciones);
-        inspeccionBD.setConductor(conductor);
-        inspeccionBD.setAccDesconectadorBaterias(checklist.get(0));
-        inspeccionBD.setFichaSeguridad(checklist.get(1));
-        inspeccionBD.setTransponderTractora(checklist.get(2));
-        inspeccionBD.setTransponderCisterna(checklist.get(3));
-        inspeccionBD.setAccFrenoEstacionamientoMarchaCorta(checklist.get(4));
-        inspeccionBD.setApagallamas(checklist.get(5));
-        inspeccionBD.setBajadaTagPlanta(checklist.get(6));
-        inspeccionBD.setAdrCisterna(checklist.get(7));
-        inspeccionBD.setAdrConductor(checklist.get(8));
-        inspeccionBD.setAdrTractoraRigido(checklist.get(9));
-        inspeccionBD.setConexionMangueraGases(checklist.get(10));
-        inspeccionBD.setConexionTomaTierra(checklist.get(11));
-        inspeccionBD.setDescTfnoMovil(checklist.get(12));
-        inspeccionBD.setEstanqueidadCajon(checklist.get(13));
-        inspeccionBD.setEstanqueidadCisterna(checklist.get(14));
-        inspeccionBD.setEstanqueidadEquiposTrasiego(checklist.get(15));
-        inspeccionBD.setEstanqueidadValvulasAPI(checklist.get(16));
-        inspeccionBD.setEstanqueidadValvulasFondo(checklist.get(17));
-        inspeccionBD.setInterrupEmergenciaYFuego(checklist.get(18));
-        inspeccionBD.setItvCisterna(checklist.get(19));
-        inspeccionBD.setItvTractoraRigido(checklist.get(20));
-        inspeccionBD.setLecturaTagIsleta(checklist.get(21));
-        inspeccionBD.setMontajeCorrectoTags(checklist.get(22));
-        inspeccionBD.setPermisoConducir(checklist.get(23));
-        inspeccionBD.setPosicionamientoAdecuadoEnIsleta(checklist.get(24));
-        inspeccionBD.setPurgaCompartimentos(checklist.get(25));
-        inspeccionBD.setRecogerAlbaran(checklist.get(26));
-        inspeccionBD.setRopaSeguridad(checklist.get(27));
-        inspeccionBD.setSuperficieSupAntideslizante(checklist.get(28));
-        inspeccionBD.setTc2(checklist.get(29));
-        realm.copyToRealmOrUpdate(inspeccionBD);
-        realm.commitTransaction();
-    }
-
-    */
 
 }

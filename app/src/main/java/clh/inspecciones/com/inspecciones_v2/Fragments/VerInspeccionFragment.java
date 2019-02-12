@@ -141,10 +141,10 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         user = getArguments().getString("user", "sin_datos_user");
         pass = getArguments().getString("pass", "sin_datos_pass");
         inspeccion = getArguments().getString("inspeccion", "sin_datos_inspeccion");
-        numFotos = getArguments().getString("numFotos", "0");
+        //numFotos = getArguments().getString("numFotos", "0");
         btn_verComp = view.findViewById(R.id.btn_verCompartimentos);
         btn_verfotos = view.findViewById(R.id.btn_verFotos);
-        btn_verfotos.setText("VER " + numFotos + " FOTOS");
+        btn_verfotos.setText("VER FOTOS");
 
         btn_verfotos.setOnClickListener(this);
         btn_verComp.setOnClickListener(this);
@@ -192,7 +192,6 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         cb_recogealbaran = view.findViewById(R.id.cb_recogealbaran);
         cb_ropa = view.findViewById(R.id.cb_ropa);
         tv_observaciones = view.findViewById(R.id.observaciones);
-        btn_verfotos = view.findViewById(R.id.btn_verFotos);
 
         realm = Realm.getDefaultInstance();
 
@@ -215,6 +214,8 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
             cb_tc2.setChecked(buscarInspeccionClass.getTc2());
             cb_itvt.setChecked(buscarInspeccionClass.getItvTractoraRigido());
             cb_adrt.setChecked(buscarInspeccionClass.getAdrTractoraRigido());
+            cb_itvc.setChecked(buscarInspeccionClass.getItvCisterna());
+            cb_adrc.setChecked(buscarInspeccionClass.getAdrCisterna());
             cb_fichaseguridad.setChecked(buscarInspeccionClass.getFichaSeguridad());
             //tv_tablacalibracion1.setText(buscarInspeccionClass.getFechaTablaCalibracion().toString());
             cb_transpondert.setChecked(buscarInspeccionClass.getTransponderTractora());
@@ -239,20 +240,11 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
             cb_lecturatagsisleta.setChecked(buscarInspeccionClass.getLecturaTagIsleta());
             cb_recogealbaran.setChecked(buscarInspeccionClass.getRecogerAlbaran());
             cb_ropa.setChecked(buscarInspeccionClass.getRopaSeguridad());
+            tv_observaciones.setText(buscarInspeccionClass.getObservaciones());
         }catch (Exception e){
             e.printStackTrace();
         }
-        //listaCompartimentos = realm.where(CACompartimentosBD.class).equalTo("matricula", matricula).findAll();
-/*
 
-        if (listaCompartimentos.size() > 0) {
-            //Toast.makeText(getActivity(), "caCompartimentosBD.get(0).getCan_capacidad(): " + caCompartimentosBD.get(0).getCan_capacidad(), Toast.LENGTH_SHORT).show();
-            adapter = new VerCompartimentosAdapter(R.layout.compartimentos_listview_item, listaCompartimentos);
-            mRecyclerView.setAdapter(adapter);
-        }else{
-            Toast.makeText(getActivity(), "la query no da resultados...", Toast.LENGTH_SHORT).show();
-        }
-  */
         //descargarFotosInspeccionElegida(user, pass, inspeccion);
 
         // Inflate the layout for this fragment
@@ -263,6 +255,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_verFotos:
+                descargarFotosInspeccionElegida(user, pass, inspeccion);
                 //descargarFotos(user, pass, inspeccion);
                 //Abrir fragment con las fotos (gridview)
                 break;
@@ -275,7 +268,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     }
 
     public void descargarFotosInspeccionElegida(final String user, final String pass, final String inspeccion){
-        StringRequest sr = new StringRequest(Request.Method.POST, urlDescargarInspeccionElegida, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 

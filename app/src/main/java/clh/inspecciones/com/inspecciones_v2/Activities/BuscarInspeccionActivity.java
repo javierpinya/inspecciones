@@ -249,9 +249,11 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
 
             case "VerInspeccionFragment":
                 fragment = new VerInspeccionFragment();
+                args.clear();
                 args.putString("user", user);
                 args.putString("pass", pass);
-                args.putString("numFotos", String.valueOf(numFotosDescargadas));
+                args.putString("inspeccion", inspeccion);
+                //args.putString("numFotos", String.valueOf(numFotosDescargadas));
                 args.remove("fragmentActual");
                 args.putString("fragmentActual", "VerInspeccionFragment");
                 fragment.setArguments(args);
@@ -342,14 +344,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     public void verInspeccion(String inspeccion) {
         nombreFragment="VerInspeccionFragment";
         this.inspeccion = inspeccion;
-        fragment = new VerInspeccionFragment();
-        args.clear();
-        args.putString("user", user);
-        args.putString("pass", pass);
-        args.putString("inspeccion", inspeccion);
-        args.putString("fragmentActual", "VerInspeccionFragment");
-        fragment.setArguments(args);
-        changeFragment(fragment, navigationView.getMenu().getItem(1));
+        siguiente();
     }
 
     @Override
@@ -405,9 +400,10 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
 
     @Override
     public void abrirCalculadora() {
-        abrirCalculadoraDialogo();
+        abrirCuadroDialogoCalculadora();
     }
 
+    /*
     private void abrirCalculadoraDialogo(){
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -445,4 +441,5 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    */
 }

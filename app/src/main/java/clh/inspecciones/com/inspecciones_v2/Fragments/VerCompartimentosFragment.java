@@ -108,7 +108,7 @@ public class VerCompartimentosFragment extends Fragment implements RealmChangeLi
 
 
         caCompartimentosBD = realm.where(CACompartimentosBD.class).equalTo("inspeccion", inspeccion).findAll();
-        Toast.makeText(getActivity(), "ConsultaCompartimentosSize: " + caCompartimentosBD.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "inspeccion: " + inspeccion, Toast.LENGTH_SHORT).show();
         compartimentos = new ArrayList<>();
         capacidad = new ArrayList<>();
         tags = new ArrayList<>();
