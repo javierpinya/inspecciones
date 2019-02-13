@@ -5,26 +5,25 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Base64;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class DecodificaImagenClass extends AsyncTask<String, Integer, String> {
+public class DecodificaImagenClass extends AsyncTask<String, Integer, Void> {
 
     public String inspeccion;
     public int secuencial;
     public String ruta;
 
     @Override
-    protected String doInBackground(String... strings) {
-        String ruta="";
-        this.inspeccion = strings[1];
-        this.secuencial = Integer.valueOf(strings[2]);
-        ruta = decodeImg(strings[0]);
-        return ruta;
+    protected void onPreExecute() {
+        super.onPreExecute();
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+    }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
@@ -32,20 +31,15 @@ public class DecodificaImagenClass extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String ruta) {
-        //super.onPostExecute(s);
-        asignaRuta(ruta);
+    protected Void doInBackground(String... lists) {
+        this.secuencial = Integer.valueOf(lists[0]);
+        this.inspeccion = lists[1];
+        decodeImg(lists[2]);
+
+        return null;
 
     }
 
-    public void asignaRuta(String ruta) {
-        this.ruta=ruta;
-
-    }
-
-    public String getRuta(){
-        return ruta;
-    }
 
     private String decodeImg(String foto){
         String fotoConRuta;
@@ -53,8 +47,8 @@ public class DecodificaImagenClass extends AsyncTask<String, Integer, String> {
         // Bitmap Image
         Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-        String filename = "foto_" + inspeccion + "_" + secuencial + ".png";
-        File file= Environment.getExternalStorageDirectory();
+        String filename = "foto_" + inspeccion + secuencial + ".png";
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File dest = new File(file, filename);
 
         try {

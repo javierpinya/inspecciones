@@ -32,6 +32,7 @@ import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerCompartimentosFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.VerFotosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
 import clh.inspecciones.com.inspecciones_v2.R;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -271,6 +272,17 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
                 fragment.setArguments(args);
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
+            case "VerFotosFragment":
+                fragment = new VerFotosFragment();
+                args.clear();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("inspeccion", inspeccion);
+                args.putString("numFotosDescargadas", String.valueOf(numFotosDescargadas));
+                args.putString("fragmentActual", "VerFotosFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
             default:
                 break;
         }
@@ -351,6 +363,13 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     public void compartimentos(String fragmentName, String matriculas) {
         nombreFragment=fragmentName;
         this.matriculas = matriculas;
+        siguiente();
+    }
+
+    @Override
+    public void verFotos(String nombreFragment, Integer numFotos) {
+        this.nombreFragment = nombreFragment;
+        this.numFotosDescargadas = numFotos;
         siguiente();
     }
 

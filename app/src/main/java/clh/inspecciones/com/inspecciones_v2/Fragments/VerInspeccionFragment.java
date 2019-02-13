@@ -4,13 +4,13 @@ package clh.inspecciones.com.inspecciones_v2.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -111,6 +111,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     private String urlDescargarInspeccionElegida="http://pruebaalumnosandroid.esy.es/inspecciones/descargarFotosInspeccionElegida.php";
 
     private List<String> listaFotos = new ArrayList<>();
+    private List<String> passing = new ArrayList<>();
     private DecodificaImagenClass decodificaImagenClass = new DecodificaImagenClass();
     private int progreso;
     private String secuencial;
@@ -145,11 +146,13 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         //numFotos = getArguments().getString("numFotos", "0");
         btn_verComp = view.findViewById(R.id.btn_verCompartimentos);
         btn_verfotos = view.findViewById(R.id.btn_verFotos);
-        btn_verfotos.setText("VER FOTOS");
+        btn_verfotos.setText("VER 0 FOTOS");
+        btn_verfotos.setEnabled(false);
 
         btn_verfotos.setOnClickListener(this);
         btn_verComp.setOnClickListener(this);
 
+        descargarFotosInspeccionElegida(user, pass, inspeccion);
 
         tv_inspeccion = view.findViewById(R.id.tv_inspeccion);
         tv_inspeccion1 = view.findViewById(R.id.tv_inspeccion1);
@@ -256,7 +259,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_verFotos:
-                descargarFotosInspeccionElegida(user, pass, inspeccion);
+                callback.verFotos("VerFotosFragment", Integer.valueOf(secuencial));
                 //descargarFotos(user, pass, inspeccion);
                 //Abrir fragment con las fotos (gridview)
                 break;
@@ -272,8 +275,6 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
-
                 try {
 
                     //listaVehiculos.clear();
@@ -288,22 +289,31 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
 
                     if(numFotosDescargadas>0) {
 
-
-/*  HACER ESTO BIEN. LA ASYNC TASK NO SE PUEDE EJECUTAR VARIAS VECES DE MANERA SIMULTÁNEA
-
                         for (int i = 0; i < jsonVehiculo.length(); i++) {
                             // = new DecodificaImagenClass().execute(foto, inspeccion, secuencial);
                             JSONObject jsonObject1 = null;
                             jsonObject1 = jsonVehiculo.getJSONObject(i);
                             foto = (jsonObject1.optString("foto"));
                             secuencial = String.valueOf(i + 1);
-                            decodificaImagenClass.execute(foto, inspeccion, secuencial);
-                            //rutaFoto.add(decodificaImagenClass.getRuta());
+                            listaFotos.add(foto);
+
                         }
-                        */
+                        passing.add(secuencial);
+                        passing.add(inspeccion);
+
+                        for (int i = 0; i < Integer.valueOf(secuencial); i++) {
+                            passing.add(listaFotos.get(i));
+                        }
+
+
+                        decodificaImagenClass.execute(secuencial, inspeccion, foto);
+                        //rutaFoto.add(decodificaImagenClass.getRuta());
+                        btn_verfotos.setEnabled(true);
+                        btn_verfotos.setText("Ver " + numFotosDescargadas + " fotos");
                     }
 
                 }catch (JSONException e){
+                    Log.e("descargarFotos", e.toString());
                     e.printStackTrace();
                 }
             }
@@ -329,45 +339,8 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
 
     public interface dataListener{
         void compartimentos(String fragment, String matriculas);
+
+        void verFotos(String nombreFragment, Integer numFotos);
     }
 
-    /*
-    private void descargarFotos(final String user, final String pass, final String inspeccion) {
-        StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                try {
-                    //Convierto la respuesta, de tipo String, a un JSONObject.
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray json = jsonObject.optJSONArray("fotos_inspeccion");
-
-                    for(int i=0;i<json.length();i++){
-                        listaFotos.add(json.optJSONObject(i).optString("foto"));
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), "e.printStackTrace: " + e.toString(), Toast.LENGTH_LONG).show();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", user);
-                params.put("pass", pass);
-                params.put("num_inspeccion", inspeccion);
-                return params;
-            }
-        };
-        VolleySingleton.getInstanciaVolley(getContext()).addToRequestqueue(sr);
-    }
-    */
 }
