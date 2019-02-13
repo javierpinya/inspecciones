@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -271,6 +272,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
                 try {
 
@@ -286,6 +288,9 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
 
                     if(numFotosDescargadas>0) {
 
+
+/*  HACER ESTO BIEN. LA ASYNC TASK NO SE PUEDE EJECUTAR VARIAS VECES DE MANERA SIMULTÁNEA
+
                         for (int i = 0; i < jsonVehiculo.length(); i++) {
                             // = new DecodificaImagenClass().execute(foto, inspeccion, secuencial);
                             JSONObject jsonObject1 = null;
@@ -295,6 +300,7 @@ public class VerInspeccionFragment extends Fragment implements View.OnClickListe
                             decodificaImagenClass.execute(foto, inspeccion, secuencial);
                             //rutaFoto.add(decodificaImagenClass.getRuta());
                         }
+                        */
                     }
 
                 }catch (JSONException e){
