@@ -159,6 +159,7 @@
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/icons"
                         android:textSize="16dp"
+                        android:inputType="numberDecimal"
                         android:layout_weight="60" />
 
                 </LinearLayout>

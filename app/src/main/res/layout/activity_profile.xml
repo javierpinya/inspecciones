@@ -128,7 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="20%"
+                        android:text="99%"
                         android:textColor="@color/colorAccent"
                         android:textSize="10dp"
                         android:textStyle="bold" />

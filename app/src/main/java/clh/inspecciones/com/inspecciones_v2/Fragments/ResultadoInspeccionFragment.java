@@ -18,8 +18,10 @@ import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -56,6 +58,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 import clh.inspecciones.com.inspecciones_v2.SingleTones.VolleySingleton;
 import io.realm.Realm;
 import io.realm.RealmResults;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -171,6 +174,10 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         cbBloqueo.setChecked(false);
 
         realm = Realm.getDefaultInstance();
+        gridView = view.findViewById(R.id.gridView);
+        path = new ArrayList<>();
+        bitmaps = new ArrayList<>();
+        imgStringList = new ArrayList<>();
 
         user = getArguments().getString("user", "no_user");
         pass = getArguments().getString("pass", "no_pass");
@@ -194,10 +201,13 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         btnGenerarPDF.setOnClickListener(this);
         btnEnviarPDF.setOnClickListener(this);
 
-        gridView = view.findViewById(R.id.gridView);
-        path = new ArrayList<>();
-        bitmaps = new ArrayList<>();
-        imgStringList = new ArrayList<>();
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                borrar(position);
+                return true;
+            }
+        });
 
         fabFoto = view.findViewById(R.id.fabFoto);
         fabCalculadora = view.findViewById(R.id.fabCalculadora);
@@ -263,7 +273,6 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
                 if(bitmaps.size()>0) {
                     guardarFotos();
                 }else{
-                    Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                     callback.inspeccionGuardada(true);
                 }
 
@@ -415,6 +424,24 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         myCameraAdapter.notifyDataSetChanged();
     }
 
+
+    private void borrar(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("¿Borrar Foto?");
+        builder.setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                bitmaps.remove(position);
+                myCameraAdapter.notifyDataSetChanged();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
     private String convertirImgString(final Bitmap bitmap) {
 
         ByteArrayOutputStream array = new ByteArrayOutputStream();
@@ -516,6 +543,12 @@ public class ResultadoInspeccionFragment extends Fragment implements View.OnClic
         rows.add(new String[]{"Observaciones: " + detalleInspeccionBD.getObservaciones(), "hola2", "hola3"});
 
         return rows;
+    }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return super.onContextItemSelected(item);
     }
 
     private void enviarPDF() {
