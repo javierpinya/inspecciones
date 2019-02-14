@@ -1,17 +1,21 @@
 package clh.inspecciones.com.inspecciones_v2.Fragments;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,7 @@ import clh.inspecciones.com.inspecciones_v2.R;
 public class VerFotosFragment extends Fragment {
 
     public GridView gridView;
+    public dataListener callback;
     private File file;
     private String user;
     private String pass;
@@ -40,6 +45,18 @@ public class VerFotosFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            callback = (dataListener) context;
+        } catch (Exception e) {
+            throw new ClassCastException(context.toString() + " should implement dataListener");
+
+        }
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,8 +69,29 @@ public class VerFotosFragment extends Fragment {
         inspeccion = getArguments().getString("inspeccion", "sin_datos_inspeccion");
         numFotos = Integer.valueOf(getArguments().getString("numFotosDescargadas", "0"));
         cargarFotos();
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String imagenString = convertirImgString(bitmaps.get(position));
+                callback.enviarImagen("FotoCompletaFragment", imagenString);
+            }
+        });
+
+
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private String convertirImgString(final Bitmap bitmap) {
+
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, array);
+        byte[] imagenByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
+
+        return imagenString;
     }
 
     private void cargarFotos() {
@@ -74,5 +112,9 @@ public class VerFotosFragment extends Fragment {
         myCameraAdapter = new CameraAdapter(getActivity(), R.layout.list_fotos, bitmap);
         gridView.setAdapter(myCameraAdapter);
         myCameraAdapter.notifyDataSetChanged();
+    }
+
+    public interface dataListener {
+        void enviarImagen(String nombreFragment, String bitmap);
     }
 }

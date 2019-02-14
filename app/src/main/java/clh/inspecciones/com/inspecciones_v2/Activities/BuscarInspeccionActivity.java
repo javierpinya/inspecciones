@@ -31,6 +31,7 @@ import clh.inspecciones.com.inspecciones_v2.Clases.CATractoraBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.DetalleInspeccionBD;
 import clh.inspecciones.com.inspecciones_v2.Clases.FotosBD;
 import clh.inspecciones.com.inspecciones_v2.Fragments.BuscarInspeccionFragment;
+import clh.inspecciones.com.inspecciones_v2.Fragments.FotoCompletaFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerCompartimentosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerFotosFragment;
 import clh.inspecciones.com.inspecciones_v2.Fragments.VerInspeccionFragment;
@@ -40,7 +41,8 @@ import io.realm.Realm;
 
 public class BuscarInspeccionActivity extends AppCompatActivity implements BuscarInspeccionFragment.dataListener,
     VerInspeccionFragment.dataListener,
-        VerCompartimentosFragment.dataListener {
+        VerCompartimentosFragment.dataListener,
+        VerFotosFragment.dataListener {
 
     private SharedPreferences prefs;
     private String user;
@@ -79,6 +81,7 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
     private String nombre;
     private int numFotosDescargadas;
     private String matriculas;
+    private String bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,6 +286,80 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
                 fragment.setArguments(args);
                 changeFragment(fragment, navigationView.getMenu().getItem(1));
                 break;
+            case "FotoCompletaFragment":
+                fragment = new FotoCompletaFragment();
+                args.clear();
+                args.putString("imagen", bitmap);
+                args.putString("fragmentActual", "FotoCompletaFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void volver() {
+        switch (nombreFragment) {
+            case "BuscarInspeccionFragment":
+                /*
+                fragment = new IdentificacionVehiculoFragment();
+                args.putString("tipoVehiculo", tipoVehiculo);
+                args.putString("tipoInspeccion", tipoInspeccion);
+                args.putString("tipoComponente", tipoComponente);
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "identificacionVehiculoFragment");
+                fragment.setArguments(args);
+                nombreFragment = "IdentificacionVehiculoFragment";
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                */
+                break;
+
+            case "VerInspeccionFragment":
+                fragment = new BuscarInspeccionFragment();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("numFotos", String.valueOf(numFotosDescargadas));
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            case "VerCompartimentosFragment":
+                fragment = new VerInspeccionFragment();
+                args.clear();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("inspeccion", inspeccion);
+                args.remove("fragmentActual");
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            case "VerFotosFragment":
+                fragment = new VerInspeccionFragment();
+                args.clear();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("inspeccion", inspeccion);
+                args.putString("numFotosDescargadas", String.valueOf(numFotosDescargadas));
+                args.putString("fragmentActual", "VerInspeccionFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
+            case "FotoCompletaFragment":
+                fragment = new VerFotosFragment();
+                args.clear();
+                args.putString("user", user);
+                args.putString("pass", pass);
+                args.putString("inspeccion", inspeccion);
+                args.putString("numFotosDescargadas", String.valueOf(numFotosDescargadas));
+                args.putString("fragmentActual", "VerFotosFragment");
+                fragment.setArguments(args);
+                changeFragment(fragment, navigationView.getMenu().getItem(1));
+                break;
             default:
                 break;
         }
@@ -373,53 +450,19 @@ public class BuscarInspeccionActivity extends AppCompatActivity implements Busca
         siguiente();
     }
 
-    private void volver(){
-        switch (nombreFragment){
-            case "BuscarInspeccionFragment":
-                /*
-                fragment = new IdentificacionVehiculoFragment();
-                args.putString("tipoVehiculo", tipoVehiculo);
-                args.putString("tipoInspeccion", tipoInspeccion);
-                args.putString("tipoComponente", tipoComponente);
-                args.putString("user", user);
-                args.putString("pass", pass);
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "identificacionVehiculoFragment");
-                fragment.setArguments(args);
-                nombreFragment = "IdentificacionVehiculoFragment";
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                */
-                break;
 
-            case "VerInspeccionFragment":
-                fragment = new BuscarInspeccionFragment();
-                args.putString("user", user);
-                args.putString("pass", pass);
-                args.putString("numFotos", String.valueOf(numFotosDescargadas));
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "VerInspeccionFragment");
-                fragment.setArguments(args);
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                break;
-            case "VerCompartimentosFragment":
-                fragment = new VerInspeccionFragment();
-                args.putString("user", user);
-                args.putString("pass", pass);
-                args.putString("inspeccion", inspeccion);
-                args.remove("fragmentActual");
-                args.putString("fragmentActual", "VerInspeccionFragment");
-                fragment.setArguments(args);
-                changeFragment(fragment, navigationView.getMenu().getItem(1));
-                break;
-            default:
-                break;
-        }
-    }
 
 
     @Override
     public void abrirCalculadora() {
         abrirCuadroDialogoCalculadora();
+    }
+
+    @Override
+    public void enviarImagen(String nombreFragment, String bitmap) {
+        this.nombreFragment = nombreFragment;
+        this.bitmap = bitmap;
+        siguiente();
     }
 
     /*
